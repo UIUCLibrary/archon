@@ -251,7 +251,7 @@ function MakeNormal($item,$key){
 	unset($item->PublicationDateDay);
 	unset($item->PublicationDateYear);
 	unset($item->Content);
-	unset($item->Languages);
+	//unset($item->Languages);
 	unset($item->Books);
 	unset($item->Repository);
 	unset($item->Classification);
