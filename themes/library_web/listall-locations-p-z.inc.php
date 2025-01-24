@@ -16,12 +16,7 @@ isset($_ARCHON) or die();
 if(!$_ARCHON->Error)
    {
      $Characters = range('P','Z');
-	 //not sure why still giving the whole alphabet...
-	 print_r($Characters);
-	 if(count($Characters)>13){
-		print_r($Characters);
-		break;
-	 }
+
 	 //$Characters[] = "#";
 	 $count = 0;
 	 $publiccount = 0;

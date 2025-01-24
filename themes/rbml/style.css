@@ -49,7 +49,7 @@ color:#33b;
 }
 
 #requestModalLink, #requestModalLink2 {
-	color:#33b;
+	/*color:#33b;*/
 	text-decoration: underline;
 	cursor: pointer;
 	}
@@ -1647,26 +1647,26 @@ padding-top:1em;
 	float:right;
 }
 
-#locationtable {
-border-collapse:collapse;
-border:solid 1px #ddd;
-margin-left:1em;
+#locationtable, #locationsummarytable, .simple-table {
+	border-collapse:collapse;
+	border:solid 1px #ddd;
+	margin-left:1em;
 }
-
-#locationtable th {
-background:#f3f3f3;
-padding:0.3em;
+	
+#locationtable th, #locationsummarytable th, .simple-table th {
+	background:#f3f3f3;
+	padding:0.3em;
 }
-
-#locationtable tr {
-font-size:90%;
-padding:0.5em;
+	
+#locationtable tr, #locationsummarytable tr, .simple-table tr {
+	font-size:90%;
+	padding:0.5em;
 }
-
-#locationtable td {
-font-size:90%;
-padding:0.5em;
-text-align:center;
+	
+#locationtable td, #locationsummarytable td, .simple-table td {
+	font-size:90%;
+	padding:0.5em;
+	text-align:center;
 }
 
 
@@ -2101,6 +2101,27 @@ float:right;
 .make-hidden a{
 	font-size:5%;
 }
+
+/*for list subjects and locations pages*/
+#list-subjects, #list-styled {
+	border-collapse: collapse;
+	width: 100%;
+  }
+  
+  #list-subjects td, #list-subjects th, #list-styled td, #list-styled th{
+	border: 1px solid #ddd;
+	padding: 8px;
+  }
+  
+  #list-subjects tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #list-subjects th, #list-styled th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #022544;
+	color: white;
+  }
 
 /* Modal for request from location table, adapted from https://www.w3schools.com/howto/howto_css_modals.asp */
 /* The Modal (background) */

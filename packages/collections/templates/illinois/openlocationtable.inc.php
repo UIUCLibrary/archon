@@ -13,7 +13,7 @@ if(!empty($objCollection->LocationEntries) && !empty($_ARCHON->config->RequestLi
             $locationCodes[] = $loccode;
          }
          $uniqueLocationCodes = array_unique($locationCodes);
-         $selectLocation = "<label for='locations'>Filter by location:</label><select name='locations' id='locations'><option selected value> </option>";
+         $selectLocation = "<label for='locations'>Filter by location: </label><select name='locations' id='locations' aria-describedby='location-table-note'><option selected value>All locations</option>";
          echo("<ul class='locationsummary'>");            
             foreach($uniqueLocationCodes as $ucode){
                $loctext = $_ARCHON->config->PublicLocationInfoList[$ucode];
@@ -36,9 +36,10 @@ if(!empty($objCollection->LocationEntries) && !empty($_ARCHON->config->RequestLi
                   echo($selectLocation."</select><br /><br />");
                }
          ?>
-               <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text">
+               <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text" aria-describedby="location-table-note">
          <?php
-             }
+            echo("<p id='location-table-note'><i>Rows will be filtered from the table below as selections are made</i></p>"); 
+            }
          }
          ?>
          <table id='locationtable' border='1' style='margin-left:0'>
@@ -46,6 +47,11 @@ if(!empty($objCollection->LocationEntries) && !empty($_ARCHON->config->RequestLi
 
                <th style='width:400px'>Service Location</th>
                <th style='width:100px'>Boxes</th>
+               <?php 
+               if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID] AND !$_ARCHON->config->ExcludePublicRequestLink[$objCollection->RepositoryID]AND (!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ))){
+                  echo("<th style='width:150px'>Request</th>");
+               }
+               ?>
             </tr></thread>
 
 
@@ -70,12 +76,13 @@ if(!empty($objCollection->LocationEntries) && !empty($_ARCHON->config->RequestLi
 					      echo ("<td>". $loc->Content);
 
 /** Add request links to each row with the container info.**/
-                     if(!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
-                        if(!$_ARCHON->config->RequestHasConsistentLocation and $requestLink){
-                        echo("<br/>");
-                        include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlinkforboxes.inc.php");
-                        }
-                     }
+               if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID] AND !$_ARCHON->config->ExcludePublicRequestLink[$objCollection->RepositoryID]AND (!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ))){
+                  if(!$_ARCHON->config->RequestHasConsistentLocation and $requestLink){
+                  echo("<td>");
+                  include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlinkforboxes.inc.php");
+                  }
+                  echo("</td>");
+               }
 /**end section for request links **/
 
 					      echo("</td></tr>");

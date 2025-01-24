@@ -17,7 +17,7 @@ if(!empty($objCollection->LocationEntries))
             $locationCodes[] = $loccode;
          }
          $uniqueLocationCodes = array_unique($locationCodes);
-         $selectLocation = "<label for='locations'>Filter by location:</label><select name='locations' id='locations'><option selected value> </option>";
+         $selectLocation = "<label for='locations'>Filter by location:</label><select name='locations' id='locations' aria-describedby='location-table-note'><option selected value> </option>";
          echo("<ul class='locationsummary'>");            
             foreach($uniqueLocationCodes as $ucode){
                $loctext = $_ARCHON->config->PublicLocationInfoList[$ucode];
@@ -45,8 +45,9 @@ if(!empty($objCollection->LocationEntries))
       
       if($multipleLocationEntries && $requestLink){
             ?>
-            <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text">
+            <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text" aria-describedby="location-table-note">
       <?php
+      echo("<p id='location-table-note'><i>Rows will be filtered from the table below as selections are made</i></p>");
          }//end if for filter by box
       }//end if for location entries in the collection object
          ?>
@@ -57,6 +58,11 @@ if(!empty($objCollection->LocationEntries))
 
                <th style='width:350px'>Service Location</th>
                <th style='width:150px'>Boxes</th>
+               <?php 
+               if(!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
+                  echo("<th style='width:150px'>Request</th>");
+               }
+               ?>
             </tr></thread>
 
 
@@ -109,9 +115,10 @@ if(!empty($objCollection->LocationEntries))
 /** Add request links to each row with the container info.**/
                      if(!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
                         if(!$_ARCHON->config->RequestHasConsistentLocation and $requestLink){
-                        echo("<br/>");
+                        echo("<td>");
                         include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlinkforboxes.inc.php");
                         }
+                        echo("</td>");
                      }
 /**end section for request links **/
 
@@ -150,9 +157,11 @@ if(!empty($objCollection->LocationEntries))
                      
                      if(!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
                         if(!$_ARCHON->config->RequestHasConsistentLocation and $requestLink){
-                           //echo("<br/>");
-                           echo("<a href='" . $requestLink . "' target='_blank'>");
-			                  echo($_ARCHON->config->RequestLinkText ? $_ARCHON->config->RequestLinkText : "Submit request");
+                           echo("<td style='width:150px'>");
+                           echo("<a href='" . $requestLink . "' target='_blank' class='request-button'>");
+			                  //echo($_ARCHON->config->RequestLinkText ? $_ARCHON->config->RequestLinkText : "Submit request");
+                           echo("Request other content not listed");
+                           echo("</td>");
                         }
                      }
                      
@@ -166,6 +175,7 @@ if(!empty($objCollection->LocationEntries))
             //echo("<div id='ccardstaff'><span class='ccardlabel' id='requestlocations'>Service Location:</span><br/>Please <a href='mailto:ihlc@library.illinois.edu'>contact the IHLC</a> for assistance. </span></div>");
             $locationtext = $_ARCHON->Repository->Name . (isset($_ARCHON->Repository->Address) ? "<br />". $_ARCHON->Repository->Address : "");
             echo("<td>".$locationtext."</td>");
+            echo("<td></td>");//to skip boxes column of table
             echo("<td>");
             if(!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
                if(!$_ARCHON->config->RequestHasConsistentLocation and $requestLink){

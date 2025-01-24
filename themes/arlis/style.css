@@ -46,6 +46,12 @@ a:link {
 	color:#33b;
 }
 
+#requestModalLink, #requestModalLink2 {
+	color:#33b;
+	text-decoration: underline;
+	cursor: pointer;
+	}
+
 a:visited {
 	color:#999;
 }
@@ -561,6 +567,40 @@ img.dl
 	overflow:hidden;
 	visibility:hidden;
 }
+
+#reload-ala {
+	/*
+	text-align:right;
+	padding-right:.5em;
+	*/
+	/*background:#5274ac;*/
+	background:#10375D;
+	border:1px solid #10375D;
+	float:right;
+	margin:.2em 1em 0 .2em;
+	overflow:hidden;
+	padding:0.4em .5em;
+	width:auto;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	display:block;
+}
+#reload-ala:hover, #reload-ala:focus {
+	/*background:#10375D;*/
+	background:#fbdb7a;
+}
+
+#reload-ala a {
+	/*color:#10375D;*/
+	color:white;
+	display: block;
+	text-decoration:none;
+}
+
+#reload-ala a:hover, #reload-ala a:focus {
+	color:#10375D;
+} 
 
 /* used in footer/bottom */
 #archoninfo {
@@ -1737,6 +1777,48 @@ img.digcontentfile {
   }
   .digital-files-button a:hover {
 	background:transparent;
+  }
+
+  /* Modal for request from location table, adapted from https://www.w3schools.com/howto/howto_css_modals.asp */
+/* The Modal (background) */
+.request-modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .request-modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	max-height: calc(100vh - 180px);
+	overflow-y: auto;
+  }
+  
+  /* The Close Button */
+  .request-modal-close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+  }
+  
+  .request-modal-close:hover,
+  .request-modal-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
   }
 
 /*Adjustments for smaller screens. Note that the header files in the theme will need to be upgraded to HTML5 with a viewport meta tag for this styling to display properly on a phone as intended.*/

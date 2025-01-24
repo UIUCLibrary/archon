@@ -33,11 +33,8 @@
                          }
                         
                         echo("' target='_blank' class='request-button'>");
-                        if($_ARCHON->config->RequestLinkText) {
-                           echo($_ARCHON->config->RequestLinkText);
-                        }else {
-                           echo("Submit request");
-                        }
+                        //echo($_ARCHON->config->RequestLinkText ? $_ARCHON->config->RequestLinkText : "Submit request");
+                        echo("Request ".($loc->Content));
                         echo("</a>");
 					       }
                      }

@@ -6,6 +6,7 @@
 	$requestTitle = urlencode($requestTitle . $requestDates);
 
 	$requestIdentifier = ($objCollection->Classification) ? $objCollection->Classification->toString(LINK_NONE, true, false, true, false)."/".$objCollection->getString('CollectionIdentifier') : $objCollection->getString('CollectionIdentifier');
+	$requestIdentifier = "RS ".$requestIdentifier;
 
 	$requestExtent = ($objCollection->Extent) ? preg_replace('/\.(\d)0/', ".$1", $objCollection->getString('Extent')) . " " . $objCollection->getString('ExtentUnit') : "";
 	$requestExtent .= ($objCollection->AltExtentStatement) ? "; ".$objCollection->AltExtentStatement : "";
@@ -15,6 +16,12 @@
 	if($objCollection->MaterialType){
 		$requestMaterialType = ($_ARCHON->config->RequestMaterialTypeList[$objCollection->MaterialType]) ? $_ARCHON->config->RequestMaterialTypeList[$objCollection->MaterialType] : $objCollection->MaterialType;
 	}
+
+	$requestSite = $_ARCHON->config->RequestLinkSiteValue;
+	if($_ARCHON->config->AlternativeSiteForRepository[$objCollection->RepositoryID]){
+		$requestSite = $_ARCHON->config->AlternativeSiteForRepository[$objCollection->RepositoryID];
+	}
+
 
 /*Build reading room request link */
 if($_ARCHON->config->AddRequestLink and $_ARCHON->config->RequestURL and !$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID]) 
@@ -49,6 +56,13 @@ if($_ARCHON->config->AddRequestLink and $_ARCHON->config->RequestURL and !$_ARCH
 		if($_ARCHON->config->RequestVarLocation and $_ARCHON->config->RequestDefaultLocation){
 			$requestLink .= $_ARCHON->config->RequestVarLocation . $_ARCHON->config->RequestDefaultLocation;
 		}
+	}
+
+	//save a version of the request link before adding the site code for use with box requests
+	$requestLinkNoSiteCode = $requestLink;
+
+	if($_ARCHON->config->RequestVarSite){
+		$requestLink .= $_ARCHON->config->RequestVarSite . $requestSite;
 	}
 }
 

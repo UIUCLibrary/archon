@@ -430,7 +430,7 @@ if(!empty($objCollection->BiogHist) || !empty($objCollection->UseRestrictions) |
                   //use the staff location table if the repository is excluded from the request link system
                   if(!empty($objCollection->LocationEntries))
                   {
-                     if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID]){
+                     if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID] AND !$_ARCHON->config->ExcludePublicRequestLink[$objCollection->RepositoryID]AND (!$_ARCHON->config->StaffOnlyRequestLink OR $_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ))){
                         include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/locationsummarystaff.inc.php");
                         echo('<a href="#stafflocationtable">View full location list</a>');
                      } else {
@@ -461,7 +461,7 @@ if(!empty($objCollection->BiogHist) || !empty($objCollection->UseRestrictions) |
          
          //use the location summary if it isn't a repository excluded from the request link system
          //use the open location table (which also includes a summary) if the repository is excluded from the request link system or if it is a staff only request link
-         if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID] AND !$_ARCHON->config->StaffOnlyRequestLink){
+         if(!$_ARCHON->config->ExcludeRequestLink[$objCollection->RepositoryID] AND !$_ARCHON->config->ExcludePublicRequestLink[$objCollection->RepositoryID] AND!$_ARCHON->config->StaffOnlyRequestLink){
             include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/locationsummary.inc.php");
          } else {
             include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/openlocationtable.inc.php");
@@ -482,7 +482,7 @@ if(!empty($objCollection->BiogHist) || !empty($objCollection->UseRestrictions) |
    
    /**add request button, or launch a modal with the location table if variable locations */
    //if it is a staff-only link, show this only if someone is logged in (note that repository restriction is addressed in the code for the modal and link itself)
-			if(!$_ARCHON->config->StaffOnlyRequestLink){
+			if(!$_ARCHON->config->StaffOnlyRequestLink AND !$_ARCHON->config->ExcludePublicRequestLink[$objCollection->RepositoryID]){
             include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlink.inc.php");
          } elseif($_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
             include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlink.inc.php");
@@ -617,10 +617,14 @@ if(!empty($objCollection->BiogHist) || !empty($objCollection->UseRestrictions) |
                if(!empty($objCollection->OtherURL))
                {
                   $onclick = ($_ARCHON->config->GACode && $_ARCHON->config->GACollectionsURL) ? "onclick='javascript: pageTracker._trackPageview(\"{$_ARCHON->config->GACollectionsURL}\");'" : "";
-                  ?>
-               <div id='ccardboxlist' style='margin-top:.7em'><span class='ccardlabel'><a href='<?php echo(trim($objCollection->OtherURL)); ?>' <?php echo($onclick); ?>>Download Box / Folder List</a><span style='font-size:80%'>&nbsp;(pdf)</span></span></div>
-               
-                  <?php
+   
+                  if(strtolower(substr($objCollection->getString('OtherURL'),-3))=="pdf"){
+                     echo("<br /><strong><a href='?p=collections/findingaid&amp;id=".$objCollection->ID."#pdf-fa'>View finding aid and PDF box/folder list</a></strong>");
+                  } else {
+                     echo("<div class='ccardcontent'><span class='ccardlabel'>Other URL:</span> <a href='");
+                     echo($objCollection->getString('OtherURL')); ?>' <?php if(!$_ARCHON->Security->userHasAdministrativeAccess()) {echo($onclick);} ?> target="_blank"><?php echo($objCollection->getString('OtherURL')); 
+                     echo("</a></div>");
+                  }
                }
                 echo ("<div style='clear:both'><pre>");
 //var_dump ($objCollection);
@@ -657,4 +661,3 @@ echo ("</pre></div>");
             }
          }
             ?>
-            

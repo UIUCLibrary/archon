@@ -35,6 +35,14 @@ if($_ARCHON->Security->userHasAdministrativeAccess())
 }
 ?>
             <a href='<?php echo(encode($logoutURI, ENCODE_HTML) . $Logout); ?>'>Log Out</a>
+        
+            <?php
+	if($_ARCHON->Security->userHasAdministrativeAccess())
+	{
+		echo("<p><a href='?p=core/index&f=listall-locations'>Generate full list of all box locations in Archon (will load slowly)</a></p>");
+	}
+?>
+        
         </div>
 <?php
 }

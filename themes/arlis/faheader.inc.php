@@ -57,7 +57,7 @@ else
 }
 
 $_ARCHON->PublicInterface->addNavigation('Holdings', 'index.php', true);
-$_ARCHON->PublicInterface->addNavigation('University Archives', 'http://www.library.uiuc.edu/archives', true);
+$_ARCHON->PublicInterface->addNavigation('University Archives', 'https://archives.library.illinois.edu/', true);
 
 header('Content-type: text/html; charset=UTF-8');
 ?>
@@ -232,6 +232,15 @@ header('Content-type: text/html; charset=UTF-8');
                   <div id="breadcrumbblock">
 <?php echo($_ARCHON->PublicInterface->createNavigation()); ?>
                   </div>
+                  <div><?php
+        echo("<span id='reload-ala'><a href='https://".$_SERVER['HTTP_HOST']);
+        if($_GET){
+          echo($_SERVER['REQUEST_URI']."&");
+        } else {
+          echo($_SERVER['REQUEST_URI']."?");
+        }
+        echo("settheme=ala_redo&setrepositoryid=0'>Reload in ALA Archives database</a></span>");
+      ?></div>
                   <div id="breadcrumbclearblock">.</div>
 
                   <script type="text/javascript">

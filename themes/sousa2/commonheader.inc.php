@@ -15,7 +15,7 @@ $_ARCHON->PublicInterface->addNavigation('Archon', 'index.php', true);
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title><?php echo(strip_tags($_ARCHON->PublicInterface->Title)); ?></title>
-      <link rel="stylesheet" type="text/css" href="themes/<?php echo($_ARCHON->PublicInterface->Theme); ?>/style.css?v=20230315" />
+      <link rel="stylesheet" type="text/css" href="themes/<?php echo($_ARCHON->PublicInterface->Theme); ?>/style.css?v=20241220" />
       <link rel="stylesheet" type="text/css" href="<?php echo($_ARCHON->PublicInterface->ThemeJavascriptPath); ?>/cluetip/jquery.cluetip.css" />
       <link rel="stylesheet" type="text/css" href="<?php echo($_ARCHON->PublicInterface->ThemeJavascriptPath); ?>/jgrowl/jquery.jgrowl.css" />
 
@@ -62,6 +62,49 @@ $_ARCHON->PublicInterface->addNavigation('Archon', 'index.php', true);
          $(window).unload(function() {<?php echo($_ARCHON->PublicInterface->Header->OnUnload); ?>});
          /* ]]> */
       </script>
+      <?php 
+      //script to handle filters within the sidebar location table
+      ?>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+         $k("#ccardstaff .locationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $t = $(this).children().last();
+               $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
       <?php
       if($_ARCHON->PublicInterface->Header->Message && $_ARCHON->PublicInterface->Header->Message != $_ARCHON->Error)
       {
@@ -207,4 +250,27 @@ $_ARCHON->PublicInterface->addNavigation('Archon', 'index.php', true);
          }
          /* ]]> */
       </script>
+      <?php
+      if(defined('PACKAGE_COLLECTIONS'))
+      {
+         if($_ARCHON->QueryString && $_ARCHON->Script == 'packages/core/pub/search.php')
+         {
+            ?>
+            <script>
+            window.onload = function checkArchonInfo() {
+               if($('#archoninfo').length > 0){
+                  $(".show-if-error").hide();
+               } else{
+                  $(".show-if-error").show();
+               }
+            }
+            </script>
+            <?php
+            // add note for how to recover from the memory error (hide if footer is displaying)
+            echo("<div id='custom-message' class='show-if-error'>Did your search fail? Click here to <a href='?p=core/search&q=");
+            echo(encode($_ARCHON->QueryString, ENCODE_HTML));
+            echo("&content=0'>try searching again in the collection summaries only</a>.</div>");
+         }
+      }
+      ?>
       <div id="main">

@@ -21,6 +21,15 @@ if($_REQUEST['f'] == 'pdfsearch')
 		require("barcodelookup.inc.php");
 		return;
 	}
+}elseif ($_REQUEST['f'] == 'listall')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall.inc.php");
+		return;
+	}
 }elseif ($_REQUEST['f'] == 'listall-locations')
 {
 	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
@@ -48,6 +57,87 @@ if($_REQUEST['f'] == 'pdfsearch')
 		require("listall-locations.inc.php");
 		return;
 	}
+}elseif ($_REQUEST['f'] == 'listall-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-locations-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-locations-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-creators-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-creators-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-creator-relations-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-creator-relations-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-digitalcontent-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-digitalcontent-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-recordgroup-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-recordgroup-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-recordgroup-for-atom-locations')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-recordgroup-for-atom-locations.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-collectioncontent-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-collectioncontent-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-digitalcontent-for-dls')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-digitalcontent-for-dls.inc.php");
+	}
+	return;
 }
 
 

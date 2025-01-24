@@ -105,7 +105,7 @@ require('commonheader.inc.php');
                      if(!empty($objCollection->Content))
                      {
             ?> <p><a href="#boxfolder" tabindex="800">Detailed Description</a></p><?php
-                     }
+                     
 
                      foreach($objCollection->Content as $ID => $objContent)
                      {
@@ -144,6 +144,16 @@ require('commonheader.inc.php');
                         </div>
                      </form>
             <?php
+                  }//end if statement for if collection content is not empty
+
+                  if($objCollection->OtherURL){
+
+                     if(strtolower(substr($objCollection->getString('OtherURL'),-3))=="pdf"){
+                        echo( '<p><a href="#pdf-fa" tabindex="800">PDF Box/Folder List</a></p>');
+                     }
+
+                  }
+                     
                      if(defined('PACKAGE_COLLECTIONS'))
                      {
                         echo("<hr/><p class='center' style='font-weight:bold'>");

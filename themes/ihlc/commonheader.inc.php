@@ -19,7 +19,7 @@ header('Content-type: text/html; charset=UTF-8');
       <meta name="og:site_name" content="Illinois History and Lincoln Collections Manuscript Collections Database"/>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title><?php echo(strip_tags($_ARCHON->PublicInterface->Title)); ?></title>
-      <link rel="stylesheet" type="text/css" href="themes/<?php echo($_ARCHON->PublicInterface->Theme); ?>/style.css?version=3.0" />
+      <link rel="stylesheet" type="text/css" href="themes/<?php echo($_ARCHON->PublicInterface->Theme); ?>/style.css?version=20240717" />
       <link rel="stylesheet" type="text/css" href="<?php echo($_ARCHON->PublicInterface->ThemeJavascriptPath); ?>/cluetip/jquery.cluetip.css" />
       <link rel="icon" type="image/ico" href="<?php echo($_ARCHON->PublicInterface->ImagePath); ?>/favicon.ico"/>
       <!--[if IE]>
@@ -72,23 +72,23 @@ header('Content-type: text/html; charset=UTF-8');
       <script>
       var $k =jQuery.noConflict();
       $k(document).ready(function(){
-      $k("#ccardstaff .locationFilter").on("keyup", function() {
+      $k("#ccardlocation .locationFilter").on("keyup", function() {
          var value = $k(this).val().toLowerCase();
-         $k("#ccardstaff .locationTableBody tr").filter(function() {
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
             var $t = $(this).children().last();
             $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
             });
          });
-      $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+      $k("#ccardlocation .staffBoxFilter").on("keyup", function() {
          var value = $k(this).val().toLowerCase();
-         $k("#ccardstaff .locationTableBody tr").filter(function() {
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
             var $h = $(this).children().first();
             $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
             });
          });
-      $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+      $k("#ccardlocation .staffLocationFilter").on("keyup", function() {
          var value = $k(this).val().toLowerCase();
-         $k("#ccardstaff .locationTableBody tr").filter(function() {
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
             $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
             });
          });

@@ -91,6 +91,64 @@ elseif ($_REQUEST['f'] == 'listall')
 {
 	require("chstm-table.inc.php");
 	return;
+}elseif ($_REQUEST['f'] == 'lincoln-table')
+{
+	require("lincoln-table.inc.php");
+	return;
+}elseif ($_REQUEST['f'] == 'listall-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-locations-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-locations-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-creators-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-creators-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-creator-relations-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-creator-relations-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-digitalcontent-for-atom')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-digitalcontent-for-atom.inc.php");
+	}
+	return;
+}elseif ($_REQUEST['f'] == 'listall-digitalcontent-for-dls')
+{
+	if(!$_ARCHON->Security->userHasAdministrativeAccess()) {
+		echo("<p>This page is admin access only. You must login to proceed.</p>");
+		return;
+	} else {
+		require("listall-digitalcontent-for-dls.inc.php");
+	}
+	return;
 }
 //notice
 if($_ARCHON->config->AlertNoticeIHLC) {

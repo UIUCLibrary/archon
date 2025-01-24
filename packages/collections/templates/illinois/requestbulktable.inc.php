@@ -39,11 +39,16 @@
 			echo("<tr>");
 			
 			//site
-			if($_ARCHON->config->RequestLinkSiteValue){
+			if($_ARCHON->config->AlternativeSiteForRepository[$objCollection->RepositoryID]){
+				$requestSiteValue = $_ARCHON->config->AlternativeSiteForRepository[$objCollection->RepositoryID];
+			} elseif($_ARCHON->config->AlternativeSiteForLocation[$requestBoxLocationCode]){
+				$requestSiteValue = $_ARCHON->config->AlternativeSiteForLocation[$requestBoxLocationCode];
+			} elseif($_ARCHON->config->RequestLinkSiteValue){
 				$requestSiteValue = $_ARCHON->config->RequestLinkSiteValue;
 			} else {
 				$requestSiteValue = "ILLINOISSHARED";
 			}
+
 			echo("<td>".$requestSiteValue."</td>");
 			
 			//sublocation (repository)

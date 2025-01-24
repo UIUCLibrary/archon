@@ -49,7 +49,7 @@ color:#33b;
 }
 
 #requestModalLink, #requestModalLink2 {
-	color:#33b;
+	/*color:#33b;*/
 	text-decoration: underline;
 	cursor: pointer;
 	}

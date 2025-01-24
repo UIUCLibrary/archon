@@ -25,15 +25,25 @@
 isset($_ARCHON) or die();
 
 echo("<h1 id='titleheader'>" . strip_tags($_ARCHON->PublicInterface->Title) . "</h1>\n");
+
+include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestprep.inc.php");
 ?>
 
 <?php if($objCollection->FindingAidAuthor)
 { ?><p style="font-weight:bold" class="center">By <?php echo($objCollection->getString('FindingAidAuthor')); ?></p> <?php } ?>
 
+<div id='ccardprintcontact' class='smround'>
+   
+   <?php
+/**add request button, or launch a modal with the location table if variable locations */
+   //if it is a staff-only link, show this only if someone is logged in (note that repository restriction is addressed in the code for the modal and link itself)
+   if(!$_ARCHON->config->StaffOnlyRequestLink){
+      include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlink.inc.php");
+   } elseif($_ARCHON->Security->verifyPermissions(MODULE_COLLECTIONS, READ)){
+      include("packages/collections/templates/{$_ARCHON->PublicInterface->TemplateSet}/requestlink.inc.php");
+   }	
 
-<span style='float: right;font-weight:bold'>[<?php echo("<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;disabletheme=1'>"); ?>Printer Friendly</a>] | [
-<?php
-         if ($objCollection->RepositoryID == 2)
+if ($objCollection->RepositoryID == 2)
          {
             $emailmailto = "sousa@illinois.edu";
             $emailsubject="Reference inquiry for Sousa Archives";
@@ -42,7 +52,7 @@ echo("<h1 id='titleheader'>" . strip_tags($_ARCHON->PublicInterface->Title) . "<
          else 
          {
             $emailmailto = "illiarch@illinois.edu";
-            $emailsubject="Inquiry: University Archives Finding Aid";
+            $emailsubject="Inquiry: University Archives";
             $emailReferralPage = "https://".urlencode($_SERVER['HTTP_HOST']). urlencode($_SERVER['REQUEST_URI']);
             $emailbody="%0D---Please type your message above this line---%0DReferral page: ".$emailReferralPage;
          }
@@ -50,12 +60,14 @@ echo("<h1 id='titleheader'>" . strip_tags($_ARCHON->PublicInterface->Title) . "<
             $emailsubject .= " (RS ".$objCollection->Classification->toString(LINK_NONE, true, false, true, false);
             $emailsubject .= "/".$objCollection->getString('CollectionIdentifier').")";
          }
-         if($objCollection->RepositoryID == 2){
-            echo("<a href='mailto:".$emailmailto."?subject=". $emailsubject .'&body='.$emailbody."'>");
+         if ($objCollection->RepositoryID == 2) {
+            echo("<a href='mailto:".$emailmailto."?subject=". $emailsubject .'&body='.$emailbody."'><img src='" . $_ARCHON->PublicInterface->ImagePath . "/email.png' alt='email' /> ");
          } else {
-            echo("<a href='https://archives.library.illinois.edu/email-ahx.php?this_page=".$emailReferralPage."' target='_blank'>");
+            echo("<a href='https://archives.library.illinois.edu/email-ahx.php?this_page=".$emailReferralPage."' target='_blank'><img src='" . $_ARCHON->PublicInterface->ImagePath . "/email.png' alt='email' /> ");
          }
+
          echo("Email us about these ");
+
 					
 			if($objCollection->MaterialType == 'Official Records--Non-University' || $objCollection->MaterialType == 'Official Records')
 			{
@@ -70,10 +82,8 @@ echo("<h1 id='titleheader'>" . strip_tags($_ARCHON->PublicInterface->Title) . "<
                echo ('papers');
             }
 
-            echo("</a>");
-            ?>
-]</span>
-
+            echo("</a> | <a href='?p=collections/findingaid&amp;id=" . $objCollection->ID . "&amp;templateset=print&amp;disabletheme=1'><img src='" . $_ARCHON->PublicInterface->ImagePath . "/printer.png' alt='printer' /> Print this information</a></div>");  //ending printcontact div
+?>
 
 <h2 style='text-align:left'><a name="overview"></a>Collection Overview</h2>
 <div class="indent-text">
@@ -203,7 +213,7 @@ if($objCollection->PrimaryCreator->BiogHist)
 { ?><h2 style='text-align:left'><a name="subjects"></a>Subject/Index Terms</h2><div class="indent-text"><p><?php echo($_ARCHON->createStringFromSubjectArray($arrSubjects, "<br/>", LINK_TOTAL)); ?></p></div><?php } ?>
 
 <?php
-if(!empty($objCollection->AccessRestrictions) || !empty($objCollection->UseRestrictions) || !empty($objCollection->PhysicalAccessNote) || !empty($objCollection->TechnicalAccessNote) || !empty($objCollection->AcquisitionSource) || !empty($objCollection->AcquisitionMethod) || !empty($objCollection->AppraisalInformation) || !empty($objCollection->OrigCopiesNote) || !empty($objCollection->OrigCopiesURL) || !empty($objCollection->RelatedMaterials) || !empty($objCollection->RelatedMaterialsURL) || !empty($objCollection->RelatedPublications) || !empty($objCollection->PreferredCitation) || !empty($objCollection->ProcessingInfo) || !empty($objCollection->RevisionHistory))
+if(!empty($objCollection->AccessRestrictions) || !empty($objCollection->UseRestrictions) || !empty($objCollection->PhysicalAccessNote) || !empty($objCollection->TechnicalAccessNote) || !empty($objCollection->AcquisitionSource) || !empty($objCollection->AcquisitionMethod) || !empty($objCollection->AppraisalInformation) || !empty($objCollection->OrigCopiesNote) || !empty($objCollection->OrigCopiesURL) || !empty($objCollection->RelatedMaterials) || !empty($objCollection->RelatedMaterialsURL) || !empty($objCollection->RelatedPublications) || !empty($objCollection->PreferredCitation) || !empty($objCollection->ProcessingInfo) || !empty($objCollection->RevisionHistory) || !empty ($objCollection->OtherNote) || !empty ($objCollection->OtherURL)) 
 //admin info exists
 {
    ?>
@@ -379,12 +389,37 @@ if(!empty($objCollection->AccessRestrictions) || !empty($objCollection->UseRestr
       }
       if($objCollection->OtherURL)
       {
+         if(strtolower(substr($objCollection->getString('OtherURL'),-3))=="pdf"){
+            echo("</div><h2 style='text-align:left'><a name='pdf-fa'></a>PDF Box/Folder List</h2><div class='indent-text'>");       
+         }
          ?>
-         <p><span class='bold'>Other URL:</span> <a href="<?php echo ($objCollection->OtherURL); ?>">
-               <?php echo($objCollection->getString('OtherURL')); ?>
+         <p><span class='bold'>URL:</span> <a href="<?php echo ($objCollection->OtherURL); ?>">
+         <?php echo($objCollection->getString('OtherURL')); ?>
             </a></p>
-         <?php
-      }
+            <?php
+            if(strtolower(substr($objCollection->getString('OtherURL'),-3))=="pdf"){
+            ?>
+               <p id="display-pdf"><span class='bold'>PDF finding aid
+               <?php 
+               if($objCollection->Title) {
+                  echo(" for "); 
+                  echo($objCollection->getString('Title'));
+               }
+               if($objCollection->Classification)
+               {
+                  echo(" (");
+                  echo($objCollection->Classification->toString(LINK_NONE, true, false, true, false));
+                  echo("/");
+                  echo($objCollection->CollectionIdentifier);
+                  echo(")");
+               }
+               ?>
+               </span></p>
+               <iframe src="<?php echo ($objCollection->OtherURL)?>" width="100%" height="800vh">
+               </iframe>
+      <?php 
+      } 
+   }
       ?>
    </div>
 
