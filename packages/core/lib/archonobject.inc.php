@@ -51,9 +51,6 @@ abstract class ArchonObject
    }
    public function bbcode_to_html($bbtext)
    {
-
-
-
       $patterns = [
 
          //simple inline tags
@@ -72,11 +69,7 @@ abstract class ArchonObject
           => "<extref href='$1'>$2</extref>",
 
          // [email=someone@example.com]Label[/email]
-          '/\[email=(.*?)\](.*?)\[\/email\]/i'
-          => "<a href='mailto:$1'>$2</a>",
-
-         // [mail=someone@example.com]Label[/mail]
-          '/\.*?\[\/mail\]/i'
+          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
           => "<a href='mailto:$1'>$2</a>",
       ];
 
