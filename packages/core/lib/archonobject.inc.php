@@ -49,41 +49,43 @@ abstract class ArchonObject
 
       return $result;
    }
-    Public function bbcode_to_html($bbtext){
-        $bbtags = array(
-
-            //'[b]' => "<span style='font-weight:bold'>","[\/b]" => "<\/span>",
-            //'[i]' => "<span style='font-style:italic'>","[\/i]" => "<\/span>",
-            //'[u]' => "<span style='text-decoration:underline'>","[\/u]" => "<\/span>",
-            //'[sup]'=> "<span style='vertical-align:super;font-size:.8em'>","[\/sup]"=>"<\/span>",
-            //'[sub]'=> "<span style='vertical-align:sub;font-size:.8em'>","[\/sub]"=>"<\/span>",
-
-			'[b]' => "<emph render='bold'>","[\/b]" => "</emph>",
-            '[i]' => "<emph render='italic'>","[\/i]" => "</emph>",
-            '[u]' => "<emph render='underline'>","[\/u]" => "</emph>",
-            '[sup]'=> "<emph render='super'>","[\/sup]"=>"</emph>",
-            '[sub]'=> "<emph render='sub'>","[\/sub]"=>"</emph>",
-
-        );
-
-        $bbtext = str_ireplace(array_keys($bbtags), array_values($bbtags), $bbtext);
-
-       $bbextended = array(
+   public function bbcode_to_html($bbtext)
+   {
 
 
-           "/\[url=(http:\\\\\/\\\\\/.*?)\](.*?)\[\\\\\/url\]/i" => "<extref href='$1'>$2<\\\\/extref>",
-           "/\[url=(mailto:.*?)\](.*?)\[\\\\\/url\]/i" => "<extref='mailto:$1'>$2<\\\\/a>",
-           "/\[email=(.*?)\](.*?)\[\\\\\/email\]/i" => "<a href='$1'>$2<\\\\/a>",
-           "/\[mail=(.*?)\](.*?)\[\/mail\\\\\]/i" => "<a href='mailto:$1'>$2<\\\\/a>",
 
-        );
+      $patterns = [
 
-        foreach($bbextended as $match=>$replacement){
-            //echo $match ."\n";
-            $bbtext = preg_replace($match, $replacement, $bbtext);
-        }
-        return $bbtext;
-    }
+         //simple inline tags
+          "/\[i\](.*?)\[\/i\]/i" => "<emph render='italic'>$1</emph>",
+          "/\[b\](.*?)\[\/b\]/i" => "<emph render='bold'>$1</emph>",
+          "/\[u\](.*?)\[\/u\]/i" => "<emph render='underline'>$1</emph>",
+          "/\[sup\](.*?)\[\/sup\]/i" => "<emph render='super'>$1</emph>",
+          "/\[sub\](.*?)\[\/sub\]/i" => "<emph render='sub'>$1</emph>",
+
+         // [url=http://example.com]Text[/url]
+          '/\[url=(https?:\/\/[^\]]+)\](.*?)\[\/url\]/i'
+          => "<extref href='$1'>$2</extref>",
+
+         // [url=mailto:someone@example.com]Text[/url]
+          '/\[url=(mailto:[^\]]+)\](.*?)\[\/url\]/i'
+          => "<extref href='$1'>$2</extref>",
+
+         // [email=someone@example.com]Label[/email]
+          '/\[email=(.*?)\](.*?)\[\/email\]/i'
+          => "<a href='mailto:$1'>$2</a>",
+
+         // [mail=someone@example.com]Label[/mail]
+          '/\.*?\[\/mail\]/i'
+          => "<a href='mailto:$1'>$2</a>",
+      ];
+
+      foreach ($patterns as $pattern => $replacement) {
+         $bbtext = preg_replace($pattern, $replacement, $bbtext);
+      }
+
+      return $bbtext;
+   }
 
 
 
