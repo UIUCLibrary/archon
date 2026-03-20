@@ -4,9 +4,6 @@ class Archon
 {
     public function bbcode_to_html($bbtext)
     {
-
-
-
         $patterns = [
 
             //simple inline tags
@@ -22,15 +19,11 @@ class Archon
 
             // [url=mailto:someone@example.com]Text[/url]
             '/\[url=(mailto:[^\]]+)\](.*?)\[\/url\]/i'
-            => "<extref href='$1'>$2</extref>",
+            => "<a href='$1'>$2</a>",
 
             // [email=someone@example.com]Label[/email]
             '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
             => "<a href='mailto:$1'>$2</a>",
-
-//            // [mail=someone@example.com]Label[/mail]
-//            '/\[mail=(.*?)\](.*?)\[\/mail\]/i'
-//            => "<a href='mailto:$1'>$2</a>",
         ];
 
         foreach ($patterns as $pattern => $replacement) {
@@ -110,10 +103,10 @@ $urlIn  = "[url=http://example.com]Example[/url]";
 $urlOut = "<extref href='http://example.com'>Example</extref>";
 $urlTest = assert($_ARCHON->bbcode_to_html($urlIn) === $urlOut);
 if(!$urlTest) {
-    echo "Error: http [url=...] did not convert correctly.\n";
+    echo "Error: http [url=...] http did not convert correctly.\n";
     echo $_ARCHON->bbcode_to_html($urlIn) . "\n";
 } else {
-    echo "Success: [url] converted correctly.\n";
+    echo "Success: [url] http converted correctly.\n";
 }
 
 // url (https)
@@ -121,15 +114,15 @@ $urlIn  = "[url=https://example.com]Example[/url]";
 $urlOut = "<extref href='https://example.com'>Example</extref>";
 $urlTest = assert($_ARCHON->bbcode_to_html($urlIn) === $urlOut);
 if(!$urlTest) {
-    echo "Error: [url=...] did not convert correctly.\n";
+    echo "Error: [url=...] https did not convert correctly.\n";
     echo $_ARCHON->bbcode_to_html($urlIn) . "\n";
 } else {
-    echo "Success: [url] converted correctly.\n";
+    echo "Success: [url] https converted correctly.\n";
 }
 
 // url mailto
 $mailtoIn  = "[url=mailto:test@example.com]Email Me[/url]";
-$mailtoOut = "<extref href='mailto:test@example.com'>Email Me</extref>";
+$mailtoOut = "<a href='mailto:test@example.com'>Email Me</a>";
 $mailtoTest = assert($_ARCHON->bbcode_to_html($mailtoIn) === $mailtoOut);
 if(!$mailtoTest) {
     echo "Error: mailto URL did not convert correctly.\n";
