@@ -65,12 +65,12 @@ abstract class ArchonObject
           => "<extref href='$1'>$2</extref>",
 
          // [url=mailto:someone@example.com]Text[/url]
-          '/\[url=(mailto:[^\]]+)\](.*?)\[\/url\]/i'
-          => "<a href='$1'>$2</a>",
+          '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'
+          => "<extref href='$1'>$2</extref>",
 
          // [email=someone@example.com]Label[/email]
           '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
-          => "<a href='mailto:$1'>$2</a>",
+          => "<extref href='$1'>$2</extref>",
       ];
 
       foreach ($patterns as $pattern => $replacement) {
