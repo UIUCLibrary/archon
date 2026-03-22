@@ -66,10 +66,10 @@ abstract class ArchonObject
 
          // [url=mailto:someone@example.com]Text[/url]
           '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'
-          => "<extref href='$1'>$2</extref>",
+          => "<extref href='mailto:$1'>$2</extref>",
 
          // [email=someone@example.com]Label[/email]
-          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
+          '/\[e?mail=mailto:(.*?)\](.*?)\[\/e?mail\]/i'
           => "<extref href='mailto:$1'>$2</extref>",
       ];
 
