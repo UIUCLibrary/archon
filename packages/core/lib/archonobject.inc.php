@@ -70,7 +70,7 @@ abstract class ArchonObject
 
          // [email=someone@example.com]Label[/email]
           '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
-          => "<extref href='$1'>$2</extref>",
+          => "<extref href='mailto:$1'>$2</extref>",
       ];
 
       foreach ($patterns as $pattern => $replacement) {

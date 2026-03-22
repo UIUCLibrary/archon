@@ -23,7 +23,7 @@ class Archon
 
             // [email=someone@example.com]Label[/email]
             '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
-            => "<extref href='$1'>$2</extref>",
+            => "<extref href='mailto:$1'>$2</extref>",
         ];
 
         foreach ($patterns as $pattern => $replacement) {
@@ -122,7 +122,7 @@ if(!$urlTest) {
 
 // url mailto
 $mailtoIn  = "[url=mailto:test@example.com]Email Me[/url]";
-$mailtoOut = "<extref href='test@example.com'>Email Me</extref>";
+$mailtoOut = "<extref href='mailto:test@example.com'>Email Me</extref>";
 $mailtoTest = assert($_ARCHON->bbcode_to_html($mailtoIn) === $mailtoOut);
 if(!$mailtoTest) {
     echo "Error: mailto URL did not convert correctly.\n";
@@ -133,7 +133,7 @@ if(!$mailtoTest) {
 
 // email
 $emailIn  = "[email=test@example.com]Contact[/email]";
-$emailOut = "<extref href='test@example.com'>Contact</extref>";
+$emailOut = "<extref href='mailto:test@example.com'>Contact</extref>";
 $emailTest = assert($_ARCHON->bbcode_to_html($emailIn) === $emailOut);
 if(!$emailTest) {
     echo "Error: [email] did not convert correctly.\n";
