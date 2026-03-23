@@ -48,7 +48,8 @@ $expectedTransforms =
         "Https url" => ["[url=http://example.com]Example[/url]", "<extref href='http://example.com'>Example</extref>"],
         "Http url" => ["[url=https://example.com]Example[/url]" , "<extref href='https://example.com'>Example</extref>"],
         "Mailto url" => ["[url=mailto:test@example.com]Email Me[/url]", "<extref href='mailto:test@example.com'>Email Me</extref>"],
-        "Email" =>["[email=mailto:test@example.com]Contact[/email]","<extref href='mailto:test@example.com'>Contact</extref>"],
+        "Email labeled link" =>["[email=test@example.com]Contact[/email]","<extref href='mailto:test@example.com'>Contact</extref>"],
+        "Email plain link" =>["[email]test@example.com[/email]","<extref href='mailto:test@example.com'>test@example.com</extref>"],
         "Mail" =>["[mail=mailto:test@example.com]Write[/mail]", "<extref href='mailto:test@example.com'>Write</extref>"]
     ];
 
