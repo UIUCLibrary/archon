@@ -24,6 +24,14 @@ class Archon
             // [email=someone@example.com]Label[/email]
             '/\[e?mail=mailto:(.*?)\](.*?)\[\/e?mail\]/i'
             => "<extref href='mailto:$1'>$2</extref>",
+
+            // email labled link [email=test@example.com]Contact[/email]
+            '/\[email=(.*?)\](.*?)\[\/email\]/i'
+            => "<extref href='mailto:$1'>$2</extref>",
+
+            // email plain link [email]test@example.com[/email]
+            '/\[email\](.*?)\[\/email\]/i'
+            => "<extref href='mailto:$1'>$1</extref>",
         ];
 
         foreach ($patterns as $pattern => $replacement) {
