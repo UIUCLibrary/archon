@@ -69,7 +69,7 @@ abstract class ArchonObject
           => "<extref href='mailto:$1'>$2</extref>",
 
          // [email=someone@example.com]Label[/email]
-          '/\[e?mail=mailto:(.*?)\](.*?)\[\/e?mail\]/i'
+          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
           => "<extref href='mailto:$1'>$2</extref>",
 
          // email labled link [email=test@example.com]Contact[/email]
@@ -78,6 +78,9 @@ abstract class ArchonObject
 
          // email plain link [email]test@example.com[/email]
           '/\[email\](.*?)\[\/email\]/i'
+          => "<extref href='mailto:$1'>$1</extref>",
+         //[email]someone@example.com[/email]
+          '/\[e?mail\](.*?)\[\/e?mail\]/i'
           => "<extref href='mailto:$1'>$1</extref>",
       ];
 
