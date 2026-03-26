@@ -52,40 +52,35 @@ abstract class ArchonObject
    public function bbcode_to_html($bbtext)
    {
       $patterns = [
+          "/\[i\](.*?)\[\/i\]/i"              => "<emph render='italic'>%1</emph>",
+          "/\[b\](.*?)\[\/b\]/i"              => "<emph render='bold'>%1</emph>",
+          "/\[u\](.*?)\[\/u\]/i"              => "<emph render='underline'>%1</emph>",
+          "/\[sup\](.*?)\[\/sup\]/i"          => "<emph render='super'>%1</emph>",
+          "/\[sub\](.*?)\[\/sub\]/i"          => "<emph render='sub'>%1</emph>",
 
-         //simple inline tags
-          "/\[i\](.*?)\[\/i\]/i" => "<emph render='italic'>$1</emph>",
-          "/\[b\](.*?)\[\/b\]/i" => "<emph render='bold'>$1</emph>",
-          "/\[u\](.*?)\[\/u\]/i" => "<emph render='underline'>$1</emph>",
-          "/\[sup\](.*?)\[\/sup\]/i" => "<emph render='super'>$1</emph>",
-          "/\[sub\](.*?)\[\/sub\]/i" => "<emph render='sub'>$1</emph>",
+         // [url=http://example.com]Text[/url]          => "<extref href='http://example.com'>Text</extref>",
+          '/\[url=(https?:\/\/[^\]]+)\](.*?)\[\/url\]/i' => "<extref href='%1'>%2</extref>",
 
-         // [url=http://example.com]Text[/url]
-          '/\[url=(https?:\/\/[^\]]+)\](.*?)\[\/url\]/i'
-          => "<extref href='$1'>$2</extref>",
+         // [url=mailto:someone@example.com]Text[/url]  => "<extref href='mailto:someone@example.com'>Text</extref>",
+          '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'     => "<extref href='mailto:%1'>%2</extref>",
 
-         // [url=mailto:someone@example.com]Text[/url]
-          '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'
-          => "<extref href='mailto:$1'>$2</extref>",
+         // [email=someone@example.com]Label[/email]    => "<extref href='mailto:someone@example.com'>Label</extref>",
+          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'         => "<extref href='mailto:%1'>%2</extref>",
 
-         // [email=someone@example.com]Label[/email]
-          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'
-          => "<extref href='mailto:$1'>$2</extref>",
-
-         // email labled link [email=test@example.com]Contact[/email]
-          '/\[email=(.*?)\](.*?)\[\/email\]/i'
-          => "<extref href='mailto:$1'>$2</extref>",
-
-         // email plain link [email]test@example.com[/email]
-          '/\[email\](.*?)\[\/email\]/i'
-          => "<extref href='mailto:$1'>$1</extref>",
-         //[email]someone@example.com[/email]
-          '/\[e?mail\](.*?)\[\/e?mail\]/i'
-          => "<extref href='mailto:$1'>$1</extref>",
+         //[email]someone@example.com[/email]           => "<extref href='mailto:someone@example.com">someone@example.com</extref>",
+          '/\[e?mail\](.*?)\[\/e?mail\]/i'               => "<extref href='mailto:%1'>%1</extref>",
       ];
 
-      foreach ($patterns as $pattern => $replacement) {
-         $bbtext = preg_replace($pattern, $replacement, $bbtext);
+      foreach ($patterns as $pattern => $template) {
+         $bbtext = preg_replace_callback($pattern, function($match) use ($template) {
+            $replaced = $template;
+            foreach ($match as $index => $value) {
+               if ($index === 0) continue; // Skip the full match
+               $escaped = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+               $replaced = str_replace("%$index", $escaped, $replaced);
+            }
+            return $replaced;
+         }, $bbtext);
       }
 
       return $bbtext;
