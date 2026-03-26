@@ -29,7 +29,7 @@ class Archon
                 $replaced = $template;
                 foreach ($match as $index => $value) {
                     if ($index === 0) continue; // Skip the full match
-                    $escaped = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                    $escaped = htmlspecialchars($value, ENT_QUOTES|ENT_XML1, 'UTF-8');
                     $replaced = str_replace("%$index", $escaped, $replaced);
                 }
                 return $replaced;
@@ -54,7 +54,7 @@ $expectedTransforms =
         "Https url" => ["[url=http://example.com]Example[/url]", "<extref href='http://example.com'>Example</extref>"],
         "Http url" => ["[url=https://example.com]Example[/url]" , "<extref href='https://example.com'>Example</extref>"],
         "Url with &" => ["[url=http://example.com?param=value&other=othervalue]Example[/url]", "<extref href='http://example.com?param=value&amp;other=othervalue'>Example</extref>"],
-        "Url with ' and \"" => ["[url=http://example.com?param='value\"withquotes]Example[/url]", "<extref href='http://example.com?param=&#039;value&quot;withquotes'>Example</extref>"],
+        "Url with ' and \"" => ["[url=http://example.com?param='value\"withquotes]Example[/url]", "<extref href='http://example.com?param=&apos;value&quot;withquotes'>Example</extref>"],
         "Url with < and >" => ["[url=http://example.com?param=<value>]Example[/url]", "<extref href='http://example.com?param=&lt;value&gt;'>Example</extref>"],
         "Mailto url" => ["[url=mailto:test@example.com]Email Me[/url]", "<extref href='mailto:test@example.com'>Email Me</extref>"],
         "Email labeled link" =>["[email=test@example.com]Contact[/email]","<extref href='mailto:test@example.com'>Contact</extref>"],
