@@ -76,7 +76,7 @@ abstract class ArchonObject
             $replaced = $template;
             foreach ($match as $index => $value) {
                if ($index === 0) continue; // Skip the full match
-               $escaped = htmlspecialchars($value, ENT_QUOTES|ENT_XML1, 'UTF-8');
+               $escaped = str_replace('&', '&amp;', $value);
                $replaced = str_replace("%$index", $escaped, $replaced);
             }
             return $replaced;
