@@ -1,49 +1,11 @@
 <?php
+require_once 'packages/core/lib/archonobject.inc.php';
 
-class Archon
-{
-    public function bbcode_to_html($bbtext)
-    {
-        $patterns = [
-            "/\[i\](.*?)\[\/i\]/i"              => "<emph render='italic'>%1</emph>",
-            "/\[b\](.*?)\[\/b\]/i"              => "<emph render='bold'>%1</emph>",
-            "/\[u\](.*?)\[\/u\]/i"              => "<emph render='underline'>%1</emph>",
-            "/\[sup\](.*?)\[\/sup\]/i"          => "<emph render='super'>%1</emph>",
-            "/\[sub\](.*?)\[\/sub\]/i"          => "<emph render='sub'>%1</emph>",
-
-            // [url=http://example.com]Text[/url]          => "<extref href='http://example.com'>Text</extref>",
-            '/\[url=(https?:\/\/[^\]]+)\](.*?)\[\/url\]/i' => "<extref href='%1'>%2</extref>",
-
-            // [url=mailto:someone@example.com]Text[/url]  => "<extref href='mailto:someone@example.com'>Text</extref>",
-            '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'     => "<extref href='mailto:%1'>%2</extref>",
-
-            // [email=someone@example.com]Label[/email]    => "<extref href='mailto:someone@example.com'>Label</extref>",
-            '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'         => "<extref href='mailto:%1'>%2</extref>",
-
-            //[email]someone@example.com[/email]           => "<extref href='mailto:someone@example.com">someone@example.com</extref>",
-            '/\[e?mail\](.*?)\[\/e?mail\]/i'               => "<extref href='mailto:%1'>%1</extref>",
-        ];
-
-        foreach ($patterns as $pattern => $template) {
-            $bbtext = preg_replace_callback($pattern, function($match) use ($template) {
-                $replaced = $template;
-                foreach ($match as $index => $value) {
-                    if ($index === 0) continue; // Skip the full match
-                    $escaped = str_replace('&', '&amp;', $value);
-                    $replaced = str_replace("%$index", $escaped, $replaced);
-                }
-                return $replaced;
-            }, $bbtext);
-        }
-
-        return $bbtext;
+$test_instance = new class() extends ArchonObject {
+    public function __construct() {
     }
-}
+};
 
-$_ARCHON = new Archon();
-
-
-//True BBCode
 $expectedTransforms =
     [
         "Italics" => ["[i]italic text[/i]" , "<emph render='italic'>italic text</emph>"],
@@ -65,11 +27,12 @@ $expectedTransforms =
         "[i] with no closing tag" => ["[i]this is a footnote", "[i]this is a footnote"],
         "[B] that means box" => ["[B] this is a box", "[B] this is a box"],
         "[U] that is in a title" => ["Folder 18: \"The Flow of [U]\" by Kenneth Gaburo, 1974", "Folder 18: \"The Flow of [U]\" by Kenneth Gaburo, 1974"],
+        "Already Escaped &" => ["[url=http://example.com?param=value&amp;other=othervalue]Example[/url]", "<extref href='http://example.com?param=value&amp;other=othervalue'>Example</extref>"],
     ];
 
 foreach($expectedTransforms as $name => $test) {
     $in = $test[0];
-    $out = $_ARCHON->bbcode_to_html($in);
+    $out = $test_instance->bbcode_to_html($in);
     $expected = $test[1];
     $differences = strcmp($out, $expected);
     if($differences) {

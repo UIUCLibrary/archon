@@ -76,7 +76,7 @@ abstract class ArchonObject
             $replaced = $template;
             foreach ($match as $index => $value) {
                if ($index === 0) continue; // Skip the full match
-               $escaped = str_replace('&', '&amp;', $value);
+               $escaped = preg_replace('/&(?!amp;)/', '&amp;', $value);
                $replaced = str_replace("%$index", $escaped, $replaced);
             }
             return $replaced;
