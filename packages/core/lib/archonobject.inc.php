@@ -85,26 +85,33 @@ abstract class ArchonObject
         return $bbtext;
     }
 
+   /**
+    * Convert bbcode to xml for ASpace. Assumes the bbcode will be sent after being encoded in json.
+    * This new version fixes the inconsistencies and errors of the original bbcode_to_html function.
+    *
+    * @param string $bbtext
+    * @return string
+    */
    public function bbcode_to_html($bbtext)
    {
       $patterns = [
-          "/\[i\](.*?)\[\/i\]/i"              => "<emph render='italic'>%1</emph>",
-          "/\[b\](.*?)\[\/b\]/i"              => "<emph render='bold'>%1</emph>",
-          "/\[u\](.*?)\[\/u\]/i"              => "<emph render='underline'>%1</emph>",
-          "/\[sup\](.*?)\[\/sup\]/i"          => "<emph render='super'>%1</emph>",
-          "/\[sub\](.*?)\[\/sub\]/i"          => "<emph render='sub'>%1</emph>",
+          "/\[i\](.*?)\[\\\\\/i\]/i"              => "<emph render='italic'>%1</emph>",
+          "/\[b\](.*?)\[\\\\\/b\]/i"              => "<emph render='bold'>%1</emph>",
+          "/\[u\](.*?)\[\\\\\/u\]/i"              => "<emph render='underline'>%1</emph>",
+          "/\[sup\](.*?)\[\\\\\/sup\]/i"          => "<emph render='super'>%1</emph>",
+          "/\[sub\](.*?)\[\\\\\/sub\]/i"          => "<emph render='sub'>%1</emph>",
 
          // [url=http://example.com]Text[/url]          => "<extref href='http://example.com'>Text</extref>",
-          '/\[url=(https?:\/\/[^\]]+)\](.*?)\[\/url\]/i' => "<extref href='%1'>%2</extref>",
+          "/\[url=(https?:\/\/[^\]]+)\](.*?)\[\\\\\/url\]/i" => "<extref href='%1'>%2</extref>",
 
          // [url=mailto:someone@example.com]Text[/url]  => "<extref href='mailto:someone@example.com'>Text</extref>",
-          '/\[url=mailto:([^\]]+)\](.*?)\[\/url\]/i'     => "<extref href='mailto:%1'>%2</extref>",
+          "/\[url=mailto:([^\]]+)\](.*?)\[\\\\\/url\]/i"     => "<extref href='mailto:%1'>%2</extref>",
 
          // [email=someone@example.com]Label[/email]    => "<extref href='mailto:someone@example.com'>Label</extref>",
-          '/\[e?mail=(.*?)\](.*?)\[\/e?mail\]/i'         => "<extref href='mailto:%1'>%2</extref>",
+          "/\[e?mail=(.*?)\](.*?)\[\\\\\/e?mail\]/i"         => "<extref href='mailto:%1'>%2</extref>",
 
          //[email]someone@example.com[/email]           => "<extref href='mailto:someone@example.com">someone@example.com</extref>",
-          '/\[e?mail\](.*?)\[\/e?mail\]/i'               => "<extref href='mailto:%1'>%1</extref>",
+          "/\[e?mail\](.*?)\[\\\\\/e?mail\]/i"               => "<extref href='mailto:%1'>%1</extref>",
       ];
 
       foreach ($patterns as $pattern => $template) {
