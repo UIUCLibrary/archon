@@ -1,10 +1,11 @@
 <?php
 require_once 'packages/core/lib/archonobject.inc.php';
 
-$test_instance = new class() extends ArchonObject {
+class TestArchonObject extends ArchonObject {
     public function __construct() {
     }
 };
+$test_instance = new TestArchonObject();
 
 $expectedTransforms =
     [
