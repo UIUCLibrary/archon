@@ -31,17 +31,34 @@ $expectedTransforms =
         "Already Escaped &" => ["[url=http://example.com?param=value&amp;other=othervalue]Example[/url]", "<extref href='http://example.com?param=value&amp;other=othervalue'>Example</extref>"],
     ];
 
+echo("<p><b>bbcode to xml (revised)</b></p>");
 foreach($expectedTransforms as $name => $test) {
     $in = $test[0];
-    $out = $test_instance->bbcode_to_html($in);
-    $expected = $test[1];
+    $out = $test_instance->bbcode_to_html(json_encode($in));
+    $expected = '"'.$test[1].'"';
     $differences = strcmp($out, $expected);
     if($differences) {
-        echo "Error: BBCode in $name did not convert correctly.\n";
-        echo "Input: " . $in . "\n";
-        echo "Expected: " . $expected . "\n";
-        echo "Output: " . $out . "\n\n";
+        echo "Error: BBCode in $name did not convert correctly.\n<br>";
+        echo "Input: " . $in . "\n<br>";
+        echo "Expected: " . htmlentities($expected) . "\n<br>";
+        echo "Output: " . htmlentities($out) . "\n\n<br><br>";
     } else {
-        echo "Success: BBCode $name converted correctly.\n";
+        echo "Success: BBCode $name converted correctly.\n<br>";
+    }
+}
+
+echo("<p><b>bbcode to html (original)</b></p>");
+foreach($expectedTransforms as $name => $test) {
+    $in_html = $test[0];
+    $out_html = $test_instance->bbcode_to_html_original(json_encode($in_html));
+    $expected_html = '"'.$test[1].'"';
+    $differences_html = strcmp($out_html, $expected_html);
+    if($differences_html) {
+        echo "Error: BBCode in $name did not convert correctly.\n<br>";
+        echo "Input: " . $in_html . "\n<br>";
+        echo "Expected: " . htmlentities($expected_html) . "\n<br>";
+        echo "Output: " . htmlentities($out_html) . "\n\n<br><br>";
+    } else {
+        echo "Success: BBCode $name converted correctly.\n<br>";
     }
 }
