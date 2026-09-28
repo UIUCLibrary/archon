@@ -224,6 +224,8 @@ class Security extends AObject
     */
    public function verifyPermissions($ModuleID = 0, $Flag = FULL_CONTROL)
    {
+      global $_ARCHON;
+
       if($this->Disabled)
       {
          return true;
@@ -246,6 +248,14 @@ class Security extends AObject
       }
       elseif(!is_natural($ModuleID))
       {
+         return false;
+      }
+      elseif($_ARCHON->config->ReadOnlyMode and $ModuleID != MODULE_ADMINUSERS and $Flag != READ)
+      {
+         // Site-wide read only mode: approve only read permissions for all
+         // modules except the admin user module (so locked-out staff can
+         // still be unlocked, or new admin accounts created, while the rest
+         // of the system is frozen).
          return false;
       }
       elseif(!$this->Permissions[$ModuleID][$Flag])
