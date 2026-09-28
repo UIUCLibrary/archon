@@ -263,4 +263,24 @@ $_ARCHON->config->RestrictAdminByIpRange = false;
 $_ARCHON->config->IpRestrictionNotice ="";
 $_ARCHON->config->AllowedAdminIpRanges = array();
 
+// ***********************************************
+// * Read Only Mode                              *
+// ***********************************************
+// When set to true, Security::verifyPermissions() will deny any
+// non-READ permission (ADD, UPDATE, DELETE, FULL_CONTROL) for every
+// module except the Admin Users module, regardless of the logged in
+// user's actual permissions.
+//
+// This is intended as a temporary, interface-level freeze (e.g. while
+// migrating to a replacement system) so staff can still log in, browse
+// existing records, and manage admin user accounts (to unlock/reset a
+// forgotten password or create a new account), but cannot add, edit,
+// or delete anything else.
+//
+// Note: This does NOT disable Security (see $_ARCHON->Security->Disabled),
+// so package install/upgrade routines and any other code that bypasses
+// Security entirely are unaffected by this setting.
+
+$_ARCHON->config->ReadOnlyMode = false;
+
 ?>
