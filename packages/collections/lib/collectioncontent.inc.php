@@ -628,11 +628,10 @@ abstract class Collections_CollectionContent
          if($prevParentID != $this->ParentID)
          {
             // Set ContainsContent flag for parent
-            static $oldSetContainsPrep = NULL;
             if(!isset($oldSetContainsPrep))
             {
                $query = "UPDATE tblCollections_Content SET ContainsContent = ? WHERE ID = ?";
-               $oldContainsPrep = $_ARCHON->mdb2->prepare($query, array('integer', 'integer'), MDB2_PREPARE_MANIP);
+               $oldSetContainsPrep = $_ARCHON->mdb2->prepare($query, array('integer', 'integer'), MDB2_PREPARE_MANIP);
             }
             $affected = $oldSetContainsPrep->execute(array(1, $this->ParentID));
             if(pear_isError($affected))

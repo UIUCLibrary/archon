@@ -83,7 +83,7 @@ if(!$_ARCHON->Error)
       {
          foreach($arrWords as $word)
          {
-            if($word && $word{0} != "-")
+            if($word && $word[0] != "-")
             {
                $output = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $output);
                $count++;
@@ -337,7 +337,7 @@ GROUP BY node.ID ORDER BY node.Lft";
          {
             foreach($arrWords as $word)
             {
-               if($word && $word{0} != "-")
+               if($word && $word[0] != "-")
                {
                   $output = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $output);
                   $count++;
@@ -472,7 +472,7 @@ function findingaid_DisplayContent($id)
       {
          foreach($arrWords as $word)
          {
-            if($word && $word{0} != "-")
+            if($word && $word[0] != "-")
             {
                $output = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $output);
                $count++;

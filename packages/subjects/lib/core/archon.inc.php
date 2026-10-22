@@ -169,12 +169,12 @@ abstract class Subjects_Archon
          {
             foreach($arrSorter as $strSubject => &$objSubject)
             {
-               if(is_natural($strSubject{0}))
+               if(is_natural($strSubject[0]))
                {
                   $arrIndex['#'][$objSubject->ID] = $objSubject;
                }
 
-               $arrIndex[encoding_strtolower($strSubject{0})][$objSubject->ID] = $objSubject;
+               $arrIndex[encoding_strtolower($strSubject[0])][$objSubject->ID] = $objSubject;
             }
 
             ksort($arrIndex);
@@ -223,12 +223,12 @@ abstract class Subjects_Archon
          {
             foreach($arrSorter as $strSubject => &$objSubject)
             {
-               if(is_natural($strSubject{0}))
+               if(is_natural($strSubject[0]))
                {
                   $arrIndex['#'][$objSubject->ID] = $objSubject;
                }
 
-               $arrIndex[encoding_strtolower($strSubject{0})][$objSubject->ID] = $objSubject;
+               $arrIndex[encoding_strtolower($strSubject[0])][$objSubject->ID] = $objSubject;
             }
 
             ksort($arrIndex);
@@ -671,7 +671,7 @@ abstract class Subjects_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(Subject NOT LIKE ?)";

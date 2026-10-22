@@ -18,11 +18,8 @@ require_once('index.php');
 require_once('archoninstaller.inc.php');
 chdir($cwd);
 
-ArchonInstaller::checkForMDB2();
-
-require_once('MDB2.php');
-
 require_once('config.inc.php');
+ArchonInstaller::checkForMDB2();
 require_once('start.inc.php');
 
 

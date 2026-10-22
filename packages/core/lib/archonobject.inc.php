@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 abstract class ArchonObject
 {
    public function callOverridden()

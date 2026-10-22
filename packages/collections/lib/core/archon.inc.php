@@ -351,7 +351,7 @@ abstract class Collections_Archon
             }
          }
 
-         uasort($arrClassifications, create_function('$a,$b', 'return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier);'));
+         uasort($arrClassifications, function($a, $b) { return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier); });
          reset($arrClassifications);
       }
 
@@ -458,12 +458,12 @@ abstract class Collections_Archon
             {
                $strCollection = $objCollection->SortTitle;
 
-               if(is_natural($strCollection{0}))
+               if(is_natural($strCollection[0]))
                {
                   $arrIndex['#'][$objCollection->ID] = $objCollection;
                }
 
-               $arrIndex[encoding_strtolower($strCollection{0})][$objCollection->ID] = $objCollection;
+               $arrIndex[encoding_strtolower($strCollection[0])][$objCollection->ID] = $objCollection;
             }
 
             ksort($arrIndex);
@@ -643,7 +643,7 @@ abstract class Collections_Archon
 
       if(!empty($arrClassifications))
       {
-         uasort($arrClassifications, create_function('$a,$b', 'return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier);'));
+         uasort($arrClassifications, function($a, $b) { return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier); });
          reset($arrClassifications);
       }
 
@@ -1238,7 +1238,7 @@ abstract class Collections_Archon
       $result->free();
       $prep->free();
 
-      uasort($arrCollections, create_function('$a,$b', 'return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier);'));
+      uasort($arrCollections, function($a, $b) { return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier); });
 
       /* while($row = $this->db->fetch_array($result))
         {
@@ -1742,7 +1742,7 @@ abstract class Collections_Archon
 
       if(!empty($arrClassifications))
       {
-         uasort($arrClassifications, create_function('$a,$b', 'return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier);'));
+         uasort($arrClassifications, function($a, $b) { return strnatcmp($a->ClassificationIdentifier, $b->ClassificationIdentifier); });
          reset($arrClassifications);
       }
 
@@ -1814,7 +1814,7 @@ abstract class Collections_Archon
          foreach($arrWords as $word)
          {
             $i++;
-            if($word{0} == "-")
+            if($word[0] == "-")
             {
                $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                $textquery .= "(tblCollections_Content.Title NOT LIKE ? AND tblCollections_Content.Description NOT LIKE ?)";
@@ -2091,7 +2091,7 @@ abstract class Collections_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(Title NOT LIKE ? AND Scope NOT LIKE ?)";
@@ -2471,7 +2471,7 @@ abstract class Collections_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(Title NOT LIKE ? AND Scope NOT LIKE ?)";
@@ -2869,7 +2869,7 @@ abstract class Collections_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(Title NOT LIKE ? AND Scope NOT LIKE ?)";
@@ -3151,7 +3151,7 @@ abstract class Collections_Archon
                unset($arrClassifications[$objClassification->ParentID]->Classifications[$objClassification->ID]);
             }
 
-            uasort($objClassification->Collections, create_function('$a,$b', 'return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier);'));
+            uasort($objClassification->Collections, function($a, $b) { return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier); });
          }
       }
 
@@ -3217,7 +3217,7 @@ abstract class Collections_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == '-')
+               if($word[0] == '-')
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $wherequery .= '(';

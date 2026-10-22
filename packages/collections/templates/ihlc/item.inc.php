@@ -43,7 +43,7 @@ if($enabled)
       $last = count($Content['UserFields']);
       $count = 1;
 
-      natcasesort(&$Content['UserFields']);
+      natcasesort($Content['UserFields']);
 
       foreach($Content['UserFields'] as $ID => $String)
       {

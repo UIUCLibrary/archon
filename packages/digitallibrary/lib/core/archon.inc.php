@@ -279,12 +279,12 @@ abstract class DigitalLibrary_Archon
             {
                $strDigitalContent = $objDigitalContent->Title;
 
-               if(is_natural($strDigitalContent{0}))
+               if(is_natural($strDigitalContent[0]))
                {
                   $arrIndex['#'][$objDigitalContent->ID] = $objDigitalContent;
                }
 
-               $arrIndex[encoding_strtolower($strDigitalContent{0})][$objDigitalContent->ID] = $objDigitalContent;
+               $arrIndex[encoding_strtolower($strDigitalContent[0])][$objDigitalContent->ID] = $objDigitalContent;
             }
 
             ksort($arrIndex);
@@ -730,7 +730,7 @@ ORDER BY tblDigitalLibrary_DigitalContent.Title";
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(tblDigitalLibrary_DigitalContent.Title NOT LIKE ? AND tblDigitalLibrary_DigitalContent.Scope NOT LIKE ? AND tblDigitalLibrary_DigitalContent.PhysicalDescription NOT LIKE ? AND tblDigitalLibrary_DigitalContent.Contributor NOT LIKE ? AND tblDigitalLibrary_DigitalContent.Identifier NOT LIKE ?)";
@@ -944,7 +944,7 @@ ORDER BY tblDigitalLibrary_DigitalContent.Title";
          foreach($arrWords as $word)
          {
             $i++;
-            if($word{0} == '-')
+            if($word[0] == '-')
             {
                $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                $textquery .= '(';

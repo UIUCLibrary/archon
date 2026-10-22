@@ -157,7 +157,7 @@ abstract class Collections_Classification
       }
       $result->free();
 
-      uasort($this->Collections, create_function('$a,$b', 'return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier);'));
+      uasort($this->Collections, function($a, $b) { return strnatcmp($a->CollectionIdentifier, $b->CollectionIdentifier); });
 
       return true;
    }

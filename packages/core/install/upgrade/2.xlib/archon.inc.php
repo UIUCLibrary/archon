@@ -506,7 +506,7 @@ abstract class Core_Archon
 
         if($String)
         {
-            $arrWords = split(" ", $String);
+            $arrWords = explode(" ", $String);
         }
 
         if(!empty($phrases))
@@ -3621,7 +3621,7 @@ abstract class Core_Archon
             foreach($arrWords as $word)
             {
                 $i++;
-                if($word{0} == '-')
+                if($word[0] == '-')
                 {
                     $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                     $wherequery .= '(';
