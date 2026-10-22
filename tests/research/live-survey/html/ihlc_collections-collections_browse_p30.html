@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="Illinois History and Lincoln Collections Manuscript Collections Database"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Browse By Collection Title | Illinois History and Lincoln Collections | Illinois History and Lincoln Collections</title>
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/style.css?version=20261013" />
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.css" />
+      <link rel="icon" type="image/ico" href="themes/ihlc/images/favicon.ico"/>
+      <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+<script type='text/javascript' src='packages/core/js/jquery.min.js'></script><script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/ihlc/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/ihlc/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/ihlc/js/jquery.scrollTo-min.js"></script>
+<script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/ihlc/images';
+         $(document).ready(function() {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       1000,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '',         // text to come before the expand link
+               expandText:         'READ MORE',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collapse)
+               userCollapseText: 'COLLAPSE TEXT'      // text for collapse link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardlocation .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script>
+			var $j = jQuery.noConflict();
+         $j(document).ready(function(){
+			  $j(".morelessbutton").click(function(){
+					var el = $(this);
+					if (el.text() == el.data("text-swap")) {
+						el.text(el.data("text-original"));
+					} else {
+						el.data("text-original", el.text());
+						el.text(el.data("text-swap"));
+					}
+				$j(".collDetail").toggle();
+			  });
+			});
+	   </script>	
+   </head>
+   <body>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-63524917-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+             <div id='top'>
+		<div id="headerbar">
+			<div id="topnavblock">
+      	  
+	  <a href="https://library.illinois.edu"><img src="themes/ihlc/images/library-wordmark-white.png"></a>
+      </div>
+			<div id="researchblock">
+<a href='#' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) $("#loginlink").html("Log In (Registered Researchers or Staff)"); else $("#loginlink").html("Hide"); $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a> | <a href='mailto:ihlc@library.illinois.edu'>Contact Us</a>               </div>
+		</div>
+		
+		<div id="headercenter">
+			<div id="headertitleblock">
+				<a href='http://www.library.illinois.edu/ihx/index.html'>Illinois History and Lincoln Collections</a> | <a href='./index.php'>Manuscript Collections</a>
+			</div>
+			<div id="searchwrapper">
+            <!--<div id="logo"><a href="index.php" ><img src="themes/ihlc/images/logo.gif" alt="logo" /></a><br/>Archives</div> -->
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <label for='q'></label>
+					 <input type="text" size="35" maxlength="150" name="q" id="q" value="" tabindex="0" placeholder="Search collection summaries"/>
+                     <input type="submit" value="Find" tabindex="0" class='button' title="Search" /> 
+					 
+                     <input type="hidden" name="content" value="1" />
+                                       </div></form></div>
+				  
+				<div id="pdfsearchlink"><a href='?p=core/index'>Return to main search page</a></div>
+         </div>
+		</div>
+		
+		
+         
+</div>
+
+<div id="contact-info-line">
+324 Main Library | 1408 West Gregory Drive | Urbana IL 61801 | 217-333-1777 | <a href="mailto:ihlc@library.illinois.edu">ihlc@library.illinois.edu</a>
+</div>
+<div id="headernav" class='noprint'>
+			                  <div id="browsebyblock">
+            
+					 <span id="browsebyspan">
+                        Browse by:
+                     </span>
+					 
+                     <span class="currentBrowseLink">
+                        <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collection Titles</a>
+                     </span>
+
+                     <span class="browseLink">
+                        <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                     </span>
+					 
+                     <span class="browseLink">
+                        <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Persons or Organizations</a>
+                     </span>
+					 
+                     <!--<span class="browseLink">
+                        <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Images</a>
+                     </span> -->
+
+                  </div>
+		</div>
+</div>
+               <div id="breadcrumbblock">
+<a href='https://www.library.illinois.edu/ihx/'>IHLC</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Manuscript Collections Database</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/collections'>Browse By Collection Title</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> View All      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+	  	  <button class='morelessbutton' data-text-swap='expand descriptions'>hide descriptions</button>      <div id="main">
+	  
+
+<h1 id='titleheader'>Browse By Collection Title | Illinois History and Lincoln Collections</h1>
+   <div class="listitemhead bold">View All</div><br /><br />
+   <div class="bground beginningwith" id="listitemwrapper"><div class='listitemcover'></div>
+		<div class='listitem'>402  <a href='?p=collections/controlcard&amp;id=402'> A. E. Winter Letter, 1847</a> (1.0 item)<p class='collDetail'>This collection contains an original letter dated September 20 and October 10, 1847, and its transcription.
+	The letter mentions the dissolution of Philadelphia Industrial Association, a Fouriertist community near South Bend, Indiana, which had been incorporated in 1845. The letter was written in different hands, mostly by A. E. Winter, to ...</p></div>
+<div class='listitem'>404  <a href='?p=collections/controlcard&amp;id=404'> Wisconsin 42nd Volunteer Infantry Photographs and Buttons, 1864-1865</a> (1.0 folder; 42.0 items)<p class='collDetail'>This collection contains forty cartes de viste portraits of soldiers in the Wisconsin 42[sup]nd[/sup] Volunteer Infantry and two brass uniform buttons with raised eagle emblems, circa 1864-1865.</p></div>
+<div class='listitem'>403  <a href='?p=collections/controlcard&amp;id=403'> James Edgar Withrow Diary, 1863-1864</a> (1.0 item)<p class='collDetail'>This collection contains the diary of James E. Withrow of Macomb, Illinois.</p></div>
+<div class='listitem'>1075  <a href='?p=collections/controlcard&amp;id=7167'> Wm. Wrigley Jr. and Co. Envelope, 1902</a> (1.0 item)<p class='collDetail'>This collection consists of one 1902 envelope from Wm. Wrigley Jr. and Company, the manufacturer of Wrigley Chewing Gum.</p></div>
+<div class='listitem'>949  <a href='?p=collections/controlcard&amp;id=4032'> Woman&#039;s Christian Temperance Union (W.C.T.U.) of Illinois Local and State Records, 1874-1965</a> (1.1 cubic feet)<p class='collDetail'>This collection consists of records from the Woman's Christian Temperance Union (W.C.T.U.) of Illinois at the state, county, and local level. Bound volumes of records, mostly containing meeting minutes, comprise the bulk of the collection. Also included are two dozen handbooks that were published by the Illinois or National W.C.T.U. between 1907 and 1965.</p></div>
+<div class='listitem'>405  <a href='?p=collections/controlcard&amp;id=405'> Woman&#039;s Christian Temperance Union (W.C.T.U.), 10th Congressional District of Illinois Records, 1883-1901</a> (1.0 volume)<p class='collDetail'>This volume contains a record of the Annual Conventions of the Woman's Christian Temperance Union (W.C.T.U.) of the 10th Congressional District in central Illinois, later redistricted as the 14th District. The volume also includes records from executive committee meetings for the organization in select years.
+	The Annual Conventions for the district ...</p></div>
+<div class='listitem'>948  <a href='?p=collections/controlcard&amp;id=4031'> Woman&#039;s Christian Temperance Union (W.C.T.U.), Putnam County, Illinois Records, 1889-1958</a> (0.9 cubic feet)<p class='collDetail'>This collection consists of minute books, financial records, correspondence, programs, and miscellaneous notes, publications, and other materials documenting the meetings, membership, and activities of the Women's Christian Temperance Union (W.C.T.U.) in Putnam County, Illinois, both on the county and local level from the late 19th through the mid-twentieth century.</p></div>
+<div class='listitem'>1149  <a href='?p=collections/controlcard&amp;id=8229'> Woman&#039;s Federal Oil Company of America Stock certificate, 1917</a> (1.0 item)<p class='collDetail'>This collection consists of a stock certificate that sold ten Woman's Federal Oil Company of America shares to Mrs. E.H. Brockway in 1917.
+	The Woman's Federal Oil Company of America was established in 1915 by Harriet Benham (Mrs. Harry H.) Honore of Chicago, Illinois, and several other wealthy Chicago women. Honore ...</p></div>
+<div class='listitem'>1101  <a href='?p=collections/controlcard&amp;id=8180'> Woman&#039;s Land Syndicate Papers, 1892-1893</a> (1.0 folder)<p class='collDetail'>This collection contains a profit sharing investment bond issued to Mrs. J.E. Humphrey and an envelope from the Woman's Land Syndicate in Chicago, Illinois, addressed to Dr. Martha A. Anderson. The envelope is postmarked July 22, 1892, and the bond is dated 1893.</p></div>
+<div class='listitem'>1173  <a href='?p=collections/controlcard&amp;id=8255'> Woman&#039;s Relief Corps Records, 1883-1894</a> (0.4 cubic feet)<p class='collDetail'>This collection is comprised primarily of publications from the Woman’s Relief Corps Department of Illinois and National Headquarters along with a few documents from the Grand Army of the Republic. These documents include General Orders, Circulars, Rosters, and Rules and Regulations. Additionally, the original binding of the volume and the stubs on which the papers were mounted are included.</p></div>
+<div class='listitem'>970  <a href='?p=collections/controlcard&amp;id=949'> Women&#039;s Town Club, Champaign, Ill., Records, 1927-1958</a> (5.0 volumes)<p class='collDetail'>This collection contains ledger books of the Women's Town Club, a group which provided housing for women in Champaign, Illinois.</p></div>
+<div class='listitem'>781  <a href='?p=collections/controlcard&amp;id=777'> Harlington Wood Jr. Papers, 1910-2004</a> (205.9 cubic feet; 14 oversize folders, 5 items)<p class='collDetail'>This collection contains papers and memorabilia documenting Wood's decades of governmental service, especially records of his time in the Justice Department. The collection also reflects Wood's involvement in numerous legal and cultural organizations, such as the Illinois Crime Investigating Commission and the Abraham Lincoln Association, and also his work on ...</p></div>
+<div class='listitem'>1033  <a href='?p=collections/controlcard&amp;id=4012'> Nathaniel Milton Wood &quot;Eulogy on Abraham Lincoln&quot; (Lewiston, Maine), April 18, 1865</a> (1.0 item)<p class='collDetail'>This collection consists of a eulogy written by Reverend Nathaniel Milton Wood three days after the assassination of Abraham Lincoln.</p></div>
+<div class='listitem'>1057  <a href='?p=collections/controlcard&amp;id=7149'> World War II Ration Book Collection, circa 1941-1945</a> (1.0 folder)<p class='collDetail'>This collection consists of World War II ration books and related items that belonged to Elsie Louise and Richard H. Guthrie of Chicago, Illinois.</p></div>
+<div class='listitem'>1076  <a href='?p=collections/controlcard&amp;id=7168'> World&#039;s Columbian Exposition (Chicago, Ill.) Stereographs, 1893</a> (1.0 folder)<p class='collDetail'>This collection consists of five stereograph cards (or "stereoviews") from the World's Fair Columbian Exposition held in Chicago, Illinois, in 1893.</p></div>
+<div class='listitem'>407  <a href='?p=collections/controlcard&amp;id=407'> World&#039;s Columbian Exposition Watercolor Prints, 1893</a> (1.0 folder; (17 items))<p class='collDetail'>This collection contains prints of 17 watercolor paintings depicting scenes from Chicago’s 1893 World’s Fair before or during construction and during the fair. All but two prints are signed by 13 different artists.</p></div>
+<div class='listitem'>1145  <a href='?p=collections/controlcard&amp;id=8225'> Grant Wright, Portrait of Robert G. Ingersoll, circa 1900</a> (1.0 folder)<p class='collDetail'>This collection contains a portrait of Robert G. Ingersoll by Grant Wright. Wright inscribed the portrait to "[his] old friend," B.C. Bryner.</p></div>
+<div class='listitem'>408  <a href='?p=collections/controlcard&amp;id=408'> J. C. Wright Letter, 1820</a> (1.0 item)<p class='collDetail'>Writing from Edwardsville, Ill., on Jan. 10, 1820,  J. C. Wright informs his brother, Nathaniel Wright of Cincinnati, about the difficulty of selling bounty lands in Illinois.</p></div>
+<div class='listitem'>1199  <a href='?p=collections/controlcard&amp;id=8285'> John Briscoe Wright Photograph Albums, circa 1940s</a> (2.0 volumes)<p class='collDetail'>This collection contains two photograph albums and one panorama photograph following John Briscoe Wright (1919-1991) career in the US military during World War II.
+	John Briscoe Wright (1919-1991) was an African American Navy soldier during World War II and jazz musician from Chicago, Illinois. Wright began his naval career at Great ...</p></div>
+<div class='listitem'>410  <a href='?p=collections/controlcard&amp;id=410'> John Wesley Yantis Papers, 1896-1928</a> (0.3 cubic feet)<p class='collDetail'>This collection contains correspondence pertaining to the 1908 election, the Century Coal Company, William Jennings Bryan, Yantis' interest in becoming U.S. Marshall of the Eastern District of Illinois (1913-14), the experiences of Yantis' friend L. M. Kagy as a member of the Joint Land Commission at the Panama Canal (1914-15), ...</p></div>
+<div class='listitem'>412  <a href='?p=collections/controlcard&amp;id=412'> Hiram Yerkes Papers, 1862-1865</a> (0.2 cubic feet)<p class='collDetail'>This collection contains 30 letters written by Yerkes during the Civil War to his future wife, Hester E. Prevo. In these letters (which have been calendared), he describes his daily experiences in several states, and refers to battles at Wilmington, Nashville, and Atlanta. Also notable are his opinions on religion ...</p></div>
+<div class='listitem'>1078  <a href='?p=collections/controlcard&amp;id=7170'> York Family Correspondence and Ephemera, 1855-1955</a> (0.8 cubic feet)<p class='collDetail'>This collection consists of correspondence between and to the Fuller, Hearn, Elliott, Hiatt, and York families, as well as ephemera such as receipts, newspaper clippings, checks, and envelopes dating from 1855-1955.</p></div>
+<div class='listitem'>414  <a href='?p=collections/controlcard&amp;id=414'> Ralph W. Zech Papers, 1960-1979</a> (1.0 folder; 8.0 items)<p class='collDetail'>This collection contains newspaper articles and other papers concerning Ralph W. Zech, an educator and political figure from Illinois.</p></div>
+<div class='listitem'>1098  <a href='?p=collections/controlcard&amp;id=8177'> Grace M. Ziegler Collection, 1953-1974</a> (1.0 folders)<p class='collDetail'>This collection contains correspondence and notes about the donation of three copies of an Abraham Lincoln photograph owned by Grace M. Ziegler (née Miller). There are also a small number of photographs of Ziegler.</p></div>
+<div class='listitem'>416  <a href='?p=collections/controlcard&amp;id=416'> Zinser Family Papers, 1921-1975</a> (3.0 cubic feet)<p class='collDetail'>The Zinser Family papers center on Anne V. Zinser's work with numerous charitable institutions. The wife of Melford E. Zinser, a successful dentist in Chicago, Anne was involved in a number of philanthropic and cultural endeavors in addition to being a successful businesswoman in the field of personnel services. This ...</p></div>
+<div class='listitem'>1205  <a href='?p=collections/controlcard&amp;id=8289'> Zion City (Ill.) Images, circa 1900</a> (3.0 items)<p class='collDetail'>This collection consists of three images relating to Zion City, Illinois. The images include two photographs and one advertisement, and all three images are undated but were likely created around 1900.</p></div>
+<div class='listitem'>417  <a href='?p=collections/controlcard&amp;id=417'> Albert B. Zybell Account Book and Receipts, 1906-1921</a> (0.2 cubic feet)<p class='collDetail'>Albert B. Zybell (1860-1948), an undertaker, embalmer, and furniture dealer in Monticello, Illinois, used this account book to record funeral expenses, including such items as clothes, vaults, coffins, flowers and accessories. The account book is 270 pages and there are 59 miscellaneous receipts.
+	This collection was acquired by the Illinois Historical ...</p></div>
+</div>
+
+<div class="paginationnav"><span class='paginationprevlink'><a href='index.php?p=collections/collections&amp;browse&amp;page=29'>Prev</a></span></div>
+
+
+</div>
+
+
+
+
+<div id="bottom">
+    <br/>
+    <hr id="footerhr" />
+    <div id="userbox" class="smround">
+
+<div id="userlogincontrols">
+ <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+</div>
+<div id="userlogin" class="mdround" style="display:none">&nbsp;
+    <form action="/ihlc/index.php?p=collections/collections&amp;browse&amp;page=30" accept-charset="UTF-8" method="post">
+    <div class='loginpair'>
+    	<div class='loginlabel'><label for="ArchonLoginField">Username:</label></div>
+      	<div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+    </div>
+    <div class='loginpair'>
+      <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+      <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+    </div>
+      <div id='loginsubmit'>
+	      <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+	  </div>
+
+    </form>
+</div>
+  </div>
+<div id='contactcontainer'><div id='repositorylink'><a href='http://library.illinois.edu/ihx/'>Illinois History and Lincoln Collections</a></div>
+<div id='emaillink'>Contact Us: <a href='mailto:ihlc@library.illinois.edu'>ihlc@library.illinois.edu</a></div>
+<div id='privacy'><p><a href='?p=core/index&f=privacy'>Privacy Policy</a></p></div></div></div>
+<div id="archoninfo">
+   Page Generated in: 0.137 seconds (using 105 queries).<br/>
+
+         Using 5.85MB of memory. (Peak of 6.53MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright (c) <a href="http://www.illinois.edu" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

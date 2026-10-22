@@ -1,0 +1,13 @@
+HTTP/2 200 
+cache-control: must-revalidate, post-check=0, pre-check=0
+cache-control: private
+content-disposition: attachment; filename="0007068.jpg"
+content-transfer-encoding: binary
+content-type: Image/jpeg
+date: Thu, 22 Oct 2026 17:15:07 GMT
+expires: 0
+pragma: public
+server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips mod_fcgid/2.3.9 PHP/5.4.16 mod_wsgi/3.4 Python/2.7.5
+set-cookie: archon=<redacted-session-id>; path=/archives/; secure
+x-powered-by: PHP/5.4.16
+

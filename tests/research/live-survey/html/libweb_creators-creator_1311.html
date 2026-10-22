@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="University of Illinois Archives Holdings Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Brundage, Avery (1887-1975) | University of Illinois Archives</title>
+      <link rel="stylesheet" type="text/css" href="themes/library_web/style.css?v=20260925" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/jgrowl/jquery.jgrowl.css" />
+      <link rel="icon" type="image/ico" href="themes/library_web/images/favicon.ico?v=20260925"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/library_web/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/library_web/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/library_web/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/library_web/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/library_web/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/library_web/images';   
+         jQuery(document).ready(function($) {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,             // make expandable if over this x chars
+               widow:            100,             // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',        // text to come before the expand link
+               expandText:       'more',     			//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,               // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+				$('.expandablesmall').expander({
+               slicePoint:       100,             // make expandable if over this x chars
+               widow:            10,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',       	// text to come before the expand link
+               expandText:       'more',  				//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,              	// milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+         $k("#ccardstaff .locationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $t = $(this).children().last();
+               $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      
+   </head>
+   <body>
+            <div id='top'>
+
+         <div id="logosearchwrapper">
+
+		 <div id="sitetitleblock"><a href="https://archives.library.illinois.edu">University of Illinois Archives</a> &ndash;> <a href="index.php">Holdings Database</a></div>
+			<div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <input type="text" size="25" maxlength="150" name="q" id="q" title="input box for search field" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" /> <a class='bold pdfsearchlink' href='?p=core/index&amp;f=pdfsearch'>Search PDF lists</a>
+                                             <input type="hidden" name="content" value="0" />
+                                          </div></form></div>
+
+         </div>
+         
+			
+         <div id="browsebyblock">
+            <div id="browseblockcontent">
+            <span class="browseLink">
+               <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Campus Units/Record Groups</a>
+            </span>
+
+            <span class="browseLink">
+               <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Physical Collections: A-Z</a>
+            </span>
+			 <span class="browseLink">
+               <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Materials: A-Z</a>
+            </span>
+           
+            <span class="browseLink">
+               <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subject Headings</a>
+            </span>
+            <span class="currentBrowseLink">
+               <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Record Creators</a>
+            </span>
+           </div>
+         </div>
+      </div>
+
+      <div id="breadcrumbblock">
+         <a href='https://archives.library.illinois.edu'>University Archives</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Holdings</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> Brundage, Avery      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>      <div id="main">
+<h1>Brundage, Avery (1887-1975) | University of Illinois Archives</h1>
+<div id='CreatorNote' class='bground'><div class='CreatorEntry'><span class='bold'>Name:</span> Brundage, Avery (1887-1975)</div><div class='CreatorEntry'><span class='bold'><a href='#' onclick="toggleDisplay('relatedcreators'); return false;"><img id='relatedcreatorsImage' src='themes/library_web/images/plus.gif' alt='expand icon' /> Show Related People or Groups</a> <!--<span style='font-size:80%'>(links to similar collections)</span> --></span><br />
+   <div class='ccardshowlist' style='display: none' id='relatedcreatorsResults'><a href='?p=creators/creator&amp;id=2163'>University of Illinois at Urbana-Champaign (Associate)</a></div>
+</div>
+   <div class='CreatorEntry'><span class='bold'><a href='#' onclick="toggleDisplay('LinkedCollections'); return false;"><img id='LinkedCollectionsImage' src='themes/library_web/images/plus.gif' alt='expand icon' /> Show Related Collections</a></span><br/>
+   <div class='CreatorEntryShowList' style='display:none' id='LinkedCollectionsResults'><br/>
+         &nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=4719'> Avery Brundage Collection, 1908-82</a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=4517'> Avery Brundage Collection Microfilm, 1908-75</a><br/>   </div>
+</div>
+   <div class='CreatorEntry'><span class='bold'><a href='#' onclick="toggleDisplay('LinkedAccessions'); return false;"><img id='LinkedAccessionsImage' src='themes/library_web/images/plus.gif' alt='expand icon' /> Show Related Unprocessed Materials</a></span><br/>
+   <div class='CreatorEntryShowList' style='display:none' id='LinkedAccessionsResults'><br/>
+         &nbsp;&nbsp; <a href='?p=accessions/accession&amp;id=738'> Avery Brundage Additions</a><br/>&nbsp;&nbsp; <a href='?p=accessions/accession&amp;id=798'> Sam an&#039; Ella Papers-test, 1971-89</a><br/>   </div>
+</div>
+   <div class='CreatorEntry'><span class='bold'><a href='#' onclick="toggleDisplay('LinkedDigitalContent'); return false;"><img id='LinkedDigitalContentImage' src='themes/library_web/images/plus.gif' alt='expand icon' /> Digital Content Created by Brundage, Avery</a></span><br/>
+   <div class='CreatorEntryShowList' style='display:none' id='LinkedDigitalContentResults'><br/>
+         &nbsp;&nbsp;<span class='bold'><a href='index.php?p=digitallibrary/thumbnails&amp;creatorid=1311'>Image Thumbnails</a></span><br/><br/>
+
+         &nbsp;&nbsp;<span class='bold'>Other Files:</span><br/>&nbsp;&nbsp;&nbsp;<a href='?p=digitallibrary/digitalcontent&amp;id=6354'>Avery Brundage in Front of the Bust of Pierre de Coubertin</a><br/>
+&nbsp;&nbsp;&nbsp;<a href='?p=digitallibrary/digitalcontent&amp;id=6353'>Avery Brundage in front the &quot;Nymphenbad&quot; of the Zwinger</a><br/>
+&nbsp;&nbsp;&nbsp;<a href='?p=digitallibrary/digitalcontent&amp;id=6355'>Avery Brundage in Weimar, 1969</a><br/>
+&nbsp;&nbsp;&nbsp;<a href='?p=digitallibrary/digitalcontent&amp;id=6933'>Avery Brundage Papers and Audiovisuals (Digital Surrogates)</a><br/>
+&nbsp;&nbsp;&nbsp;<a href='?p=digitallibrary/digitalcontent&amp;id=6357'>Press Party for Avery Brundage</a>   </div>
+</div>
+   </div>
+<br/>
+</div>
+<div id="bottom">
+   <br/>
+   <hr id="footerhr" />
+   <div id="userbox" class="smround">
+      
+      <div id="userlogincontrols">
+         <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+      </div>
+      <div id="userlogin" class="mdround" style="display:none">&nbsp;
+         <form action="/archives/index.php?p=creators/creator&amp;id=1311" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login/E-mail:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+            </div>
+            <div id='registerlink'>
+               <a href="?p=core/register" tabindex="800">Register an Account</a>
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div id='repositorylink'><a href='http://archives.library.illinois.edu'>University of Illinois Archives</a></div>
+<div id='emaillink'>Contact Us: <a href='http://www.library.uiuc.edu/archives/email-ahx.php?this_page=https://archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcreators%2Fcreator%26id%3D1311'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 0.683 seconds (using 54 queries).<br/>
+
+         Using 6.31MB of memory. (Peak of 6.47MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   
+
+

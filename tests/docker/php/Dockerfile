@@ -51,7 +51,10 @@ RUN set -eux; \
     cd /opt/archon-tests; \
     export COMPOSER_ALLOW_SUPERUSER=1; \
     composer install --no-interaction --no-progress --prefer-dist \
-      || composer install --no-interaction --no-progress --prefer-source
+      || { rm -rf vendor; composer install --no-interaction --no-progress --prefer-source; }; \
+    find vendor -name .git -type d -prune -exec rm -rf {} +; \
+    composer clear-cache; \
+    rm -rf /root/.composer/cache /root/.cache/composer
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-archon-test.ini
 COPY docker/php/archon-sync /usr/local/bin/archon-sync

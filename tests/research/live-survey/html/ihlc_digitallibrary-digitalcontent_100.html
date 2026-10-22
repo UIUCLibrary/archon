@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="Illinois History and Lincoln Collections Manuscript Collections Database"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Digitized Content from the Gustav Koerner Papers | Illinois History and Lincoln Collections</title>
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/style.css?version=20261013" />
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.css" />
+      <link rel="icon" type="image/ico" href="themes/ihlc/images/favicon.ico"/>
+      <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+<script type='text/javascript' src='packages/core/js/jquery.min.js'></script><script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/ihlc/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/ihlc/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/ihlc/js/jquery.scrollTo-min.js"></script>
+<script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/ihlc/images';
+         $(document).ready(function() {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       1000,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '',         // text to come before the expand link
+               expandText:         'READ MORE',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collapse)
+               userCollapseText: 'COLLAPSE TEXT'      // text for collapse link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardlocation .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script>
+			var $j = jQuery.noConflict();
+         $j(document).ready(function(){
+			  $j(".morelessbutton").click(function(){
+					var el = $(this);
+					if (el.text() == el.data("text-swap")) {
+						el.text(el.data("text-original"));
+					} else {
+						el.data("text-original", el.text());
+						el.text(el.data("text-swap"));
+					}
+				$j(".collDetail").toggle();
+			  });
+			});
+	   </script>	
+   </head>
+   <body>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-63524917-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+             <div id='top'>
+		<div id="headerbar">
+			<div id="topnavblock">
+      	  
+	  <a href="https://library.illinois.edu"><img src="themes/ihlc/images/library-wordmark-white.png"></a>
+      </div>
+			<div id="researchblock">
+<a href='#' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) $("#loginlink").html("Log In (Registered Researchers or Staff)"); else $("#loginlink").html("Hide"); $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a> | <a href='mailto:ihlc@library.illinois.edu'>Contact Us</a>               </div>
+		</div>
+		
+		<div id="headercenter">
+			<div id="headertitleblock">
+				<a href='http://www.library.illinois.edu/ihx/index.html'>Illinois History and Lincoln Collections</a> | <a href='./index.php'>Manuscript Collections</a>
+			</div>
+			<div id="searchwrapper">
+            <!--<div id="logo"><a href="index.php" ><img src="themes/ihlc/images/logo.gif" alt="logo" /></a><br/>Archives</div> -->
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <label for='q'></label>
+					 <input type="text" size="35" maxlength="150" name="q" id="q" value="" tabindex="0" placeholder="Search collection summaries"/>
+                     <input type="submit" value="Find" tabindex="0" class='button' title="Search" /> 
+					 
+                     <input type="hidden" name="content" value="1" />
+                                       </div></form></div>
+				  
+				<div id="pdfsearchlink"><a href='?p=core/index'>Return to main search page</a></div>
+         </div>
+		</div>
+		
+		
+         
+</div>
+
+<div id="contact-info-line">
+324 Main Library | 1408 West Gregory Drive | Urbana IL 61801 | 217-333-1777 | <a href="mailto:ihlc@library.illinois.edu">ihlc@library.illinois.edu</a>
+</div>
+<div id="headernav" class='noprint'>
+			                  <div id="browsebyblock">
+            
+					 <span id="browsebyspan">
+                        Browse by:
+                     </span>
+					 
+                     <span class="browseLink">
+                        <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collection Titles</a>
+                     </span>
+
+                     <span class="browseLink">
+                        <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                     </span>
+					 
+                     <span class="browseLink">
+                        <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Persons or Organizations</a>
+                     </span>
+					 
+                     <!--<span class="currentBrowseLink">
+                        <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Images</a>
+                     </span> -->
+
+                  </div>
+		</div>
+</div>
+               <div id="breadcrumbblock">
+<a href='https://www.library.illinois.edu/ihx/'>IHLC</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Manuscript Collections Database</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=digitallibrary/digitallibrary'>Digital Archives</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> Digitized Content from the Gustav Koerner Papers      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+	  	        <div id="main">
+	  
+<h1 id='titleheader'>Digitized Content from the Gustav Koerner Papers | Illinois History and Lincoln Collections</h1>
+<div id='digcontentmetadata' class='mdround'>
+
+   <div class='digcontentlabel'>Title:</div>
+   <div class='digcontentdata'>Digitized Content from the Gustav Koerner Papers</div>
+   <div class='digcontentlabel'>Date:</div>
+   <div class='digcontentdata'>1842-undated</div>
+   <div class='digcontentlabel'>Description:</div>
+   <div class='digcontentdata'><p>The digitized content of the Gustave Koerner Papers consists of printed and hand-written speeches given by Koerner during his time as a democrat in the Illinois Legislature from 1842-1844. Also included is a signed cabinet card photograph of Koerner.</p><p>	A native of Gemany, Gustave [also spelled &quot;Gustav&quot;] Koerner (1809-1896) moved to St. Clair County, Illinois in 1833. He became an influential state and national political figure, especially amongst the German American settlers of St. Clair. Koerner became a member of the Illinois General Assembly in 1842, and later served as the Lieutenant Governor of Illinois (1853-1857).</p><p>	This collection contains items relating to Koerner&#039;s years in the Illinois legislature (1842-1844), including two printed copies of his July 5, 1842 speech voicing support of the Illinois Michigan Canal Bill; a handwritten speech on the nature of the current government, the National Bank, the depreciation of money, and anti-Van Buren views; and a cabinet card photograph of Koerner with his signature.</p><p>	The Gustave Koerner Papers was partially digitized in 2019. Items are available online at the University of Illinois Digital Library. A preservation copy of the items is available to IHLC and digital preservation staff at the Library Digital Repository: https://medusa.library.illinois.edu/collections/1446</p></div>
+
+&nbsp;  <!--forces IE to behave -->
+
+   <div class='digcontentlabel'>Available:</div>
+   <div class='digcontentdata' style='font-weight:bold'>
+   <a href='https://digital.library.illinois.edu/collections/ebfaa750-6464-0137-6cef-02d0d7bfd6e4-a'>https://digital.library.illinois.edu/collections/ebfaa750-6464-0137-6cef-02d0d7bfd6e4-a</a></div>
+   <div class='digcontentlabel'>ID:</div>
+   <div class='digcontentdata'>ebfaa750-6464-0137-6cef-02d0d7bfd6e4-a</div>
+   <div class='digcontentlabel'>Repository:</div>
+   <div class='digcontentdata'>Illinois History and Lincoln Collections</div>
+
+   <div class='digcontentlabel'>Found in:</div>
+   <div class='digcontentdata'> <a href='?p=collections/controlcard&amp;id=45'> Gustave Koerner Papers, 1842-1843</a></div>
+   <div class='digcontentlabel'>Creators:</div>
+   <div class='digcontentdata'><a href='?p=creators/creator&amp;id=41'>Koerner, Gustave</a></div>
+   <div class='digcontentlabel'>Rights:</div>
+   <div class='digcontentdata'>Please contact the Illinois History and Lincoln Collections for more information about these materials.</div>
+   <div class='digcontentlabel'>Languages:</div>
+   <div class='digcontentdata'><a href='?p=core/search&amp;languageid=2081'>English</a>&nbsp;<a href='?p=core/search&amp;languageid=2099'>French</a></div>
+</div>
+
+
+</div>
+
+
+
+
+<div id="bottom">
+    <br/>
+    <hr id="footerhr" />
+    <div id="userbox" class="smround">
+
+<div id="userlogincontrols">
+ <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+</div>
+<div id="userlogin" class="mdround" style="display:none">&nbsp;
+    <form action="/ihlc/index.php?p=digitallibrary/digitalcontent&amp;id=100" accept-charset="UTF-8" method="post">
+    <div class='loginpair'>
+    	<div class='loginlabel'><label for="ArchonLoginField">Username:</label></div>
+      	<div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+    </div>
+    <div class='loginpair'>
+      <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+      <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+    </div>
+      <div id='loginsubmit'>
+	      <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+	  </div>
+
+    </form>
+</div>
+  </div>
+<div id='contactcontainer'><div id='repositorylink'><a href='http://library.illinois.edu/ihx/'>Illinois History and Lincoln Collections</a></div>
+<div id='emaillink'>Contact Us: <a href='mailto:ihlc@library.illinois.edu'>ihlc@library.illinois.edu</a></div>
+<div id='privacy'><p><a href='?p=core/index&f=privacy'>Privacy Policy</a></p></div></div></div>
+<div id="archoninfo">
+   Page Generated in: 1.919 seconds (using 58 queries).<br/>
+
+         Using 6.37MB of memory. (Peak of 6.55MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright (c) <a href="http://www.illinois.edu" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

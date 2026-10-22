@@ -9,7 +9,10 @@
 
 isset($_ARCHON) or die();
 
-$_ARCHON->AdministrativeInterface->Header->NoControls = $_ARCHON->AdministrativeInterface->Header->NoControls || $_REQUEST['nocontrols'];
+// The installer runs before $_ARCHON->initialize(), so these objects may not exist yet (PHP 8 no longer auto-creates them).
+(isset($_ARCHON->AdministrativeInterface) && is_object($_ARCHON->AdministrativeInterface)) or $_ARCHON->AdministrativeInterface = new stdClass();
+(isset($_ARCHON->AdministrativeInterface->Header) && is_object($_ARCHON->AdministrativeInterface->Header)) or $_ARCHON->AdministrativeInterface->Header = new stdClass();
+$_ARCHON->AdministrativeInterface->Header->NoControls = !empty($_ARCHON->AdministrativeInterface->Header->NoControls) || !empty($_REQUEST['nocontrols']);
 $_ARCHON->AdministrativeInterface->ImagePath = 'adminthemes/default/images';
 $_ARCHON->AdministrativeInterface->Theme = 'default';
 

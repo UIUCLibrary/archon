@@ -1,0 +1,140 @@
+
+<ead audience="external" 
+     xmlns="urn:isbn:1-931666-22-9"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.loc.gov/ead/ http://www.loc.gov/ead/ead.xsd">
+   <eadheader langencoding="iso639-2b" audience="external" countryencoding="iso3166-1" dateencoding="iso8601" repositoryencoding="iso15511" scriptencoding="iso15924" relatedencoding="MARC21">
+      <eadid encodinganalog="856$u" mainagencycode="US-US-IU-R" countrycode="US" identifier="ArchonInternalCollectionID:1218">01/POST-1650 MS 0448</eadid>
+      <filedesc>
+                  <titlestmt>
+               <titleproper encodinganalog="245">Guide to the H.G. Wells realia</titleproper>
+               <titleproper type="filing">Wells, H.G. Realia</titleproper>
+                        <author encodinganalog="245$c">Finding Aid Authors: RBML Staff.</author>
+                  </titlestmt>
+         <publicationstmt>
+            <p>&#x00A9; Copyright 2026 Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign.  All rights reserved.</p>
+                           <address>
+                  <addressline>346 Main Library</addressline>
+                                 <addressline>1408 W. Gregory Drive</addressline>
+                                 <addressline>Urbana, IL, 61801</addressline>
+                                 <addressline>URL: http://www.library.illinois.edu/rbx/</addressline>
+                                 <addressline>Email: askacurator@library.illinois.edu</addressline>
+                                 <addressline>Phone: (217) 333-3777</addressline>
+                           </address>
+               
+         </publicationstmt>
+      </filedesc>
+
+      <profiledesc>
+         <creation encodinganalog="500">This finding aid was encoding in EAD by Archon 3.21 from an SQL database source on <date type="encoded" normal="2026-10-22">October 22nd, 2026</date>.</creation>
+                           <langusage encodinganalog="546">The collection description/finding aid is written in <language encodinganalog="041" langcode="eng">English</language></langusage>
+                     </profiledesc>
+
+
+               
+      </eadheader>
+
+      <frontmatter>
+         <titlepage>
+            <titleproper encodinganalog="245">Guide to the H.G. Wells realia
+                              <date normal="1900/1946" encodinganalog="260$c">1900/1946</date>
+                        </titleproper>
+               <publisher encodinganalog="260$b">Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</publisher>
+               </titlepage>
+            </frontmatter>
+
+            <archdesc level="collection" type="inventory" audience="external" relatedencoding="MARC21">
+               <did>
+                  <head>Overview of the Collection</head>
+                           <unittitle label="Collection Title" encodinganalog="245">H.G. Wells realia                              <unitdate label="Dates" encodinganalog="245$f" type="inclusive" normal="1900/1946">undated</unitdate>
+                              </unittitle>
+                  <unitid encodinganalog="035" label="Identification" repositorycode="US-US-IU-R" countrycode="US">01/POST-1650 MS 0448</unitid>
+                     <origination label="Creator" encodinganalog="245$c">
+                     <persname encodinganalog="100" normal="Wells, H.G. (Herbert George)" source="lcnaf" role="Collector">Wells, H.G. (Herbert George), 1866-1946</persname>
+                           </origination>
+                           <physdesc label="Physical Description"><extent encodinganalog="300" type="Box(es)">3.00</extent></physdesc>
+            
+               <langmaterial encodinganalog="546" label="Language of Materials">
+            		<language encodinganalog="041" langcode="eng">English</language>
+               </langmaterial>
+                        <repository encodinganalog="852$b" label="Repository">
+                              <corpname>Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</corpname>
+                              <address>
+                     <addressline>346 Main Library</addressline>
+                                    <addressline>1408 W. Gregory Drive</addressline>
+                                       <addressline>Urbana, IL, </addressline>
+                                    <addressline>URL: http://www.library.illinois.edu/rbx/</addressline>
+                                    <addressline>Email: askacurator@library.illinois.edu</addressline>
+                                    <addressline>Phone: (217) 333-3777</addressline>
+                              </address>
+            </repository>
+
+
+                        
+      </did>
+
+
+      <!--COLLECTION LEVEL METADATA: -->
+               <bioghist altrender="Biographical Information" encodinganalog="545"><head>Biographical Information:</head>
+                              <p>English novelist and essayist.</p>
+                           </bioghist>
+         
+
+            <!-- CONTROLLED ACCESS / SUBJECT TERMS -->
+
+      
+
+         <!-- END CONTROLLED ACCESS TERMS -->
+
+            
+            <!-- DIGITAL ARCHIVAL OBJECTS -->
+                              <!-- END DIGITAL ARCHIVAL OBJECTS -->
+                     <!-- ADMINISTRATIVE INFORMATION -->
+
+                  <descgrp>
+                     <head>Administrative Information</head>
+                              <userestrict encodinganalog="540">
+                           <head>Conditions Governing Use:</head>
+                                          <p>The RBML reproductions policies can be found here:</p>
+                                          <p><extref linktype="simple" audience="external" show="embed" actuate="onrequest" href="https://www.library.illinois.edu/rbx/collections/reproduction-services/">https://www.library.illinois.edu/rbx/collections/reproduction-services/</extref></p>
+                                          <p>The copyright law of the United States (Title 17, United States Code) governs the making of photocopies or other reproductions of copyrighted materials.</p>
+                                          <p>Under certain conditions specified in the law, libraries and archives are authorized to furnish a photocopy or other reproduction. One of these specified conditions is that the photocopy or reproduction is not to be &quot;used for any purpose other than private study scholarship or research.&quot; If a user makes a request for, or later uses, a photocopy or reproduction for purposes in excess of &quot;fair use,&quot; that user may be liable for copyright infringement.</p>
+                                          <p>This institution reserves the right to refuse to accept a copying order if, in its judgement, fulfillment of the order would damage materials or involve violation of copyright law.</p>
+                              </userestrict>
+                     <accessrestrict encodinganalog="506">
+                        <head>Conditions Governing Access:</head>
+                                          <p>Open to researchers.</p>
+                           </accessrestrict>
+                        </descgrp>
+
+                        <scopecontent>
+               <head>Scope and Contents</head>
+                                 <p><emph render="underline">Box 1</emph></p>
+                                 <p>1) Lock of [Jane&#039;s] hair. - Wrapped in x 3&quot; x 5&quot; scrap of paper</p>
+                                 <p>2) Bound Autograph Book - Book with mounted autographs from letters. 2 loose autographs.</p>
+                                 <p>3) Lady&#039;s Rouge Box - Lady&#039;s Rouge Box [Jane&#039;s] with lock of braided hair and tiny watercolor of lady&#039;s head in lid under</p>
+                                 <p>4) Artificial sprig of flowers - Artificial sprig of white flowers and green leaves on wire stem in 3&quot; x 4&quot; envelope.</p>
+                                 <p>5) Wood Picture Frame - Frame has no picture in it; glass and wood backing separated.</p>
+                                 <p>6) Photocase, Leatherbound - 4&quot; x 6&quot;. Shaped like a small book. Contains one yarmulka.</p>
+                                 <p><emph render="underline">Box 2</emph></p>
+                                 <p>1) Photograph Album and Greeting Card - Inscription: &quot;With Mamma&#039;s love to her litle Amy 1882&quot;. Includes an embossed, colored birthday card, on verso. Leather bound with metal clasp.</p>
+                                 <p>2) Postcard print - Glossy postcard print of two skiers[Gip &amp; Frank]</p>
+                                 <p><emph render="underline">Box 3</emph></p>
+                                 <p>1) B &amp; W framed photo of father and child [unidentified] - Mounted in rectangular wood frame with oval shaped gold matting under glass.</p>
+                                 <p>2) B &amp; W circular framed photo. - Photo of &quot;James Disc, Age 17.&quot;</p>
+                                 <p>3) Glass Photo Plates - 7 glass photo plates in a 4&quot; x 5&quot; mauve box. 1 of the plates is broken.</p>
+                                 <p>4) Book - Leatherbound - 3&quot; x 5&quot;, metal clasp. Entitled&quot; &quot;A Short Introduction for the Better Understanding of The Lord&#039;s Supper&quot;. See Notes for inscription written on inside cover.</p>
+                                 <p>Original Shelfmarks: &quot;Allivial 1 Deposits&quot; 002a-002, 002a-003, 002a-004, 002a-005, 002a-007, 002a-008, 002a-009, 002a-010, 002b-001, 002b-002, 002b-003, 002b-004.</p>
+                        </scopecontent>
+            
+
+
+         <!-- END ADMINISTRATIVE INFORMATION -->
+
+         <!-- END COLLECTION LEVEL METADATA -->
+
+                  <!-- END SUBORDINATE COMPONENTS -->
+   </archdesc>
+</ead>
+

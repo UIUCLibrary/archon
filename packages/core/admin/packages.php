@@ -191,6 +191,7 @@ function packages_ui_main()
          {
             include("packages/{$objPackage->APRCode}/index.php");
             $_ARCHON->Packages[$objPackage->ID] =& $_ARCHON->Packages[$objPackage->APRCode];
+            is_object($_ARCHON->Packages[$objPackage->ID]) or $_ARCHON->Packages[$objPackage->ID] = new stdClass();
             $_ARCHON->Packages[$objPackage->ID]->APRCode = $objPackage->APRCode;
             $_ARCHON->Packages[$objPackage->ID]->Version = $Version;
          }
@@ -483,6 +484,7 @@ function packages_ui_exec()
          {
             include("packages/{$objPackage->APRCode}/index.php");
             $_ARCHON->Packages[$objPackage->ID] =& $_ARCHON->Packages[$objPackage->APRCode];
+            is_object($_ARCHON->Packages[$objPackage->ID]) or $_ARCHON->Packages[$objPackage->ID] = new stdClass();
             $_ARCHON->Packages[$objPackage->ID]->APRCode = $objPackage->APRCode;
             $_ARCHON->Packages[$objPackage->ID]->Version = $Version;
             $_ARCHON->Packages[$objPackage->ID]->DBVersion = $objPackage->DBVersion;
@@ -588,6 +590,7 @@ function packages_ui_exec()
          {
             include("packages/{$objPackage->APRCode}/index.php");
             $_ARCHON->Packages[$objPackage->ID] =& $_ARCHON->Packages[$objPackage->APRCode];
+            is_object($_ARCHON->Packages[$objPackage->ID]) or $_ARCHON->Packages[$objPackage->ID] = new stdClass();
             $_ARCHON->Packages[$objPackage->ID]->APRCode = $objPackage->APRCode;
             $_ARCHON->Packages[$objPackage->ID]->Version = $Version;
             $_ARCHON->Packages[$objPackage->ID]->DBVersion = $objPackage->DBVersion;
@@ -669,6 +672,7 @@ function packages_ui_exec()
          {
             include("packages/{$objPackage->APRCode}/index.php");
             $_ARCHON->Packages[$objPackage->ID] =& $_ARCHON->Packages[$objPackage->APRCode];
+            is_object($_ARCHON->Packages[$objPackage->ID]) or $_ARCHON->Packages[$objPackage->ID] = new stdClass();
             $_ARCHON->Packages[$objPackage->ID]->APRCode = $objPackage->APRCode;
             $_ARCHON->Packages[$objPackage->ID]->Version = $Version;
             $_ARCHON->Packages[$objPackage->ID]->DBVersion = $objPackage->DBVersion;

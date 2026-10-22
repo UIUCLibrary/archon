@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="University of Illinois Archives Holdings Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Records Relating to Alumni | University of Illinois Archives</title>
+      <link rel="stylesheet" type="text/css" href="themes/library_web/style.css?v=20260925" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/jgrowl/jquery.jgrowl.css" />
+      <link rel="icon" type="image/ico" href="themes/library_web/images/favicon.ico?v=20260925"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/library_web/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/library_web/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/library_web/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/library_web/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/library_web/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/library_web/images';   
+         jQuery(document).ready(function($) {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,             // make expandable if over this x chars
+               widow:            100,             // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',        // text to come before the expand link
+               expandText:       'more',     			//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,               // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+				$('.expandablesmall').expander({
+               slicePoint:       100,             // make expandable if over this x chars
+               widow:            10,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',       	// text to come before the expand link
+               expandText:       'more',  				//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,              	// milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+         $k("#ccardstaff .locationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $t = $(this).children().last();
+               $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      
+   </head>
+   <body>
+            <div id='top'>
+
+         <div id="logosearchwrapper">
+
+		 <div id="sitetitleblock"><a href="https://archives.library.illinois.edu">University of Illinois Archives</a> &ndash;> <a href="index.php">Holdings Database</a></div>
+			<div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <input type="text" size="25" maxlength="150" name="q" id="q" title="input box for search field" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" /> <a class='bold pdfsearchlink' href='?p=core/index&amp;f=pdfsearch'>Search PDF lists</a>
+                                             <input type="hidden" name="content" value="0" />
+                                          </div></form></div>
+
+         </div>
+         
+			
+         <div id="browsebyblock">
+            <div id="browseblockcontent">
+            <span class="currentBrowseLink">
+               <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Campus Units/Record Groups</a>
+            </span>
+
+            <span class="browseLink">
+               <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Physical Collections: A-Z</a>
+            </span>
+			 <span class="browseLink">
+               <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Materials: A-Z</a>
+            </span>
+           
+            <span class="browseLink">
+               <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subject Headings</a>
+            </span>
+            <span class="browseLink">
+               <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Record Creators</a>
+            </span>
+           </div>
+         </div>
+      </div>
+
+      <div id="breadcrumbblock">
+         <a href='https://archives.library.illinois.edu'>University Archives</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Holdings</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications'>Browse by Campus Unit</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications&amp;id=27'>Alumni Association</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> Alumni      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>      <div id="main">
+<h1 id='titleheader'>Records Relating to Alumni | University of Illinois Archives</h1>
+<br/><div class='listitemhead bold'>Records filed under &quot;Alumni&quot;</div><br/><div id='recordsunderlist' class='bground'><div class='listitemcover'></div><div class='listitem'>26 20 1  <a href='?p=collections/controlcard&amp;id=4961'> Ernest C. Faust Papers, 1919-33, 1938-44, 1964</a></div>
+<div class='listitem'>26 20 2  <a href='?p=collections/controlcard&amp;id=4962'> William W. Cort Recollections, 1964</a></div>
+<div class='listitem'>26 20 3  <a href='?p=collections/controlcard&amp;id=4685'> Charles H. Shamel Papers, 1874-1949</a></div>
+<div class='listitem'>26 20 4  <a href='?p=collections/controlcard&amp;id=4686'> Samuel Abrams Scrapbook, 1902-06</a></div>
+<div class='listitem'>26 20 5  <a href='?p=collections/controlcard&amp;id=4687'> Hiram and Portia Gilkerson Papers, 1875-81, 1890-1910</a></div>
+<div class='listitem'>26 20 6  <a href='?p=collections/controlcard&amp;id=4688'> Cream of Tartar Report, May 1886</a></div>
+<div class='listitem'>26 20 7  <a href='?p=collections/controlcard&amp;id=4689'> Dan G. Swannell Letter, 1938</a></div>
+<div class='listitem'>26 20 8  <a href='?p=collections/controlcard&amp;id=4690'> Pearman Family Papers, 1877-90, 1911-51</a></div>
+<div class='listitem'>26 20 9  <a href='?p=collections/controlcard&amp;id=4691'> Arthur C. Braucher Papers, 1915</a></div>
+<div class='listitem'>26 20 10  <a href='?p=collections/controlcard&amp;id=4692'> Charles W. Bailey Papers, ca. 1940</a></div>
+<div class='listitem'>26 20 11  <a href='?p=collections/controlcard&amp;id=4693'> Herman G. James Papers, 1904-10</a></div>
+<div class='listitem'>26 20 12  <a href='?p=collections/controlcard&amp;id=4694'> Rolfe Family Papers, 1885, 1892-95, 1907-72</a></div>
+<div class='listitem'>26 20 13  <a href='?p=collections/controlcard&amp;id=4695'> Henry M. Dunlap Papers, 1874, 1877-81, 1886-95, 1900-31</a></div>
+<div class='listitem'>26 20 14  <a href='?p=collections/controlcard&amp;id=4696'> Charles A. Kiler Papers, 1868-1945</a></div>
+<div class='listitem'>26 20 15  <a href='?p=collections/controlcard&amp;id=4697'> Everett R. Peters Papers, 1968, 1972</a></div>
+<div class='listitem'>26 20 16  <a href='?p=collections/controlcard&amp;id=4698'> Lorado Taft Papers, 1857-1953</a></div>
+<div class='listitem'>26 20 17  <a href='?p=collections/controlcard&amp;id=4699'> Cary C. Burford Papers, 1930-60</a></div>
+<div class='listitem'>26 20 18  <a href='?p=collections/controlcard&amp;id=4700'> Frances Myers Bauer Papers, 1923-64</a></div>
+<div class='listitem'>26 20 19  <a href='?p=collections/controlcard&amp;id=4701'> Charles H. Spaulding Papers, 1908-19, 1923, 1926-68</a></div>
+<div class='listitem'>26 20 20  <a href='?p=collections/controlcard&amp;id=4702'> Ernest Ingold Papers, 1922-24, 1927, 1930-31, 1937, 1943-45, 1948-60, 1968, 1971</a></div>
+<div class='listitem'>26 20 21  <a href='?p=collections/controlcard&amp;id=4703'> William M. Edens Papers, 1950-51</a></div>
+<div class='listitem'>26 20 22  <a href='?p=collections/controlcard&amp;id=4704'> Burdette A. Johnson Papers, 1970-72</a></div>
+<div class='listitem'>26 20 23  <a href='?p=collections/controlcard&amp;id=4705'> Kessler Family Collection, 1806-10, 1832, 1838-55, 1864-65, 1881, 1902-09</a></div>
+<div class='listitem'>26 20 24  <a href='?p=collections/controlcard&amp;id=4706'> William J. Wardall Papers, 1931-43</a></div>
+<div class='listitem'>26 20 25  <a href='?p=collections/controlcard&amp;id=4707'> George A. Zeller Papers, ca. 1927</a></div>
+<div class='listitem'>26 20 26  <a href='?p=collections/controlcard&amp;id=4708'> Harris Family Papers, 1853-66, 1870-75, 1890-1920</a></div>
+<div class='listitem'>26 20 27  <a href='?p=collections/controlcard&amp;id=4709'> Lloyd S. Burdick Papers, 1911-49</a></div>
+<div class='listitem'>26 20 28  <a href='?p=collections/controlcard&amp;id=4710'> Justus F. Mueller Papers, 1972-73</a></div>
+<div class='listitem'>26 20 29  <a href='?p=collections/controlcard&amp;id=4711'> Byron R. Lewis Papers, 1905-14</a></div>
+<div class='listitem'>26 20 31  <a href='?p=collections/controlcard&amp;id=4713'> Charles B. Shuman Papers, 1953, 1955, 1959, 1965, 1974, 1998</a></div>
+<div class='listitem'>26 20 32  <a href='?p=collections/controlcard&amp;id=4714'> J. Thomas Rickman Papers, 1966-73</a></div>
+<div class='listitem'>26 20 33  <a href='?p=collections/controlcard&amp;id=4715'> Oliver M. Dickerson Papers, ca. 1923-1951</a></div>
+<div class='listitem'>26 20 34  <a href='?p=collections/controlcard&amp;id=4716'> Frederick W. Panhorst Papers, 1914-23, 1930-36, 1946, 1953, 1960-70</a></div>
+<div class='listitem'>26 20 35  <a href='?p=collections/controlcard&amp;id=4717'> Stanley L. Kaufman Papers, 1932-50</a></div>
+<div class='listitem'>26 20 36  <a href='?p=collections/controlcard&amp;id=4718'> Andrew G. Leary Papers, 1936-43</a></div>
+<div class='listitem'>26 20 37  <a href='?p=collections/controlcard&amp;id=4719'> Avery Brundage Collection, 1908-82</a></div>
+<div class='listitem'>26 20 38  <a href='?p=collections/controlcard&amp;id=4723'> Samson Raphaelson Papers, 1921-1976</a></div>
+<div class='listitem'>26 20 39  <a href='?p=collections/controlcard&amp;id=4720'> James V. and Wilbert N. Stevenson Farm Records, 1924, 1926-71</a></div>
+<div class='listitem'>26 20 40  <a href='?p=collections/controlcard&amp;id=4721'> Robert J. C. Dell Papers, 1932-72</a></div>
+<div class='listitem'>26 20 41  <a href='?p=collections/controlcard&amp;id=4722'> Ralph O. Wertz Papers, 1925</a></div>
+<div class='listitem'>26 20 42  <a href='?p=collections/controlcard&amp;id=4724'> George P. Stauduhar Papers, 1886-1928</a></div>
+<div class='listitem'>26 20 43  <a href='?p=collections/controlcard&amp;id=4725'> William A. Bledsoe Papers, 1933-36, 1939-40, 1978</a></div>
+<div class='listitem'>26 20 44  <a href='?p=collections/controlcard&amp;id=4726'> David S. Malcolmson Papers, 1933-70</a></div>
+<div class='listitem'>26 20 45  <a href='?p=collections/controlcard&amp;id=4727'> Charles W. Clabaugh Papers, 1979</a></div>
+<div class='listitem'>26 20 46  <a href='?p=collections/controlcard&amp;id=4728'> Maria Leach Papers, 1928-75</a></div>
+<div class='listitem'>26 20 47  <a href='?p=collections/controlcard&amp;id=4729'> Dale S. Sutton Papers, 1926, 1941-53, 1958-73, 1975</a></div>
+<div class='listitem'>26 20 48  <a href='?p=collections/controlcard&amp;id=4730'> Forrest I. Peters Papers, 1922-60</a></div>
+<div class='listitem'>26 20 49  <a href='?p=collections/controlcard&amp;id=4731'> Ruth M. Van Deventer Papers, 1939-58</a></div>
+<div class='listitem'>26 20 50  <a href='?p=collections/controlcard&amp;id=4732'> William S. Weston Papers, 1891-1935</a></div>
+<div class='listitem'>26 20 51  <a href='?p=collections/controlcard&amp;id=4733'> Naffziger Farm Records, 1918-67</a></div>
+<div class='listitem'>26 20 52  <a href='?p=collections/controlcard&amp;id=4734'> Richard E. Fisher Papers, ca. 1951</a></div>
+<div class='listitem'>26 20 53  <a href='?p=collections/controlcard&amp;id=4735'> Robert A. David Papers, 1982</a></div>
+<div class='listitem'>26 20 54  <a href='?p=collections/controlcard&amp;id=4736'> Max Abramovitz Papers, 1957-69, 1978-82</a></div>
+<div class='listitem'>26 20 55  <a href='?p=collections/controlcard&amp;id=4737'> Alyene Prehn Papers, 1980</a></div>
+<div class='listitem'>26 20 56  <a href='?p=collections/controlcard&amp;id=4378'> Oscar V. Seed Papers, 1910-13, ca. 1955</a></div>
+<div class='listitem'>26 20 57  <a href='?p=collections/controlcard&amp;id=4379'> Mary T. Howe Papers, 1938-89</a></div>
+<div class='listitem'>26 20 58  <a href='?p=collections/controlcard&amp;id=3314'> Andrew Barr, Jr. Papers, 1912-95</a></div>
+<div class='listitem'>26 20 59  <a href='?p=collections/controlcard&amp;id=4380'> Glenn L. and Mildred C. England Papers, 1925-90, 1992</a></div>
+<div class='listitem'>26 20 60  <a href='?p=collections/controlcard&amp;id=4871'> John V. Ross Papers, 1944, 1951-64</a></div>
+<div class='listitem'>26 20 61  <a href='?p=collections/controlcard&amp;id=4872'> Carl L. Colwell Papers, 1962-76</a></div>
+<div class='listitem'>26 20 62  <a href='?p=collections/controlcard&amp;id=4873'> Alda Rice Papers, 1904-86</a></div>
+<div class='listitem'>26 20 63  <a href='?p=collections/controlcard&amp;id=4874'> Allen Estrin Papers, 1986-87, 1989-91</a></div>
+<div class='listitem'>26 20 64  <a href='?p=collections/controlcard&amp;id=4875'> James T. Barrett Papers, 1908-10, 1914-15, 1949-62</a></div>
+<div class='listitem'>26 20 65  <a href='?p=collections/controlcard&amp;id=4381'> John R. Case Papers, 1889-1984</a></div>
+<div class='listitem'>26 20 66  <a href='?p=collections/controlcard&amp;id=4382'> Melissa G. Stidham Papers, 1930-36, 1939-43, 1946-60</a></div>
+<div class='listitem'>26 20 67  <a href='?p=collections/controlcard&amp;id=4383'> Wilbur W. Betts Papers, 1925-37</a></div>
+<div class='listitem'>26 20 68  <a href='?p=collections/controlcard&amp;id=4384'> Lewis Lehman Papers, 1937-79</a></div>
+<div class='listitem'>26 20 69  <a href='?p=collections/controlcard&amp;id=4385'> Roberta A. Wightman Papers, 1937-53, 1986-87</a></div>
+<div class='listitem'>26 20 70  <a href='?p=collections/controlcard&amp;id=4386'> Carl A. Menzel Papers, 1918-88</a></div>
+<div class='listitem'>26 20 71  <a href='?p=collections/controlcard&amp;id=4387'> Harry Darby Papers, 1916-87</a></div>
+<div class='listitem'>26 20 72  <a href='?p=collections/controlcard&amp;id=4388'> Charles B. Garrigus Journals, 1939-94</a></div>
+<div class='listitem'>26 20 73  <a href='?p=collections/controlcard&amp;id=4389'> Glen F. Stice Papers, 1937-77</a></div>
+<div class='listitem'>26 20 74  <a href='?p=collections/controlcard&amp;id=4390'> Howard E. Shuman Papers, 1936-90</a></div>
+<div class='listitem'>26 20 75  <a href='?p=collections/controlcard&amp;id=4391'> John L. Strohm Papers, 1927-87</a></div>
+<div class='listitem'>26 20 76  <a href='?p=collections/controlcard&amp;id=4392'> Third Armored Division Association Records, 1941-</a></div>
+<div class='listitem'>26 20 77  <a href='?p=collections/controlcard&amp;id=4393'> Harold M. and Margaret Osborn Papers, 1917-2024</a></div>
+<div class='listitem'>26 20 78  <a href='?p=collections/controlcard&amp;id=4394'> Paul C. Beaver Papers, 1929-44, 1957-70</a></div>
+<div class='listitem'>26 20 79  <a href='?p=collections/controlcard&amp;id=4395'> C. F. Marley Photographs, 1956-1976</a></div>
+<div class='listitem'>26 20 80  <a href='?p=collections/controlcard&amp;id=4396'> Marion L. Stuart Papers, 1927-28, 1930-57, 1985-87</a></div>
+<div class='listitem'>26 20 81  <a href='?p=collections/controlcard&amp;id=4397'> John L. Lynch Papers, 1989-90</a></div>
+<div class='listitem'>26 20 82  <a href='?p=collections/controlcard&amp;id=4398'> Frank P. Rohrer Papers, 1910-20</a></div>
+<div class='listitem'>26 20 83  <a href='?p=collections/controlcard&amp;id=4399'> Scott Mutter Papers, 1977-94</a></div>
+<div class='listitem'>26 20 84  <a href='?p=collections/controlcard&amp;id=4400'> George and Edna Brown Titus Papers, 1910-83</a></div>
+<div class='listitem'>26 20 85  <a href='?p=collections/controlcard&amp;id=4401'> Lee A. Rodgers Papers, 1938-47</a></div>
+<div class='listitem'>26 20 86  <a href='?p=collections/controlcard&amp;id=4402'> Jessie Wright Richardson Papers, 1877-82, 1884, 1930-31</a></div>
+<div class='listitem'>26 20 87  <a href='?p=collections/controlcard&amp;id=4403'> J. Frank Felter Papers, 1925-52</a></div>
+<div class='listitem'>26 20 88  <a href='?p=collections/controlcard&amp;id=4404'> Larry Miller Sports Videotapes, 1933-91</a></div>
+<div class='listitem'>26 20 89  <a href='?p=collections/controlcard&amp;id=4405'> Arthur C. Hobble Papers, 1900-50, 1993</a></div>
+<div class='listitem'>26 20 90  <a href='?p=collections/controlcard&amp;id=4406'> Dillon S. Brown Recollection, 1927</a></div>
+<div class='listitem'>26 20 91  <a href='?p=collections/controlcard&amp;id=4407'> Donald S. Hoebel Interview, 1994</a></div>
+<div class='listitem'>26 20 92  <a href='?p=collections/controlcard&amp;id=4408'> Lynn Martin Papers, 1977-92</a></div>
+<div class='listitem'>26 20 93  <a href='?p=collections/controlcard&amp;id=4409'> George Bosworth Brown Reprint File, 1937-79</a></div>
+<div class='listitem'>26 20 94  <a href='?p=collections/controlcard&amp;id=4410'> Frederick W. Salogga Papers, 1940-52</a></div>
+<div class='listitem'>26 20 95  <a href='?p=collections/controlcard&amp;id=4411'> Roslyn Rensch Papers, 1900- 1993</a></div>
+<div class='listitem'>26 20 96  <a href='?p=collections/controlcard&amp;id=4412'> Wilson McNeil Lowry Papers, 1941-96</a></div>
+<div class='listitem'>26 20 97  <a href='?p=collections/controlcard&amp;id=4413'> Robert S. Murdock Papers, 1926-61</a></div>
+<div class='listitem'>26 20 98  <a href='?p=collections/controlcard&amp;id=4414'> Owen J. Reamer Papers, 1937, 1942-44</a></div>
+<div class='listitem'>26 20 99  <a href='?p=collections/controlcard&amp;id=4415'> John McCarty Papers, 1899-1904, 1926, 1928-30</a></div>
+<div class='listitem'>26 20 100  <a href='?p=collections/controlcard&amp;id=4416'> Louis F. and John A. Latzer Papers, ca. 1880-1924</a></div>
+<div class='listitem'>26 20 101  <a href='?p=collections/controlcard&amp;id=4417'> Hazel I. Horton Papers, 1934-88</a></div>
+<div class='listitem'>26 20 102  <a href='?p=collections/controlcard&amp;id=4418'> Richard Butkus Papers, 1997</a></div>
+<div class='listitem'>26 20 103  <a href='?p=collections/controlcard&amp;id=4419'> Herbert R. Hearsey Papers, 1910-2003</a></div>
+<div class='listitem'>26 20 104  <a href='?p=collections/controlcard&amp;id=4420'> Alice Lauretta Madden Harter Papers, 1920-1922, 1924</a></div>
+<div class='listitem'>26 20 105  <a href='?p=collections/controlcard&amp;id=4421'> Ruth M. Bailey Papers, ca. 1922</a></div>
+<div class='listitem'>26 20 106  <a href='?p=collections/controlcard&amp;id=4422'> Frances E. Wine Papers, 1919-1920</a></div>
+<div class='listitem'>26 20 107  <a href='?p=collections/controlcard&amp;id=4423'> Richard E Kent Music and Personal Papers, 1899-1996</a></div>
+<div class='listitem'>26 20 108  <a href='?p=collections/controlcard&amp;id=4424'> Richard N. Jones Papers, 1926-1995</a></div>
+<div class='listitem'>26 20 109  <a href='?p=collections/controlcard&amp;id=4425'> Lillian Skeele Papers, c. 1920s, 1931, 1964, 1991, 1996</a></div>
+<div class='listitem'>26 20 110  <a href='?p=collections/controlcard&amp;id=4426'> Beatrice Horneman Papers, 1938-40</a></div>
+<div class='listitem'>26 20 111  <a href='?p=collections/controlcard&amp;id=4427'> Wilber &quot;Bill&quot; H. Tammeus Oral History, ca. 1975-1992</a></div>
+<div class='listitem'>26 20 112  <a href='?p=collections/controlcard&amp;id=4428'> Maggie L. Stewart Papers, 1973, ca. 1920</a></div>
+<div class='listitem'>26 20 113  <a href='?p=collections/controlcard&amp;id=4429'> Jo Miller Means Papers, 1936-38</a></div>
+<div class='listitem'>26 20 114  <a href='?p=collections/controlcard&amp;id=4430'> William W. Kehoe Papers, 1964-</a></div>
+<div class='listitem'>26 20 115  <a href='?p=collections/controlcard&amp;id=5058'> Nellie Stuart Papers, 1913-1997</a></div>
+<div class='listitem'>26 20 116  <a href='?p=collections/controlcard&amp;id=5059'> Lawrence S. King Papers, 1946-96</a></div>
+<div class='listitem'>26 20 117  <a href='?p=collections/controlcard&amp;id=5431'> John C. Houbolt Papers, 1932-2000, 2003</a></div>
+<div class='listitem'>26 20 118  <a href='?p=collections/controlcard&amp;id=399'> Frank Hall Armstrong Papers, ca. 1877-1972</a></div>
+<div class='listitem'>26 20 119  <a href='?p=collections/controlcard&amp;id=3320'> Roger Ebert Papers, 1995-2001</a></div>
+<div class='listitem'>26 20 120  <a href='?p=collections/controlcard&amp;id=5060'> James B. Reston Papers, 1935-1999</a></div>
+<div class='listitem'>26 20 121  <a href='?p=collections/controlcard&amp;id=4626'> Sarah (Sally) Fulton Reston Papers, 1930-2001</a></div>
+<div class='listitem'>26 20 122  <a href='?p=collections/controlcard&amp;id=3122'> Iris Chang Papers, 1937-38, 1981-90, 1998, 2002</a></div>
+<div class='listitem'>26 20 123  <a href='?p=collections/controlcard&amp;id=3101'> Gordon W. Reed Papers, 1981-1989</a></div>
+<div class='listitem'>26 20 124  <a href='?p=collections/controlcard&amp;id=5441'> William DeFotis Papers, 1953-2004</a></div>
+<div class='listitem'>26 20 125  <a href='?p=collections/controlcard&amp;id=5392'> Jantzen Family Papers, 1943-1946, 1970</a></div>
+<div class='listitem'>26 20 126  <a href='?p=collections/controlcard&amp;id=5393'> Henry H. Francke Scrapbook, 1922-43, 1981</a></div>
+<div class='listitem'>26 20 127  <a href='?p=collections/controlcard&amp;id=3139'> Albert P. Marshall Papers, 1930-2006</a></div>
+<div class='listitem'>26 20 128  <a href='?p=collections/controlcard&amp;id=2514'> Robert P. Crawford Audio Archives, 1968-2004</a></div>
+<div class='listitem'>26 20 129  <a href='?p=collections/controlcard&amp;id=2516'> Robert T. Chapel Papers, 1947-2001</a></div>
+<div class='listitem'>26 20 130  <a href='?p=collections/controlcard&amp;id=3474'> Paul Grady Papers, 1902-1985</a></div>
+<div class='listitem'>26 20 131  <a href='?p=collections/controlcard&amp;id=2207'> Muriel Scheinman Papers, 1874-2002</a></div>
+<div class='listitem'>26 20 132  <a href='?p=collections/controlcard&amp;id=3512'> James Harvey Young Papers, 1940-2000</a></div>
+<div class='listitem'>26 20 133  <a href='?p=collections/controlcard&amp;id=3561'> Ruth Caroline Krueger Papers, 1926-1928, 1949-1967</a></div>
+<div class='listitem'>26 20 134  <a href='?p=collections/controlcard&amp;id=5586'> George Fell Papers, 1924-2005</a></div>
+<div class='listitem'>26 20 135  <a href='?p=collections/controlcard&amp;id=5602'> Samuel Houston Hill Papers, 1917-19, 2006</a></div>
+<div class='listitem'>26 20 136  <a href='?p=collections/controlcard&amp;id=5061'> Frederick J. Ruegsegger Papers, 1928-1978</a></div>
+<div class='listitem'>26 20 137  <a href='?p=collections/controlcard&amp;id=5062'> Olympic Collection, 1975-97</a></div>
+<div class='listitem'>26 20 138  <a href='?p=collections/controlcard&amp;id=5646'> Lucile Huntington Wilkinson Papers, 1935-2000</a></div>
+<div class='listitem'>26 20 139  <a href='?p=collections/controlcard&amp;id=5651'> Dennis Eberhard Music and Papers, 1967-2005</a></div>
+<div class='listitem'>26 20 140  <a href='?p=collections/controlcard&amp;id=5679'> Jean Cutler Theatrical Films, Audio Recordings and Papers, 1959-1995</a></div>
+<div class='listitem'>26 20 141  <a href='?p=collections/controlcard&amp;id=5684'> Richard K. Cook Papers, 1931-1982</a></div>
+<div class='listitem'>26 20 142  <a href='?p=collections/controlcard&amp;id=5708'> Virgil D. Winkler Papers, 2007</a></div>
+<div class='listitem'>26 20 143  <a href='?p=collections/controlcard&amp;id=5766'> William C. Prather Papers, 1944-1944</a></div>
+<div class='listitem'>26 20 144  <a href='?p=collections/controlcard&amp;id=5767'> Edwin D. Lawson Papers, 2002-2007</a></div>
+<div class='listitem'>26 20 145  <a href='?p=collections/controlcard&amp;id=5840'> Minott Silliman, Jr. Papers, 1946-1993</a></div>
+<div class='listitem'>26 20 146  <a href='?p=collections/controlcard&amp;id=9841'> Edward &quot;Dwight&quot; Brauns Correspondence, 1917-1919, 1970</a></div>
+<div class='listitem'>26 20 147  <a href='?p=collections/controlcard&amp;id=9857'> Jeffrey Sandborg Collection of Yrjo Kilpinen Music, 1918-2000</a></div>
+<div class='listitem'>26 20 148  <a href='?p=collections/controlcard&amp;id=10661'> Edwin M. Adams Papers, 1962-2002</a></div>
+<div class='listitem'>26 20 149  <a href='?p=collections/controlcard&amp;id=10716'> Hall Macklin Orchestra and Glenn Lee Orchestra Music and Records, 1930-1970</a></div>
+<div class='listitem'>26 20 150  <a href='?p=collections/controlcard&amp;id=10742'> Myron Fink Music, 1961-2008</a></div>
+<div class='listitem'>26 20 151  <a href='?p=collections/controlcard&amp;id=10856'> Arthur Endres Kraeckmann Correspondence, 1906-1925</a></div>
+<div class='listitem'>26 20 152  <a href='?p=collections/controlcard&amp;id=10928'> Vernon E. Lewis Papers, 1971-80, 1986, 1990, 1992, 1999, 2005</a></div>
+<div class='listitem'>26 20 153  <a href='?p=collections/controlcard&amp;id=10941'> W. Elmer Ekblaw Papers, 1914</a></div>
+<div class='listitem'>26 20 154  <a href='?p=collections/controlcard&amp;id=11001'> Marion Pedersen Teal Papers, 1947-1949</a></div>
+<div class='listitem'>26 20 155  <a href='?p=collections/controlcard&amp;id=11002'> John Jacob Mountz Personal Papers, 1898-1967</a></div>
+<div class='listitem'>26 20 156  <a href='?p=collections/controlcard&amp;id=11017'> Chapin Family Papers, 1883-1970</a></div>
+<div class='listitem'>26 20 157  <a href='?p=collections/controlcard&amp;id=11034'> John F. Stacks Papers, 1914-2003</a></div>
+<div class='listitem'>26 20 158  <a href='?p=collections/controlcard&amp;id=11041'> Maurice B. Cook Papers, 1927-2011</a></div>
+<div class='listitem'>26 20 159  <a href='?p=collections/controlcard&amp;id=11047'> Godfrey Sperling, Jr. Papers, 1931-2011</a></div>
+<div class='listitem'>26 20 160  <a href='?p=collections/controlcard&amp;id=11064'> Harold Bruno Jr. Papers, 1950-2011</a></div>
+<div class='listitem'>26 20 161  <a href='?p=collections/controlcard&amp;id=11069'> Clyde P. Davis Family History, 2011</a></div>
+<div class='listitem'>26 20 162  <a href='?p=collections/controlcard&amp;id=11124'> Joseph W. Royer Architectural Drawings, 1927-29</a></div>
+<div class='listitem'>26 20 163  <a href='?p=collections/controlcard&amp;id=11131'> John T. Holliday, Jr. Papers, 1987</a></div>
+<div class='listitem'>26 20 164  <a href='?p=collections/controlcard&amp;id=11195'> Marmion Walsh Papers, 1967, 1970-79, 1981, 1986-87, 1989, 1991-92</a></div>
+<div class='listitem'>26 20 165  <a href='?p=collections/controlcard&amp;id=11197'> Alden Gallup Roach Papers, 1943-1957</a></div>
+<div class='listitem'>26 20 166  <a href='?p=collections/controlcard&amp;id=13209'> Richard Victor Ganslen Papers, 1940, 1980, 1995, 2014</a></div>
+<div class='listitem'>26 20 176  <a href='?p=collections/controlcard&amp;id=5063'> Haynes W. Dugan Papers, 1982-</a></div>
+<div class='listitem'>26 20 177  <a href='?p=collections/controlcard&amp;id=5064'> Harold E. Grange Papers, 1923-91</a></div>
+<div class='listitem'>26 20 178  <a href='?p=collections/controlcard&amp;id=10728'> John &quot;Red&quot; Kerr Papers, 1949-1989</a></div>
+<div class='listitem'>26 20 179  <a href='?p=collections/controlcard&amp;id=10830'> Ellsworth Hazzard Papers, 1905, 1920-46, 1987, 2008</a></div>
+<div class='listitem'>26 20 180  <a href='?p=collections/controlcard&amp;id=10842'> Jean Burridge Papers, 2010</a></div>
+<div class='listitem'>26 20 181  <a href='?p=collections/controlcard&amp;id=10849'> Richard H. DeBaugh Papers, 1989-1995</a></div>
+<div class='listitem'>26 20 182  <a href='?p=collections/controlcard&amp;id=10853'> Donald F. Benson Papers, 1950, 1997</a></div>
+<div class='listitem'>26 20 183  <a href='?p=collections/controlcard&amp;id=10858'> Victor Krannert Papers, 1912, 1919, 1921-38</a></div>
+<div class='listitem'>26 20 184  <a href='?p=collections/controlcard&amp;id=10938'> John H. Litchfield Papers, 1955-2011</a></div>
+<div class='listitem'>26 20 185  <a href='?p=collections/controlcard&amp;id=10940'> Fidel V. Ramos Publications, 1993-2011</a></div>
+<div class='listitem'>26 20 186  <a href='?p=collections/controlcard&amp;id=11008'> Arnold Schenk Papers, 1986-87</a></div>
+<div class='listitem'>26 20 187  <a href='?p=collections/controlcard&amp;id=11071'> Robert Morgan Music and Audio Recordings, 1962-2020</a></div>
+<div class='listitem'>26 20 188  <a href='?p=collections/controlcard&amp;id=11091'> Michael Manion Music and Papers, 1965-2008</a></div>
+<div class='listitem'>26 20 189  <a href='?p=collections/controlcard&amp;id=11139'> Peter Michalove Music and Papers, 1772-1894 and 1924-2014</a></div>
+<div class='listitem'>26 20 190  <a href='?p=collections/controlcard&amp;id=11171'> LeRoy Henry Fischer Papers, 1935-1939</a></div>
+<div class='listitem'>26 20 191  <a href='?p=collections/controlcard&amp;id=11175'> Michael Stern Hart Papers, 1964-2010</a></div>
+<div class='listitem'>26 20 192  <a href='?p=collections/controlcard&amp;id=11187'> Richard P Arsenty Papers, 1888-2013</a></div>
+<div class='listitem'>26 20 193  <a href='?p=collections/controlcard&amp;id=11218'> Poster Children and Salaryman Bands Records, 1986-2009</a></div>
+<div class='listitem'>26 20 194  <a href='?p=collections/controlcard&amp;id=11225'> William Kenneth Peasley Papers, 1930-1941, 1962</a></div>
+<div class='listitem'>26 20 195  <a href='?p=collections/controlcard&amp;id=11226'> Jack Van Camp Photographs, 1994-2001</a></div>
+<div class='listitem'>26 20 196  <a href='?p=collections/controlcard&amp;id=11256'> Frank Appleby Papers, 1971-2013</a></div>
+<div class='listitem'>26 20 197  <a href='?p=collections/controlcard&amp;id=11263'> Jack W Davis Papers, 1918-1982, 2006</a></div>
+<div class='listitem'>26 20 198  <a href='?p=collections/controlcard&amp;id=11260'> James W. Snively Papers, 1916-1975</a></div>
+<div class='listitem'>26 20 199  <a href='?p=collections/controlcard&amp;id=11268'> Laura Ethel Smith Papers, 1893-1953</a></div>
+<div class='listitem'>26 20 200  <a href='?p=collections/controlcard&amp;id=11282'> James Russell Vaky Publications, 2001</a></div>
+<div class='listitem'>26 20 202  <a href='?p=collections/controlcard&amp;id=11356'> Audrey Kupferberg Collection of Samson Raphaelson Documents, 1972-1992</a></div>
+<div class='listitem'>26 20 203  <a href='?p=collections/controlcard&amp;id=11375'> John DeRoule Music and Personal Papers, 1930-2011</a></div>
+<div class='listitem'>26 20 204  <a href='?p=collections/controlcard&amp;id=11441'> Richard Brooks Papers and Chief Illiniwek Triptych Panel Mural, 1977-2007</a></div>
+<div class='listitem'>26 20 205  <a href='?p=collections/controlcard&amp;id=11461'> George A. McCammon Papers, 1944-66, ca. 1992</a></div>
+<div class='listitem'>26 20 206  <a href='?p=collections/controlcard&amp;id=11481'> Paul Karlstrom Papers, 1935-2014</a></div>
+<div class='listitem'>26 20 207  <a href='?p=collections/controlcard&amp;id=11499'> Paul C. Schroeder Papers, 1962-2023</a></div>
+<div class='listitem'>26 20 208  <a href='?p=collections/controlcard&amp;id=11518'> Toby Sonneman Papers, 1970-2012</a></div>
+<div class='listitem'>26 20 209  <a href='?p=collections/controlcard&amp;id=11599'> Robert Bass University of Illinois Bands and Orchestra Collection, 1910-1975</a></div>
+<div class='listitem'>26 20 210  <a href='?p=collections/controlcard&amp;id=11630'> David Cubberly Urbana-Champaign Local Music Photographs, 2010-2011</a></div>
+<div class='listitem'>26 20 211  <a href='?p=collections/controlcard&amp;id=11631'> Bill Entwistle Nature&#039;s Table Digital Photographs, ca. 1979-1991</a></div>
+<div class='listitem'>26 20 212  <a href='?p=collections/controlcard&amp;id=11676'> Glenna Spitze Papers, 1942-1978</a></div>
+<div class='listitem'>26 20 213  <a href='?p=collections/controlcard&amp;id=11701'> Ramona P. Borders Papers, 1970-2017</a></div>
+<div class='listitem'>26 20 214  <a href='?p=collections/controlcard&amp;id=11702'> Ralph C. Hahn Papers, 1971-2014</a></div>
+<div class='listitem'>26 20 215  <a href='?p=collections/controlcard&amp;id=11704'> Larry King Papers and Opera Collection, 1963-1993</a></div>
+<div class='listitem'>26 20 216  <a href='?p=collections/controlcard&amp;id=11761'> Norman Eisenstein Photographs and Papers, 1936-1985</a></div>
+<div class='listitem'>26 20 217  <a href='?p=collections/controlcard&amp;id=13065'> Laurie Solomon Photographs, 1974-2018</a></div>
+<div class='listitem'>26 20 218  <a href='?p=collections/controlcard&amp;id=11770'> Ivan Racheff Papers, 1915-1970</a></div>
+<div class='listitem'>26 20 219  <a href='?p=collections/controlcard&amp;id=11784'> Marvin H. Mischnick Papers UNPROCESSED</a></div>
+<div class='listitem'>26 20 220  <a href='?p=collections/controlcard&amp;id=11787'> Barbara Anderson Papers, 1867-2013</a></div>
+<div class='listitem'>26 20 221  <a href='?p=collections/controlcard&amp;id=11790'> Eugene Bertin Scrapbook, 1939-2002</a></div>
+<div class='listitem'>26 20 222  <a href='?p=collections/controlcard&amp;id=11805'> Craig R. Whitney Papers, 1965-66, 1969, 1986, 1993, 2016, 2019</a></div>
+<div class='listitem'>26 20 223  <a href='?p=collections/controlcard&amp;id=11816'> Cassie Helgesen McCabe Papers and Marching Illini Footnotes, 1918-2018</a></div>
+<div class='listitem'>26 20 224  <a href='?p=collections/controlcard&amp;id=11819'> Joseph Flummerfelt Music and Papers, 1963-2013</a></div>
+<div class='listitem'>26 20 225  <a href='?p=collections/controlcard&amp;id=11821'> Elmer Kostka Papers, 1936-1997</a></div>
+<div class='listitem'>26 20 226  <a href='?p=collections/controlcard&amp;id=11823'> Clinton F. Nieweg Harp Music and Papers, 1912-1985</a></div>
+<div class='listitem'>26 20 227  <a href='?p=collections/controlcard&amp;id=11832'> Doug Rokke Papers, 1979-2016</a></div>
+<div class='listitem'>26 20 228  <a href='?p=collections/controlcard&amp;id=11865'> Tim Barnes Doctoral Research Files on Eddie Alkire, 1925-2010</a></div>
+<div class='listitem'>26 20 229  <a href='?p=collections/controlcard&amp;id=11874'> Randall J. Biallas Papers, 1874-1956, 1960-2018</a></div>
+<div class='listitem'>26 20 230  <a href='?p=collections/controlcard&amp;id=11878'> Thomas Paynter Music and Papers, 1982-2019</a></div>
+<div class='listitem'>26 20 231  <a href='?p=collections/controlcard&amp;id=11926'> Jill Pitts Knappenberger Scrapbooks, 1943-2007</a></div>
+<div class='listitem'>26 20 232  <a href='?p=collections/controlcard&amp;id=12945'> Deborah Langerman Papers, 1964-2008</a></div>
+<div class='listitem'>26 20 233  <a href='?p=collections/controlcard&amp;id=12959'> H. Clayton Cash Scrapbook and Papers, 1930-1950</a></div>
+<div class='listitem'>26 20 234  <a href='?p=collections/controlcard&amp;id=12969'> Philip Coady 505th Air Force Band of the Midwest Music Arrangements, 1989-1991</a></div>
+<div class='listitem'>26 20 235  <a href='?p=collections/controlcard&amp;id=13012'> Patrick Grady Publications, 2020</a></div>
+<div class='listitem'>26 20 236  <a href='?p=collections/controlcard&amp;id=13023'> John Needels Chester Papers, ca. 1920, undated</a></div>
+<div class='listitem'>26 20 237  <a href='?p=collections/controlcard&amp;id=13026'> Kathleen Hermesdorf Papers, 1986-2020</a></div>
+<div class='listitem'>26 20 238  <a href='?p=collections/controlcard&amp;id=13071'> Charles Meyerson Papers, 1973-2006</a></div>
+<div class='listitem'>26 20 239  <a href='?p=collections/controlcard&amp;id=13077'> Russell A. Cone Papers, 1899-2020</a></div>
+<div class='listitem'>26 20 240  <a href='?p=collections/controlcard&amp;id=13079'> Harold Norton Hungerford Scrapbook, 1915-1919</a></div>
+<div class='listitem'>26 20 241  <a href='?p=collections/controlcard&amp;id=13082'> Phil Strang Publications, 2021</a></div>
+<div class='listitem'>26 20 242  <a href='?p=collections/controlcard&amp;id=13096'> Schulz Family Papers, 1900-1957</a></div>
+<div class='listitem'>26 20 243  <a href='?p=collections/controlcard&amp;id=13108'> Janice C. Impey Papers and Rock Island Instrument Company Melodeon, 1865-2000</a></div>
+<div class='listitem'>26 20 244  <a href='?p=collections/controlcard&amp;id=13116'> Jeff Glassman Papers, 1967-2006</a></div>
+<div class='listitem'>26 20 245  <a href='?p=collections/controlcard&amp;id=13121'> Jon A. English Papers, 1978-1996</a></div>
+<div class='listitem'>26 20 246  <a href='?p=collections/controlcard&amp;id=13141'> Michael R. Lehman Political Action Collection, 1980-2007</a></div>
+<div class='listitem'>26 20 247  <a href='?p=collections/controlcard&amp;id=13126'> Robert Klein Engler Publications, 1995-2012</a></div>
+<div class='listitem'>26 20 248  <a href='?p=collections/controlcard&amp;id=13143'> Janet Vandevender Papers, 1947-2020</a></div>
+<div class='listitem'>26 20 249  <a href='?p=collections/controlcard&amp;id=13169'> Matthew de Lacey Davidson Music and Papers, 1920-2024</a></div>
+<div class='listitem'>26 20 250  <a href='?p=collections/controlcard&amp;id=13175'> Richmond Family Papers, 1942-2015</a></div>
+<div class='listitem'>26 20 251  <a href='?p=collections/controlcard&amp;id=13176'> Arte Johnson Papers, 1953-2022</a></div>
+<div class='listitem'>26 20 252  <a href='?p=collections/controlcard&amp;id=13182'> Bruce Williams Papers and Hammer Dulcimer, 1981-1996</a></div>
+<div class='listitem'>26 20 253  <a href='?p=collections/controlcard&amp;id=13183'> Orville O. and Lorraine Mowery Papers, 1927-2000</a></div>
+<div class='listitem'>26 20 254  <a href='?p=collections/controlcard&amp;id=13205'> Paul and Edna Ruth Kliger and the Kliger Family Papers, 1880-2020</a></div>
+<div class='listitem'>26 20 255  <a href='?p=collections/controlcard&amp;id=13217'> David Rosenboom Music and Papers, 1967-2023</a></div>
+<div class='listitem'>26 20 256  <a href='?p=collections/controlcard&amp;id=13219'> Clarence E. Smalley Papers, c. 1918</a></div>
+<div class='listitem'>26 20 257  <a href='?p=collections/controlcard&amp;id=13238'> Coslough Johnson Papers, c. 1941, 1946-47, 1968-1993, 2001</a></div>
+<div class='listitem'>26 20 258  <a href='?p=collections/controlcard&amp;id=13237'> Robert and John Bitzer Chief Illiniwek Papers and Artifacts, 1938-2007</a></div>
+<div class='listitem'>26 20 259  <a href='?p=collections/controlcard&amp;id=13239'> J. David Moses University of Illinois Band Papers, 1930-2005</a></div>
+<div class='listitem'>26 20 260  <a href='?p=collections/controlcard&amp;id=13246'> Robert Wykes Music and Papers, 1944-2018</a></div>
+<div class='listitem'>26 20 261  <a href='?p=collections/controlcard&amp;id=13249'> William Skidmore University of Illinois Symphony Orchestra Latin America Tour Reunion Records and Personal Papers, 1930-2024</a></div>
+<div class='listitem'>26 20 262  <a href='?p=collections/controlcard&amp;id=13253'> Lester Leutwiler Chief Illiniwek Headdresses, Costume, and Accessories, ca. 1924-1928, and 1977</a></div>
+<div class='listitem'>26 20 263  <a href='?p=collections/controlcard&amp;id=13255'> H. Leon Harter Papers, 1950-2004</a></div>
+<div class='listitem'>26 20 264  <a href='?p=collections/controlcard&amp;id=13265'> Stephen P. Schlein Papers, 1956, 1961, 1968, 1972, 1997-2013</a></div>
+<div class='listitem'>26 20 267  <a href='?p=collections/controlcard&amp;id=13264'> FemTechNet Records, 2012-2025</a></div>
+<div class='listitem'>26 20 268  <a href='?p=collections/controlcard&amp;id=13267'> Thomas Tierney Music and Papers, 1954-2024</a></div>
+<div class='listitem'>26 20 269  <a href='?p=collections/controlcard&amp;id=13273'> Harold Dean West Papers, 1939-1961</a></div>
+<div class='listitem'>26 20 270  <a href='?p=collections/controlcard&amp;id=13305'> Laurel Grotzinger Papers, 1933, 1954, 1965-2017</a></div>
+<div class='listitem'>26 20 271  <a href='?p=collections/controlcard&amp;id=13306'> Nancy Stagg Papers and WILL Administrative Records, 1946-2003</a></div>
+<div class='listitem'>26 20 272  <a href='?p=collections/controlcard&amp;id=13324'> David H. Maxwell Music and Papers, 1904-2022</a></div>
+<div class='listitem'>26 20 273  <a href='?p=collections/controlcard&amp;id=13329'> Forest Linton Papers, 1968-2003</a></div>
+<div class='listitem'>26 20 274  <a href='?p=collections/controlcard&amp;id=13345'> Danita Brandt Papers, 1973-1978</a></div>
+<div class='listitem'>26 20 275  <a href='?p=collections/controlcard&amp;id=13346'> Charles H. Peet Papers, 1916-53, 2003</a></div>
+<div class='listitem'>26 20 277  <a href='?p=collections/controlcard&amp;id=13348'> Temple Grandin Papers, 1981-89, 1991</a></div>
+<div class='listitem'>26 20 278  <a href='?p=collections/controlcard&amp;id=13347'> Malcolm F. Pullen Papers, 1931, 1944-1946, 1950-1952, 1956, 2005</a></div>
+<div class='listitem'>26 20 279  <a href='?p=collections/controlcard&amp;id=13349'> Norma J. Linton Papers, ca. 1903-2022</a></div>
+<div class='listitem'>26 20 280  <a href='?p=collections/controlcard&amp;id=13350'> Muriel &quot;Miki&quot; Crespi Papers, 1929-2004</a></div>
+<div class='listitem'>26 20 281  <a href='?p=collections/controlcard&amp;id=13368'> Benjamin &quot;B.J.&quot; Bing Papers, 1867-1943</a></div>
+<div class='listitem'>26 20 282  <a href='?p=collections/controlcard&amp;id=13424'> Lester E. Barnes, Jr. Papers, 1957-1961</a></div>
+<div class='listitem'>26 20 283  <a href='?p=collections/controlcard&amp;id=13435'> Maryann D. Bitzer Papers, 1958-1994</a></div>
+<div class='listitem'>26 20 356  <a href='?p=collections/controlcard&amp;id=13221'> George W. Parshall Papers, 1947-2019</a></div>
+<div class='listitem'>26 20 357  <a href='?p=collections/controlcard&amp;id=13298'> Rosalyn Sussman Yalow Papers, 1964, 1972-2008, 2011, 2021-22</a></div>
+<div class='listitem'>26 20 358  <a href='?p=collections/controlcard&amp;id=13338'> Elizabeth &quot;Lisa&quot; Kliger Music and Personal Papers, 1926-2024</a></div>
+<div class='listitem'>26 20 359  <a href='?p=collections/controlcard&amp;id=13393'> Carlyle Johnson Sound Recording Collection, 1938-1947</a></div>
+<div class='listitem'>26 20 360  <a href='?p=collections/controlcard&amp;id=13401'> Philip H. Martin Papers, 1962-2020</a></div>
+<div class='listitem'>26 20 801  <a href='?p=collections/controlcard&amp;id=13019'> From Cornfield to Battlefield: A Young Farmer&#039;s Journey Through World War II, 2019</a></div>
+<div class='listitem'>26 20 837  <a href='?p=collections/controlcard&amp;id=4517'> Avery Brundage Collection Microfilm, 1908-75</a></div>
+</div>
+</div>
+<div id="bottom">
+   <br/>
+   <hr id="footerhr" />
+   <div id="userbox" class="smround">
+      
+      <div id="userlogincontrols">
+         <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+      </div>
+      <div id="userlogin" class="mdround" style="display:none">&nbsp;
+         <form action="/archives/index.php?p=collections/classifications&amp;id=334" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login/E-mail:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+            </div>
+            <div id='registerlink'>
+               <a href="?p=core/register" tabindex="800">Register an Account</a>
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div id='repositorylink'><a href='http://archives.library.illinois.edu'>University of Illinois Archives</a></div>
+<div id='emaillink'>Contact Us: <a href='http://www.library.uiuc.edu/archives/email-ahx.php?this_page=https://archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Fclassifications%26id%3D334'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 5.959 seconds (using 37 queries).<br/>
+
+         Using 9.58MB of memory. (Peak of 9.85MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

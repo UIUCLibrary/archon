@@ -1,0 +1,3054 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Emanuil Sheynkman Papers and Russian Music, 1914-1994 | The Sousa Archives and Center for American Music</title>
+      <link rel="stylesheet" type="text/css" href="themes/sousa2/style.css?v=20241220" />
+      <link rel="stylesheet" type="text/css" href="themes/sousa2/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/sousa2/js/jgrowl/jquery.jgrowl.css" />
+
+      <link rel="icon" type="image/ico" href="themes/sousa2/images/favicon.ico"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/sousa2/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/sousa2/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/sousa2/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/sousa2/js/cluetip/jquery.cluetip.js"></script>
+      <script type="text/javascript" src="themes/sousa2/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/sousa2/images';
+         $(document).ready(function() {
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandText:         '[read more]',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'      // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 300);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+         $k("#ccardstaff .locationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $t = $(this).children().last();
+               $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+         </head>
+   <body>
+            <div id="top">
+
+         <div id="logosearchwrapper">
+
+         
+            <div id="logo"><a href="http://archives.library.illinois.edu/sousa/" ><img src="themes/sousa2/images/logo.png" alt="logo" /></a> </div>
+
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <span id="searchWord">Search:&nbsp;</span>
+	                     <select id="searchtype" name="setrepositoryid" required="">
+	                     	<option value="2">Sousa Archives Only</option>
+	                     	<option value="0">All University Archives</option>
+                     	</input>
+                     </select>
+                     <input type="text" size="31" title="search" maxlength="150" name="q" id="qfa" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" />
+                                             <input type="hidden" name="content" value="1" />
+                                       </div>
+               </form>
+            </div>
+         </div>
+
+         <div id="researchblock">
+            <a href='#' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) $("#loginlink").html("Log In"); else $("#loginlink").html("Hide"); $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a> | <a href='mailto:sousa@illinois.edu?subject=archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D11439'>Contact Us</a><span id='viewcartlink' class='hidewhenempty' style='display:none'>| <a href='?p=collections/research&amp;f=cart&amp;referer=archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D11439'>View Cart (<span id='cartcount'>0</span>)</a></span>                  </div>
+
+
+                           <div id="browsebyblock">
+                     <span id="browsebyspan">
+                        Browse:
+                     </span>
+                     <span class="currentBrowseLink">
+                        <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collections</a>
+                     </span>
+                     <span class="browseLink">
+                        <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Content</a>
+                     </span>
+                     <span class="browseLink">
+                        <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                     </span>
+                     <span class="browseLink">
+                        <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Creators</a>
+                     </span>
+                     <span class="browseLink">
+                        <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Record Groups</a>
+                     </span>
+                  </div>
+
+
+                  </div>
+                  
+                    </div>
+            <div id="breadcrumbblock"><span class='bold'>Location: </span><a href='index.php'>Archon</a> <img src='themes/sousa2/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications&amp;id=13'>Fine Arts and Applied Arts</a> <img src='themes/sousa2/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications&amp;id=205'>School of Music</a> <img src='themes/sousa2/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/controlcard&amp;id=11439'>Emanuil Sheynkman Papers an...</a> <img src='themes/sousa2/images/arrowright.gif' alt='right-pointing arrow' /> Finding Aid</div>
+            <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){                                                              
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+                         
+               $(function(){
+                  $(".bground").corner("0px");
+                  $(".mdround").corner("0px");
+                  $(".smround").corner("0px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+            <div id="main">
+
+               <!-- Begin Navigation Bar for Finding Aid View -->
+
+               <div id='left'>
+                  <div id='fanavbox'>
+                     <p class='bold' style='text-align:center'>Emanuil Sheynkman Papers and Russian Music</p>
+                     <p><a href="#" tabindex="300">Overview</a></p>
+            <p><a href="#scopecontent" tabindex="400">Scope and Contents</a></p>            <p><a href="#bioghist" tabindex="500">Biographical Note                  </a></p>
+                                           <p><a href="#admininfo" tabindex="700">Administrative Information</a></p>                 <p><a href="#boxfolder" tabindex="800">Detailed Description</a></p><p class='faitemcontent'><a href='?p=collections/findingaid&amp;id=11439&amp;q=&amp;rootcontentid=188733#id188733'>Original Music Manuscripts</a></p>
+<p class='faitemcontent'><a href='?p=collections/findingaid&amp;id=11439&amp;q=&amp;rootcontentid=188925#id188925'>Published Music</a></p>
+<p class='faitemcontent'><a href='?p=collections/findingaid&amp;id=11439&amp;q=&amp;rootcontentid=189202#id189202'>Personal Papers and Recordings</a></p>
+                  <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                     <div id="fasearchblock">
+                        <input type="hidden" name="p" value="core/search" />
+                        <input type="hidden" name="flags" value="192" />
+                        <input type="hidden" name="collectionid" value="11439" />
+                        <input type="hidden" name="content" value="1" />
+                        <input type="text" size="20" title="search" maxlength="150" name="q" id="q2" value="" tabindex="100" /><br/>
+                        <input type="submit" value="Search Box List" tabindex="200" class='button' title="Search Box List" />
+                     </div>
+                  </form>
+<hr/><p class='center' style='font-weight:bold'><a href='mailto:sousa@illinois.edu?subject=Reference inquiry for Sousa Archives (RS 12/5/71)&body=%0D---Please type your message above this line---%0DThis email was sent from: https://archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D11439'>Email us about these papers</a></p>
+         </div>
+      </div>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+      <div id="famain">
+      <script type="text/javascript">
+         $(function(){
+            /* <![CDATA[ */
+            updateResearchCartLinks();
+            /* ]]> */
+         });
+      </script>
+      <h1 id='titleheader'>Finding Aid for Emanuil Sheynkman Papers and Russian Music, 1914-1994 | The Sousa Archives and Center for American Music</h1>
+
+<p style="font-weight:bold" class="center">By T. Hansen, K. Lucas, T. Miller, K. Nubel, A. Oates, K. Powers, G. Stuardi, L. Tokarewich</p> 
+<div id='ccardprintcontact' class='smround'>
+   
+   <span id='requestModalLink' tabindex='0' role='button'><img src='themes/library_web/images/box.png' alt='Request' style='padding-right:2px'/>Submit request (Aeon)</span> | 
+<!-- The Modal to show request locations -->
+<div id="requestModal" class="request-modal" style="display:none">
+
+  <!-- Modal content -->
+  <div class="request-modal-content" aria-label="Submit request options" role="dialog" aria-modal="true">
+    <span class="request-modal-close" aria-label="close" tabindex="0" role='button'>&times;</span>
+            <span class='ccardlabel' id='requestlocations'>Locations for this record series:</span><br/>
+
+         <ul class='locationsummary'><li>Archives Research Center, 1707 S. Orchard Street</li></ul><label for='locations'>Filter by location: </label><select name='locations' id='locations' aria-describedby='location-table-note'><option selected value>All locations</option><option value='ARC'>Archives Research Center, 1707 S. Orchard Street</option></select><br /><br />               <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text" aria-describedby="location-table-note">
+         <p id='location-table-note'><i>Rows will be filtered from the table below as selections are made</i></p>         <table id='locationtable' border='1' style='margin-left:0'>
+            <thread><tr>
+
+               <th style='width:400px'>Service Location</th>
+               <th style='width:100px'>Boxes</th>
+                           </tr></thread>
+
+
+                  <tbody class='locationTableBody'>
+                  <tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 01</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 01-14</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 02</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 03</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 04</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 05</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 06</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 07</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 08</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 09</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 10</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 11</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 12</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 13</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 14</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 15</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 15-21</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 16</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 17</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 18</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 19</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 20</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 21</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 22</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 22-26</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 23</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 24</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 25</td></tr><tr><td>Archives Research Center, 1707 S. Orchard Street</td><td>Box 26</td></tr></tbody></table>  </div>
+
+</div>
+
+<script>
+var modal = document.getElementById("requestModal");
+
+var btn = document.getElementById("requestModalLink");
+
+var span = document.getElementsByClassName("request-modal-close")[0];
+
+function openRequestModal() {
+	modal.style.display = "block";
+	span.focus();
+	document.addEventListener('keydown', addESC);
+}
+
+function closeRequestModal(){
+	modal.style.display = "none";
+	btn.focus();
+	document.removeEventListener('keydown', addESC);
+}
+
+var addESC = function(e) {
+  if (e.keyCode == 27) {
+    closeRequestModal();
+  } 
+};
+
+const  focusableElements =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+const focusableContent = modal.querySelectorAll(focusableElements);
+const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+
+
+document.addEventListener('keydown', function(e) {
+  let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+  if (!isTabPressed) {
+    return;
+  }
+
+  if (e.shiftKey) { // if shift key pressed for shift + tab combination
+    if (document.activeElement === firstFocusableElement) {
+      lastFocusableElement.focus(); // add focus for the last focusable element
+      e.preventDefault();
+    }
+  } else { // if tab key is pressed
+    if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+      firstFocusableElement.focus(); // add focus for the first focusable element
+      e.preventDefault();
+    }
+  }
+});
+
+btn.addEventListener('click', function() {
+  openRequestModal();
+});
+
+btn.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+	openRequestModal();
+  }
+});
+
+btn.addEventListener("keydown", function(event) {
+  if (event.keyCode == 32) {
+  event.preventDefault();
+	openRequestModal();
+  }
+});
+
+span.addEventListener('click', function() {
+  closeRequestModal();
+});
+
+span.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+	closeRequestModal();
+  }
+});
+
+span.addEventListener("keydown", function(event) {
+  if (event.keyCode == 32) {
+    event.preventDefault();
+    closeRequestModal();
+  }
+});
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    closeRequestModal();
+  }
+}
+
+
+
+const filterBox = document.querySelector('#requestModal .locationFilter');
+var $k =jQuery.noConflict();
+filterBox.addEventListener('input', filterBoxes);
+
+function filterBoxes(e) {
+	var filterValue = (e.target.value).toLowerCase();
+    $k("#requestModal .locationTableBody tr").filter(function() {
+        var $t = $k(this).children().last();
+		$k(this).toggle($k($t).text().toLowerCase().indexOf(filterValue) > -1)
+    });
+    }
+
+const filterSelect = document.querySelector('#requestModal #locations');
+if (filterSelect){
+	filterSelect.addEventListener('input',filterSelection);
+}
+
+function filterSelection(f) {
+	var selectValue = $k('#requestModal #locations option:selected').text().toLowerCase();
+  if(selectValue =="all locations"){
+    selectValue =" ";
+  }
+	$k("#requestModal .locationTableBody tr").filter(function() {
+		$k(this).toggle($k(this).text().toLowerCase().indexOf(selectValue) > -1)
+    });
+}
+
+</script>
+
+<a href='mailto:sousa@illinois.edu?subject=Reference inquiry for Sousa Archives (RS 12/5/71)&body=%0D---Please type your message above this line---%0DThis email was sent from: https://archon.library.illinois.edu%2Farchives%2Findex.php%3Fid%3D11439%26p%3Dcollections%252Ffindingaid%26q%3Dbrundage%252C1709378237'><img src='themes/library_web/images/email.png' alt='email' /> Email us about these papers</a> | <a href='?p=collections/findingaid&amp;id=11439&amp;templateset=print&amp;disabletheme=1'><img src='themes/library_web/images/printer.png' alt='printer' /> Print this information</a></div>
+<h2 style='text-align:left'><a name="overview"></a>Collection Overview</h2>
+<div class="indent-text">
+   <p><span class='bold'>Title:</span> Emanuil Sheynkman Papers and Russian Music, 1914-1994</p>
+
+   <p><span class='bold'>ID:</span> 12/5/71</p>   <p><span class='bold'>Primary Creator:</span> <a href='?p=creators/creator&amp;id=2981'>Sheynkman, Emanuil (1939-1995)</a></p><p><span class='bold'>Extent:</span> 10.75 cubic feet</p>
+
+
+    <p><span class='bold'>Arrangement:</span> <p>Organized in three series:</p><p>	<strong>Series 1) Original Music Manuscripts, 1933-1993</strong>, organized in two sub-series: sub-series 1) Cyrillic Script Titles and sub-series 2) Latin Script Titles. Both sub-series are arranged alphabetically according to the Cyrillic and the Latin alphabets. </p><p>	<strong>Series 2) Published Music, 1914-1993</strong>, organized in two sub-series: sub-series 1) Cyrillic Script Titles and sub-series 2) Latin Script Titles. Both sub-series are arranged alphabetically according to the Cyrillic and the Latin alphabets. </p><p>	and <strong>Series 3) Personal Papers and Recordings, 1976-1994</strong> is organized in three sub-series: sub-series 1) Cyrillic Script Titles, sub-series 2) Latin Script Titles, and sub-series 3) Recordings. Sub-series 1 and 2 are arranged alphabetically according to the Cyrillic and the Latin alphabets. Sub-series 3 is arranged chronologically.</p></p>    <p><span class='bold'>Date Acquired:</span> 07/08/2016. <a href='#accruals'>More info below under Accruals.</a></p>
+            <p><span class='bold'>Subjects:</span> <a href='?p=subjects/subjects&amp;id=5591'>Balalaika music</a>, <a href='?p=subjects/subjects&amp;id=5257'>Folk music</a>, <a href='?p=subjects/subjects&amp;id=5258'>Folk music - Instruction and study</a>, <a href='?p=subjects/subjects&amp;id=2877'>Manuscripts</a>, <a href='?p=subjects/subjects&amp;id=5592'>Russian Folk Orchestra</a>, <a href='?p=subjects/subjects&amp;id=5593'>Russian Folk Songs</a>, <a href='?p=subjects/subjects&amp;id=5806'>Stravinsky, Igor Fyodorovich (1882-1971)</a>, <a href='?p=subjects/subjects&amp;id=4637'>Ukraine</a></p>
+
+                  <p><span class='bold'>Formats/Genres:</span> <a href='?p=subjects/subjects&amp;id=5795'>Methods--Self Instruction</a>, <a href='?p=subjects/subjects&amp;id=4260'>Sound Recordings</a></p>
+
+            <p><span class='bold'>Languages:</span> <a href='?p=core/search&amp;languageid=2330&amp;q=brundage%2C1709378237'>Russian</a>, <a href='?p=core/search&amp;languageid=2081&amp;q=brundage%2C1709378237'>English</a>, <a href='?p=core/search&amp;languageid=2099&amp;q=brundage%2C1709378237'>French</a>, <a href='?p=core/search&amp;languageid=2114&amp;q=brundage%2C1709378237'>German</a>, <a href='?p=core/search&amp;languageid=2315&amp;q=brundage%2C1709378237'>Polish</a>, <a href='?p=core/search&amp;languageid=2142&amp;q=brundage%2C1709378237'>Hungarian</a>, <a href='?p=core/search&amp;languageid=2418&amp;q=brundage%2C1709378237'>Ukrainian</a>, <a href='?p=core/search&amp;languageid=2035&amp;q=brundage%2C1709378237'>Chinese</a>, <a href='?p=core/search&amp;languageid=2372&amp;q=brundage%2C1709378237'>Spanish;Castilian</a>, <a href='?p=core/search&amp;languageid=2166&amp;q=brundage%2C1709378237'>Italian</a>, <a href='?p=core/search&amp;languageid=2379&amp;q=brundage%2C1709378237'>Swedish</a></p> 
+</div>
+<h2 style='text-align:left'><a name="scopecontent"></a>Scope and Contents of the Materials</h2><div class="indent-text"><p>Consists of Emauil Sheynkman&#039;s finished and unfinished music arrangements for Russian folk instruments (i.e., balalaika, domra) and Russian folk orchestras residing in the United States (e.g., UIRFO and Odessa Balalaikas) as well as arrangements for solo and accompanied balalaika, document Sheynkman&#039;s work as a performer and arranger, and includes a contract, news articles, and correspondence as well as original and published music arrangements and method books for Russian folk instruments and guitar. The collection also includes published professional journals from both the Fretted Instrument Guild of America (FIGA) and the <em>Narodnik: Russian Folk Bulletin</em>. Most of the music and papers document Sheynkman&#039;s work as a Russian composer living in the United States between 1978 and 1995.</p></div><h2 style='text-align:left'><a name="bioghist"></a>Biographical Note   </h2><div class="indent-text"><p>
+         <p><strong>Emanuil &quot;Misha&quot; Sheynkman (1939-1995) </strong>was a Russophone Soviet balalaika and mandolin player recognized for his orchestra, ensemble, and solo performances, as well as his original music arrangements for Russian folk instruments. Sheynkman was born in 1939 in Leningrad, USSR (contemporary Saint Petersburg, Russia). He first began lessons on the domra, a 3-stringed Russian folk instrument, as a child after World War II because they were offered for free at his neighborhood music school. He later studied the balalaika and mandolin, and completed his education at the Rimsky-Korsakov Conservatory and the Mussorgsky Institute in Leningrad. By the late 1970s, Sheynkman had become a successful musician and instructor in the USSR where he served as a professor of music at the Mussorgsky Institute and soloist with the Leningrad Philharmonic.&nbsp; He was also the principal arranger for the Andreev Russian Folk Orchestra and became a popular national television star. Nonetheless, he emigrated from the USSR to the United States in 1978 because of perceived Soviet government restrictions on his artistic freedom.</p><p>	He and his family initially immigrated to New York City, but eventually settled in settled in San Pedro, CA where Sheynkman performed at numerous Los Angeles nightclubs and arranged music for and performed with the Odessa Balalaikas.&nbsp; In 1982, Sheynkman began a long professional relationship with the University of Illinois Russian Folk Orchestra (UIRFO), which was then under the direction of John Garvey. For 12 weeks in early 1982, Sheynkman was appointed as a George A. Miller Visiting Professor of Music for the University of Illinois, and provided music instruction to the UIRFO&#039;s student dorma and balalaika musicians.&nbsp; </p><p>	That same year he also served as a guest conductor and performer for UIRFO concerts, and began arranging full orchestral scores for University&#039;s Russian orchestra.&nbsp; He continued arranging music scores for the UIRFO even after the conclusion of his tenure as visiting professor, and he completed forty-four different music arrangements for the UIRFO, including Karl King&#039;s &quot;Pride of the Illini.&quot; Throughout the 1980s, Sheynkman returned frequently to Urbana-Champaign campus to perform with the UIRFO, including the Walter J. Kasura Memorial Concert that was held in May 1987. In addition to his work with the UIRFO Sheynkman arranged music for several film scores as well as an arrangement of Mussorgsky&#039;s<em> Pictures at an Exhibition</em> for the Canadian Brass.</p>      </p></div>
+   
+
+<h2 style='text-align:left'><a name="subjects"></a>Subject/Index Terms</h2><div class="indent-text"><p><a href='?p=subjects/subjects&amp;id=5591'>Balalaika music</a><br/><a href='?p=subjects/subjects&amp;id=5257'>Folk music</a><br/><a href='?p=subjects/subjects&amp;id=5258'>Folk music - Instruction and study</a><br/><a href='?p=subjects/subjects&amp;id=2877'>Manuscripts</a><br/><a href='?p=subjects/subjects&amp;id=5592'>Russian Folk Orchestra</a><br/><a href='?p=subjects/subjects&amp;id=5593'>Russian Folk Songs</a><br/><a href='?p=subjects/subjects&amp;id=5806'>Stravinsky, Igor Fyodorovich (1882-1971)</a><br/><a href='?p=subjects/subjects&amp;id=4637'>Ukraine</a></p></div>
+   <h2 style='text-align:left'><a name='admininfo'></a>Administrative Information</h2><div class="indent-text">
+               <p><span class='bold'><a name='repository'></a>Repository:</span>
+            The Sousa Archives and Center for American Music         </p>
+                  <p><span class='bold'><a name='accruals'></a>Accruals:</span>
+            Additional accrual came to Sousa Archive and Center for American Music on October 1, 2019.         </p>
+                  <p><span class='bold'>Acquisition Source: </span>
+            Bruce and Susanne Wood         </p>
+                  <p><span class='bold'>Acquisition Method: </span>
+            Gift         </p>
+            </div>
+
+   
+ <hr style="width: 70%" class='center' /> <h2 style='text-align:left'><a name="boxfolder"></a>Box and Folder Listing</h2> <br/><span class='bold'>Browse by Series:</span><br/><br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=188733#id188733'>Series 1: Original Music Manuscripts, 1933-1993</a>],<br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=188925#id188925'>Series 2: Published Music, 1914-1993</a>],<br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=189202#id189202'>Series 3: Personal Papers and Recordings, 1976-1994</a>],<br/>
+[All]<br/>
+<br/>
+<dl>
+<dt class='faitem'><a name="id188733"></a>Series 1: Original Music Manuscripts, 1933-1993</dt>
+
+   <dd class='faitemcontent'>Consists of original manuscripts and music sketches for original Sheynkman and non-Sheynkman arrangements and compositions created between 1933 and 1993.&nbsp; The music is organized is two subseries: subseries 1, Cyrillic Script Titles, 1933-1992, and subseries 2, Latin Script Titles, 1984-1993.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id188734"></a>Sub-Series 1: Cyrillic Script Titles, 1933-1992</dt>
+
+   <dd class='faitemcontent'>Consists of original Sheynkman and non-Sheynkman arrangements and compositions which include music sketches and parts.&nbsp; The music is arranged alphabetically by title.&nbsp; Unidentified titles have been placed at the end of this subseries.&nbsp; All materials are labeled with Russian titles.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id188737"></a>Box 1</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188745"></a>Folder 1: 2 p&#039;esy iz muzyki k kinofil&#039;mu &quot;zvuki muzyki,&quot; I. Val&#039;s, II. Do-re-mi, comp. R. Rodzhers, undated</dt>
+
+   
+<dt class='faitem'><a name="id188746"></a>Folder 2: Akh vy seni moi, seni, undated</dt>
+
+   
+<dt class='faitem'><a name="id188747"></a>Folder 3: Alenkiny igrushki, Siuita no. 2 dlia balalaika s fortep&#039;iano, comp. A. Shalov, ca. 1987</dt>
+
+   
+<dt class='faitem'><a name="id188751"></a>Folder 4: Andante i polonez, comp. Eriko Metstsakapo, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188750"></a>Folder 5: Arpedisno [sic], sketch fragment for baian; Unidentified sketches for mandolin, domra, bongoes, and strings; Romance; and bachianas brasilezras no. 5, undated</dt>
+
+   
+<dt class='faitem'><a name="id188752"></a>Folder 6: Babushkina prialka, comp. E. Zhille, undated</dt>
+
+   
+<dt class='faitem'><a name="id188753"></a>Folder 7: Biriuzovye zlaty kolechki [sic], undated</dt>
+
+   
+<dt class='faitem'><a name="id188754"></a>Folder 8: Biri, shureko, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188755"></a>Folder 9: Bagatel&#039;, comp. Richard Rodzhers, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188756"></a>Folder 10: V put&#039;, comp. V. Solov&#039;ev-Sedoi, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188757"></a>Folder 11: Valenki, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id188758"></a>Folder 12: Valenki, arr. A. Shalov and E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188759"></a>Folder 13: Valenki, comp. A. Shalov, fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id188760"></a>Folder 14: Val&#039;s, comp. Leo Delib, undated</dt>
+
+   
+<dt class='faitem'><a name="id188761"></a>Folder 15: Val&#039;s, comp. R. Drigo, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188762"></a>Folder 16: Val&#039;sy dlia balalaiki i fortep&#039;iano, comp. Vasilii Andreev, undated</dt>
+
+   <dd class='faitemcontent'>Includes: Orkhideia, arr. S. Tulikov; Listok iz al&#039;boma, arr. B. Troianovskii; Babochka, arr. A. Dobrokhotov; Iskorki; Val&#039;s-romans, arr. N. Ivanov; Meteor, arr. B. Troianovskii; Malen&#039;kii val&#039;s, arr. B. Troianovskii; Kapriz, arr. N. and D. Osipovyi; Ekspromt, arr. N. Budaskin; Balalaika, arr. S. Tulikov; Rucheek, arr. P. Kulikov; Garmonika, arr. P. Kulikov; and Grezy, arr. N. Ivanov</dd>
+
+<dt class='faitem'><a name="id188763"></a>Folder 17: Variatsii na temy dvukh russkikh narodnykh pesen, comp. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188764"></a>Folder 18: Venetsianskii karnaval, comp. N. Paganini, undated</dt>
+
+   
+<dt class='faitem'><a name="id188765"></a>Folder 19: Venetsianskaia noch&#039;, sketch of score and parts, undated</dt>
+
+   
+<dt class='faitem'><a name="id188766"></a>Folder 20: Vo lesochke, arr. A. Shalov and E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188767"></a>Folder 21: Vsaed za byinymi vetrami, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188768"></a>Folder 22: Vchera my vstretilis&#039;, 1933</dt>
+
+   
+<dt class='faitem'><a name="id188769"></a>Folder 23: Vyidu-l&#039; ia na rechen&#039;ku, sketch for piano and two violins, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188770"></a>Folder 24: Gaida troika, Paris troika, undated</dt>
+
+   
+<dt class='faitem'><a name="id188771"></a>Folder 25: Gondol&#039;era, comp. F. Ris, undated</dt>
+
+   
+<dt class='faitem'><a name="id188772"></a>Folder 26: Gori, gori moia zvezda, undated</dt>
+
+   
+<dt class='faitem'><a name="id188773"></a>Folder 27: Gori, gori moia zvezda, comp. A. Shalov, ca. 1991</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188738"></a>Box 2</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188774"></a>Folder 1: Gruppa strunnykh smychkovykh instrumentov, undated</dt>
+
+   
+<dt class='faitem'><a name="id188775"></a>Folder 2: Gusi-lebedi, comp. V. Gavrilin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188776"></a>Folder 3: Dve gitary, undated</dt>
+
+   
+<dt class='faitem'><a name="id188777"></a>Folder 4: Den&#039; i noch&#039;, undated</dt>
+
+   
+<dt class='faitem'><a name="id188778"></a>Folder 5: Dremliut plakuchie ivy, arr. A. Shalov, 1991</dt>
+
+   
+<dt class='faitem'><a name="id188779"></a>Folder 6: Dremliut plakuchie ivy and Uzh i ia li moloda, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id188780"></a>Folder 7: Evreiskaia rybatskaia, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188781"></a>Folder 8: Evreiskaia rybatskaia, comp. I. Dunaevskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id188782"></a>Folder 9: Ekhali tsygane, undated</dt>
+
+   
+<dt class='faitem'><a name="id188783"></a>Folder 10: Zima, op. 79, trans. B. Semenov, undated</dt>
+
+   
+<dt class='faitem'><a name="id188784"></a>Folder 11: Ispanskaia serenada, comp. Kh. Malats, undated</dt>
+
+   
+<dt class='faitem'><a name="id188785"></a>Folder 12: K Elize, comp. Betkhoven, undated</dt>
+
+   <dd class='faitemcontent'>Fur Elise by Ludwig von Beethoven</dd>
+
+<dt class='faitem'><a name="id188786"></a>Folder 13: K Elize, comp. Betkhoven, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Fur Elise by Ludwig von Beethoven</dd>
+
+<dt class='faitem'><a name="id188787"></a>Folder 14: Kak stranno, undated</dt>
+
+   
+<dt class='faitem'><a name="id188788"></a>Folder 15: Kalitka, undated</dt>
+
+   
+<dt class='faitem'><a name="id188789"></a>Folder 16: Kalinka, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188790"></a>Folder 17: Kantsonetta, comp. Erik Khel&#039;mund, undated</dt>
+
+   
+<dt class='faitem'><a name="id188791"></a>Folder 18: Kogda ia p&#039;ian, undated</dt>
+
+   
+<dt class='faitem'><a name="id188792"></a>Folder 19: Kogda ia p&#039;ian; Dve gitary; Nichego, nichego. Sketches, undated</dt>
+
+   
+<dt class='faitem'><a name="id188793"></a>Folder 20: Kolybel&#039;haia Akatuia, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188794"></a>Folder 21: Kolybel&#039;haia, comp. A. Iarnfel&#039;t, undated</dt>
+
+   
+<dt class='faitem'><a name="id188795"></a>Folder 22: Kolybel&#039;haia, op. 79, no. 3, trans. V. Zviagintsevaia, undated</dt>
+
+   
+<dt class='faitem'><a name="id188797"></a>Folder 23: Kontsertnye variatsii, arr. N. Bukatskin [sic], undated</dt>
+
+   
+<dt class='faitem'><a name="id188796"></a>Folder 24: Kontsertnaia marzurka &quot;Sirena&quot;; Val&#039;s &quot;Istorki&quot;, and Val&#039;s Romans, comp. V. Andrev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188798"></a>Folder 25: Kontsertnye obrabotki i perelozheniia dlia balalaiki i baiana, and selections from Muzykal&#039;naia zhizn&#039;, undated</dt>
+
+   
+<dt class='faitem'><a name="id188799"></a>Folder 26: Korabl&#039;, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188800"></a>Folder 27: Krasnyi sarafan, kontsertnye variatsii na temu romansa A. Varapamova, comp. A Shalov, ca. 1992</dt>
+
+   <dd class='faitemcontent'>Includes: Krasnyi sarafan, lyrics by N. Tsyganov; Krasnyi sarafan, comp. A. Varpamov, arr. A. Shalov; Ms. Letter from Shalov to the Ensemble &quot;Dvoika&quot;</dd>
+
+<dt class='faitem'><a name="id188801"></a>Folder 28: Len, comp. Kastalkkog [sic], arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188802"></a>Folder 29: Madrigal, comp. A. Simonetti, undated</dt>
+
+   
+<dt class='faitem'><a name="id188803"></a>Folder 30: Maritana, Iz muzyki k p&#039;ese F. Diumanua i A. Denneri &quot;Don Cezar de Bazan,&quot; comp. G. Sviridov, sketches, undated</dt>
+
+   <dd class='faitemcontent'>Includes: Staryi romans, comp. I. Egikov, lyrics B. Okudzhava; Pesnia diudiuki, Iz mul&#039;tfil&#039;ma &quot;Podarok dlia slona&quot;, comp I. Egikov, lyrics V. Antonov.</dd>
+
+<dt class='faitem'><a name="id188804"></a>Folder 31: Marsh igrushechnykh soldatikov, comp. Frits Kreisler, undated</dt>
+
+   
+<dt class='faitem'><a name="id188805"></a>Folder 32: Marsh iz baleta &quot;Shchelkunchik&quot;, comp. P. Chaikovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id188806"></a>Folder 33: Marsh mandolinistov, comp. Eduardo Metstsakapo, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188894"></a>Folder 34: Marsh &quot;Podmoskovnye vechera,&quot; Dedushkiny chasy, and Skoro osen&#039;, undated</dt>
+
+   
+<dt class='faitem'><a name="id188807"></a>Folder 35: Melodia, comp. K. Gliuk, undated</dt>
+
+   
+<dt class='faitem'><a name="id188808"></a>Folder 36: Metelitsa, sketch, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188739"></a>Box 3</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188811"></a>Folder 1: Na lodke, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188812"></a>Folder 2: Na temy pesen BoB, fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id188813"></a>Folder 3: Net, tol&#039;ko tot, kto znal, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188814"></a>Folder 4: Nichego svobodno, undated</dt>
+
+   
+<dt class='faitem'><a name="id188815"></a>Folder 5: Noktiurn, comp. R. Shchedrin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188816"></a>Folder 6: Pavana, comp. M. Ravel&#039;, arr. Rogapev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188817"></a>Folder 7: Pasp&#039;e, comp. Leo Delib, undated</dt>
+
+   
+<dt class='faitem'><a name="id188818"></a>Folder 8: Pesnia venetsianskogo gondol&#039;era, comp. F. Mendel&#039;son, undated</dt>
+
+   
+<dt class='faitem'><a name="id188819"></a>Folder 9: Podmoskovnye vechera, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188820"></a>Folder 10: Polnye akkordy [sic] gitary, sketch for balalaika, guitar, and orchestra, undated</dt>
+
+   
+<dt class='faitem'><a name="id188821"></a>Folder 11: Proizvedeniia zarubezhnykh kompozitorov and sketches, 1988</dt>
+
+   
+<dt class='faitem'><a name="id188822"></a>Folder 12: Prostory russkie, comp. V. Eremin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188823"></a>Folder 13: Rondo, comp. Frants Shubert, undated</dt>
+
+   
+<dt class='faitem'><a name="id188824"></a>Folder 14: Russkaia pesnia dlia domry s orkestrom, arr. E. Sheynkman, 1962</dt>
+
+   
+<dt class='faitem'><a name="id188825"></a>Folder 15: Russkii karnaval, comp. V. Gavrilin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188826"></a>Folder 16: Russkoe pole, undated</dt>
+
+   
+<dt class='faitem'><a name="id188827"></a>Folder 17: Svetit mesiats, undated</dt>
+
+   
+<dt class='faitem'><a name="id188828"></a>Folder 18: Serenada, comp. A. Ambrozio, undated</dt>
+
+   
+<dt class='faitem'><a name="id188829"></a>Folder 19: Serenada, comp. G. Braga, undated</dt>
+
+   
+<dt class='faitem'><a name="id188830"></a>Folder 20: Serenada, comp. I. Stravinskii, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188831"></a>Folder 21: Serenada i tanets, comp. A. Tunik, undated</dt>
+
+   
+<dt class='faitem'><a name="id188832"></a>Folder 22: Serenada iz baleta &quot;Arlekinada,&quot; comp. R. Drigo, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188833"></a>Folder 23: Serenada Polishinelia, comp. Frits Kreisler, undated</dt>
+
+   
+<dt class='faitem'><a name="id188834"></a>Folder 24: Sinkopy, comp. F. Kreisler, undated</dt>
+
+   
+<dt class='faitem'><a name="id188835"></a>Folder 25: Sitsiliana, comp. Mariia Tereza Paradiz, undated</dt>
+
+   
+<dt class='faitem'><a name="id188836"></a>Folder 26: Skertso a la russe, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188837"></a>Folder 27: Slav&#039;sia!, comp. M. Glinka, undated</dt>
+
+   
+<dt class='faitem'><a name="id188838"></a>Folder 28: Snilsia mne sad, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188839"></a>Folder 29: Staraia vena, comp. Godovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id188840"></a>Folder 30: Sudarynia, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188841"></a>Folder 31: Siuita iz muzyka kinofil&#039;ma &quot;Mesiats avgust,&quot; comp. V. Gavralin, arr. Sheynkman, 1971-1981</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188740"></a>Box 4</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188843"></a>Folder 1: Tango iz baleta &quot;Ballerina,&quot; comp. M. Kolen, undated</dt>
+
+   
+<dt class='faitem'><a name="id188844"></a>Folder 2: Tanets chason iz op. &quot;Dzhiokonda,&quot; comp. A. Ponkchelli, undated</dt>
+
+   
+<dt class='faitem'><a name="id188845"></a>Folder 3: Tarantella, comp. Anri V&#039;etan, undated</dt>
+
+   
+<dt class='faitem'><a name="id188846"></a>Folder 4: Tarantella, comp. Anri V&#039;etan, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188847"></a>Folder 5: Tarantella, comp. E. Metstsakapo, undated</dt>
+
+   
+<dt class='faitem'><a name="id188848"></a>Folder 6: Trekhstruchye, trekhstruchye, comp. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188849"></a>Folder 7: Tumbalalaika, undated</dt>
+
+   
+<dt class='faitem'><a name="id188850"></a>Folder 8: Uzh i ia li moloda, comp. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id188851"></a>Folder 9: Utrenniaia serenada, comp. P. Lakom, undated</dt>
+
+   
+<dt class='faitem'><a name="id188852"></a>Folder 10: Utro tumannde, comp. V. Abaz, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188853"></a>Folder 11: Ucheniku ot vchitelia professor Leningradskoi konelr [sic] Shalov, 1988</dt>
+
+   
+<dt class='faitem'><a name="id188854"></a>Folder 12: Fantaziia na temu narodnoi pesni &quot;U zori to, u zoren&#039;ki,&quot; comp. A. Shalaev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188855"></a>Folder 13: Fantaziia na temy pesen N. Bogoclouskii iz kinofil&#039;ma &quot;Dva Boitsa,&quot; comp. A. Shalov, ca. 1991</dt>
+
+   
+<dt class='faitem'><a name="id188856"></a>Folder 14: Tsardash (csardas), comp. V. Monti, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188857"></a>Folder 15: Tsyganskaia serenada, comp. Ts. Vol&#039;dets, undated</dt>
+
+   
+<dt class='faitem'><a name="id188858"></a>Folder 16: Tsyganskaia fantaziia, comp. A. Goncharov, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188859"></a>Folder 17: Chto mne gore, undated</dt>
+
+   
+<dt class='faitem'><a name="id188860"></a>Folder 18: Chtoi-to zvon, A. Shalov and E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188861"></a>Folder 19: Shemannitsa v stile L. Kyperena, comp. F. Kreisler, undated</dt>
+
+   
+<dt class='faitem'><a name="id188862"></a>Folder 20: Elegiia, undated</dt>
+
+   
+<dt class='faitem'><a name="id188863"></a>Folder 21: Ia vstretil vas, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189103"></a>Box 12</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189105"></a>Folder 1: Vecherniaia doroga k domu, p&#039;esa dlia R.N.O., comp. V. Eremin, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189353"></a>Box 21</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189355"></a>Folder 1: Vecherom u ozera, comp. A. Zverov [sic], 1984</dt>
+
+   
+<dt class='faitem'><a name="id189357"></a>Folder 2: Gori gori moia zvezda, comp. A. Shalov, 1990</dt>
+
+   
+<dt class='faitem'><a name="id189358"></a>Folder 3: Dremliut plakuchie ivy, kontsertnaia obrabotka starinnogo russkogo romansa dlia ansamblia &quot;Dvoika&quot;, 1991</dt>
+
+   
+<dt class='faitem'><a name="id189360"></a>Folder 4: Kadril&#039; stebovaia, comp. A. Andersen, 1990</dt>
+
+   
+<dt class='faitem'><a name="id189362"></a>Folder 5: &quot;Kolechko moe pozlachenoe,&quot; comp. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189364"></a>Folder 6: Kolybel&#039; naia i serenada, comp. B. Godar, undated</dt>
+
+   
+<dt class='faitem'><a name="id189368"></a>Folder 7: Liricheskii napev, comp. Samodurov, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id189371"></a>Folder 8: Na gore bylo gore, comp. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189375"></a>Folder 9: Negritenok s balalaikoi, comp. I. Drukh; and letter from Drukh to Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189377"></a>Folder 10: Paleskhskaia sheatulka, comp. Samodurov, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id189379"></a>Folder 11: Pri dolinushke, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189382"></a>Folder 12: Proshchanie... (osennyi romans), comp. B. Glybovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189385"></a>Folder 13: Russkaia-zadornaia, arr. Veieler, undated</dt>
+
+   
+<dt class='faitem'><a name="id189387"></a>Folder 14: Russkaia narodnaia pesnia: Viniat menia v narode, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189390"></a>Folder 15: Siuita dlia balalaiki, comp. S. Vasilenko, undated</dt>
+
+   
+<dt class='faitem'><a name="id189391"></a>Folder 16: Che-pu-kha, comp. I. Rogalev, undated</dt>
+
+   
+<dt class='faitem'><a name="id189396"></a>Folder 17: &quot;Shutochnaia:&quot; Kontsertnaia p&#039;esa na temu russkoi narodnoi pesni; &quot;Vo lesochke komarochkov mnogo urodilos&#039;,&quot; dlia 2-kh balalaek i fortepiano, comp. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189398"></a>Folder 18: Unidentified score, Medlenno, fragment, undated</dt>
+
+   </dl></dd></dl></dd>
+<dt class='faitem'><a name="id188735"></a>Sub-Series 2: Latin Script Titles, 1984-1993</dt>
+
+   <dd class='faitemcontent'>Consists of original Sheynkman and non-Sheynkman arrangements, compositions, and parts for music selections that utilized Latin-script titles.&nbsp; Unidentified titles have been placed a the end of this subseries followed by a small addition of music that was discovered after the collection was processed.&nbsp; All materials are labeled with Latin script titles.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id188748"></a>Box 5</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188865"></a>Folder 1: 6 Scott Joplin rags, arr. Perlman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188867"></a>Folder 2: Album leaf, comp. Petrov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188866"></a>Folder 3: Albumblatt, comp. Tor Aulin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188868"></a>Folder 4: America the beautiful, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188870"></a>Folder 5: Amore, parts, undated</dt>
+
+   
+<dt class='faitem'><a name="id188869"></a>Folder 6: Amore, sketch for two violins, accordion, cello, and guitar, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188871"></a>Folder 7: Ancient romance from the film &quot;The snowstorm,&quot; comp. Y. Sviridev, arr. E. Sheynkman, 1986</dt>
+
+   
+<dt class='faitem'><a name="id188893"></a>Folder 8: Andante affettuoso, barcarolle, and Menuet, instrumental part, undated</dt>
+
+   
+<dt class='faitem'><a name="id188872"></a>Folder 9: At a Russian inn, comp. Samuels, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188873"></a>Folder 10: At dawn&#039;s ring, undated</dt>
+
+   
+<dt class='faitem'><a name="id188874"></a>Folder 11: At the balalaika (music and lyrics), unidentified sketch, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188875"></a>Folder 12: Baracarola veneziana parts, undated</dt>
+
+   
+<dt class='faitem'><a name="id188877"></a>Folder 13: Barcarolle, comp. Ottenbach, undated</dt>
+
+   
+<dt class='faitem'><a name="id188876"></a>Folder 14: Barcarolle, comp. P. Tchaikovsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188878"></a>Folder 15: Barcarolle, score, comp. Tshaikovsky, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188879"></a>Folder 16: Barefoot in the dew, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188880"></a>Folder 17: Beautiful dreamer, comp. S.C. Foster, arr. S. Winner, revised E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188881"></a>Folder 18: Beautiful dreamer, sketch for flute, Romeo part and sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188882"></a>Folder 19: Become the person that I desire, comp. A. Flyazkovsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188883"></a>Folder 20: La bella brana polka, comp. M. Pellacani, revised Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188884"></a>Folder 21: Bonita, serenada-bolero, comp. E. Metstsakapo, undated</dt>
+
+   
+<dt class='faitem'><a name="id188885"></a>Folder 22: Caprice, sketch for harp, cello, and viola, comp. V. Gavrilin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188886"></a>Folder 23: Capriccio, comp. Gavrilin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188887"></a>Folder 24: Capriccioso, undated</dt>
+
+   
+<dt class='faitem'><a name="id188888"></a>Folder 25: Cavatina, comp. Myer, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188889"></a>Folder 26: Chanson russe, parts and score, comp. Stravinsky, arr. Sheynkman, 1984</dt>
+
+   
+<dt class='faitem'><a name="id188890"></a>Folder 27: Charming eyes; two Russian gypsy songs, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188891"></a>Folder 28: Christmas songs, undated</dt>
+
+   
+<dt class='faitem'><a name="id188892"></a>Folder 29: Circus polka, Composed for a young elephant, comp. Stravinsky, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188895"></a>Box 6</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188896"></a>Folder 1: Danse des mirlitons, comp. Tchaikovsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188897"></a>Folder 2: Danube waves, undated</dt>
+
+   
+<dt class='faitem'><a name="id188898"></a>Folder 3: Down the long road; Oi tsvetet kalina, iz kinofil&#039;ma kubanskie kazaki, undated</dt>
+
+   
+<dt class='faitem'><a name="id188899"></a>Folder 4: The easy winners, parts and score, comp. S. Joplin, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188900"></a>Folder 5: Elegy, comp. Rachmaninov, arr. Sheynkman</dt>
+
+   
+<dt class='faitem'><a name="id188901"></a>Folder 6: Esquisses hebraiques 2-me suite op. 13, comp. A. Krien, undated</dt>
+
+   
+<dt class='faitem'><a name="id188902"></a>Folder 7: Fantasy impromtu, comp. M. Michelet, undated</dt>
+
+   
+<dt class='faitem'><a name="id188903"></a>Folder 8: Fiddler on the roof, undated</dt>
+
+   
+<dt class='faitem'><a name="id188904"></a>Folder 9: Five pieces for the balalaika without accompaniment, trans. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188905"></a>Folder 10: Flight of the bumblebee, comp. N.A. Rimsky-Kozsakov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188906"></a>Folder 11: Four pieces from the ballet &quot;The hump-backed horse&quot;, undated</dt>
+
+   
+<dt class='faitem'><a name="id188907"></a>Folder 12: Frasquita-serenada, comp. F. Legar and F. Kreisler, undated</dt>
+
+   
+<dt class='faitem'><a name="id188908"></a>Folder 13: Fur elise, comp. Beethoven, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188909"></a>Folder 14: Gavotte, comp. F.T. Gossec, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188910"></a>Folder 15: Gavotte, comp. Gilbert and Sullivan, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188911"></a>Folder 16: The great gate of Kiev, part for string instrument, undated</dt>
+
+   
+<dt class='faitem'><a name="id188912"></a>Folder 17: Gypsy fantasia, comp. Gonzarov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188913"></a>Folder 18: Gypsy fantasy, sketch, comp. A Petrov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188914"></a>Folder 19: Hebrew melody, undated</dt>
+
+   
+<dt class='faitem'><a name="id188915"></a>Folder 20: Hot canary; polka, undated</dt>
+
+   
+<dt class='faitem'><a name="id188916"></a>Folder 21: Hungarian dance, comp. Brahms; Rondo alla turca, comp. Mozart; Whither I, comp. Schubert; Earl King, comp. Schubert; Rondo, comp. Beethoven, undated</dt>
+
+   
+<dt class='faitem'><a name="id188917"></a>Folder 22: I gaze into blue ponds, comp. Ifanasiev, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188918"></a>Folder 23: I met you, sketch for 7 instruments, undated</dt>
+
+   
+<dt class='faitem'><a name="id188919"></a>Folder 24: I met you, Ancient Russian romance, arr. Sheynkman; I met you, undated</dt>
+
+   
+<dt class='faitem'><a name="id188920"></a>Folder 25: Italian folk festival, comp. Shostakovitch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188921"></a>Folder 26: Lara&#039;s theme from &quot;Doctor Zhivago,&quot; score and parts, comp. M. Jarre, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188922"></a>Folder 27: Let us sit awhile and be still, parts and score, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188923"></a>Folder 28: Let us sit awhile and be still, parts and score, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188924"></a>Folder 29: Let us sit awhile and be still, parts and score, comp. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Includes: score and parts for piano, violin I, violin II, viola I, viola II, viola III, cello I, cello II, bass I, bass II</dd>
+
+<dt class='faitem'><a name="id188981"></a>Folder 30: Let us sit awhile and be still, comp. Sheynkman; Russian carnival, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188986"></a>Folder 31: Leyenda, comp. Albeniz, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188987"></a>Folder 32: Lezghinka, comp. Khathatuzyan, undated</dt>
+
+   
+<dt class='faitem'><a name="id188988"></a>Folder 33: Love and money, parts and score, attr. to S. Samuels, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188989"></a>Folder 34: Love and money, sketch of score and parts, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188990"></a>Folder 35: Love theme from &quot;Romeo and Juliet&quot;, comp. Nino Rota, arr. Sheynkman; Bettine, undated</dt>
+
+   
+<dt class='faitem'><a name="id188991"></a>Folder 36: Love theme, part for viola; Unidentified sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188992"></a>Folder 37: Lullaby and freilachs from the cycle &quot;From sewich folk poetry,&quot; comp. Shostakovich, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188993"></a>Folder 38: Lullaby, parts and score, comp. D. Shostakovitch, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188929"></a>Box 7</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188930"></a>Folder 1: Mandolin serenade, comp. C. Chapein, arr., E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188932"></a>Folder 2: Marble halls, parts for flute and violin, undated</dt>
+
+   
+<dt class='faitem'><a name="id188933"></a>Folder 3: Marble halls score, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188935"></a>Folder 4: Melody, comp. Pauls, undated</dt>
+
+   
+<dt class='faitem'><a name="id188936"></a>Folder 5: Memory, comp. Webber, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188937"></a>Folder 6: Memory, comp. Tarivergiev, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188939"></a>Folder 7: Mordent-exercise, undated</dt>
+
+   
+<dt class='faitem'><a name="id188940"></a>Folder 8: The morning serenade, sketch, comp. Prokofiev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188942"></a>Folder 9: Moscow nights march, comp. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188944"></a>Folder 10: Moscow nights, sketches and score, comp. E. Sheynkman; I met you, undated</dt>
+
+   
+<dt class='faitem'><a name="id188945"></a>Folder 11: Moto perpetuo, comp. E. Marncelli, undated</dt>
+
+   
+<dt class='faitem'><a name="id188947"></a>Folder 12: Moto perpetuo for balalaika and piano, comp. Paganini, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188948"></a>Folder 13: Mountain greenery, comp. R. Rodgers, undated</dt>
+
+   
+<dt class='faitem'><a name="id188949"></a>Folder 14: Mountain tops, comp. Varlamov, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188951"></a>Folder 15: My grandfather&#039;s clock, undated</dt>
+
+   
+<dt class='faitem'><a name="id188952"></a>Folder 16: Natalie, comp. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188953"></a>Folder 17: The night is light, undated</dt>
+
+   
+<dt class='faitem'><a name="id188954"></a>Folder 18: Oh, Danny boy, undated</dt>
+
+   
+<dt class='faitem'><a name="id188957"></a>Folder 19: Old Irish melody for flutes and harp; Kazapet part for balalaika, undated</dt>
+
+   
+<dt class='faitem'><a name="id188959"></a>Folder 20: The old merry-go round, sketch, comp. V. Dmitriev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188963"></a>Folder 21: Paraphrase on two Russian folk songs, comp. Keisler, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188966"></a>Folder 22: Pastorale, comp. I. Stravinsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188971"></a>Folder 23: Pictures at an exhibition, comp. Mussorgsky, arr. E. Sheynkman; Il veconio castello, Ballet of the chicks in their shells, undated</dt>
+
+   
+<dt class='faitem'><a name="id188972"></a>Folder 24: Pie jesu, comp. Webber, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188975"></a>Folder 25: Plaisir d&#039;amour, sketch, comp. G. Martini, undated</dt>
+
+   
+<dt class='faitem'><a name="id188977"></a>Folder 26: Polka badine, comp. Behr, undated</dt>
+
+   
+<dt class='faitem'><a name="id188979"></a>Folder 27: Prelude in C, score, comp. J.S. Bach, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188980"></a>Folder 28: Quadrille from the opera &quot;not love alone,&quot; parts and score, comp. R. Schedrin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188982"></a>Folder 29: El relicario, parts, score, and sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id188984"></a>Folder 30: Romance, comp. Basner, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188995"></a>Folder 31: Romance, comp. A. Petrov, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188997"></a>Folder 32: Romance, score, comp. Petrov, arr. E. Sheynkman; Album leaf, score, comp. Petrov, arr. E. Sheynkman, 1985</dt>
+
+   
+<dt class='faitem'><a name="id189000"></a>Folder 33: Romance, comp. Shostakovich, arr. Sheynkman, 1986</dt>
+
+   
+<dt class='faitem'><a name="id189002"></a>Folder 34: Romance from the opera &quot;la julie fille [de] perth,&quot; comp. Biset, undated</dt>
+
+   
+<dt class='faitem'><a name="id189004"></a>Folder 35: Romance from the suite for balalaika, comp. Vailenko, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189005"></a>Folder 36: The ruby cascade, undated</dt>
+
+   
+<dt class='faitem'><a name="id189007"></a>Folder 37: Russia, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189009"></a>Folder 38: Russia, sketch for solo and piano, comp. M. Moszkowski, undated</dt>
+
+   
+<dt class='faitem'><a name="id189011"></a>Folder 39: Russia field, comp. Frenkel, arr. Skeynkman, undated</dt>
+
+   <dd class='faitemcontent'>Also includes Pole iz kinofil&#039;ma &quot;Novye prikliucheniia neulovimykh,&quot; comp. Ia. Frenkel, lyrics by Inny Goff.</dd>
+
+<dt class='faitem'><a name="id189013"></a>Folder 40: Russian carnival, parts and score, comp. V. Gavrilin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189015"></a>Folder 41: Russian rag, comp. George L. Cobb; Unidentified sketches and score, allegro; Improvisations, sketch, comp. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189017"></a>Folder 42: Russian intermezzo, comp. Dmitriev, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189018"></a>Folder 43: Russian souvenir; Polka, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188956"></a>Box 8</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188958"></a>Folder 1: Scherzo on a theme of Prokofiev, comp. Goldstein, undated</dt>
+
+   
+<dt class='faitem'><a name="id188961"></a>Folder 2: The seasons, op. 37, score and parts, comp. P. Tshaikowsky (Tchaikovsky), undated</dt>
+
+   
+<dt class='faitem'><a name="id188962"></a>Folder 3: Serenade, undated</dt>
+
+   
+<dt class='faitem'><a name="id188965"></a>Folder 4: Serenade, comp. S. Prokofiev, undated</dt>
+
+   
+<dt class='faitem'><a name="id188968"></a>Folder 5: Serenade de l&#039;opera &quot;Don Juan&quot;, comp W. Mozart, undated</dt>
+
+   
+<dt class='faitem'><a name="id188969"></a>Folder 6: Serenata, comp. G. Silvestri</dt>
+
+   
+<dt class='faitem'><a name="id188973"></a>Folder 7: Serenata, comp. Stravinsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188976"></a>Folder 8: Sinfonia, comp. Stravinsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id188983"></a>Folder 9: Sleigh ride, comp V. Dmitriev, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id188994"></a>Folder 10: Slovac dance, sketches, undated</dt>
+
+   
+<dt class='faitem'><a name="id188998"></a>Folder 11: Sonata, comp. Michelet, undated</dt>
+
+   
+<dt class='faitem'><a name="id188999"></a>Folder 12: Souvenir, undated</dt>
+
+   
+<dt class='faitem'><a name="id189003"></a>Folder 13: Souvenir de Herkulespikdo [sic], arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189008"></a>Folder 14: Souvenir, score, comp. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189010"></a>Folder 15: Stars, comp. Shonberg, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189014"></a>Folder 16: Summer time in Venice, score, comp. Sigman, comp. Cigognini, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189021"></a>Folder 17: Summertime in Venice, sketch of score and parts, arr. E. Sheynkman; Newspaper clip &quot;Baroque encounters of the stylish kind&quot;, 1993</dt>
+
+   
+<dt class='faitem'><a name="id189038"></a>Folder 18: Sunset music, comp. Gauzilin, arr. E. Sheynkman; and Sketches, undated</dt>
+
+   
+<dt class='faitem'><a name="id189039"></a>Folder 19: Talks, sketch, comp. Khanock, undated</dt>
+
+   
+<dt class='faitem'><a name="id189040"></a>Folder 20: Tarantella parts, undated</dt>
+
+   
+<dt class='faitem'><a name="id189041"></a>Folder 21: Tarantella score, comp. Gavrilin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189042"></a>Folder 22: La tee du hallier, comp. Godard, undated</dt>
+
+   
+<dt class='faitem'><a name="id189043"></a>Folder 23: Third man theme, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189044"></a>Folder 24: Those were the days, undated</dt>
+
+   
+<dt class='faitem'><a name="id189045"></a>Folder 25: Train to Odessa, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189046"></a>Folder 26: Troika, comp. Shedrin, undated</dt>
+
+   
+<dt class='faitem'><a name="id189077"></a>Folder 27: Turkish rondo, score and parts, comp. Mozart; Music box, score, comp. Liadoff; Tambourin, score, comp. F.J. Gossec; Valse bluette, comp Drigo; Ancient romance, comp. Sviridov, undated</dt>
+
+   <dd class='faitemcontent'>Music in a folder titled: &quot;Familiar music for the mandolin, by Walter Kaye Bauer&quot;.</dd>
+
+<dt class='faitem'><a name="id189081"></a>Folder 28: Valse, parts and score, comp. A. Durand, arr. E. Sheynkman, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189022"></a>Box 9</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189023"></a>Folder 1: Valtzer fantastico, comp. E. Marncelli, undated</dt>
+
+   
+<dt class='faitem'><a name="id189024"></a>Folder 2: Variations on a theme, sketch and score, comp. Tartini and Kreislar, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189025"></a>Folder 3: Village quadrille, comp. Tikmonov-Shalov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189026"></a>Folder 4: Viva scarlatti, parts, comp. I. Rogolov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189027"></a>Folder 5: Viva scarlatti, parts, comp. I. Rogolov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189028"></a>Folder 6: Water [...], sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id189029"></a>Folder 7: We&#039;re called gondoliezi, comp. Gilbert and Sullivan, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189030"></a>Folder 8: White sail, comp. Dmitriev, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189031"></a>Folder 9: Wicket, comp. Bukhov, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189032"></a>Folder 10: Winter roads, arr. Sheynkman after Gorilev, undated</dt>
+
+   
+<dt class='faitem'><a name="id189033"></a>Folder 11: World war II, score, arr. Sheynkman after N. Shulman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189034"></a>Folder 12: &quot;Yablochko:&quot; Russian fantasy, comp. Sheynkman, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189048"></a>Box 10</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189049"></a>Folder 1: Unidentified lyrics or poem, &quot;It&#039;s just my luck!&quot;, undated</dt>
+
+   
+<dt class='faitem'><a name="id189073"></a>Folder 2: Unidentified instrumental part (1 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189074"></a>Folder 3: Unidentified instrumental part (2 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189075"></a>Folder 4: Unidentified part for balalaika, postepenno uskoriaia, bystro, undated</dt>
+
+   
+<dt class='faitem'><a name="id189076"></a>Folder 5: Unidentified part for guitar, comp. G. Frid, undated</dt>
+
+   
+<dt class='faitem'><a name="id189078"></a>Folder 6: Unidentified part for guitar, molto soseneto, comp. G. Frid, undated</dt>
+
+   
+<dt class='faitem'><a name="id189079"></a>Folder 7: Unidentified score, andante for mandolin and guitar, undated</dt>
+
+   
+<dt class='faitem'><a name="id189080"></a>Folder 8: Unidentified score, con moto for balalaika and piano, undated</dt>
+
+   
+<dt class='faitem'><a name="id189082"></a>Folder 9: Unidentified score for balalaika and guitar, undated</dt>
+
+   
+<dt class='faitem'><a name="id189083"></a>Folder 10: Unidentified score for instrumental ensemble, moderately with slight nostalgia, undated</dt>
+
+   
+<dt class='faitem'><a name="id189084"></a>Folder 11: Unidentified score for orchestra, andante cantabile, undated</dt>
+
+   
+<dt class='faitem'><a name="id189085"></a>Folder 12: Unidentified score for Russian folk orchestra, undated</dt>
+
+   
+<dt class='faitem'><a name="id189086"></a>Folder 13: Unidentified score for solo instrument and piano, andante, undated</dt>
+
+   
+<dt class='faitem'><a name="id189087"></a>Folder 14: Unidentified score fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id189088"></a>Folder 15: Unidentified score in 3 movements, undated</dt>
+
+   
+<dt class='faitem'><a name="id189089"></a>Folder 16: Unidentified sketch (1 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189090"></a>Folder 17: Unidentified sketch (2 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189092"></a>Folder 18: Unidentified sketch and commentary, undated</dt>
+
+   
+<dt class='faitem'><a name="id189093"></a>Folder 19: Unidentified sketch for balalaika and string quartet, undated</dt>
+
+   
+<dt class='faitem'><a name="id189095"></a>Folder 20: Unidentified sketch for cello, mandolin, and guitar, undated</dt>
+
+   
+<dt class='faitem'><a name="id189097"></a>Folder 21: Unidentified sketch for large ensemble, undated</dt>
+
+   <dd class='faitemcontent'>Includes: O rossii, comp. V. Solov&#039;ev-Sedyi, text by G. Gorbovskii; Shtochnaia, sketch, comp. A. Shalov; Zhivye kartiny, sketch</dd>
+
+<dt class='faitem'><a name="id189098"></a>Folder 22: Unidentified sketch for mandolin and guitar, andante, undated</dt>
+
+   
+<dt class='faitem'><a name="id189099"></a>Folder 23: Unidentified sketch for one part, undated</dt>
+
+   
+<dt class='faitem'><a name="id189102"></a>Folder 24: Unidentified sketch for orchestra (1 of 3), undated</dt>
+
+   
+<dt class='faitem'><a name="id189106"></a>Folder 25: Unidentified sketch for orchestra (2 of 3), undated</dt>
+
+   
+<dt class='faitem'><a name="id189107"></a>Folder 26: Unidentified sketch for orchestra (3 of 3), undated</dt>
+
+   
+<dt class='faitem'><a name="id189109"></a>Folder 27: Unidentified sketch for orchestra, andantino, undated</dt>
+
+   
+<dt class='faitem'><a name="id189111"></a>Folder 28: Unidentified sketch for orchestra, I. allegro, II. adagio, undated</dt>
+
+   
+<dt class='faitem'><a name="id189113"></a>Folder 29: Unidentified sketch for Russian folk orchestra, undated</dt>
+
+   
+<dt class='faitem'><a name="id189121"></a>Folder 30: Unidentified sketch for Russian folk orchestra; Andante and polonaise; Sympathie; and Bolero, undated</dt>
+
+   <dd class='faitemcontent'>Andante and polonaise, Sympathie, and Bolero were composed by E. Mezzakapo. Also includes catalog of Mezzacapo pieces for mandolin and guitar.</dd>
+</dl></dd>
+<dt class='faitem'><a name="id189050"></a>Box 11</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189051"></a>Folder 1: Unidentified sketch for solo balalaika and string orchestra, andantino, undated</dt>
+
+   
+<dt class='faitem'><a name="id189052"></a>Folder 2: Unidentified sketch for solo instruments (1 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189053"></a>Folder 3: Unidentified sketch for solo instruments (2 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189054"></a>Folder 4: Unidentified sketch for solo instruments (3 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189055"></a>Folder 5: Unidentified sketch for solo instruments (4 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189056"></a>Folder 6: Unidentified sketch for solo instrument and piano, undated</dt>
+
+   
+<dt class='faitem'><a name="id189057"></a>Folder 7: Unidentified sketch for solo instrument and piano, medlenno, undated</dt>
+
+   
+<dt class='faitem'><a name="id189058"></a>Folder 8: Unidentified sketch for solo instrument, andante sostenuto, undated</dt>
+
+   
+<dt class='faitem'><a name="id189059"></a>Folder 9: Unidentified sketch for string quartet, undated</dt>
+
+   
+<dt class='faitem'><a name="id189060"></a>Folder 10: Unidentified sketch fragment (1 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189061"></a>Folder 11: Unidentified sketch fragment (2 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189062"></a>Folder 12: Unidentified sketchbook, undated</dt>
+
+   
+<dt class='faitem'><a name="id189063"></a>Folder 13: Unidentified sketchbook, includes works of various composers (1 of 2), undated</dt>
+
+   <dd class='faitemcontent'>Includes:&nbsp; Prelude, comp. E. Sheynkman (after A. Varlamov); Improvisation, comp. E. Sheynkman (after Gurilev); Monologue, comp. E. Sheynkman (after A. Obukhov); Dve Gitary; Album leaf, comp. A. Petrov, arr. E. Sheynkman</dd>
+
+<dt class='faitem'><a name="id189064"></a>Folder 14: Unidentified sketchbook, includes works of various composers (2 of 2), undated</dt>
+
+   <dd class='faitemcontent'>Includes:&nbsp; Romans, comp. D. Shostakovich; Circus polka, comp. I. Stravinskii; Troika, comp. R. Shchedrin; Sentimental mazurka, Michel Michelet; Thumbelina, S. Slonimsky; The morning serenade, S. Prokofiev; Skomor osh&#039;e rondo, M. Gol&#039;dshtein; Capriccio, V. Gavrchain [sic]; Vokal&#039;z, S. Rakhmaninov; Starinnyi romans, G. Svirikov; Unidentified score, Sheynkman; Lezginka, A. Khachaturian; Narodhyi prazdhik, D. Shostakovich; Vengerskii tanets n.5, Brams; Tonkaia riabina, A. Shalov; Venskii val&#039;s, Andreev; Sviatki, P. Chaikovskii; Akh, vsiu noch&#039; ia proguliala, A. Shalov; Romance, A. Petrov</dd>
+
+<dt class='faitem'><a name="id189065"></a>Folder 15: Unidentified sketches (1 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189066"></a>Folder 16: Unidentified sketches (2 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189067"></a>Folder 17: Unidentified sketches (3 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189068"></a>Folder 18: Unidentified sketches (4 of 4), undated</dt>
+
+   
+<dt class='faitem'><a name="id189069"></a>Folder 19: Unidentified sketches for ensemble and for mandolin and guitar, undated</dt>
+
+   
+<dt class='faitem'><a name="id189070"></a>Folder 20: Unidentified sketches for flute, undated</dt>
+
+   
+<dt class='faitem'><a name="id189071"></a>Folder 21: Unidentified sketches for flute and trumpet, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189100"></a>Box 12</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189110"></a>Folder 2: Girl&#039;s roundelay, comp. R. Shchedrin, undated</dt>
+
+   
+<dt class='faitem'><a name="id189112"></a>Folder 3: Memory waltz, comp. Michel Michelet, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189115"></a>Folder 4: The minstrel&#039;s rondo, comp. M. Goldstein, undated</dt>
+
+   
+<dt class='faitem'><a name="id189250"></a>Folder 5: My grandfather&#039;s clock, arr. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id189117"></a>Folder 6: Sentimental mazurka, comp. Michel Michelet, undated</dt>
+
+   
+<dt class='faitem'><a name="id189119"></a>Folder 7: Thumbelina, comp. S. Slonimsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id189122"></a>Folder 8: Unidentified sketch for large ensemble, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189367"></a>Box 21</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189370"></a>Folder 19: Charme d&#039;Espange Haberna, comp. E. Mezzacapo, undated</dt>
+
+   
+<dt class='faitem'><a name="id189374"></a>Folder 20: Chijick, Russian song, undated</dt>
+
+   
+<dt class='faitem'><a name="id189378"></a>Folder 21: Fantasie-Impromptu for Balalaika and Piano (or harp), comp. Michel Michelet, 1980</dt>
+
+   
+<dt class='faitem'><a name="id189380"></a>Folder 22: Ice Castles (through the eyes of love), sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id189384"></a>Folder 23: &quot;The Journey Waltz&quot; from the MGM picture &quot;The Journey,&quot; comp. Michel Michelet, undated</dt>
+
+   <dd class='faitemcontent'>M.G.M. and Robbins Publishers</dd>
+
+<dt class='faitem'><a name="id189388"></a>Folder 24: Kazachya, comp. V.Kapustyak; and letter from Joanne to Sheynkman, 1988</dt>
+
+   
+<dt class='faitem'><a name="id189392"></a>Folder 25: Russian Lullaby, sketch, undated</dt>
+
+   
+<dt class='faitem'><a name="id189394"></a>Folder 26: Tristesse, Romance Sans Pazoles, comp. E. Mezzacapo, undated</dt>
+
+   
+<dt class='faitem'><a name="id189397"></a>Folder 27: Waltz No. 1 for Balalaika and Guitar, comp. Majorie B. Wheeler, 1993</dt>
+
+   
+<dt class='faitem'><a name="id189395"></a>Folder 28: Unidentified score, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id195765"></a>Box 24</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id195767"></a>Folder 1: Waltz from <em>Doctor Zhivago</em>, comp. Maurice Jarre, arr. E. Sheynkman, 1988</dt>
+
+   
+<dt class='faitem'><a name="id195766"></a>Folder 2: <em>Russian Rag</em>, comp. George L. Cobb, arr. E. Sheynkman, 1989</dt>
+
+   
+<dt class='faitem'><a name="id195768"></a>Folder 3: <em>Pictures at an Exhibition</em>, comp. Modest Mussorgsky, arr. E. Sheynkman, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id207073"></a>Box 25</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id207074"></a>Folder 1: After the Stormy Wind, arr. E Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Vsled za Buynymi Vetrami&quot;</dd>
+
+<dt class='faitem'><a name="id207075"></a>Folder 2: Akatui Lullaby, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Kolybel&#039;naya Akatuya&quot;</dd>
+
+<dt class='faitem'><a name="id207076"></a>Folder 3: Among the Stone Palaces, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Posredi Palat Kamennykh&quot;</dd>
+
+<dt class='faitem'><a name="id207077"></a>Folder 4: At a Russian Inn, attributed to Shura Samuels, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A waltz transcribed from an old 78-rpm shellac record</dd>
+
+<dt class='faitem'><a name="id207078"></a>Folder 5: Bandura Kozachok, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A lively Ukranian Dance</dd>
+
+<dt class='faitem'><a name="id207079"></a>Folder 6: Bethena, comp. Scott Joplin, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A concert waltz</dd>
+
+<dt class='faitem'><a name="id207080"></a>Folder 7: Beloved Place, The, comp. D. Tukhamanov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Nenaglyadnaya Storona&quot;</dd>
+
+<dt class='faitem'><a name="id207081"></a>Folder 8: Binks&#039; Waltz, comp. Scott Joplin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207082"></a>Folder 9: Charming Eyes, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A medley of two Russian gypsy songs, &quot;Charming Eyes&quot; and &quot;Hey, Troika&quot;</dd>
+
+<dt class='faitem'><a name="id207083"></a>Folder 10: Country Tune, comp. A. Melitanyan, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207084"></a>Folder 11: Dance of the Sugarplum Fairies, comp. Tchaikovsky, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>From the ballet, &quot;The Nutcracker&quot;</dd>
+
+<dt class='faitem'><a name="id207085"></a>Folder 12: Do Not Awaken Memories, comp. P. Bulakhov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Ne Probuzhday Vospominaniy&quot;</dd>
+
+<dt class='faitem'><a name="id207086"></a>Folder 13: Etude on Jewish Themes, comp. Alexsandr Spendiarov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Etyud na Evreyskiye Temi&quot;</dd>
+
+<dt class='faitem'><a name="id207087"></a>Folder 14: Ever Onward &quot;A Real Slow Drag&quot;, comp. Scott Joplin, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>From the opera &quot;Treemonisha&quot;</dd>
+
+<dt class='faitem'><a name="id207088"></a>Folder 15: Flax, comp. Traditional, arr. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Lenok&quot;</dd>
+
+<dt class='faitem'><a name="id207089"></a>Folder 16: Gypsy Airs, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A medley of gypsy songs</dd>
+
+<dt class='faitem'><a name="id207090"></a>Folder 17: Gypsy Fantasy, comp. A. Goncharov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cyrillic Title is &quot;Tsiganskaya Fantaziya&quot;</dd>
+
+<dt class='faitem'><a name="id207091"></a>Folder 18: Hussar Suite, comp. Andrei Petrov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Movement I - Waltz</dd>
+
+<dt class='faitem'><a name="id207092"></a>Folder 19: Hussar Suite, comp. Andrei Petrov, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Movement II - Polka</dd>
+
+<dt class='faitem'><a name="id207093"></a>Folder 20: I Met You, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>An old Russian romance; Arranged for the Houston Balalaika Orchestra. Cryillic Title is &quot;Ya Vstretil Vas&quot;</dd>
+
+<dt class='faitem'><a name="id207094"></a>Folder 21: I Played Fiddle for the Czar, comp. Harry Revel, lyrics by Mack Gordon, arr E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207095"></a>Folder 22: Kalitka (The Little Gate), comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>An ancient Russian romance</dd>
+
+<dt class='faitem'><a name="id207096"></a>Folder 23: Love and Money, attributed to Shura Samuels, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Transcribed from a Columbia green label 78-rpm shellac record</dd>
+
+<dt class='faitem'><a name="id207097"></a>Folder 24: Lyon (Flax), arr. A. Kastal&#039;skiy, scoring E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>For balalaika orchestra and SATB choir</dd>
+
+<dt class='faitem'><a name="id207098"></a>Folder 25: March Majestic, comp. Scott Joplin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207099"></a>Folder 26: Mazurka No. 4, comp. Vasily Andreyev, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207100"></a>Folder 27: Mazurka, op. 119, No. 4, comp. Sergei Belyaev, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207101"></a>Folder 28: Moscow Nights March, comp. Vasiliy Solov&#039;yov-Sedoy, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207102"></a>Folder 29: Night is Light, The, comp. N. Shishkin, undated</dt>
+
+   <dd class='faitemcontent'>Old gypsy waltz</dd>
+
+<dt class='faitem'><a name="id207103"></a>Folder 30: On the Seas, on the Waves, comp. I. Dunayevskiy, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Setting of 2 songs from the Soviet film &quot;Deti Kapitana Granta&quot; (&quot;The Children of Captain Grant&quot;)</dd>
+
+<dt class='faitem'><a name="id207104"></a>Folder 31: Orlovskaya, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>A concert arrangement of a couple dance from the Ural Mountain region</dd>
+
+<dt class='faitem'><a name="id207105"></a>Folder 32: Pride of the Illini, comp. Karl L. King, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207106"></a>Folder 33: Prince Igor&#039;s Aria, comp. Alexsandr Borodin, arr. E Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>From the opera &quot;Prince Igor&quot;</dd>
+
+<dt class='faitem'><a name="id207107"></a>Folder 34: Reindeer Runs over the Snow, The, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Prisoner&#039;s song from Akatui Prison, Buryat Mongolia. Cryillic Title is &quot;Po Snyegu Olen&#039; Bezhit&quot;</dd>
+
+<dt class='faitem'><a name="id207108"></a>Folder 35: Rodnyye Prostory, comp. Nikolai Budashkin, undated</dt>
+
+   
+<dt class='faitem'><a name="id207109"></a>Folder 36: Romance, comp. Dmitri Shostakovich, arr. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>From the movie &quot;Ovod&quot; (&quot;The Gadfly&quot;)</dd>
+
+<dt class='faitem'><a name="id207110"></a>Folder 37: Russian Carnival, comp. Valeri Gavrilin, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Arranged for the Houston Balalaika Orchestra</dd>
+
+<dt class='faitem'><a name="id207111"></a>Folder 38: Sunset Music, comp. Valeri Gavrilin, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207112"></a>Folder 39: The Turkish Patrol, comp. Thomas Michaels, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207113"></a>Folder 40: Train to Odessa, comp. Aleksandr Kirilloff, arr. E. Sheynkman, undated</dt>
+
+   
+<dt class='faitem'><a name="id207114"></a>Folder 42: Ukranian Dance for Men, comp. Traditional, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cryillic Title is &quot;Kolomyys&#039;kyy Arkan&quot;</dd>
+
+<dt class='faitem'><a name="id207115"></a>Folder 43: On the Way, comp. Vasiliy Solov&#039;yov-Sedoy, arr. E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Contemporary soldiers&#039; song. Cryillic Title is &quot;V Put&#039;&quot;</dd>
+
+<dt class='faitem'><a name="id207116"></a>Folder 44: Why is this Heart...?, arr. Ya Prigozhiy, scoring by E. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Cryillic Title is &quot;Chto Eto Serdtse...?&quot;</dd>
+</dl></dd>
+<dt class='faitem'><a name="id207119"></a>Box 26</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id207120"></a>Folder 1: Memories Waltz from MGM Movie &quot;The Journey,&quot; comp. Michelet, arr. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>Arranged for the University of Illinois Russian Folk Orchestra. Score and parts.</dd>
+
+<dt class='faitem'><a name="id207121"></a>Folder 2: Song of Baikal (Slavone Morve - Svyashchennyy Baykal), comp. Y. Chernov, transp. D. Cooper, undated</dt>
+
+   <dd class='faitemcontent'>Score and parts.</dd>
+
+<dt class='faitem'><a name="id207122"></a>Folder 3: Suites of Themes from Russian World War II Songs, arr. Sheynkman, undated</dt>
+
+   <dd class='faitemcontent'>ArrangedÂ  after Nathan Shulman for University of Illinois Russian Folk Orchestra. Based on &quot;Dorogi,&#039;&quot; Comp. A. Novikov. &quot;Tyomnaya noch,&quot; comp. N. Bogoslovskiy, from the film <em>Dva Boytsa.Â  &quot;</em>Nad solnechnoy polyanochkoy&quot; and &quot;Vecher na reyde, comp. V. Solov&#039;yov-Sedoy. &quot;V lesy prifrontovom,&quot; comp. M. Blanter. &quot;Yekhal ya iz Berlina,&quot; comp. I. Dunayevskiy. &quot;Smuglianka,&quot; comp. A. Novikov. Orig. score and sheet of corrections, corrected score copy, parts.</dd>
+</dl></dd></dl></dd></dl></dd>
+<dt class='faitem'><a name="id188925"></a>Series 2: Published Music, 1914-1993</dt>
+
+   <dd class='faitemcontent'>Consists of published music for full Russian orchestra, small ensembles, instrumental solos with and without accompaniment (prima balalaika, mandolin, guitar, etc.), and vocal accompaniments, music anthologies; and performance method books.&nbsp; The music is organized is two subseries: subseries 1, Cyrillic Script Titles, 1926-1991, and subseries 2, Latin Script Titles, 1914-1993.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id188926"></a>Sub-Series 1: Cyrillic Script Titles, 1926-1991</dt>
+
+   <dd class='faitemcontent'>Consists of published music with Cyrillic titles that are arranged alphabetically by their Russian titles. Date and place of publication and publisher are identified when this information was available. A small addition of music that was discovered after the collection was processed.&nbsp; All materials are labeled with Cryllic script titles.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id189129"></a>Box 13</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189146"></a>Folder 1: Repertuar solista, vybor p&#039;es dlia balalaiki, arr. A. Dobrokhotov&quot;, selections, 1926</dt>
+
+   
+<dt class='faitem'><a name="id189150"></a>Folder 2: Repetuar shkol&#039;nogo orkestra Russkikh narodnykh instrumentov, score, vol. 2, 1989</dt>
+
+   
+<dt class='faitem'><a name="id189156"></a>Folder 3: Russkii solist&quot;, comp. A.D. Dobrokhotov&quot;, selections, undated</dt>
+
+   
+<dt class='faitem'><a name="id189169"></a>Folder 4: Russkikh&quot; narodnykh&quot; pesen&quot;, comp. P. Vorotnikovyum&quot;, undated</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189164"></a>Folder 5: Iunyi balalaechnik: p&#039;esy dlia balalaiki i fortepiano, vol. 3, 1989</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id188927"></a>Box 15</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id188931"></a>Folder 1: Al&#039;bom dlia detei: proizvedeniia dlia balalaiki i fortepiano, vol. 1, compiled by V. Zazhigin, 1986</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id188934"></a>Folder 2: Al&#039;bom dlia detei, proizvedeniia dlia trekhstrunnoi domry, vol. 2, compiled by L. Demchenko, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id188938"></a>Folder 3: Al&#039;bom dlia iunoshestva: p&#039;esy dlia balalaiki, vol. 1, compiled by V. Zazhigin, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id188941"></a>Folder 4: Al&#039;bom nachinaiushchego balalaechnika, vols. 5-6, 8, 1976-1984</dt>
+
+   <dd class='faitemcontent'>Vol. 5 compiled by Viktor Viktorov, Vol. 6 compiled by Ivan Shelmakov. Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id188943"></a>Folder 5: Al&#039;bom nachinaiushchego balalaechnika, vols. 9-12, 1985-1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id188946"></a>Folder 6: Ansambli naronikh instrumentiv, score, compiled by I.A. Iashkevich, 1988</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id188950"></a>Folder 7: Aniuta: muzyka baleta dlia simfonicheskogo orkestra, comp. V. Gavrilin., 1988</dt>
+
+   <dd class='faitemcontent'>Po motivam rasskaza A. Chekhova &quot;Anna na shee.&quot; Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id188955"></a>Folder 8: Balalaika; vols. 2,3, and 5;&nbsp; comp. Navel Manich, 1981-1982, 1987</dt>
+
+   <dd class='faitemcontent'>Uchbovii repertuar ditiachikh muzichnik shkil. Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id188960"></a>Folder 9: Balalaechniku-liubiteliu, vols. 1-2, 8-12, 1976-1990</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id188964"></a>Folder 10: Biblioteka balalaechnika, vols. 12, 14, 19-22, 41, 46-47, 63, 1958-1964</dt>
+
+   <dd class='faitemcontent'>Includes: Pol&#039;ka &quot;Goluboi kolokol&#039;chik,&quot; comp. by F. Stenli and E. Avksent&#039;ev; V&#039;etnamskaia pesnia &quot;Liubov&#039; k rodnoi derevne,&quot; comp. by Chong Bang and E. Avksent&#039;ev; &quot;Vtoroi val&#039;s,&quot; comp. by B. Godar, arr. by A. Dobrokhotov; &quot;Tanets&quot; iz baleta &quot;Gaiane,&quot; comp. by A. Khachaturian, arr. V. Murzin; &quot;Vengerskii tanets no. 6,&quot; comp. I. Brams, arr. A. Dobrokhotov; &quot;Ispanskii tanets,&quot; comp. M. Moshkovskii, arr. A. Dobrokhotov; &quot;Ia racceiu svoe gore,&quot; arr. I. Balmashev; &quot;Kolybel&#039;naia,&quot; op. 201, no. 1, comp. I. Al&#039;benis, arr. D. Golubeva; &quot;Marsh dereviannykh soldatikov,&quot; comp. F. Keisler, arr. I. Balmashev; &quot;Vengerskii tanets no. 1,&quot; comp. I. Brams, trans. I. Ioakhim, arr. B. Feoktistov; &quot;Lebed&#039;,&quot; comp. K. Sen-Sans, arr. Iu. Blinov. Muzgiz</dd>
+
+<dt class='faitem'><a name="id188967"></a>Folder 11: Bukvar&#039; balalaechnika: dlia balalaiki i fortepiano I i II klassy DMSh, compiled by A. Zverev, 1989</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id188970"></a>Folder 12: Val&#039;s &quot;Iskorki&quot;; Russkii marsh dlia balalaiki i fortep&#039;iano, arr. V. Andreev, 1958</dt>
+
+   <dd class='faitemcontent'>Muzgiz</dd>
+
+<dt class='faitem'><a name="id189047"></a>Folder 13: Vokal&#039;no-pedagogicheskii repertuar dlia golosa s fortepiano, 1948</dt>
+
+   <dd class='faitemcontent'>Includes: &quot;Ariia Igoria&quot; iz op. &quot;Kniaz&#039; Igor&#039;,&quot; comp. A. Borodin; &quot;Ballada Tomskogo&quot; iz op. &quot;Pikovaia dama,&quot; comp. P. Chaikovskii; &quot;Pesnia Tomskogo&quot; iz op. &quot;Pikovaia dama,&quot; comp. P. Chaikovskii; &quot;Kavatina Aleko&quot; iz op. &quot;Aleko,&quot; comp. S. Rakhmaninov. Moscow and Leningrad: Muzgiz.</dd>
+
+<dt class='faitem'><a name="id188974"></a>Folder 14: Vokal&#039;nye sochineniia v soprovozhednii fortepiano, vols. 1-2, comp. N. Metner, 1977-1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id188978"></a>Folder 15: Vosem&#039; etiudov-p&#039;es dlia balalaiki s soprovozhdeniem fortepiano, compiled by A. Illiukhin, 1956</dt>
+
+   <dd class='faitemcontent'>Moscow: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id188985"></a>Folder 16: Dve p&#039;esy v perelozhenii dlia balalaiki i fortepiano: Val&#039;s no. 14 and Val&#039;s &quot;Staraia Vena&quot;, 1953</dt>
+
+   <dd class='faitemcontent'>1) comp. F. Shopen, arr. V. Nagornyi and L. Okamobaia; 2) comp. L. Godovskii and Ia. Kheifets, arr. V. Nagornyi and L. Okamobaia. Moscow: Muzgiz.</dd>
+
+<dt class='faitem'><a name="id188996"></a>Folder 17: Dve russkie narodnye pesni dlia seksteta balalaek, arr. V. Avksent&#039;ev, 1957</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzgiz.</dd>
+
+<dt class='faitem'><a name="id189001"></a>Folder 18: Dve russkie pesni dlia balalaiki s fortepiano, arr. A. Shalov, 1965</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189006"></a>Folder 19: Detskaia: sem&#039; pesen dlia golosa s orkestrom, comp. and lyrics by M. Mussorgsky., 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189012"></a>Folder 20: Detskii al&#039;bom dlia balalaiki s fortepiano, 2nd. ed., comp. A. Zverev., 1980</dt>
+
+   <dd class='faitemcontent'>Handwritten note on cover: &quot;rabochii ekzempliar&quot; or &quot;working copy.&quot;</dd>
+
+<dt class='faitem'><a name="id189016"></a>Folder 21: Ezhednevnye uprazhneniia: 20 malen&#039;kikh vokalizov dlia vysokogo golosa s fortepiano, comp. B. Liutgen., 1970</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189019"></a>Folder 22: Z repertuaru Solomii Krushel&#039;nits&#039;koi, compiled by I. Maichik, 1971</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina</dd>
+
+<dt class='faitem'><a name="id189020"></a>Folder 23: Zadachi po instrumentovke, comp. N. Rakov, 1975</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189116"></a>Folder 24: I veselo, i ser&#039;ezno: dlia detei mladshego vozrasta, compiled by T. Belonenko and V. Litvinova, 1968</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189120"></a>Folder 25: Ivanovskie sittsy: kontsernaia siuita dlia orkestra russkikh narodnykh instrumentov, comp. Iu. Zaritskii, 1972</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189145"></a>Folder 26: Igraet Aleksandr Danilov: Kontsertnye p&#039;esy dlia balalaiki i fortepiano, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor</dd>
+
+<dt class='faitem'><a name="id189148"></a>Folder 27: Igraet Anatolii Tikhonov: Kontsertnye p&#039;esy dlia balalaiki i fortepiano, 1981</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor</dd>
+
+<dt class='faitem'><a name="id189124"></a>Folder 28: Igraet gosudarstvennyi akademicheskii orkestr russkikh narodnykh instrumentov im. N. Osipova, vol. 2, compiled by V. Petrov, 1979</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189130"></a>Folder 29: Igraet gosudarstvennyi akademicheskii orkestr russkikh narodnykh instrumentov im. N. Osipova, vol. 4, compiled by N. Kalinin, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189133"></a>Folder 30: Igraet detskii orkestr russkikh narodnykh instrumentov, vol. 1, score, compiled by V. Smirnov, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189138"></a>Folder 31: Iz repertuara gosudarstvennogo akademicheskogo orkestra russkikh narodnykh instrumentov vsesoiuznogo radio i televideniia, score, vol. 10, compiled by N. Nekrasov, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189143"></a>Folder 32: Iz repertuara gosudarstvennogo akademicheskogo russkogo narodnogo khora imeni Piatnitskogo, vol. 8, score, compiled by I. Oblikin, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189155"></a>Folder 33: Iz repertuara instrumental &#039;nogo ansamblia &quot;Balalaika,&quot; vol. 3, score, compiled by V. Kuprevich, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189158"></a>Folder 34: Iz repertuara kvarteta russkikh narodnykh instrumentov &quot;SKAZ&quot;, compiled by G. Gartsman, 1979</dt>
+
+   <dd class='faitemcontent'>Contains photocopies of first pages with notes to Sheynkman. Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189159"></a>Folder 35: Iz repertuara P. necheporenko; Proizvediniia dlia balalaiki, compiled by V. Boldyrev, 1989</dt>
+
+   <dd class='faitemcontent'>Contains photocopy of newspaper article regarding Sheynkman appearance at Oregon Coast Music Festival. Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189160"></a>Folder 36: Iz repertuara Nokolaia Osipova: proizvedeniia dlia balalaiki i fortepiano, vol. 1, comp. A. Lachinov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189161"></a>Folder 37: Iz repertuara Nikolaia Osipova: proizvedeniia dlia balalaiki i fortepiano, vol. 2, comp. A. Lachinov, 1986</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189162"></a>Folder 38: Iz repertuara Nikolaia Osipova: proizvedeniia dlia balalaiki i fortepiano, vol. 3, comp. A Lachinov, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+
+<dt class='faitem'><a name="id189163"></a>Folder 39: Iz repertiuara A. Tikhonova: proizvedeniia dlia balalaiki, 1990</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka</dd>
+</dl></dd>
+<dt class='faitem'><a name="id188928"></a>Box 16</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189091"></a>Folder 1: Izbrannye obrabotki i perelozheniia dlia balalaiki s fortepiano, comp. B. Troianovski, 1961</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189094"></a>Folder 2: Izbrannye proizvedeniia dlia balalaiki, compiled by V. Boldyrev, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189096"></a>Folder 3: Izbrannye proizvedeniia dlia balalaiki i fortepiano, comp. V. Andreev, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189101"></a>Folder 4: Izbrannye proizvedeniia dlia orkestra russkikh narodnykh instrumentov, score, vol. 3, comp. Iu. Shishakov, 1973</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189104"></a>Folder 5: Izbrannye proizvedeniia dlia smeshannykh ansamblei russkikh narodnykh instrumentov, compiled by O. Dymov, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189108"></a>Folder 6: Izbrannye p&#039;esy i obrabotki dlia balalaiki s fortepiano, comp. N. Viaz&#039;min, 1981</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189114"></a>Folder 7: Iskusstvo ornamentiki, izbrannye etiudy i uprazhneniia, comp. K. Cherni, 1990</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189118"></a>Folder 8: Klubnye vechera; sol&#039;nye i khorovye pesni, p&#039;esy dlia russkikh narodnykh instrumentov, vol. 12, ed. A. Abramskii, 1976</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189123"></a>Folder 9: Klubnye vechera, pesni i khory bez soprovozhdeniia i v soprovozhdenii fortepiano, baiana, vol. 13, ed. A. Abramskii, 1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189125"></a>Folder 10: Kontsert v sel&#039;skom klube, vol. 8, comp. N. Istratov, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189127"></a>Folder 11: Kontsert dlia balalaiki s orkestrom, comp. O. Smekhnov, 1976</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189131"></a>Folder 12: Kontsert dlia balalaiki s orkestrom, comp. Iu. Shishakov; Kontsertnaia fantaziia dlia balalaiki s orkestrom, perf. I. V. Kataev, 1979</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189134"></a>Folder 13: Kontsert dlia balalaiki s orkestrom russkikh narodnykh instrumentov, comp. A. Repnikov, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189135"></a>Folder 14: Kontsert dlia balalaiki s soprovozhdeniem orkestra russkikh narodnykh instrumentov, comp. N. Rechmenskii, 1958</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189136"></a>Folder 15: Kontsert No. 1 dlia balalaiki s orkestrom narodnykh instrumentov, comp. E. Kichanov, 1971</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189137"></a>Folder 16: Kontsert &quot;Prazdnik v derevne, comp. V. Komarov; and Simfonietta na russkie temi, comp. I. Krasil&#039;nikov, 1980</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189165"></a>Folder 17: Kontsertino dlia zvonchatykh guslei ili balalaiki i fortepiano, comp. E. Sivotkin, 1974</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189139"></a>Folder 18: Kontsertnye p&#039;esy dlia balalaiki, vols. 9, 12, 13, 1980, 1983-1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189140"></a>Folder 19: Kontsertnye p&#039;esy dlia balalaiki, vols. 15, 16, 1986, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189142"></a>Folder 20: Kontsertnye p&#039;esy dlia balalaiki, vols. 17 and 18, 1989-1990</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189151"></a>Folder 21: Kontsertnaia siutia dlia orkestra russkikh narodnykh instrumentov, comp. Nataliia Levi, 1970</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189154"></a>Folder 22: Kontsertnaia siutia iz baleta &quot;Shchelkunchik;&quot; Prolog i skachki iz baleta &quot;Anna Karenina&quot;, 1978</dt>
+
+   <dd class='faitemcontent'>1) comp. P. Chaikovskii, arr. M. Pletnev; 2) comp. R. Shchedrin, arr. M. Pletnev. Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189157"></a>Folder 23: Kontsertnye p&#039;esy dlia balalaiki s soprovozhdeniem fortepiano, vol. 2: Dva val&#039;sa and Marsh-grotesk, comp. V. Beletskii and N. Rozanova, 1965</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189173"></a>Folder 24: Kontsertnye p&#039;esy, dlia trekhstrunnoi domry s soprovozhdeniem fortepiano, vol. 2, comp. Iu. Shishakov, 1967</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189175"></a>Folder 25: Kontsertnye p&#039;esy i obrabotki dlia balalaiki i baiana, compiled O. Glukhov and V. Azov, 1991</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189176"></a>Folder 26: Kontsertnyi repertuar balalaechnika, vols. 2, 3, 5, 1959, 1961</dt>
+
+   <dd class='faitemcontent'>Vol. 2: Kontsertnye variatsii dlia balalaiki s fortepiano, comp. P Kulikov; Vol. 3: Pol&#039;ka, comp. S. Vasilenko; Vol. 5: Sonata dlia balalaiki i fortepiano, op. 188, no. 1, comp. A. Grechanikov, ed. N. Lukavikhin. Moscow; Muzyka.</dd>
+
+<dt class='faitem'><a name="id189179"></a>Folder 27: Kontsertnyi repertuar balalaechnika, vols. 6, 8 (2 vers.), 15, 1960-61, 1963</dt>
+
+   <dd class='faitemcontent'>Vol. 6: Ispanskii tanets dlia balalaiki i fortepiano, comp. M. de. Fal&#039;ia, arr. N. Vasil&#039;ev; Vol. 8 (version 1): Val&#039;s-Kapris, comp. V. Andreev, arr. B. Troianovskii; Vol. 8 (version 2): Serenada, comp. F. Tarrega, arr. O. Glukhov, ed. A. Iliukhin; Vol. 15: Kontsertnye variatsii dlia balalaiki v soprovozhdenii fortepiano, comp. L. Voinov. Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189181"></a>Folder 28: Kontsertnyi repertuar balalaechnika; p&#039;esy dlia balalaiki solo, ed. A. Danilov, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189185"></a>Folder 29: Letnii den&#039;: detskaia siuita dlia malogo orkestra, score, comp. S. Prokof&#039;ev, 1947</dt>
+
+   <dd class='faitemcontent'>Moscow, Leningrad: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id189186"></a>Folder 30: Liubimye pesni voennykh let, rasskazy pesni fotodokumenty, comp. N. Zavadskaia, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189203"></a>Folder 31: Melodii proshlykh let, dlia trio russkikh narodnykh instrumentov comp. A. Beliaev and A. Tsygankov, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189204"></a>Folder 32: Metodika obucheniia igre na domre, comp. N. T. Lysenko, 1990</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzicha Ukraina.</dd>
+
+<dt class='faitem'><a name="id189205"></a>Folder 33: Muzyka dlia goroda Ketena, dlia kamernogo orkestra, score, comp. R. Shchedrin, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189206"></a>Folder 34: Na dosuge: repertuarnaia tetrad&#039; balalaechnika, vols. 1, 2, 3, 1982, 1985-85</dt>
+
+   <dd class='faitemcontent'>Vol. 1 compiled by V. Lobov, Vol. 3 compiled by Iu. Solov&#039;ev. Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189207"></a>Folder 35: Na posidelkakh: fantaziia na temy dvukh russkikh narodnykh pesen dlia balalaiki i fortepiano, op. 64, comp. M. Ippolitov-Ivanov, 1958</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189208"></a>Folder 36: Napevy zvonkikh strun, kontsertnye p&#039;esy dlia strunnykh ansamblei russkikh narodnykh instrumentov vol. 2, comp. G. Gartsman, 1981</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189209"></a>Folder 37: Napevy zvonkikh strun: kontsertnye p&#039;esy dlia strunnykh ansamblei russkikh narodnykh instrumentov vol. 3, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189210"></a>Folder 38: Nikol&#039;skie pesni: Zapisannye v Nikol&#039;skom raione Vologodskoi oblasti, comp. M. Mazo, 1975</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189211"></a>Folder 39: O bednom gusare zamolvite slovo, pesni i romansy iz odnoimennogo televizionnogo fil&#039;ma, dlia golosa v soprovozhdenii fortepiano, comp. A. Petrov, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189212"></a>Folder 40: Obrabotki i perelozheniia dlia balalaiki i fortepiano, vol. 1, comp. N. Osipov, 1959</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189213"></a>Folder 41: Obrabotki i perelozheniia dlia balalaiki s fortepiano, vol. 4, comp. N. Osipov, 1964</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189214"></a>Folder 42: Osenniaia simfoniia: dlia orkestra russkikh narodnykh instrumentov, comp. A. Murov, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189215"></a>Folder 43: Osnovy igry na balalaike: metodicheskie zapisi, comp. A. Shalov, 1970</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+</dl></dd>
+<dt class='faitem'><a name="id189188"></a>Box 17</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189189"></a>Folder 1: Pevets i akkompaniator, vol.4: Ariia Ruslana i Rondo Farlafa iz opery &quot;Ruslan i Liudmila,&quot; arii i stseny iz oper dlia golosa s fortepiano, comp. M. Glinka, 1977</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189190"></a>Folder 2: Pedagogicheskii repertuar balalaechnika (1-2 klassy detskikh muzykal&#039;nykh shkol), compiled by V. Gleikhman, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189191"></a>Folder 3: Pedagogicheskii repertuar balalaechnika (3-5 klassy detskikh muzykal&#039;nykh shkol), vol. 5, compiled by V. Gleikhman, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189192"></a>Folder 4: Pedagogicheskii repertuar balalaechnika (I-II kursy muzykal&#039;nykh uchilishch), vols. 1-2, compiled by V. Gleikhman, 1976, 1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189193"></a>Folder 5: Pedagogicheskii repertuar balalaechnika (III-IV kursy muzykal&#039;nykh uchilishch), vols. 2-3, comp. O. Glukhov, 1978, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189194"></a>Folder 6: Pesni narodov SSSR, v obrabotke sovetskikh kompozitorov, dlia golosa s soprovozhdeniem fortepiano, collection 4, 1952</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzgiz (Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo).</dd>
+
+<dt class='faitem'><a name="id189195"></a>Folder 7: Pesni i romansy iz kinofil&#039;mov, na stikhi Bulata Okudzhavy, dlia golosa i fortepiano, comp. Isaak Shvarts, 1988</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189196"></a>Folder 8: Pesni iasnoi poliany v zapisi B. F. Smirnova, ed. S. I. Pushkina, 1986</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189197"></a>Folder 9: Prakticheskii kurs instrumentovki, by N. P. Rakov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189198"></a>Folder 10: Proizvedeniia dlia orkestra russkikh narodnykh instrumentov, score, comp. A. Kholminov, 1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189199"></a>Folder 11: Proizvedeniia dlia orkestra russkikh narodnykh instrumentov, score, vol. 3, compiled by N. M. Shakhmatov and I. A. Tsvetkov, 1980</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189200"></a>Folder 12: Proizvedeniia dlia orkestra russkikh narodnykh instrumentov, score, comp. A. Shirokov, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189201"></a>Folder 13: Proizvedeniia zarubezhnykh kompozitorov dlia fleity i shestistrunnoi gitary, compiled and ed. by I. Permiakov, 1986</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189216"></a>Folder 14: Proizvedeniia sovetskikh kompozitorov dlia samodeiatel&#039;nogo ansamblia russkikh narodnykh instrumentov, vol. 2, score, compiled by V. Golikov, 1986</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189217"></a>Folder 15: Proizvedeniia sovetskikh kompozitorov: dlia orkestra russkikh narodnykh instrumentov, vol. 9, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189218"></a>Folder 16: Let it be: Pust&#039; budet: populiarnye estradnye p&#039;esy zarubezhnykh kompozitorov v obrabotke dlia shestistrunnoi gitary, compiled by I. Permiakov, 1990</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189219"></a>Folder 17: P&#039;esy dlia ansamblei i orkestra russkikh narodnykh instrumentov, score, compiled by B. Kiianov and V. Ivanovskii, 1976</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189220"></a>Folder 18: P&#039;esy dlia ansamblei russkikh narodnykh instrumentov uchashchimsia D. M. Sh., vol. 2, score, compiled by N. Shelkov, 1982</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189221"></a>Folder 19: P&#039;esy dlia ansamblei russkikh narodnykh instrumentov, vol. 4, score, compiled by N. Shelkov, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189222"></a>Folder 20: P&#039;esy dlia balalaiki s soprovozhdeniem fortepiano, vol. 3, 1964</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189223"></a>Folder 21: P&#039;esy dlia domry i gitary, comp. G. Portnov, 1982</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189224"></a>Folder 22: P&#039;esy dlia seksteta chetyrekhstrunnykh domr, compiled by Iu. Ostroumov, 1962</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzgiz.</dd>
+
+<dt class='faitem'><a name="id189225"></a>Folder 23: P&#039;esy dlia trekhstrunnoi domry v soprovozhdenii fortepiano, compiled and ed. by I. Shitenkov, 1972</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189226"></a>Folder 24: P&#039;esy dlia trekhstrunnoi domry i fortepiano, vol. 2, compiled and ed. by I. Shitenkov, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189227"></a>Folder 25: P&#039;esy leningradskikh kompozitorov dlia orkestra russkikh narodnykh instrumentov, vol. 2, score, compiled by B. Glybovskii, 1976</dt>
+
+   <dd class='faitemcontent'>Leningrad, Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189228"></a>Folder 26: P&#039;esy leningradskikh kompozitorov dlia orkestra russkikh narodnykh instrumentov, vol. 4, score, compiled by B. Glybovskii, 1978</dt>
+
+   <dd class='faitemcontent'>Leningrad, Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189229"></a>Folder 27: P&#039;esy obrabotki i etiudy dlia balalaiki v soprovozhdenii fortepiano, comp. G. Kamaldinov, 1980</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189230"></a>Folder 28: P&#039;esy russkikh kompozitorov i russkie narodnye pesni, arr. by A. Shalov, 1981</dt>
+
+   <dd class='faitemcontent'>Includes score and parts. Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189231"></a>Folder 29: P&#039;esy sovremennykh kompozitorov dlia dvukh fortepiano, arr. I. G. Stuchinskaia, 1972</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189232"></a>Folder 30: P&#039;esy etiudy vpravi dlia balalaiki: uchebnoe posobie dlia detskikh shkol, comp. P. Petrov-Omel&#039;chuk, 1982</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189233"></a>Folder 31: Piat&#039; p&#039;es dlia balalaiki s fortepiano, arr. by P. Necheporenko, 1950</dt>
+
+   <dd class='faitemcontent'>Leningrad, Moscow: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id189234"></a>Folder 32: Rabota s samodeiatel&#039;nym orkestrom russkikh narodnykh instrumentov, 2nd ed., by A. Kargin, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189235"></a>Folder 33: Repertuar balalaechnika, vols. 1-2, 1975, 1980</dt>
+
+   <dd class='faitemcontent'>Vol. 1, comp. I. Nikolaevich; Vol. 2, comp. V. Il&#039;iashevich. Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189236"></a>Folder 34: Repertuar balalaechnika, vols. 3, 6, 1966-1967</dt>
+
+   <dd class='faitemcontent'>Vol. 3, Moscow: Muzyka; Vol. 6, Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189237"></a>Folder 35: Repertuar balalaechnika, vols. 14-16, 18, 1977-1983</dt>
+
+   <dd class='faitemcontent'>Vol. 14, comp. Iu. Blinov; Vol. 15, comp. V. Evdokimov. Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189238"></a>Folder 36: Repertuar balalaechnika, vols. 19-21, 1984-1987</dt>
+
+   <dd class='faitemcontent'>Vol. 19, comp. O. Glukhov; Vol. 21, arr. V. Lobov. Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189239"></a>Folder 37: Repertuar balalaechnika, vols. 22-25, comp. V. Gleikhman, 1987-1990</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189240"></a>Folder 38: Repertuar dlia russkikh narodnykh instrumentov, comp. N. Nolinskii, 1956</dt>
+
+   <dd class='faitemcontent'>Moscow: Gosudarstvennoe Izdatel&#039;stvo Kul&#039;turno-Prosvetitel&#039;noi Literatury</dd>
+
+<dt class='faitem'><a name="id189241"></a>Folder 39: Repertuar dlia russkikh narodnykh instrumentov, 1968</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskaia Rossiia.</dd>
+
+<dt class='faitem'><a name="id189242"></a>Folder 40: Repertuar domrista, trekhstrunnaia domra, vol. 23, comp. V. Kruglov, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189243"></a>Folder 41: Repertuar klubnogo orkestra russkikh narodnykh instrumentov, vol. 1, voice and score, compiled by V. Viktorov, 1981</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189244"></a>Folder 42: Repertuar klubnogo orkestra russkikh narodnykh instrumentov, vol. 2, voice and score, compiled by V. Viktorov, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189245"></a>Folder 43: Repertuar nachinaiushchego balalaechnika, vols. 2-3, compiled by V. Bubnov</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189246"></a>Folder 44: Repertuar samodeiatel&#039;nogo orkestra russkikh narodnykh instrumentov, score, vol. 1, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189247"></a>Folder 45: Repertuar shkol&#039;nogo orkestra russkikh narodnykh instrumentov, score, compiled by A. Girsh, 1988</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189248"></a>Folder 46: Repertuar shkol&#039;nogo orkestra russkikh narodnykh instrumentov, score, vol. 3, 1990</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189249"></a>Folder 47: Romansy i pesni, dlia tenora v soprovozhdenii fortepiano, tetrad&#039; III, comp. G. Sviridov, 1971</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+</dl></dd>
+<dt class='faitem'><a name="id189251"></a>Box 18</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189252"></a>Folder 1: Russkaia fantaziia, comp. A. Glazunov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189253"></a>Folder 2: Russkie narodnye instrumental&#039;nye ansambli, by V. Rozanov, 1972</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189254"></a>Folder 3: Russkie narodnye melodii: Kontsertnaia obrabotka dlia balalaiki i fortepiano, comp. A. Shalov, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189255"></a>Folder 4: Russkie narodnye naigryshi, compiled by V. Petrov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189256"></a>Folder 5: Russkie narodnye pesni: v obrabotke dlia balalaiki s fortep&#039;iano, by B. Troianovskii, 1962</dt>
+
+   <dd class='faitemcontent'>Moscow: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id189257"></a>Folder 6: Russkie narodnye pesni dlia balalaiki i fortepiano, arr. A. Shalov, ca. 1972</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189258"></a>Folder 7: Russkii orkestr - pesni Sovetskikh kompozitorov, compiled by A. Dorozhkin, 1947</dt>
+
+   <dd class='faitemcontent'>Moscow, Leningrad: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id189259"></a>Folder 8: Samouchitel&#039; igry na balalaike, by A. Dorozhkin, 1987</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189260"></a>Folder 9: Samouchitel&#039; igry na balalaike, by A. Iliukhin, 1983</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189261"></a>Folder 10: Serenada dlia balalaiki z fortepiano, comp. N. Shul&#039;man, 1959</dt>
+
+   <dd class='faitemcontent'>Kiev.</dd>
+
+<dt class='faitem'><a name="id189262"></a>Folder 11: Simfonietta no. 2, dlia orkestra russkikh instrumentov, score, by V. Boiashov, 1982</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189263"></a>Folder 12: Smeshannye ansambli, vol. 6, compiled by O. Komrakov, 1975</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189264"></a>Folder 13: Smeshannye ansambli russkikh narodnykh instrumentov, vol. 7, compiled by V. Viktorov and V. Nesterov, 1976</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189265"></a>Folder 14: Smeshannye ansambli russkikh narodnykh instrumentov, vol. 9, compiled by O. Dymov, 1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189266"></a>Folder 15: Smeshannye ansambli russkikh narodnykh instrumentov, vol. 12, compiled by O. Dymov, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189267"></a>Folder 16: Sochineniia dlia orkestra/Works for Orchestra, comp. Georgii Sviridov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189269"></a>Folder 17: Starinnye val&#039;sy v obrabotke dlia baiana, arr. I. Panitskii, 1991</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189268"></a>Folder 18: Starinnye russkie val&#039;sy v perelozhenii dlia baiana ili akkordeona, compiled by P. Londonov, 1978</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189280"></a>Folder 19: Tansteval&#039;naia muzyka dlia fortepiano, comp. I. Dunaevskii, 1969</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189283"></a>Folder 20: Tansti lial&#039;ok v perekladenni dlia balalaiki z fortepiano, p.s. and p., comp. D. Shostakovich, 1983</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189284"></a>Folder 21: Tema i variatsii dlia domry i gitary, comp. G. Belov, 1982</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189286"></a>Folder 22: Trepak, comp. A. Dobrokhotov, 1955</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzgiz.</dd>
+
+<dt class='faitem'><a name="id189287"></a>Folder 23: Tri kolomiiki dlia balalaiki ta fortepiano, comp. M. Kolessa, 1986</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189340"></a>Folder 24: Tri kontsertnye p&#039;esy dlia orkestra russkikh narodnykh instrumentov, score, comp. B. Kravchenko, 1966</dt>
+
+   <dd class='faitemcontent'>Moscow, Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189341"></a>Folder 25: Troika, undated</dt>
+
+   
+<dt class='faitem'><a name="id189342"></a>Folder 26: Ukrainskie narodnye pesni dlia vysokogo golosa i dueta v soprovozhdenii fortepiano, compiled by V. Mirkotan, 1974</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189343"></a>Folder 27: Ural&#039;skii khorovod: P&#039;esy dlia balalaiki i fortepiano, 1982</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189344"></a>Folder 28: Chastushki i stradanaia: Fantaziia dlia orkestra russkikh narodnykh instrumentov, comp. E. Sirotkin, 1961</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189345"></a>Folder 29: Khrestomatiia balalaechnika: 1-2 kursy muzykal&#039;nykh uchilishch, vol. 1, compiled by O. Glukhov, 1974</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189346"></a>Folder 30: Khrestomatiia balalaechnika: Detskaia muzykal&#039;naia shkola 4-5 kursy, compiled by V. Zazhigin and S. Shcheglovitov, 1986</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189347"></a>Folder 31: Khrestomatiia balalaechnika: Muzykal&#039;noe uchilishche I-II kursy, compiled by and ed. V. Gleikhman, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189354"></a>Folder 32: Khrestomatiia z diriguvannia orkestrom narodnikh instrumentiv, vol. 1, by A. Onufrienko and L. Drazhnitsia, 1985</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189356"></a>Folder 33: Khrestomatiia orkestra russkikh narodnykh instrumentov, part 1: Narodnye melodii, score, compiled by V. Petrov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189359"></a>Folder 34: Khrestomatiia orkestra russkikh narodnykh instrumentov, part 3: Zarubezhnye kompozitory, score, compiled by V. Petrov, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189361"></a>Folder 35: Khrestomatiia po dirizhirovaniiu, vol. 5, score and clavier part, compiled by V. Smirnov, 1984</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189363"></a>Folder 36: Khrestomatiia po dirizhirovaniiu, vol. 6, score and clavier part, compiled by A. Pozdniakov, 1985</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189365"></a>Folder 37: Shkola igry na balalaike, by P. Necheporenko and V. Mel&#039;nikov, 1988</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189366"></a>Folder 38: Shkola igry na shestistrunnoi gitare, by E. Pukhol&#039;, 1977</dt>
+
+   <dd class='faitemcontent'>Moscow: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189369"></a>Folder 39: Etiudy dlia balalaiki, compiled by A. Zverev, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189372"></a>Folder 40: Etiudy dlia balalaiki, 2nd. ed., compiled by A. Zverev, 1985</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189373"></a>Folder 41: Etiudy dlia balalaiki, compiled by A. Danilov, 1989</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189376"></a>Folder 42: Etiudy dlia balalaiki, vol. 4, eds. N. Chaikin and P. Necheporenko, 1959</dt>
+
+   <dd class='faitemcontent'>Moscow: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189381"></a>Folder 43: Etiudy dlia balalaiki, vols. 5, 7, 1960, 1962</dt>
+
+   <dd class='faitemcontent'>Vol. 5, ed. A. Iliukhina; Vol. 7, arr. and ed. D. Golubev. Moscow: Gosudarstvennoe Muzykal&#039;noe Izdatel&#039;stvo.</dd>
+
+<dt class='faitem'><a name="id189383"></a>Folder 44: Iunyi balalaechnik: P&#039;esy dlia balalaiki s fortepiano, p.s. and p., edited by A. Zverev, 1982</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189386"></a>Folder 45: Iunyi balalaechnik: P&#039;esy dlia balalaiki i fortepiano, vol. 2, ed. A. Zverev, 1986</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189389"></a>Folder 46: Iaroslavskaia kadril&#039;: Kontsertnaia rapsodiia dlia balalaiki s fortep&#039;iano, comp. Iu. Zaritskii, 1959</dt>
+
+   <dd class='faitemcontent'>Leningrad: Sovetskii Kompozitor.</dd>
+
+<dt class='faitem'><a name="id189393"></a>Folder 47: Unidentified score from collection &quot;Muzykal&#039;naia zhizn&#039;,&quot; fragment, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189289"></a>Box 19</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189290"></a>Folder 1: 5. Grecheskii pir, fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id189291"></a>Folder 2: Kamfara i muskys, fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id189292"></a>Folder 3: Akh, vsiu noch&#039;ia progoliala, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189293"></a>Folder 4: Arabskii tanets iz baleta &quot;Shchelkunchik,&quot; comp. P. Chaikovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189294"></a>Folder 5: Val&#039;s iz kinofil&#039;ma &quot;Beregis&#039; avtomobilia,&quot; comp. A. Petrov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189295"></a>Folder 6: Val&#039;s - romans, comp. V. Andreev, undated</dt>
+
+   
+<dt class='faitem'><a name="id189296"></a>Folder 7: Val&#039;s - shutka, comp. D. Shostakovich, arr. V. Zabolotnyi, undated</dt>
+
+   
+<dt class='faitem'><a name="id189297"></a>Folder 8: Variatsii na Russkuiu narodnuiu pesniu, comp. P. Necheporenko, undated</dt>
+
+   
+<dt class='faitem'><a name="id189298"></a>Folder 9: Vechor ko mne, devitse: Russkaia narodnaia pesnia, arr. A. Shalov, 1990</dt>
+
+   <dd class='faitemcontent'>Leningrad: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189299"></a>Folder 10: Veniat menia v narode, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189300"></a>Folder 11: Vospominanie o Gatchine, arr. B. Troianovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189301"></a>Folder 12: Vospominanie o Vene, arr. B. Troianovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189302"></a>Folder 13: Vstuplenie, undated</dt>
+
+   
+<dt class='faitem'><a name="id189303"></a>Folder 14: Gavot, comp. Zh. Liulli, undated</dt>
+
+   
+<dt class='faitem'><a name="id189304"></a>Folder 15: Gaida, Troika! Sneg pu shisty, fragment, comp. and lyrics M. Shteinberg, undated</dt>
+
+   
+<dt class='faitem'><a name="id189305"></a>Folder 16: Dekabr&#039;, op. 37, comp. P. I. Chaikovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189306"></a>Folder 17: Kapris, comp. V. V. Andreev, arr. N. and D. Osipovyi, undated</dt>
+
+   
+<dt class='faitem'><a name="id189307"></a>Folder 18: Kol&#039;tso dushi-devitsy, arr. A. Shalov, 1981</dt>
+
+   <dd class='faitemcontent'>Muzyka.</dd>
+
+<dt class='faitem'><a name="id189308"></a>Folder 19: Kontsertnye variatsii, comp. N. Budashkin, undated</dt>
+
+   
+<dt class='faitem'><a name="id189309"></a>Folder 20: Kontsertnye variatsii na temu A. Aliab&#039;eva &quot;Solovei,&quot; comp. L. Okaemova and V. Nagornyi, 1986</dt>
+
+   
+<dt class='faitem'><a name="id189310"></a>Folder 21: Korobeiniki, comp. V. Semenov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189311"></a>Folder 22: Lipa vekovaia: Fantaziia na temu Russkoi narodnoi pesni, comp. P. Kulikov, 1955</dt>
+
+   
+<dt class='faitem'><a name="id189312"></a>Folder 23: Mazurka no. 3, undated</dt>
+
+   
+<dt class='faitem'><a name="id189313"></a>Folder 24: Mazurka no. 4, arr. B. Troianovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189314"></a>Folder 25: Marsh iz&nbsp; baleta &quot;Shchelkunchik,&quot; comp, P. Chaikovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189315"></a>Folder 26: Meksikanskaia serenada, comp. M. Ponse and Ia. Kheifets, undated</dt>
+
+   
+<dt class='faitem'><a name="id189316"></a>Folder 27: Narodnyi prazdnik iz muzyki k kinofil&#039;mu &quot;Ovod,&quot; comp. D. Shostakovich, undated</dt>
+
+   
+<dt class='faitem'><a name="id189317"></a>Folder 28: Net, tol&#039;ko tot, kto znal..., op. 6, no. 6, lyrics L. Meia, undated</dt>
+
+   
+<dt class='faitem'><a name="id189318"></a>Folder 29: Noch&#039; svetla, comp. N. Shishkin, arr. V. Podol&#039;skaia, lyrics M. Iazykov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189319"></a>Folder 30: Ottsveli khrizantemy, comp. N. Kharito, lyrics, V. Shumskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189320"></a>Folder 31: Parasha and unidentified score, undated</dt>
+
+   
+<dt class='faitem'><a name="id189321"></a>Folder 32: Plot iz kinofil&#039;ma, &quot;Deti Kapitana Granta&quot;, 1936</dt>
+
+   
+<dt class='faitem'><a name="id189322"></a>Folder 33: Pod oknom cheremukha kolyshetsia, arr. V. Gorodovskaia, undated</dt>
+
+   
+<dt class='faitem'><a name="id189323"></a>Folder 34: Podmoskovnye vechera, pesnia iz kinofil&#039;ma &quot;V dni spartakiady,&quot; lyrics M. Matusovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189324"></a>Folder 35: Po nebu, po sinemu; Vechor ko mne, devitse; arr. A. Shalov, 1981</dt>
+
+   
+<dt class='faitem'><a name="id189325"></a>Folder 36: Pol&#039;ka: &quot;Goluboi kolokol&#039;chik,&quot; comp. F. Stenli and E. Avksent&#039;ev, undated</dt>
+
+   
+<dt class='faitem'><a name="id189326"></a>Folder 37: Protiazhnaia, comp. B. Gol&#039;ts, undated</dt>
+
+   
+<dt class='faitem'><a name="id189327"></a>Folder 38: Romans iz siuity dlia balalaiki i fortepiano, op. 69, no. 3, comp. S. Vasilenko, undated</dt>
+
+   
+<dt class='faitem'><a name="id189328"></a>Folder 39: Russkaia, comp. Rubinshtein, undated</dt>
+
+   
+<dt class='faitem'><a name="id189329"></a>Folder 40: Russkaia fantaziia, comp. A. Glazunov, arr. B. S. Troianovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189330"></a>Folder 41: Svetit mesiat, undated</dt>
+
+   
+<dt class='faitem'><a name="id189331"></a>Folder 42: Sel&#039;skaia kadril&#039;, comp. I. Tikhonov, arr. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189332"></a>Folder 43: Sel&#039;skie zori, comp. E. Derbenko, arr. A. Lukonin, undated</dt>
+
+   
+<dt class='faitem'><a name="id189333"></a>Folder 44: Slovatskaia pliasovaia, comp. A. Shalov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189334"></a>Folder 45: Taiti-trot, op. 16, undated</dt>
+
+   
+<dt class='faitem'><a name="id189335"></a>Folder 46: Tul&#039;skii samovar, comp. V. Kuprevich, undated</dt>
+
+   
+<dt class='faitem'><a name="id189336"></a>Folder 47: Utrenniaia serenada, 5 Aubade, undated</dt>
+
+   
+<dt class='faitem'><a name="id189337"></a>Folder 48: Favn, arr. B. Troianovskii, undated</dt>
+
+   
+<dt class='faitem'><a name="id189338"></a>Folder 49: Ia vechor v luzhkakh guliala i Nastas&#039;ia, arr. A. Dobrokhotov, undated</dt>
+
+   
+<dt class='faitem'><a name="id189339"></a>Folder 50: Iaroslavskaia kadril&#039;, comp. Iu. Zaritskii, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189271"></a>Box 20</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189273"></a>Folder 1: Lezginka, undated</dt>
+
+   
+<dt class='faitem'><a name="id189274"></a>Folder 2: Muzykal&#039;naia zhizn&#039; collection, fragment, undated</dt>
+
+   
+<dt class='faitem'><a name="id189275"></a>Folder 3: Serenada/Serenade, undated</dt>
+
+   
+<dt class='faitem'><a name="id189276"></a>Folder 4: Trepak, undated</dt>
+
+   
+<dt class='faitem'><a name="id189272"></a>Folder 5: Khor i pliaska krest&#039;ian, undated</dt>
+
+   
+<dt class='faitem'><a name="id189277"></a>Folder 6: Tsyganskaia pliaska, undated</dt>
+
+   
+<dt class='faitem'><a name="id188864"></a>Folder 7: Ia pomniu val&#039;sa zvuk prelestnyi, Dremliut plakuchie ivy..., Devochka moia sineglazaia, Val&#039;s tsvetov iz baleta &quot;Shchelkunchik&quot;, undated</dt>
+
+   <dd class='faitemcontent'>1. Comp. and lyrics N. Listov; 2. Comp. B.B., lyrics A. Timofeev; 3. Comp. V. Dorokhin, lyrics L. Voropaevasa, 4. Comp. P. Chaikovskii, arr. V. Belov</dd>
+</dl></dd>
+<dt class='faitem'><a name="id189892"></a>Box 22</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189897"></a>Folder 1: Arii ta ansambli ukrains&#039;kikh oper, v. 2, comp. Lidnia Ottonovna Rzhetskaia, 1982</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina</dd>
+
+<dt class='faitem'><a name="id189898"></a>Folder 2: Kontsertni tvori dlia tsimbal i fortepiano, comp. D Popichuk, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189899"></a>Folder 3: Muzichni vechori, bibliotechka muzichnoi samodiial&#039;nosti, v. 4 and 6, 1981</dt>
+
+   <dd class='faitemcontent'>V. 4, comp. Stanislav Evstigieevich Pavliuchenko; V. 6, comp. Nikodim Grigor&#039;evich Plaksiuk. Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189900"></a>Folder 4: Muzichni vechori: bibliotechka muzichnoi samodiial&#039;nosti, v. 8 and 12, 1982</dt>
+
+   <dd class='faitemcontent'>V. 8, comp. Vladimir Pavlovich Shapovalenko; V. 12, comp. Vladimir Il&#039;ich Fomenko. Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189901"></a>Folder 5: Muzuchni vechori, bibliotechka muzichnoi samodiial&#039;nosti, v. 2, comp. Aleksandr Vlaimirovich Iavopik, 1984</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189902"></a>Folder 6: Narodni pisni v zapisakh Ivana Vagilevicha, comp. Mikhail Iosifovich Shalata, 1983</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189903"></a>Folder 7: Novi vokal&#039;ni tvori: ukrains&#039;kikh radians&#039;kikh kompozitoriv, v. 3, comp. A.G. Bolgarskii, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189904"></a>Folder 8: Populiarni estradni melodii dlia baiana abo akordeona, v. 32, comp. E.V. Kravchenko, 1982</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189905"></a>Folder 9: Raiduga: bibliotechka khudozhn&#039;oi samodiial&#039;nosti, v. 13, 1982</dt>
+
+   <dd class='faitemcontent'>Kiev: Mistetstvo.</dd>
+
+<dt class='faitem'><a name="id189906"></a>Folder 10: Svornik&quot; p&#039;es&quot;: Ispolhiaemykh&quot; Velikorusskim&quot; orkestrom&quot; V.V. Andreeva, ed. Andreev, arr. Vl. Nasonov, 1898</dt>
+
+   <dd class='faitemcontent'>Includes Sheynkman&#039;s hanwritten notes. St. Petersburg: Morskaia.</dd>
+
+<dt class='faitem'><a name="id189907"></a>Folder 11: Smeshannye ansambli russkikh narodnykh instrumentov, v. 11, comp. O. Dymov, 1981</dt>
+
+   <dd class='faitemcontent'>Moskva: Muzyka.</dd>
+
+<dt class='faitem'><a name="id189908"></a>Folder 12: Soniachna dorizhka: zbirka pisen&#039; dlia ditei seredn&#039;ogo ta starshogo shkil&#039;hogo viku, comp. I.A. Zelenets&#039;ka, 1983</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189909"></a>Folder 13: Tvori dlia narodnogo khoru, v. 2, comp. Konstantin Ivanovich Kotenko, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189910"></a>Folder 14: Ukrains&#039;ka radians&#039;ka fortepianna muzika, v. 2, comp. Iu.F. Vakhranev, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189911"></a>Folder 15: Khorovi tvori na virshi lesi ukrainki, comp. Iu. Shamo, 1983</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189912"></a>Folder 16: Khorovi tvori ukrains&#039;kikh radians&#039;kikh kompozitoriv, v. 14, comp. V.G. Puchko, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina</dd>
+
+<dt class='faitem'><a name="id189913"></a>Folder 17: Iatrans&#039;ki igri, comp. Igor Shamo, 1981</dt>
+
+   <dd class='faitemcontent'>Kiev: Muzichna Ukraina</dd>
+</dl></dd>
+<dt class='faitem'><a name="id207117"></a>Box 25</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id207118"></a>Folder 41: Tula Samovar, comp. V. Kuprevich, 1981</dt>
+
+   <dd class='faitemcontent'>See series 1, sub-series 2 for remainder of the box</dd>
+</dl></dd></dl></dd>
+<dt class='faitem'><a name="id189126"></a>Sub-Series 2: Latin Script Titles, 1914-1993</dt>
+
+   <dd class='faitemcontent'>Consists of published music with Latin titles that are arranged alphabetically by the titles.&nbsp; Date and place of publication and publisher&nbsp; are identified when this information was available. A small addition of music that was discovered after the collection was processed has been placed at the end of this subseries.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id189128"></a>Box 14</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189132"></a>Folder 1: Chanson russe, comp. Igor Stravinsky, 1937</dt>
+
+   
+<dt class='faitem'><a name="id189141"></a>Folder 2: Invitation to the dance, op. 65, comp. Carl Maria von Weber, undated</dt>
+
+   <dd class='faitemcontent'>Includes: &quot;The Stars and Stripes Forever March,&quot; comp. John Philip Sousa; &quot;Starinnye Val&#039;sy,&quot; comp. G. Portnov; &quot;Amurskie Volny,&quot; by N. Filipetskii; &quot;Sud&#039;ba odnogo val&#039;sa,&quot; by L. Ospovat; &quot;Iz istorii pesen: &#039;Na sopkakh man&#039; chzhurii,&quot; by L. Eremina and G. Eremin.</dd>
+
+<dt class='faitem'><a name="id189144"></a>Folder 3: Kammermusik: Gavotte, mazurka, comp. Alexei Davidoff; Sonata op. 188 no. 1, rondo op. 188 no. 2, comp. Alexei Davidoff, 1983-1985</dt>
+
+   
+<dt class='faitem'><a name="id189147"></a>Folder 4: Kompositionen, comp. W. Pogoreloff, 1960</dt>
+
+   
+<dt class='faitem'><a name="id189149"></a>Folder 5: Masquerade suite, comp. A. Khachaturian, 1948</dt>
+
+   
+<dt class='faitem'><a name="id189152"></a>Folder 6: Mavra: Opera bouffe, comp. Igor Stravinsky, 1947</dt>
+
+   
+<dt class='faitem'><a name="id189153"></a>Folder 7: Nocturne, comp. A. Melle Terminsky, undated</dt>
+
+   
+<dt class='faitem'><a name="id189166"></a>Folder 8: Nutcracker suite, arr. Timothy K. Sparks, 1993</dt>
+
+   
+<dt class='faitem'><a name="id189167"></a>Folder 9: Over the waves, comp. J. Rosas, arr. Calvin Grooms, 1934</dt>
+
+   
+<dt class='faitem'><a name="id189168"></a>Folder 10: Paragon rag, score, comp. S. Joplin, arr. W. Zinn, 1974</dt>
+
+   
+<dt class='faitem'><a name="id189170"></a>Folder 11: Pineapple rag, comp. Joplin, arr. W. Zinn, 1974</dt>
+
+   
+<dt class='faitem'><a name="id189171"></a>Folder 12: Quartett album: Band I, undated</dt>
+
+   
+<dt class='faitem'><a name="id189172"></a>Folder 13: Scott Joplin&#039;s new rag, comp. S. Joplin, arr. W. Zinn, 1974</dt>
+
+   
+<dt class='faitem'><a name="id189174"></a>Folder 14: Slavonic dance, comp. Dvorak-Kreisler, 1914</dt>
+
+   
+<dt class='faitem'><a name="id189177"></a>Folder 15: Songs of inspiration, album 1-5, comp. Basil Fomeen, 1941</dt>
+
+   
+<dt class='faitem'><a name="id189178"></a>Folder 16: Suite classique, comp. C. Bresgen, 1990</dt>
+
+   
+<dt class='faitem'><a name="id189180"></a>Folder 17: Variations on a theme of Corelli (Giuseppe Tartini), comp. Fritz Kreisler, 1937</dt>
+
+   
+<dt class='faitem'><a name="id189182"></a>Folder 18: Violin concerto no. 3 in G Major, comp. W.A. Mozart, undated</dt>
+
+   
+<dt class='faitem'><a name="id189183"></a>Folder 19: Volkstumliche Zitherschule, undated</dt>
+
+   
+<dt class='faitem'><a name="id189184"></a>Folder 20: Unidentified book fragment: Hungarian folk songs, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189399"></a>Box 18</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189400"></a>Folder 48: 20 piosenek na glos i gitare, comp. Bulat Okudzawa, 1985</dt>
+
+   <dd class='faitemcontent'>Krakow: Polskie Wydawnictwo Muzyczne.</dd>
+
+<dt class='faitem'><a name="id189401"></a>Folder 49: 700 years of music for the classic guitar, comp. Albert Blain, 1967</dt>
+
+   <dd class='faitemcontent'>New York: Charles Hanson Music &amp; Books.</dd>
+
+<dt class='faitem'><a name="id189402"></a>Folder 50: Balalaika, IV, undated</dt>
+
+   
+<dt class='faitem'><a name="id189403"></a>Folder 51: Balalajkakonsert, comp. Eduard Tubin, 1965</dt>
+
+   <dd class='faitemcontent'>Stockholm: Edition Suecia.</dd>
+
+<dt class='faitem'><a name="id189404"></a>Folder 52: Concerto in Re Maggeriore, comp. A. Vivaldi, 1974</dt>
+
+   
+<dt class='faitem'><a name="id189405"></a>Folder 53: Danse Macabre, op. 40, comp. C. Saint-Saens, undated</dt>
+
+   <dd class='faitemcontent'>Boosey &amp; Hawkes</dd>
+
+<dt class='faitem'><a name="id189407"></a>Folder 54: Eighteenth Variation, comp. S. Rachmaninoff, arr. F. Kreiser, undated</dt>
+
+   
+<dt class='faitem'><a name="id189408"></a>Folder 55: Kursk Songs, comp. G. Sviridov, 1975</dt>
+
+   <dd class='faitemcontent'>Moscow: Music (Muzyka).</dd>
+
+<dt class='faitem'><a name="id189409"></a>Folder 56: Mavra Overture, comp. I. Stravinsky, 1969</dt>
+
+   <dd class='faitemcontent'>London: Boosey &amp; Hawkes.</dd>
+
+<dt class='faitem'><a name="id189410"></a>Folder 57: Melody in F, op. 3, no. 1, comp. A. Rubinstein, undated</dt>
+
+   
+<dt class='faitem'><a name="id189411"></a>Folder 58: Pastorale, comp. I. Strawinsky (Stravinsky), 1934</dt>
+
+   <dd class='faitemcontent'>Mainz: B. Schott&#039;s Sohne.</dd>
+
+<dt class='faitem'><a name="id189412"></a>Folder 59: Piacere d&#039;amor, fragment, comp. Martini, undated</dt>
+
+   
+<dt class='faitem'><a name="id189413"></a>Folder 60: Plasir d&#039;amour, comp. Martini, undated</dt>
+
+   
+<dt class='faitem'><a name="id189414"></a>Folder 61: Prince Igor: An opera in 4 acts and a prologue, comp. A. Borodin, undated</dt>
+
+   <dd class='faitemcontent'>New York: Edition Musicus.</dd>
+
+<dt class='faitem'><a name="id189415"></a>Folder 62: La Rieuse: Polca Badine, op. 303, comp. F. Behr, undated</dt>
+
+   
+<dt class='faitem'><a name="id189416"></a>Folder 63: Romance, op. 44, comp. A. Rubinstein, 1934</dt>
+
+   <dd class='faitemcontent'>New York: Amsco [sic] Music Sales Co.</dd>
+
+<dt class='faitem'><a name="id189417"></a>Folder 64: And Russia is Her Name, comp. J. Kern, lyrics E. Y. Harburg, 1943</dt>
+
+   <dd class='faitemcontent'>New York: Chappell &amp; Co.</dd>
+
+<dt class='faitem'><a name="id189418"></a>Folder 65: The Russians Were Rushin&#039;, the Yanks Started Yankin&#039;, comp. C. Melarron, lyrics C. Morgan, 1918</dt>
+
+   <dd class='faitemcontent'>New York: Broadway Music Corporation.</dd>
+
+<dt class='faitem'><a name="id189419"></a>Folder 66: Silenzio cantatuare; Dicitence vuie, 1958</dt>
+
+   <dd class='faitemcontent'>Italian Book Company.</dd>
+
+<dt class='faitem'><a name="id189420"></a>Folder 67: Slavonic lament, fragment, comp. Schuett-Friedberg, undated</dt>
+
+   <dd class='faitemcontent'>New York: Carl Fischer.</dd>
+
+<dt class='faitem'><a name="id189421"></a>Folder 68: Sonya, yup, alay yup!, comp. F. Fisher, lyrics B. Shafter, 1925</dt>
+
+   <dd class='faitemcontent'>New York: Irving Berlin, Inc.</dd>
+
+<dt class='faitem'><a name="id189422"></a>Folder 69: Sunset music, undated</dt>
+
+   
+<dt class='faitem'><a name="id189423"></a>Folder 70: Symphonie de psaumes, vocal score, pour choeur mixte et orchestre, comp. I. Strawinsky (Stravinsky), 1948</dt>
+
+   <dd class='faitemcontent'>London: Boosey &amp; Hawkes.</dd>
+
+<dt class='faitem'><a name="id189424"></a>Folder 71: Vocalise, op. 36, no. 13, comp. S. Rachmanninoff, arr. M. Press and J. Gingold, 1958</dt>
+
+   <dd class='faitemcontent'>New York: International Music Company.</dd>
+
+<dt class='faitem'><a name="id189425"></a>Folder 72: Waltz No. 1 for Balalaika and Guitar; comp. M. Wheeler; arr. E. Sheynkman, C. Renshaw, and M.B. Wheeler, 1993</dt>
+
+   
+<dt class='faitem'><a name="id189426"></a>Folder 73: Walzer, II., undated</dt>
+
+   
+<dt class='faitem'><a name="id189427"></a>Folder 74: Waves of the Danube, comp. J. Ivanovici, undated</dt>
+
+   <dd class='faitemcontent'>New York: Carl Fischer.</dd>
+
+<dt class='faitem'><a name="id189428"></a>Folder 75: Unidentified score fragments (1 of 2), undated</dt>
+
+   
+<dt class='faitem'><a name="id189429"></a>Folder 76: Unidentified score fragments (2 of 2), undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189270"></a>Box 20</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189288"></a>Folder 8: Bachianas brasileiras no. 5, comp. Heitor Villa-Lubos, 1957</dt>
+
+   <dd class='faitemcontent'>New York, London: Associated Music Publishers.</dd>
+
+<dt class='faitem'><a name="id189279"></a>Folder 9: Gayne Ballet Suite No. 1, Sabre dance, comp. A. Khachaturian, 1948</dt>
+
+   <dd class='faitemcontent'>New York: Leeds.</dd>
+
+<dt class='faitem'><a name="id189281"></a>Folder 10: Notturno III, undated</dt>
+
+   
+<dt class='faitem'><a name="id189282"></a>Folder 11: Papillonne mazurka, comp. E. Mezzacapo, undated</dt>
+
+   
+<dt class='faitem'><a name="id189285"></a>Folder 12: Underneath the Russian Moon, comp. M. Gusman, lyrics J. Kendis and F. Samuels, 1929</dt>
+
+   <dd class='faitemcontent'>New York: Shapiro, Bernstein &amp; Co., Inc.</dd>
+</dl></dd></dl></dd></dl></dd>
+<dt class='faitem'><a name="id189202"></a>Series 3: Personal Papers and Recordings, 1976-1994</dt>
+
+   <dd class='faitemcontent'>Consists of a newspaper article about Sheynkman, correspondence, and scholarly music performance journals from the Fretted Instrument Guild of America and the <em>Narodnik: Informatsionnyi biulleten. </em>The materials are unarranged.</dd>
+<dd><dl class='faitem'>
+<dt class='faitem'><a name="id189889"></a>Sub-Series 1: Cyrillic Script Titles</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189348"></a>Box 19</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189349"></a>Folder 51: Narodnik: Informatsionnyi biulleten&#039;, vol. 1-2, 1993</dt>
+
+   
+<dt class='faitem'><a name="id189352"></a>Folder 52: Iu. Riadkov, Correspondence, 1992</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189893"></a>Box 23</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189914"></a>Folder 1: Vokal&#039;na muzika, by V. Timofeev, 1982</dt>
+
+   <dd class='faitemcontent'>Kiiv: Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189915"></a>Folder 2: Garmonia, by I. Dubinin, 1981</dt>
+
+   <dd class='faitemcontent'>Muzichna Ukraina.</dd>
+
+<dt class='faitem'><a name="id189916"></a>Folder 3: Radians&#039;ke prikarnattia; by A.I. Bakin, V.L. Baran, G.V. Burnashov, and others, 1980</dt>
+
+   <dd class='faitemcontent'>Karpati.</dd>
+</dl></dd></dl></dd>
+<dt class='faitem'><a name="id189890"></a>Sub-Series 2: Latin Script Titles</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189891"></a>Box 19</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189350"></a>Folder 53: FIGA, official publication of the Fretted Instrument Guild of America, 1976, 1990-1991, 1993-1994</dt>
+
+   
+<dt class='faitem'><a name="id189351"></a>Folder 54: &quot;Russian virtuoso to perform,&quot; newspaper clipping, undated</dt>
+
+   </dl></dd>
+<dt class='faitem'><a name="id189894"></a>Box 23</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189917"></a>Folder 4: The Black Sea, by Georgy Vorotniuk, trans. Nina Brezhko, 1984</dt>
+
+   <dd class='faitemcontent'>Kiev: Politvidav Ukraini Publishers.</dd>
+
+<dt class='faitem'><a name="id189918"></a>Folder 5: Culture of Soviet Ukraine, 1984</dt>
+
+   <dd class='faitemcontent'>Kiev: Politvidav Ukraini Publishers.</dd>
+
+<dt class='faitem'><a name="id195762"></a>Folder 6: Sheynkman publicity flyer, undated</dt>
+
+   <dd class='faitemcontent'>Melodiya Records (USSR) and Elektra-Nonesuch Records (US)</dd>
+</dl></dd>
+<dt class='faitem'><a name="id195763"></a>Box 24</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id195764"></a>Folder 4: Sheynkman publicity broadside, undated</dt>
+
+   <dd class='faitemcontent'>Nonesuch Records (US), BIS Records (Sweden), and Melodiya Records (USSR)</dd>
+</dl></dd></dl></dd>
+<dt class='faitem'><a name="id189895"></a>Sub-Series 3: Recordings</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189896"></a>Box 23</dt>
+
+   <dd><dl class='faitem'>
+<dt class='faitem'><a name="id189919"></a>Item 1: Russian Orchestra at Great Hall, 25 October 1981, Reel 1 of 2, 1981</dt>
+
+   
+<dt class='faitem'><a name="id189920"></a>Item 2: Russian Orchestra at Great Hall, 25 October 1981, Reel 2 of 2, 1981</dt>
+
+   
+<dt class='faitem'><a name="id189921"></a>Item 3: Emanuil Sheynkman at Festival Theatre, 27 Jaunary 1982, Reel 1 of 2, 1982</dt>
+
+   
+<dt class='faitem'><a name="id189922"></a>Item 4: Emanuil Sheynkman at Festival Theatre, 27 Jaunary 1982, Reel 2 of 2, 1982</dt>
+
+   
+<dt class='faitem'><a name="id189923"></a>Item 5: Emanuil Sheynkman and Arianna Schwartz, UI Concert, 26-27 March 1982, Reel 2 of 2, 1982</dt>
+
+   <dd class='faitemcontent'>Includes cue sheet. (Physical order of reels are switched due to difference in physical size.)</dd>
+
+<dt class='faitem'><a name="id189924"></a>Item 6: Emanuil Sheynkman and Arianna Schwartz, UI Concert, 26-27 March 1982, Reel 1 of 2, 1982</dt>
+
+   <dd class='faitemcontent'>Includes cue sheet. (Physical order of reels are switched due to difference in physical size.)</dd>
+</dl></dd></dl></dd></dl></dd></dl><br/><span class='bold'>Browse by Series:</span><br/><br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=188733#id188733'>Series 1: Original Music Manuscripts, 1933-1993</a>],<br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=188925#id188925'>Series 2: Published Music, 1914-1993</a>],<br/>
+[<a href='?p=collections/findingaid&amp;id=11439&amp;rootcontentid=189202#id189202'>Series 3: Personal Papers and Recordings, 1976-1994</a>],<br/>
+[All]<br/>
+
+
+</div>
+<div id="bottom">
+    <br/>
+    <hr id="footerhr" />
+    <div id="userbox" class="smround">
+
+<div id="userlogincontrols">
+  <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In</a>
+</div>
+<div id="userlogin" style="display:none">&nbsp;
+    <form action="/archives/index.php?p=collections/findingaid&amp;id=11439" accept-charset="UTF-8" method="post">
+    <div class='loginpair'>
+    	<div class='loginlabel'><label for="ArchonLoginField">Login:</label></div>
+      	<div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+    </div>
+    <div class='loginpair'>
+      <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+      <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+    </div>
+      <div id='loginsubmit'>
+	      <input type="submit" value="Log in" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me?</label>
+	  </div>
+    </form>
+</div>
+  </div>
+<div id='contactcontainer'><div id='repositorylink'><a href='https://archives.library.illinois.edu/sousa/'>The Sousa Archives and Center for American Music</a></div>
+<div id='emaillink'>Contact Us: <a href='?p=core/contact&amp;f=email&amp;referer=archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D11439'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 1.06 seconds (using 173 queries).<br/>
+
+         Using 7.1MB of memory. (Peak of 7.46MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

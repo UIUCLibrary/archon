@@ -1,0 +1,264 @@
+# Archon live survey: one line per distinct route pattern per instance.
+# Format: <instance> | <route pattern: p=value &param-shape> | <status> | <example full URL>
+# status: "fetched HTTP <code> (xN)" = requested during survey; "linked-only" = seen in page links but not requested;
+#         "linked-only FORBIDDEN" = state-changing (f=...) or admin/login link, deliberately never requested.
+# Instances: ihlc=/ihlc/ (theme ihlc); libweb=/archives/?settheme=library_web&setrepositoryid=0; rbml=/rbml/ (theme rbml);
+#            ala=/ala/ (theme ala_redo); sousa2=/archives/?settheme=sousa2&setrepositoryid=2 (same host path & DB as libweb, separate cookie jar).
+
+## ihlc
+ihlc | (none: /ihlc/) | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/
+ihlc | admin/core/login &go | linked-only FORBIDDEN | https://archon.library.illinois.edu/ihlc/index.php?p=admin/core/login&go=
+ihlc | collections/classifications | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/classifications
+ihlc | collections/classifications &id=<id> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=collections/classifications&id=0
+ihlc | collections/collections | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/collections
+ihlc | collections/collections &browse | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/collections&browse
+ihlc | collections/collections &browse&page=<page> | fetched x6 (HTTP 200 x1, 302 x5) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/collections&browse&page=30
+ihlc | collections/collections &char=<char> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=collections/collections&char=%23
+ihlc | collections/controlcard &disabletheme=1&id=<id>&templateset=print | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/controlcard&id=777&templateset=print&disabletheme=1
+ihlc | collections/controlcard &id=<id> | fetched x5 (HTTP 200 x5) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/controlcard&id=777
+ihlc | collections/ead &disabletheme=1&id=<id>&templateset=ead | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/ead&id=7146&templateset=ead&disabletheme=1
+ihlc | collections/eadlist | fetched x1 (HTTP 500 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/eadlist
+ihlc | collections/findingaid &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=collections/findingaid&id=777&templateset=print&disabletheme=1
+ihlc | collections/findingaid &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=collections/findingaid&id=777
+ihlc | collections/findingaid &id=<id>#pdf-fa | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=collections/findingaid&id=4031#pdf-fa
+ihlc | core/index | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=core/index
+ihlc | core/index &f=privacy | linked-only FORBIDDEN | https://archon.library.illinois.edu/ihlc/index.php?p=core/index&f=privacy
+ihlc | core/search &languageid=<languageid> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=core/search&languageid=2081
+ihlc | creators/creator &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=creators/creator&id=871
+ihlc | creators/creators | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=creators/creators
+ihlc | creators/creators &browse | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=creators/creators&browse
+ihlc | creators/creators &browse&page=<page> | fetched x7 (HTTP 200 x5, 302 x2) | https://archon.library.illinois.edu/ihlc/index.php?p=creators/creators&browse&page=20
+ihlc | creators/creators &char=<char> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=creators/creators&char=A
+ihlc | digitallibrary/digitalcontent &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/digitalcontent&id=100
+ihlc | digitallibrary/digitallibrary | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/digitallibrary
+ihlc | digitallibrary/digitallibrary &browse | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/digitallibrary&browse
+ihlc | digitallibrary/digitallibrary &browse&page=<page> | fetched x3 (HTTP 200 x2, 302 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/digitallibrary&browse&page=2
+ihlc | digitallibrary/digitallibrary &char=<char> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/digitallibrary&char=A
+ihlc | digitallibrary/thumbnails | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=digitallibrary/thumbnails
+ihlc | subjects/subjects | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects
+ihlc | subjects/subjects &browse&page=<page>&subjecttypeid=0 | fetched x42 (HTTP 200 x42) | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&browse&subjecttypeid=0&page=50
+ihlc | subjects/subjects &browse&subjecttypeid=0 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&browse&subjecttypeid=0
+ihlc | subjects/subjects &char=<char> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&char=A
+ihlc | subjects/subjects &id=<id> | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&id=149
+ihlc | subjects/subjects &subjecttypeid=1 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=1
+ihlc | subjects/subjects &subjecttypeid=10 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=10
+ihlc | subjects/subjects &subjecttypeid=2 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=2
+ihlc | subjects/subjects &subjecttypeid=3 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=3
+ihlc | subjects/subjects &subjecttypeid=4 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=4
+ihlc | subjects/subjects &subjecttypeid=5 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=5
+ihlc | subjects/subjects &subjecttypeid=6 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=6
+ihlc | subjects/subjects &subjecttypeid=7 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=7
+ihlc | subjects/subjects &subjecttypeid=8 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=8
+ihlc | subjects/subjects &subjecttypeid=9 | linked-only | https://archon.library.illinois.edu/ihlc/index.php?p=subjects/subjects&subjecttypeid=9
+
+## libweb
+libweb | (none: /archives/) &setrepositoryid=<setrepositoryid>&settheme=<settheme> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/?settheme=library_web&setrepositoryid=0
+libweb | accessions/accession &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=accessions/accession&id=738
+libweb | admin/core/login &go | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=admin/core/login&go=
+libweb | collections/classifications | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/classifications
+libweb | collections/classifications &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/archives/index.php?p=collections/classifications&id=27
+libweb | collections/collections | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/collections
+libweb | collections/collections &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&browse
+libweb | collections/collections &browse&page=<page> | fetched x9 (HTTP 200 x4, 302 x5) | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&browse&page=150
+libweb | collections/collections &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&char=%23
+libweb | collections/controlcard &disabletheme=1&id=<id>&templateset=kardexcontrolcard | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&id=4698&templateset=kardexcontrolcard&disabletheme=1
+libweb | collections/controlcard &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&id=2024&templateset=print&disabletheme=1
+libweb | collections/controlcard &id=<id> | fetched x4 (HTTP 200 x4) | https://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&id=4719
+libweb | collections/ead &disabletheme=1&id=<id>&templateset=ead | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/ead&id=4698&templateset=ead&disabletheme=1
+libweb | collections/eadlist | fetched x1 (HTTP 500 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/eadlist
+libweb | collections/findingaid &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719&templateset=print&disabletheme=1
+libweb | collections/findingaid &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719
+libweb | collections/findingaid &id=<id>#pdf-fa | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=2705#pdf-fa
+libweb | collections/findingaid &id=<id>&q | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719&q=
+libweb | collections/findingaid &id=<id>&q&rootcontentid=<rootcontentid> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719&q=&rootcontentid=131171
+libweb | collections/findingaid &id=<id>&q&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719&q=&rootcontentid=82491#id82491
+libweb | collections/findingaid &id=<id>&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=4719&rootcontentid=116324#id116373
+libweb | collections/marc &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/marc&id=4698
+libweb | collections/marc &id=<id>&raw=<raw> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/marc&id=4698&raw=1
+libweb | core/index &f=pdfsearch | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=core/index&f=pdfsearch
+libweb | core/register | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=core/register
+libweb | core/search &collectionid=<collectionid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&collectionid=4719
+libweb | core/search &languageid=<languageid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&languageid=2081
+libweb | core/search &languageid=<languageid>&q=<q> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&languageid=2081&q=moyer
+libweb | core/search &subjectid=<subjectid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&subjectid=3121
+libweb | creators/creator &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=creators/creator&id=1311
+libweb | creators/creators | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=creators/creators
+libweb | creators/creators &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=creators/creators&browse
+libweb | creators/creators &browse&page=<page> | fetched x7 (HTTP 200 x2, 302 x5) | https://archon.library.illinois.edu/archives/index.php?p=creators/creators&browse&page=75
+libweb | creators/creators &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=creators/creators&char=%23
+libweb | creators/eac &disabletheme=1&id=<id>&templateset=eac | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/archives/index.php?p=creators/eac&id=1311&templateset=eac&disabletheme=1
+libweb | digitallibrary/digitalcontent &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&id=9064
+libweb | digitallibrary/digitallibrary | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary
+libweb | digitallibrary/digitallibrary &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&browse
+libweb | digitallibrary/digitallibrary &browse&page=<page> | fetched x6 (HTTP 200 x5, 302 x1) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&browse&page=100
+libweb | digitallibrary/digitallibrary &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&char=%23
+libweb | digitallibrary/getfile &id=<id> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/getfile&id=10245
+libweb | digitallibrary/getfile &id=<id>&preview=short | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/getfile&id=10245&preview=short
+libweb | digitallibrary/thumbnails | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails
+libweb | digitallibrary/thumbnails &collectionid=<collectionid> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails&collectionid=4719
+libweb | digitallibrary/thumbnails &collectionid=<collectionid>&thumbnailpage=<thumbnailpage> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails&collectionid=4719&thumbnailpage=2
+libweb | digitallibrary/thumbnails &creatorid=<creatorid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails&creatorid=1311
+libweb | subjects/subjects | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects
+libweb | subjects/subjects &browse&page=<page>&subjecttypeid=0 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&browse&subjecttypeid=0&page=2
+libweb | subjects/subjects &browse&subjecttypeid=0 | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&browse&subjecttypeid=0
+libweb | subjects/subjects &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&char=%23
+libweb | subjects/subjects &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&id=3121
+libweb | subjects/subjects &subjecttypeid=1 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=1
+libweb | subjects/subjects &subjecttypeid=10 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=10
+libweb | subjects/subjects &subjecttypeid=2 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=2
+libweb | subjects/subjects &subjecttypeid=3 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=3
+libweb | subjects/subjects &subjecttypeid=4 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=4
+libweb | subjects/subjects &subjecttypeid=5 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=5
+libweb | subjects/subjects &subjecttypeid=6 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=6
+libweb | subjects/subjects &subjecttypeid=7 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=7
+libweb | subjects/subjects &subjecttypeid=8 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=8
+libweb | subjects/subjects &subjecttypeid=9 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=9
+
+## rbml
+rbml | (none: /rbml/) | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/
+rbml | admin/core/login &go | linked-only FORBIDDEN | https://archon.library.illinois.edu/rbml/index.php?p=admin/core/login&go=
+rbml | collections/classifications | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=collections/classifications
+rbml | collections/classifications &id=<id> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/classifications&id=10
+rbml | collections/collections | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=collections/collections
+rbml | collections/collections &browse | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/collections&browse
+rbml | collections/collections &browse&page=<page> | fetched x5 (HTTP 200 x1, 302 x4) | https://archon.library.illinois.edu/rbml/index.php?p=collections/collections&browse&page=8
+rbml | collections/collections &char=<char> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/collections&char=A
+rbml | collections/controlcard &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/controlcard&id=10&templateset=print&disabletheme=1
+rbml | collections/controlcard &id=<id> | fetched x5 (HTTP 200 x5) | https://archon.library.illinois.edu/rbml/index.php?p=collections/controlcard&id=10
+rbml | collections/ead &disabletheme=1&id=<id>&templateset=ead | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=collections/ead&id=1218&templateset=ead&disabletheme=1
+rbml | collections/eadlist | fetched x1 (HTTP 500 x1) | https://archon.library.illinois.edu/rbml/index.php?p=collections/eadlist
+rbml | collections/findingaid &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/findingaid&id=10&templateset=print&disabletheme=1
+rbml | collections/findingaid &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=collections/findingaid&id=10
+rbml | collections/findingaid &id=<id>&q | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/findingaid&id=10&q=
+rbml | collections/findingaid &id=<id>&q&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/findingaid&id=10&q=&rootcontentid=63270#id63270
+rbml | collections/findingaid &id=<id>&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=collections/findingaid&id=1489&rootcontentid=142077#id155756
+rbml | collections/research &f=email&referer=<referer> | linked-only FORBIDDEN | https://archon.library.illinois.edu/rbml/index.php?p=collections/research&f=email&referer=archon.library.illinois.edu%2Frbml%2Findex.php%3Fp%3Dcollections%2Fclassifications
+rbml | core/search &languageid=<languageid> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=core/search&languageid=2081
+rbml | creators/creator &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=creators/creator&id=4
+rbml | creators/creators | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=creators/creators
+rbml | creators/creators &browse | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=creators/creators&browse
+rbml | creators/creators &browse&page=<page> | fetched x6 (HTTP 200 x3, 302 x3) | https://archon.library.illinois.edu/rbml/index.php?p=creators/creators&browse&page=5
+rbml | creators/creators &char=<char> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=creators/creators&char=A
+rbml | creators/eac &disabletheme=1&id=<id>&templateset=eac | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/rbml/index.php?p=creators/eac&id=4&templateset=eac&disabletheme=1
+rbml | digitallibrary/digitalcontent &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/digitalcontent&id=2505
+rbml | digitallibrary/digitallibrary | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/digitallibrary
+rbml | digitallibrary/digitallibrary &browse | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/digitallibrary&browse
+rbml | digitallibrary/digitallibrary &browse&page=<page> | fetched x9 (HTTP 200 x6, 302 x3) | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/digitallibrary&browse&page=8
+rbml | digitallibrary/digitallibrary &char=<char> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/digitallibrary&char=%23
+rbml | digitallibrary/thumbnails | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=digitallibrary/thumbnails
+rbml | subjects/subjects | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects
+rbml | subjects/subjects &browse&page=<page>&subjecttypeid=0 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&browse&subjecttypeid=0&page=2
+rbml | subjects/subjects &browse&subjecttypeid=0 | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&browse&subjecttypeid=0
+rbml | subjects/subjects &char=<char> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&char=%23
+rbml | subjects/subjects &id=<id> | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&id=1302
+rbml | subjects/subjects &subjecttypeid=1 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=1
+rbml | subjects/subjects &subjecttypeid=10 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=10
+rbml | subjects/subjects &subjecttypeid=2 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=2
+rbml | subjects/subjects &subjecttypeid=3 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=3
+rbml | subjects/subjects &subjecttypeid=4 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=4
+rbml | subjects/subjects &subjecttypeid=5 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=5
+rbml | subjects/subjects &subjecttypeid=6 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=6
+rbml | subjects/subjects &subjecttypeid=7 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=7
+rbml | subjects/subjects &subjecttypeid=8 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=8
+rbml | subjects/subjects &subjecttypeid=9 | linked-only | https://archon.library.illinois.edu/rbml/index.php?p=subjects/subjects&subjecttypeid=9
+
+## ala
+ala | (none: /ala/) | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/
+ala | admin/core/login &go | linked-only FORBIDDEN | https://archon.library.illinois.edu/ala/index.php?p=admin/core/login&go=
+ala | collections/classifications | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=collections/classifications
+ala | collections/classifications &id=<id> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/classifications&id=3340
+ala | collections/collections | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=collections/collections
+ala | collections/collections &browse | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/collections&browse
+ala | collections/collections &browse&page=<page> | fetched x7 (HTTP 200 x4, 302 x3) | https://archon.library.illinois.edu/ala/index.php?p=collections/collections&browse&page=30
+ala | collections/collections &char=<char> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/collections&char=A
+ala | collections/controlcard &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/controlcard&id=7025&templateset=print&disabletheme=1
+ala | collections/controlcard &id=<id> | fetched x4 (HTTP 200 x4) | https://archon.library.illinois.edu/ala/index.php?p=collections/controlcard&id=8814
+ala | collections/ead &disabletheme=1&id=<id>&templateset=ead | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=collections/ead&id=8814&templateset=ead&disabletheme=1
+ala | collections/eadlist | fetched x1 (HTTP 500 x1) | https://archon.library.illinois.edu/ala/index.php?p=collections/eadlist
+ala | collections/findingaid &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/findingaid&id=8814&templateset=print&disabletheme=1
+ala | collections/findingaid &id=<id> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=collections/findingaid&id=8814
+ala | collections/findingaid &id=<id>#pdf-fa | linked-only | https://archon.library.illinois.edu/ala/index.php?p=collections/findingaid&id=7025#pdf-fa
+ala | collections/research &f=cart&referer=<referer> | linked-only FORBIDDEN | https://archon.library.illinois.edu/ala/index.php?p=collections/research&f=cart&referer=archon.library.illinois.edu%2Fala%2Findex.php%3Fp%3Dcollections%2Fclassifications
+ala | core/index &f=pdfsearch | linked-only FORBIDDEN | https://archon.library.illinois.edu/ala/index.php?p=core/index&f=pdfsearch
+ala | core/register | linked-only FORBIDDEN | https://archon.library.illinois.edu/ala/index.php?p=core/register
+ala | core/search &languageid=<languageid> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=core/search&languageid=2081
+ala | creators/creator &id=<id> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=creators/creator&id=3495
+ala | creators/creators | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=creators/creators
+ala | creators/creators &browse | linked-only | https://archon.library.illinois.edu/ala/index.php?p=creators/creators&browse
+ala | creators/creators &browse&page=<page> | fetched x6 (HTTP 200 x1, 302 x5) | https://archon.library.illinois.edu/ala/index.php?p=creators/creators&browse&page=13
+ala | creators/creators &char=<char> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=creators/creators&char=A
+ala | digitallibrary/digitalcontent &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/digitalcontent&id=2297
+ala | digitallibrary/digitallibrary | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/digitallibrary
+ala | digitallibrary/digitallibrary &browse | linked-only | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/digitallibrary&browse
+ala | digitallibrary/digitallibrary &browse&page=<page> | fetched x7 (HTTP 200 x2, 302 x5) | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/digitallibrary&browse&page=50
+ala | digitallibrary/digitallibrary &char=<char> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/digitallibrary&char=%23
+ala | digitallibrary/getfile &id=<id> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/getfile&id=1168
+ala | digitallibrary/getfile &id=<id>&preview=long | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/getfile&id=1168&preview=long
+ala | digitallibrary/thumbnails | linked-only | https://archon.library.illinois.edu/ala/index.php?p=digitallibrary/thumbnails
+ala | subjects/subjects | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects
+ala | subjects/subjects &browse&page=<page>&subjecttypeid=0 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&browse&subjecttypeid=0&page=2
+ala | subjects/subjects &browse&subjecttypeid=0 | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&browse&subjecttypeid=0
+ala | subjects/subjects &char=<char> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&char=A
+ala | subjects/subjects &id=<id> | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&id=29473
+ala | subjects/subjects &subjecttypeid=1 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=1
+ala | subjects/subjects &subjecttypeid=10 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=10
+ala | subjects/subjects &subjecttypeid=2 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=2
+ala | subjects/subjects &subjecttypeid=3 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=3
+ala | subjects/subjects &subjecttypeid=4 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=4
+ala | subjects/subjects &subjecttypeid=5 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=5
+ala | subjects/subjects &subjecttypeid=6 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=6
+ala | subjects/subjects &subjecttypeid=7 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=7
+ala | subjects/subjects &subjecttypeid=8 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=8
+ala | subjects/subjects &subjecttypeid=9 | linked-only | https://archon.library.illinois.edu/ala/index.php?p=subjects/subjects&subjecttypeid=9
+
+## sousa2
+sousa2 | (none: /archives/index.php) &setrepositoryid=<setrepositoryid>&settheme=<settheme> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?settheme=sousa2&setrepositoryid=2
+sousa2 | admin/core/login &go | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=admin/core/login&go=
+sousa2 | collections/classifications | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/classifications
+sousa2 | collections/classifications &id=<id> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/classifications&id=1
+sousa2 | collections/collections | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=collections/collections
+sousa2 | collections/collections &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&browse
+sousa2 | collections/collections &browse&page=<page> | fetched x5 (HTTP 200 x3, 302 x2) | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&browse&page=4
+sousa2 | collections/collections &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/collections&char=%23
+sousa2 | collections/controlcard &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&id=10749&templateset=print&disabletheme=1
+sousa2 | collections/controlcard &id=<id> | fetched x3 (HTTP 200 x3) | https://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&id=3132
+sousa2 | collections/eadlist | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/eadlist
+sousa2 | collections/findingaid &disabletheme=1&id=<id>&templateset=print | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=11439&templateset=print&disabletheme=1
+sousa2 | collections/findingaid &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=3132
+sousa2 | collections/findingaid &id=<id>&q | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=10749&q=
+sousa2 | collections/findingaid &id=<id>&q&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=10749&q=&rootcontentid=236591#id236591
+sousa2 | collections/findingaid &id=<id>&rootcontentid=<rootcontentid>#idN | linked-only | https://archon.library.illinois.edu/archives/index.php?p=collections/findingaid&id=3132&rootcontentid=16#id9543
+sousa2 | collections/research &f=cart&referer=<referer> | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=collections/research&f=cart&referer=archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Fclassifications
+sousa2 | core/contact &f=email&referer=<referer> | linked-only FORBIDDEN | https://archon.library.illinois.edu/archives/index.php?p=core/contact&f=email&referer=archon.library.illinois.edu%2Farchives%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D11439
+sousa2 | core/search &collectioncontentid=<collectioncontentid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&collectioncontentid=2645
+sousa2 | core/search &collectionid=<collectionid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&collectionid=3132
+sousa2 | core/search &languageid=<languageid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&languageid=2167
+sousa2 | core/search &languageid=<languageid>&q=<q> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=core/search&languageid=2330&q=brundage%2C1709378237
+sousa2 | core/search &subjectid=<subjectid> | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=core/search&subjectid=5802
+sousa2 | creators/creator &id=<id> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=creators/creator&id=3545
+sousa2 | creators/creators | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=creators/creators
+sousa2 | creators/creators &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=creators/creators&browse
+sousa2 | creators/creators &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=creators/creators&char=%23
+sousa2 | digitallibrary/digitalcontent &id=<id> | fetched x2 (HTTP 200 x2) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&id=8428
+sousa2 | digitallibrary/digitallibrary | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary
+sousa2 | digitallibrary/digitallibrary &browse | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&browse
+sousa2 | digitallibrary/digitallibrary &browse&page=<page> | fetched x8 (HTTP 200 x4, 302 x4) | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&browse&page=30
+sousa2 | digitallibrary/digitallibrary &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitallibrary&char=%23
+sousa2 | digitallibrary/getfile &id=<id> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/getfile&id=13679
+sousa2 | digitallibrary/thumbnails | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails
+sousa2 | digitallibrary/thumbnails &collectionid=<collectionid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails&collectionid=3132
+sousa2 | digitallibrary/thumbnails &subjectid=<subjectid> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=digitallibrary/thumbnails&subjectid=5802
+sousa2 | subjects/subjects | fetched x1 (HTTP 200 x1) | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects
+sousa2 | subjects/subjects &browse&subjecttypeid=0 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&browse&subjecttypeid=0
+sousa2 | subjects/subjects &char=<char> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&char=%23
+sousa2 | subjects/subjects &id=<id> | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&id=437
+sousa2 | subjects/subjects &subjecttypeid=1 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=1
+sousa2 | subjects/subjects &subjecttypeid=10 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=10
+sousa2 | subjects/subjects &subjecttypeid=2 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=2
+sousa2 | subjects/subjects &subjecttypeid=3 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=3
+sousa2 | subjects/subjects &subjecttypeid=4 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=4
+sousa2 | subjects/subjects &subjecttypeid=5 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=5
+sousa2 | subjects/subjects &subjecttypeid=6 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=6
+sousa2 | subjects/subjects &subjecttypeid=7 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=7
+sousa2 | subjects/subjects &subjecttypeid=8 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=8
+sousa2 | subjects/subjects &subjecttypeid=9 | linked-only | https://archon.library.illinois.edu/archives/index.php?p=subjects/subjects&subjecttypeid=9

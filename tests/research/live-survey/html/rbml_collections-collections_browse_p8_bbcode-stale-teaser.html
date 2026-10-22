@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="Rare Book & Manuscript Library Manuscript Collections Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Browse By Collection Title | Rare Book & Manuscript Library, University of Illinois at Urbana-Champaign | Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</title>
+      <link rel="stylesheet" type="text/css" href="themes/rbml/style.css?v=20260812" />
+      <link rel="stylesheet" type="text/css" href="themes/rbml/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/rbml/js/jgrowl/jquery.jgrowl.css" />
+
+      <link rel="icon" type="image/ico" href="themes/rbml/images/favicon.ico"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/rbml/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/rbml/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+	  
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/rbml/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/rbml/js/cluetip/jquery.cluetip.js"></script>
+      <script type="text/javascript" src="themes/rbml/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/rbml/images';
+         $(document).ready(function() {
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandText:         'READ MORE',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: 'COLLAPSE TEXT'      // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 300);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      
+      </script>
+	              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardstaff .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      });
+      </script>
+
+         </head>
+   <body>
+            <div id="top">
+		<div id="headerbar">
+			<div id="topnavblock">
+
+	  
+	  <a href="https://library.illinois.edu"><img src="themes/rbml/images/library-wordmark-white.png"></a>
+      </div>
+			<div id="researchblock">
+						<a href='#archoninfo' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) {$("#loginlink").html="Log In";} else {$("#loginlink").html="Hide";} $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a>");
+						 | <a href='?p=collections/research&amp;f=email&amp;referer=archon.library.illinois.edu%2Frbml%2Findex.php%3Fp%3Dcollections%2Fcollections%26browse%26page%3D8'>Contact Us</a>               </div>
+		</div>
+		
+		<div id="headercenter">
+         <div id="logosearchwrapper">
+            <div id="logo"><a href="https://www.library.illinois.edu/rbx/" ><img src="themes/rbml/images/logo.png" alt="logo" /></a> </div>
+			
+			<div id="headertitleblock">
+				<a href='./index.php'>Manuscript Collections Database</a>
+			</div>
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <input type="text" size="25" title="search" maxlength="150" name="q" id="qfa" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" />
+                                             <input type="hidden" name="content" value="1" />
+                                       </div>
+               </form>
+            </div>
+         </div>
+		</div>
+</div>
+
+<div id="contact-info-line">
+346 Main Library | 1408 West Gregory Drive | Urbana IL 61801 | 217-333-3777 | <a href="mailto:askacurator@library.illinois.edu">askacurator@library.illinois.edu</a>
+</div>
+
+         <!--<div id="researchblock">
+                              </div>-->
+
+<div id="headernav" class='noprint'>
+                              <div id="browsebyblock">
+                        <span id="browsebyspan">
+                           Browse:
+                        </span>
+                        <span class="currentBrowseLink">
+                           <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collections</a>
+                        </span>
+                        <!--<span class="browseLink">
+                           <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Content</a>
+                        </span>-->
+                        <span class="browseLink">
+                           <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                        </span>
+                        <span class="browseLink">
+                           <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Creators</a>
+                        </span>
+                        <span class="browseLink">
+                           <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Record Groups</a>
+                        </span>
+                     </div>
+                  </div>
+				  
+      <div id="breadcrumbblock"><span class='bold'>Location: </span><a href='https://library.illinois.edu/rbx/'>RBML</a> <img src='themes/rbml/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Collections Database</a> <img src='themes/rbml/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/collections'>Browse By Collection Title</a> <img src='themes/rbml/images/arrowright.gif' alt='right-pointing arrow' /> View All</div>
+				  
+      <div id="breadcrumbclearblock">.</div>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){                                                              
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+                         
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script>
+			var $j = jQuery.noConflict();
+         $j(document).ready(function(){
+			  $j(".morelessbutton").click(function(){
+					var el = $(this);
+					if (el.text() == el.data("text-swap")) {
+						el.text(el.data("text-original"));
+					} else {
+						el.data("text-original", el.text());
+						el.text(el.data("text-swap"));
+					}
+				$j(".collDetail").toggle();
+			  });
+			});
+	   </script>
+      <button class='morelessbutton' data-text-swap='expand descriptions'>hide descriptions</button>	  
+      <div id="main">
+<h1 id='titleheader'>Browse By Collection Title | Rare Book & Manuscript Library, University of Illinois at Urbana-Champaign</h1>
+   <div class="listitemhead bold">View All</div><br /><br />
+   <div class="bground beginningwith" id="listitemwrapper"><div class='listitemcover'></div>
+		<div class='listitem'>01/POST-1650 MS 0408  <a href='?p=collections/controlcard&amp;id=463'> Henry Baldwin Ward collection, 1824-1939</a><a id='cid463' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:463,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Item(s))<p class='collDetail'>Collection assembled by Henry Baldwin Ward. Consists of autographed letters signed from scientists and diplomats, including Louis Agassiz, Sir Francis Galton and Edward Hitchcock, among others. Illustration of F. R. Haflser.
+	Some individual items cataloged in Letters card catalog.
+	Link to catalog record: [url=https://i-share.carli.illinois.edu/uiu/cgi-bin/Pwebrecon.cgi?DB=local&v1=1&BBRecID=6572114]https://i-share.carli.illinois.edu/uiu/cgi-bin/Pwebrecon.cgi?DB=local&v1=1&BBRecID=6572114[/url]</p></div>
+<div class='listitem'>01/POST-1650 MS 0451  <a href='?p=collections/controlcard&amp;id=1221'> Catherine Wells diaries, 1898-1927</a><a id='cid1221' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1221,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (15.0 Item(s))<p class='collDetail'>This collection consists of 15 pocket diaries kept by Amy Catherine Robbins (later Catherine or "Jane" Wells) between 1898 and 1927. See the item-level listing for a full list of dates covered.</p></div>
+<div class='listitem'>01/MSS00072  <a href='?p=collections/controlcard&amp;id=1116'> Frank Wells storyboards</a><a id='cid1116' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1116,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Folder(s))<p class='collDetail'>This collection consists of storyboards created by Frank Wells (1902-1982) about his father, English writer H.G. Wells. Frank Wells was an art director, writer, and producer, best known for science-fiction film [i]Supersonic Saucer[/i] (1956).</p></div>
+<div class='listitem'>01/POST-1650 MS 0667  <a href='?p=collections/controlcard&amp;id=1498'> Frederick Joseph Wells collection, 1890s?-1996</a><a id='cid1498' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1498,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (96.0 Item(s))<p class='collDetail'>The Frederick Joseph Wells collection consists of 96 items, including personal letters from H. G. Wells to family members, drawings by H. G. Wells, photographs of the Wells family, and other documents related to the Wells family.</p></div>
+<div class='listitem'>01/POST-1650 MS 0476  <a href='?p=collections/controlcard&amp;id=1247'> Articles about H.G. Wells, 1912-1975</a><a id='cid1247' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1247,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Pamphlet Binder)<p class='collDetail'>From H. G. Wells Collection. Clippings and photocopies of articles
+	1) "What the Germans want to read" by W. B. P. Aspinall from The Bookseller. dated 1947/12/06. [1 cop.]
+	2 "H.G. Wells as the Sacred Lunatic" by R.L. Megroz from Tribune. dated 1945/12/14 [2 cop.]
+	3) "Basler Nachrichten". datd 1946/08/14. [German] [1 cop.]
+	4) ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0537  <a href='?p=collections/controlcard&amp;id=1308'> H.G. Wells glass slides and box, 1900s</a><a id='cid1308' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1308,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>Wooden Box containing 37 glass slides of H. G. Wells, his family, and others.
+	Link to catalog record: [url=https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99656189112205899]https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99656189112205899[/url]</p></div>
+<div class='listitem'>01/POST-1650 MS 0627  <a href='?p=collections/controlcard&amp;id=1449'> H.G. Wells letter to Burke, 1923</a><a id='cid1449' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1449,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Letters)<p class='collDetail'>Autograph letter sent by H.G. Wells from London to Burke. Dated October 18, 1923. Contains picture of H.G. Wells.</p></div>
+<div class='listitem'>01/POST-1650 MS 0485  <a href='?p=collections/controlcard&amp;id=1256'> H.G. Wells manuscript fragments, 1905-1959</a><a id='cid1256' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1256,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Pamphlet Binder)<p class='collDetail'>1) Letters by "Kuklos" in [u]The World[/u].
+	2) Page of notes by Susan Shaltuck typing to identify a piece. She says "in MS. of War in the Air 1908." Typed 1959.
+	3) MS fragment on [Socialist Movement and Socalist Parties] - found with letters to New Age, June 27, 1907, refuting Chesterton's ...</p></div>
+<div class='listitem'>01/MSS00071  <a href='?p=collections/controlcard&amp;id=10'> H.G. Wells papers, 1845-1946</a><a id='cid10' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:10,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (207.0 Linear Feet)<p class='collDetail'>This collection consists of the papers of English novelist and essayist Herbert George Wells. The collection includes correspondence, diaries, drawings, manuscripts and proofs, speeches, and other materials.</p></div>
+<div class='listitem'>01/POST-1650 MS 0461  <a href='?p=collections/controlcard&amp;id=1231'> H.G. Wells plates, 1946</a><a id='cid1231' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1231,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>Glass Plates of H. G. Wells and publications by Wells by Beresford. Also contains letters to Wells.
+	Link to catalog record: [url=https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99656008812205899]https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99656008812205899[/url]</p></div>
+<div class='listitem'>01/POST-1650 MS 0448  <a href='?p=collections/controlcard&amp;id=1218'> H.G. Wells realia, undated</a><a id='cid1218' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1218,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (3.0 Box(es))<p class='collDetail'>[u]Box 1[/u]
+	1) Lock of [Jane's] hair. - Wrapped in x 3" x 5" scrap of paper
+	2) Bound Autograph Book - Book with mounted autographs from letters. 2 loose autographs.
+	3) Lady's Rouge Box - Lady's Rouge Box [Jane's] with lock of braided hair and tiny watercolor of lady's head in lid ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0449  <a href='?p=collections/controlcard&amp;id=1219'> Jane Wells memorabilia, undated</a><a id='cid1219' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1219,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (29.0 Item(s))<p class='collDetail'>[u]Items[/u]
+	1) 2 Medals (badges)
+	2) Plaque (round medallion)
+	3) Broken crystal fragment from chandelier
+	4) Handpainted paper doll
+	5) Fabric square
+	6) Pamphlets of proverbs (4 bound together)
+	7) Postcard, autographed from "Loving Family" to H. G. Wells
+	8) Page from sacramont pamphlet
+	9) Watercolor painting, approx 4" x 6"
+	10) Unsigned postcards (14)
+	11) Autographed postcards (6)
+	12) Autographed postcard ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0447  <a href='?p=collections/controlcard&amp;id=1215'> Jane Wells memorabilia box, undated</a><a id='cid1215' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1215,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>15.8 H x 28.5 W x 11.5 D. Outside cover is seaside scene; inside cover is farm scene; sides and bottom are rose and gold leaf pattern.
+	Former Shelf Mark: "Alluvial 1 Deposit":Â  001-001</p></div>
+<div class='listitem'>01/POST-1650 MS 0502  <a href='?p=collections/controlcard&amp;id=1273'> West family correspondence, 1923-1924</a><a id='cid1273' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1273,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (0.2 Cubic Feet)<p class='collDetail'>The West Family Correspondence consists of 19 items. The first series, [u]H. G. Wells letters[/u], consists of letters written by H. G. Wells about or to his son, Anthony West.  The second series, [u]Anthony West correspondence[/u], consists of correspondence from Rebecca West to Anthony West, her son; correspondence from Anthony ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0477  <a href='?p=collections/controlcard&amp;id=1248'> Articles about Rebecca West and H.G. Wells, 1974-1975</a><a id='cid1248' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1248,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Pamphlet Binder)<p class='collDetail'>From H.G. Wells Collection. Clippings and copies of articles about Rebecca West and H.G. Wells
+	1)"Letters from Dame Margaret Cole" from Books and Bookmen. dated 02/1975. [2 cop.]
+	2) "Passion and Calculation" by Gordon N Ray. from The Sunday Times 1974/11/24. [1 cop.]
+	3) "Albany at Large" from the Sunday Telegraph no. 704. ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0445  <a href='?p=collections/controlcard&amp;id=411'> Randy L. Wilkey postcard collection, 1890-1891</a><a id='cid411' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:411,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>Collection of postcards from 1890 that document the swearing in of teachers by racial category in one North Carolina county.
+	Link to catalog record: [url=https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99609485612205899]https://i-share-uiu.primo.exlibrisgroup.com/permalink/01CARLI_UIU/gpjosq/alma99609485612205899[/url]</p></div>
+<div class='listitem'>01/PRE-1650 MS 0192  <a href='?p=collections/controlcard&amp;id=588'> William Legge collection of letters, circa 1601-1674</a><a id='cid588' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:588,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Item(s))<p class='collDetail'>More complete cataloging can be found at: [url=http://www.worldcat.org/oclc/244296151]http://www.worldcat.org/oclc/244296151[/url]
+	A collection of six letters, mostly English, concerning administrative matters.
+	Ms. documents. 
+	Title supplied by cataloger.
+	No. 1: Bifolium letter in French signed by Charles de Bourbon (notes in pencil identify him as the comte de Soissons who died in 1612). Dated in last line: ...</p></div>
+<div class='listitem'>02/Sutton  <a href='?p=collections/controlcard&amp;id=1193'> William Sutton personal book collection</a><a id='cid1193' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1193,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (10.5 Cubic Feet)<p class='collDetail'>More complete cataloging can be found at: [url=http://www.worldcat.org/oclc/244296151]http://www.worldcat.org/oclc/244296151[/url]
+	A collection of six letters, mostly English, concerning administrative matters.
+	Ms. documents. 
+	Title supplied by cataloger.
+	No. 1: Bifolium letter in French signed by Charles de Bourbon (notes in pencil identify him as the comte de Soissons who died in 1612). Dated in last line: ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0582  <a href='?p=collections/controlcard&amp;id=1386'> C.A. Williams papers, 1922-1932</a><a id='cid1386' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1386,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (2.0 Box(es))<p class='collDetail'>Collection of manuscripts, correspondence, and Photostats accumulated by Dr. Charles Allyn Williams, former Professor of the University of Illinois - Department of German. Box contains materials in connection with his study of German folk-songs.
+	Former Shelfmark: Uncat Q. 70 180</p></div>
+<div class='listitem'>01/POST-1650 MS 0598  <a href='?p=collections/controlcard&amp;id=1402'> Milton Wolff army uniform, 1942</a><a id='cid1402' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1402,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>U.S. Infantry uniform worn by social activist, Milton Wolff, during his service in World War II.</p></div>
+<div class='listitem'>01/MSS00063  <a href='?p=collections/controlcard&amp;id=1104'> Milton Wolff papers, 1933-1993</a><a id='cid1104' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1104,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (50.5 Cubic Feet)<p class='collDetail'>Correspondence, documents, manuscripts, audio cassette, clippings, and books, upon other miscellaneous materials that include his involvement in the Spanish Civil War. Part of the Spanish Civil War collection.</p></div>
+<div class='listitem'>02/SCW-Wolff  <a href='?p=collections/controlcard&amp;id=1213'> Milton Wolff personal book collection</a><a id='cid1213' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1213,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (3.0 Cubic Feet)<p class='collDetail'>Correspondence, documents, manuscripts, audio cassette, clippings, and books, upon other miscellaneous materials that include his involvement in the Spanish Civil War. Part of the Spanish Civil War collection.</p></div>
+<div class='listitem'>01/MSS00108  <a href='?p=collections/controlcard&amp;id=1821'> World War I ephemera, 1914-1921</a><a id='cid1821' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1821,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.1 Cubic Feet)<p class='collDetail'>This collection is comprised of pamphlets, leaflets, flyers and other documents relating to the First World War. Box 1 consists of various pamphlet publications ranging from political opinion pieces to informational reports surrounding World War I. Box 2 is a continuation of the pamphlet series of Box 1. Box 3 ...</p></div>
+<div class='listitem'>01/MSS00114  <a href='?p=collections/controlcard&amp;id=1825'> World War I photos of the Section Photographique de l&#039;Armée, 1914-1919</a><a id='cid1825' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1825,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (16.0 Cubic Feet)<p class='collDetail'>1. Aisne -- 2. Alsace & Vosges -- 3. Champagne -- 4. Marne -- 5. Meuse -- 6. Nord -- 7. Oise -- 8. Pas-de-Calais -- 9. Salonica -- 10. Somme --11. Verdun -- 12. Aviation -- 13. Commissariat -- 14. Construction -- 15. Hospitals, etc. -- 16. Ordnance and ...</p></div>
+<div class='listitem'>01/MSS00109  <a href='?p=collections/controlcard&amp;id=1820'> World War II ephemera, 1936-1945</a><a id='cid1820' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1820,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.1 Cubic Feet)<p class='collDetail'>This collection is comprised of pamphlets, leaflets, and other documents relating to the Second World War. Box 1 consists of propaganda published in Vichy France throughout the German occupation. Box 2 contains informational pamphlets distributed in various languages by the United States Secretary of War Information Office concerning some military ...</p></div>
+<div class='listitem'>02/Wyse  <a href='?p=collections/controlcard&amp;id=1205'> Wyse Book collection</a><a id='cid1205' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1205,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (9.0 Cubic Feet)<p class='collDetail'>This collection is comprised of pamphlets, leaflets, and other documents relating to the Second World War. Box 1 consists of propaganda published in Vichy France throughout the German occupation. Box 2 contains informational pamphlets distributed in various languages by the United States Secretary of War Information Office concerning some military ...</p></div>
+<div class='listitem'>01/MSS00073  <a href='?p=collections/controlcard&amp;id=11'> Wyse family papers, 1816-circa 1942</a><a id='cid11' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:11,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (13.3 Cubic Feet)<p class='collDetail'>The archives of the Wyse family, a prominent Irish literary family of Waterford, Ireland, contain diaries and journals, unpublished literary works, account and letter-books, as well as published volumes and photographs. There is a great deal of literary material, ranging from the poetry, travel accounts, and other papers of Sir ...</p></div>
+<div class='listitem'>02/Asian  <a href='?p=collections/controlcard&amp;id=1152'> Yamagiwa collection</a><a id='cid1152' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1152,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (31.5 Cubic Feet)<p class='collDetail'>The Yamagiwa Collection consists of material dating from the 14th to the 20th centuries. The great majority of items are Japanese books printed between the 17th and 19th centuries, but there is also a small number of Chinese books, as well as three Burmese Kammavaca (Buddhist prayer books); besides books, ...</p></div>
+<div class='listitem'>01/MSS00119  <a href='?p=collections/controlcard&amp;id=1832'> Frank Pearce Sturm correspondence with W.B. Yeats and family papers, 1915-1965</a><a id='cid1832' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1832,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (0.4 Cubic Feet)<p class='collDetail'>Collection of original correspondence between Frank Pearce Sturm and William Butler Yeats in autograph manuscript and typescript, dating from 1915 June 24 to 1938 January 25. Yeats and Sturm discuss one another's writings, offering constructive feedback and editorial corrections; many letters concern Yeats' work [i]A Vision[/i].
+	Also accompanied by a group ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0083  <a href='?p=collections/controlcard&amp;id=1040'> Charlotte Mary Yonge letters to Mrs. Blackburn, 1854-1895</a><a id='cid1040' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1040,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>Collection of original correspondence between Frank Pearce Sturm and William Butler Yeats in autograph manuscript and typescript, dating from 1915 June 24 to 1938 January 25. Yeats and Sturm discuss one another's writings, offering constructive feedback and editorial corrections; many letters concern Yeats' work [i]A Vision[/i].
+	Also accompanied by a group ...</p></div>
+<div class='listitem'>01/POST-1650 MS 0086  <a href='?p=collections/controlcard&amp;id=1043'> Letters from James Webb Young book recipients</a><a id='cid1043' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1043,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Box(es))<p class='collDetail'>Advertising consultant, vice president of the J. Walter Thompson Co., New York visiting lecturer in the University Of Illinois College Of Journalism in 1963.
+	Most of the letters are typed, with holograph signature.
+	Former shelfmark: q B.Y732y1l</p></div>
+<div class='listitem'>02/Zapf  <a href='?p=collections/controlcard&amp;id=1206'> Hermann Zapf book collection</a><a id='cid1206' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1206,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (12.0 Linear Feet)<p class='collDetail'>Advertising consultant, vice president of the J. Walter Thompson Co., New York visiting lecturer in the University Of Illinois College Of Journalism in 1963.
+	Most of the letters are typed, with holograph signature.
+	Former shelfmark: q B.Y732y1l</p></div>
+<div class='listitem'>01/POST-1650 MS 0657  <a href='?p=collections/controlcard&amp;id=1494'> Robert Zarbock collection of opera autographs, 1832-1919</a><a id='cid1494' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1494,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (0.5 Linear Feet)<p class='collDetail'>The Robert Zarbock collection of opera photographs consists of letters, photographs, newspaper clippings, and lithographs related to performers who were active on the Parisian opera circuit in the mid- to late-19th century.</p></div>
+<div class='listitem'>01/POST-1650 MS 0410  <a href='?p=collections/controlcard&amp;id=444'> Lloyd H. Ziegler papers, 1930-1976</a><a id='cid444' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:444,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a> (1.0 Item(s))<p class='collDetail'>The Robert Zarbock collection of opera photographs consists of letters, photographs, newspaper clippings, and lithographs related to performers who were active on the Parisian opera circuit in the mid- to late-19th century.</p></div>
+</div>
+
+<div class="paginationnav"><span class='paginationprevlink'><a href='index.php?p=collections/collections&amp;browse&amp;page=7'>Prev</a></span></div>
+</div>
+<div id="bottom">
+   <br/>
+   <hr id="footerhr" />
+   <div id="userbox" class="smround">
+      
+      <div id="userlogincontrols">
+         <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In</a>
+         
+      </div>
+      <div id="userlogin" style="display:none">&nbsp;
+         <form action="/rbml/index.php?p=collections/collections&amp;browse&amp;page=8" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log in" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me?</label>
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div id='repositorylink'><a href='http://www.library.illinois.edu/rbx/'>Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</a></div>
+<div id='emaillink'>Contact Us: <a href='https://forms.illinois.edu/sec/7016277'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 0.196 seconds (using 162 queries).<br/>
+
+         Using 6.06MB of memory. (Peak of 6.89MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

@@ -93,6 +93,8 @@ abstract class Core_Archon
    public function addPackageDependency($Package, $DependsUpon, $DependsUponVersion = 0.01)
    {
 
+      // Packages that are not installed yet (installer, package manager) have no entry; PHP 5/7 created one implicitly.
+      isset($this->Packages[$Package]) or $this->Packages[$Package] = new stdClass();
       $this->Packages[$Package]->DependsUpon[$DependsUpon] = $DependsUponVersion;
 
       if($this->Packages[$DependsUpon])
@@ -117,6 +119,8 @@ abstract class Core_Archon
     */
    public function addPackageEnhancement($Package, $Enhances, $EnhancesVersion = 0.01)
    {
+      // Packages that are not installed yet (installer, package manager) have no entry; PHP 5/7 created one implicitly.
+      isset($this->Packages[$Package]) or $this->Packages[$Package] = new stdClass();
       $this->Packages[$Package]->Enhances[$Enhances] = $EnhancesVersion;
 
       if($this->Packages[$Enhances])
@@ -1777,7 +1781,7 @@ abstract class Core_Archon
     */
    public function getLatestArchonVersion()
    {
-      if(CONFIG_CORE_CHECK_FOR_UPDATES)
+      if(defined('CONFIG_CORE_CHECK_FOR_UPDATES') && CONFIG_CORE_CHECK_FOR_UPDATES)
       {
          $date = date('Y-m-d');
 
@@ -1842,7 +1846,7 @@ abstract class Core_Archon
     */
    public function getLatestArchonRevision()
    {
-      if(CONFIG_CORE_CHECK_FOR_UPDATES)
+      if(defined('CONFIG_CORE_CHECK_FOR_UPDATES') && CONFIG_CORE_CHECK_FOR_UPDATES)
       {
          $date = date('Y-m-d');
 
@@ -1909,7 +1913,7 @@ abstract class Core_Archon
     */
    public function getLatestPackageVersionFromAPRCode($APRCode)
    {
-      if(CONFIG_CORE_CHECK_FOR_UPDATES)
+      if(defined('CONFIG_CORE_CHECK_FOR_UPDATES') && CONFIG_CORE_CHECK_FOR_UPDATES)
       {
          $date = date('Y-m-d');
 
@@ -2440,20 +2444,12 @@ abstract class Core_Archon
    }
 
    /**
-    * Initializes Archon for use
+    * Defines the CONFIG_* constants from the configuration table
     *
+    * Requires $this->Packages to be loaded.
     */
-   public function initialize()
+   public function initConfiguration()
    {
-      global $_ARCHON;
-
-      $this->RootDirectory = getcwd();
-
-      $this->Packages = $this->getAllPackages();
-
-      $this->initPackages();
-      $this->initModules();
-
       $arrConfiguration = $this->getAllConfiguration(false);
 
       foreach($arrConfiguration as $objConfiguration)
@@ -2469,6 +2465,24 @@ abstract class Core_Archon
 
          @define($constname, $objConfiguration->Value, false);
       }
+   }
+
+   /**
+    * Initializes Archon for use
+    *
+    */
+   public function initialize()
+   {
+      global $_ARCHON;
+
+      $this->RootDirectory = getcwd();
+
+      $this->Packages = $this->getAllPackages();
+
+      $this->initPackages();
+      $this->initModules();
+
+      $this->initConfiguration();
 
       $this->Security = New Security();
           

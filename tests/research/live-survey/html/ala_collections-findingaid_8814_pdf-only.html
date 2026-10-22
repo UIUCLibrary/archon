@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="American Library Association Archives Holdings Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Finding Aid for Subject File, 1983-84, 1994-2019 | The American Library Association Archives</title>
+      <link rel="stylesheet" type="text/css" href="themes/ala_redo/style.css?v=20240717" />
+      <link rel="stylesheet" type="text/css" href="themes/ala_redo/js/cluetip/jquery.cluetip.css" />
+      <link rel="icon" type="image/ico" href="themes/ala_redo/images/favicon.ico?v=20250925"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/ala_redo/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/ala_redo/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/ala_redo/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/ala_redo/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/ala_redo/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/ala_redo/images';
+         $(document).ready(function() {           
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',         // text to come before the expand link
+               expandText:         '[read more]',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'      // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 300);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardstaff .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+         </head>
+   <body>
+      <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2009627-2']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+               
+    <div id="top">
+			
+				<div id="logo"><a href="index.php" ><img src="themes/ala_redo/images/ala_logo.gif" alt="logo" /></a>
+				</div>
+				<div id="browsebyblock">
+				 <span class="currentBrowseLink">
+				   <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collections</a>
+				</span>
+				<span class="browseLink">
+				   <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Content</a>
+				</span>
+				<span class="browseLink">
+				   <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+				</span>
+				<span class="browseLink">
+				   <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Creators</a>
+				</span>
+				<span class="browseLink">
+				   <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Record Groups</a>
+				</span>
+			</div>
+
+ 			
+ 		
+
+         <div id="researchblock">
+
+            <a href='#' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) $("#loginlink").html("Log In"); else $("#loginlink").html("Hide"); $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a> | <a href='http://archives.library.illinois.edu/ala/contact-us/'>Contact Us</a><span id='viewcartlink' | <a href='?p=collections/research&amp;f=cart&amp;referer=archon.library.illinois.edu%2Fala%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D8814'>View Cart (<span id='cartcount'>0</span>)</a></span>         </div>
+
+
+		<div id="searchblock">
+				   <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+					  <div>
+						 <input type="hidden" name="p" value="core/search" />
+						 <input type="text" size="25" title="search" maxlength="150" name="q" id="qfa" value="" tabindex="100" />
+						 <input type="submit" value="Search" tabindex="300" class='button' title="Search" />  <a class='bold pdfsearchlink' href='?p=core/index&amp;f=pdfsearch'>Search PDF lists</a>
+						 						 <input type="hidden" name="content" value="1" />
+						  <input type="hidden" name="repositoryid" value="0" />
+												  </div>
+				   </form>
+		</div>
+
+	
+
+      
+      </div>
+      <div id="breadcrumbblock"><a href='http://www.library.illinois.edu/archives/ala/'>The American Library Association Archives:</a> <img src='themes/ala_redo/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications&amp;id=3359'>Office for Library Advocacy...</a> <img src='themes/ala_redo/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/classifications&amp;id=3895'>Director</a> <img src='themes/ala_redo/images/arrowright.gif' alt='right-pointing arrow' /> <a href='?p=collections/controlcard&amp;id=8814'>Subject File</a> <img src='themes/ala_redo/images/arrowright.gif' alt='right-pointing arrow' /> Finding Aid</div>
+      <div id="breadcrumbclearblock">.</div>
+               <!-- Begin Navigation Bar for Finding Aid View -->
+
+               <div id='left'>
+                  <div id='fanavbox'>
+                     <p class='bold' style='text-align:center'>Subject File</p>
+                     <p><a href="#" tabindex="300">Overview</a></p>
+<p><a href="#scopecontent" tabindex="400">Scope and Contents</a></p>                   <p><a href="#subjects" tabindex="600">Subject Terms</a></p>                              <p><a href="#pdf-fa" tabindex="800">PDF Box/Folder List</a></p><hr/><p class='center' style='font-weight:bold'><a href='mailto:ala-archives@library.illinois.edu?subject=Inquiry: ALA Archives (RS 19/1/6)&body=%0D---Please type your message above this line---%0DReferral page: https://archon.library.illinois.edu%2Fala%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D8814'>Email us about these records</a></p>
+         </div>
+      </div>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+      <div id="famain">      <script type="text/javascript">
+         $(function(){
+            /* <![CDATA[ */
+            updateResearchCartLinks();
+            /* ]]> */
+         });
+      </script>
+      <h1 id='titleheader'>Finding Aid for Subject File, 1983-84, 1994-2019 | The American Library Association Archives</h1>
+
+<p style="font-weight:bold" class="center">By Faith McConnon</p> 
+
+<div id='ccardprintcontact' class='smround'>
+   
+   <span id='requestModalLink' tabindex='0' role='button'><img src='themes/ala_redo/images/box.png' alt='Request' style='padding-right:2px'/>Submit request (Aeon)</span> | 
+<!-- The Modal to show request locations -->
+<div id="requestModal" class="request-modal" style="display:none">
+
+  <!-- Modal content -->
+  <div class="request-modal-content" aria-label="Submit request options" role="dialog" aria-modal="true">
+    <span class="request-modal-close" aria-label="close" tabindex="0" role='button'>&times;</span>
+            <span class='ccardlabel' id='requestlocations'>Locations for this record series:</span><br/>
+
+         <ul class='locationsummary'><li>Archives Research Center, 1707 S. Orchard St.</li></ul><label for='locations'>Filter by location: </label><select name='locations' id='locations' aria-describedby='location-table-note'><option selected value>All locations</option><option value='ARC'>Archives Research Center, 1707 S. Orchard St.</option></select><br /><br />               <label for="filterBy">Filter by box: </label><input class="locationFilter" id="filterBy" type="text" aria-describedby="location-table-note">
+         <p id='location-table-note'><i>Rows will be filtered from the table below as selections are made</i></p>         <table id='locationtable' border='1' style='margin-left:0'>
+            <thread><tr>
+
+               <th style='width:400px'>Service Location</th>
+               <th style='width:100px'>Boxes</th>
+               <th style='width:150px'>Request</th>            </tr></thread>
+
+
+                  <tbody class='locationTableBody'>
+                  <tr><td>Archives Research Center, 1707 S. Orchard St.</td><td>1<td><a href='https://armarium.library.illinois.edu/logon?Action=10&Form=20&Value=GenericRequestALAArchives&ItemTitle=Subject+File%2C+1983-84%2C+1994-2019&CallNumber=RS 19/1/6&ItemDate=1983-84, 1994-2019&ItemInfo4=2.6 Cubic Feet&SpecialRequest=&DocumentType=Official Records&Location=ARC&ItemISxN=1 (1.0 cubic feet)&ItemVolume=1&ItemNumber=30112130172718' target='_blank' class='request-button'>Request Box 1</a></td></td></tr><tr><td>Archives Research Center, 1707 S. Orchard St.</td><td>2<td><a href='https://armarium.library.illinois.edu/logon?Action=10&Form=20&Value=GenericRequestALAArchives&ItemTitle=Subject+File%2C+1983-84%2C+1994-2019&CallNumber=RS 19/1/6&ItemDate=1983-84, 1994-2019&ItemInfo4=2.6 Cubic Feet&SpecialRequest=&DocumentType=Official Records&Location=ARC&ItemISxN=2 (1.0 cubic feet)&ItemVolume=2&ItemNumber=30112130172726' target='_blank' class='request-button'>Request Box 2</a></td></td></tr><tr><td>Archives Research Center, 1707 S. Orchard St.</td><td>3<td><a href='https://armarium.library.illinois.edu/logon?Action=10&Form=20&Value=GenericRequestALAArchives&ItemTitle=Subject+File%2C+1983-84%2C+1994-2019&CallNumber=RS 19/1/6&ItemDate=1983-84, 1994-2019&ItemInfo4=2.6 Cubic Feet&SpecialRequest=&DocumentType=Official Records&Location=ARC&ItemISxN=3 (0.3 cubic feet)&ItemVolume=3&ItemNumber=30112130172734' target='_blank' class='request-button'>Request Box 3</a></td></td></tr><tr><td>Archives Research Center, 1707 S. Orchard St.</td><td>4<td><a href='https://armarium.library.illinois.edu/logon?Action=10&Form=20&Value=GenericRequestALAArchives&ItemTitle=Subject+File%2C+1983-84%2C+1994-2019&CallNumber=RS 19/1/6&ItemDate=1983-84, 1994-2019&ItemInfo4=2.6 Cubic Feet&SpecialRequest=&DocumentType=Official Records&Location=ARC&ItemISxN=4 (0.3 cubic feet)&ItemVolume=4&ItemNumber=30112130172742' target='_blank' class='request-button'>Request Box 4</a></td></td></tr></tbody></table>  </div>
+
+</div>
+
+<script>
+var modal = document.getElementById("requestModal");
+
+var btn = document.getElementById("requestModalLink");
+
+var span = document.getElementsByClassName("request-modal-close")[0];
+
+function openRequestModal() {
+	modal.style.display = "block";
+	span.focus();
+	document.addEventListener('keydown', addESC);
+}
+
+function closeRequestModal(){
+	modal.style.display = "none";
+	btn.focus();
+	document.removeEventListener('keydown', addESC);
+}
+
+var addESC = function(e) {
+  if (e.keyCode == 27) {
+    closeRequestModal();
+  } 
+};
+
+const  focusableElements =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+const focusableContent = modal.querySelectorAll(focusableElements);
+const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+
+
+document.addEventListener('keydown', function(e) {
+  let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+  if (!isTabPressed) {
+    return;
+  }
+
+  if (e.shiftKey) { // if shift key pressed for shift + tab combination
+    if (document.activeElement === firstFocusableElement) {
+      lastFocusableElement.focus(); // add focus for the last focusable element
+      e.preventDefault();
+    }
+  } else { // if tab key is pressed
+    if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+      firstFocusableElement.focus(); // add focus for the first focusable element
+      e.preventDefault();
+    }
+  }
+});
+
+btn.addEventListener('click', function() {
+  openRequestModal();
+});
+
+btn.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+	openRequestModal();
+  }
+});
+
+btn.addEventListener("keydown", function(event) {
+  if (event.keyCode == 32) {
+  event.preventDefault();
+	openRequestModal();
+  }
+});
+
+span.addEventListener('click', function() {
+  closeRequestModal();
+});
+
+span.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+	closeRequestModal();
+  }
+});
+
+span.addEventListener("keydown", function(event) {
+  if (event.keyCode == 32) {
+    event.preventDefault();
+    closeRequestModal();
+  }
+});
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    closeRequestModal();
+  }
+}
+
+
+
+const filterBox = document.querySelector('#requestModal .locationFilter');
+var $k =jQuery.noConflict();
+filterBox.addEventListener('input', filterBoxes);
+
+function filterBoxes(e) {
+	var filterValue = (e.target.value).toLowerCase();
+    $k("#requestModal .locationTableBody tr").filter(function() {
+        var $t = $k(this).children().last();
+		$k(this).toggle($k($t).text().toLowerCase().indexOf(filterValue) > -1)
+    });
+    }
+
+const filterSelect = document.querySelector('#requestModal #locations');
+if (filterSelect){
+	filterSelect.addEventListener('input',filterSelection);
+}
+
+function filterSelection(f) {
+	var selectValue = $k('#requestModal #locations option:selected').text().toLowerCase();
+  if(selectValue =="all locations"){
+    selectValue =" ";
+  }
+	$k("#requestModal .locationTableBody tr").filter(function() {
+		$k(this).toggle($k(this).text().toLowerCase().indexOf(selectValue) > -1)
+    });
+}
+
+</script>
+
+   
+   <a href='?p=collections/findingaid&amp;id=8814&amp;templateset=print&amp;disabletheme=1'>
+      <img src='themes/ala_redo/images/printer.png' alt='Printer-friendly' />
+   </a>
+   <a href='?p=collections/findingaid&amp;id=8814&amp;templateset=print&amp;disabletheme=1'>
+      Printer-friendly
+   </a> |
+   <a href='mailto:ala-archives@library.illinois.edu?subject=Inquiry: ALA Archives Finding Aid (RS 19/1/6)&body=%0D---Please type your message above this line---%0DReferral page: https://archon.library.illinois.edu%2Fala%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D8814'><img src='themes/ala_redo/images/email.png'/> </a><a href='mailto:ala-archives@library.illinois.edu?subject=Inquiry: ALA Archives Finding Aid (RS 19/1/6)&body=%0D---Please type your message above this line---%0DReferral page: https://archon.library.illinois.edu%2Fala%2Findex.php%3Fp%3Dcollections%2Ffindingaid%26id%3D8814'>Email us about these records</a></div>
+
+<h2 style='text-align:left'><a name="overview"></a>Collection Overview</h2>
+<div class="indent-text">
+   <p><span class='bold'>Title:</span> Subject File, 1983-84, 1994-2019<a id='cid8814' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:8814,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/ala_redo/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a></p>
+   <p><span class="bold">Predominant Dates:</span>1994-2019</p>      <p><span class='bold'>ID:</span> 19/1/6</p>   <p><span class='bold'>Extent:</span> 2.6 Cubic Feet</p>
+
+
+    <p><span class='bold'>Arrangement:</span> Alphabetical, thereunder chronological</p>    <p><span class='bold'>Date Acquired:</span> 05/00/2020</p>         <p><span class='bold'>Subjects:</span> <a href='?p=subjects/subjects&amp;id=31954'>Advocacy</a>, <a href='?p=subjects/subjects&amp;id=31579'>American Library Trustees Association (ALTA)</a>, <a href='?p=subjects/subjects&amp;id=28267'>Banned Books</a>, <a href='?p=subjects/subjects&amp;id=28531'>Carnegie Corporation of New York</a>, <a href='?p=subjects/subjects&amp;id=29041'>Elementary and Secondary Education Act</a>, <a href='?p=subjects/subjects&amp;id=29210'>Ford Foundation</a>, <a href='?p=subjects/subjects&amp;id=29347'>Grants</a>, <a href='?p=subjects/subjects&amp;id=30897'>Public Library Association (PLA)</a>, <a href='?p=subjects/subjects&amp;id=31139'>School Libraries</a>, <a href='?p=subjects/subjects&amp;id=31760'>Washington Office</a>, <a href='?p=subjects/subjects&amp;id=31806'>White House Conference on Library and Information Services I</a></p>
+
+         <p><span class='bold'>Languages:</span> <a href='?p=core/search&amp;languageid=2081'>English</a></p> 
+
+
+
+</div>
+<h2 style='text-align:left'><a name="scopecontent"></a>Scope and Contents of the Materials</h2><div class="indent-text">Subject File (1983-84, 1994-2019) of the Office for Library Advocacy (OLA), including articles, audiovisual media, bookmarks, buttons, contracts and agreements, correspondence, emails, grants, handbooks, invoices, meeting minutes, posters, publications, reports, stickers, and toolkits, concerning OLA advocacy activities such as Advocacy Bootcamp, Advocacy Institutes, Advocacy University, ALA Advocacy Strategic Plans, Banned Books Week, Campaign for America&#039;s Libraries/Librarians, the Council of State Library Agencies in the Northeast (COSLINE), the Elementary and Secondary Education Act, &quot;I Love Libraries,&quot; the Libraries on the Information Superhighway Advocacy Network (LISAN), Library Advocacy Now!,the Library Services and Technology Act, the National Book Festival, National Library Legislative Day, &quot;Our Authors, Our Advocates,&quot; &quot;Quotable Facts About America&#039;s Libraries,&quot; the <em>School Library Journal</em>, the School Library Task Force, the White House Conference on Library and Information Services Taskforce (WHCLIST), and the World Book-ALA Goal Award.</div><h2 style='text-align:left'><a name="subjects"></a>Subject/Index Terms</h2><div class="indent-text"><p><a href='?p=subjects/subjects&amp;id=31954'>Advocacy</a><br/><a href='?p=subjects/subjects&amp;id=31579'>American Library Trustees Association (ALTA)</a><br/><a href='?p=subjects/subjects&amp;id=28267'>Banned Books</a><br/><a href='?p=subjects/subjects&amp;id=28531'>Carnegie Corporation of New York</a><br/><a href='?p=subjects/subjects&amp;id=29041'>Elementary and Secondary Education Act</a><br/><a href='?p=subjects/subjects&amp;id=29210'>Ford Foundation</a><br/><a href='?p=subjects/subjects&amp;id=29347'>Grants</a><br/><a href='?p=subjects/subjects&amp;id=30897'>Public Library Association (PLA)</a><br/><a href='?p=subjects/subjects&amp;id=31139'>School Libraries</a><br/><a href='?p=subjects/subjects&amp;id=31760'>Washington Office</a><br/><a href='?p=subjects/subjects&amp;id=31806'>White House Conference on Library and Information Services I</a></p></div>
+   <h2 style='text-align:left'><a name='admininfo'></a>Administrative Information</h2><div class="indent-text">            
+                  <p><span class='bold'><a name='repository'></a>Repository:</span>
+         The American Library Association Archives         </p>
+                  <p><span class='bold'>Other Note:</span>
+         6 Pages         </p>
+         </div><h2 style='text-align:left'><a name='pdf-fa'></a>PDF Box/Folder List</h2><div class='indent-text'>         <p><span class='bold'>URL:</span> <a href="https://files.archon.library.illinois.edu/alasfa/1901006a.pdf">
+         https://files.archon.library.illinois.edu/alasfa/1901006a.pdf            </a></p>
+                           <p id="display-pdf"><span class='bold'>PDF finding aid
+                for Subject File (19/1/6)               </span></p>
+               <iframe src="https://files.archon.library.illinois.edu/alasfa/1901006a.pdf" width="100%" height="800vh">
+               </iframe>
+         </div>
+
+   
+<br/><span class='bold'>Browse by :</span><br/><br/>
+,<br/>
+[All]<br/>
+<br/>
+</div>
+<div id="bottom">
+   <hr id="footerhr" />
+   <div id="userbox">
+            <!--<div id="userlogincontrols"><a href="index.php?p=admin/core/login&amp;go=" onclick="if($('xyz').visible()) {Effect.BlindUp('xyz',{duration: 0.8}); $(this).innerHTML = 'Log In';} else {Effect.BlindDown('xyz',{duration: 0.8}); $(this).innerHTML = 'Hide';} return false;">Log In</a>-->
+      <div id="userlogincontrols"><a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+      </div>
+      <div id="userlogin" class="mdround" style="display:none">&nbsp;
+         <form action="/ala/index.php?p=collections/findingaid&amp;id=8814" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login/E-mail:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="900" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="1000" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log In" class="button" tabindex="1100" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="1200" />Remember me</label>
+            </div>
+            <div id='registerlink'>
+               <a href="?p=core/register" tabindex="800">Register an Account</a>
+
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div><a href='http://www.illinois.edu' ><img src='themes/ala_redo/images/logo.gif' alt='Illinios I-Mark Logo'/></a> </div><div id='repositorylink'><a href='http://www.illinois.edu'>University of Illinois at Urbana-Champaign</a><br/><br/><a href='http://www.library.uiuc.edu/archives/'>University of Illinois Archives</a><br/><a href='https://www.library.illinois.edu/ala/'>The American Library Association Archives</a></div>
+<div id='emaillink'><a href='http://archives.library.illinois.edu/ala/contact-us/'>Contact ALA Archives</a></div>
+</div></div><div id="archoninfo">
+   Page Generated in: 1.366 seconds (using 73 queries).<br/>
+
+         Using 6.47MB of memory. (Peak of 6.67MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

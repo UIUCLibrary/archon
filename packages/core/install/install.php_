@@ -38,7 +38,20 @@ else
 {
    include('packages/core/index.php');
    $_ARCHON->Version = $Version;
+
+   // Steps 7 and 8 store a User and a Repository, whose code references MODULE_* and CONFIG_* constants
+   // that are normally defined by $_ARCHON->initialize(); PHP 7+ throws an Error for undefined constants.
+   if($currentstep >= 7)
+   {
+      $_ARCHON->Packages = $_ARCHON->getAllPackages();
+      $_ARCHON->initModules();
+      $_ARCHON->initConfiguration();
+   }
 }
+
+// Class property defaults (e.g. Core_User::$LanguageID) reference configuration constants that are
+// normally defined by $_ARCHON->initialize(); PHP 7+ throws an Error for undefined constants.
+defined('CONFIG_CORE_DEFAULT_LANGUAGE') or define('CONFIG_CORE_DEFAULT_LANGUAGE', 2081);
 
 if($currentstep)
 {
@@ -59,12 +72,12 @@ function core_install_main()
    $result = $_ARCHON->mdb2->query($query);
    ob_end_clean();
 
-   if(!PEAR::isError($result))
+   if(!pear_isError($result))
    {
 
       $query = "SELECT * FROM tblCore_Packages WHERE APRCode = 'core' LIMIT 1";
       $result = $_ARCHON->mdb2->query($query);
-      if (PEAR::isError($result))
+      if (pear_isError($result))
       {
          trigger_error($result->getMessage(), E_USER_ERROR);
       }
@@ -100,7 +113,7 @@ To continue re-installation, click next.
 
       ob_end_clean();
 
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          header("Location: index.php?p=upgrade");
          die();
@@ -224,7 +237,7 @@ function core_install_install4()
       echo(" - CREATE: ");
       $query = "CREATE TABLE tblArchon_InstallTest (TestField INT NOT NULL)";
       $result = $_ARCHON->mdb2->exec($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -237,7 +250,7 @@ function core_install_install4()
       echo(" - INSERT: ");
       $query = "INSERT INTO tblArchon_InstallTest (TestField) VALUES (1)";
       $result = $_ARCHON->mdb2->exec($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -250,7 +263,7 @@ function core_install_install4()
       echo(" - SELECT: ");
       $query = "SELECT TestField FROM tblArchon_InstallTest";
       $result = $_ARCHON->mdb2->query($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -264,7 +277,7 @@ function core_install_install4()
       echo(" - UPDATE: ");
       $query = "UPDATE tblArchon_InstallTest SET TestField = 2";
       $result = $_ARCHON->mdb2->exec($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -277,7 +290,7 @@ function core_install_install4()
       echo(" - ALTER: ");
       $query = "ALTER TABLE tblArchon_InstallTest ADD TestVarchar varchar(100)";
       $result = $_ARCHON->mdb2->exec($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -290,7 +303,7 @@ function core_install_install4()
       echo(" - DROP: ");
       $query = "DROP TABLE tblArchon_InstallTest";
       $result = $_ARCHON->mdb2->exec($query);
-      if(!PEAR::isError($result))
+      if(!pear_isError($result))
       {
          echo("<font color=lightgreen><b>Yes</b></font><br />");
       }
@@ -719,7 +732,7 @@ function core_install_install8()
 
          $query = "UPDATE tblCore_Configuration SET Value = '{$objRepository->ID}' WHERE Directive = 'Default Repository';";
          $affected=$_ARCHON->mdb2->exec($query);
-         if(PEAR::isError($affected))
+         if(pear_isError($affected))
          {
             echo($affected->getMessage());
          }
@@ -1271,7 +1284,7 @@ function core_install_install11()
 //      $CorePackageID = PACKAGE_CORE;
 //      $query = "UPDATE tblCore_Configuration SET Value = '$in_DefaultLanguageID' WHERE PackageID = '$CorePackageID' AND Directive = 'Default Language';";
 //      $affected = $_ARCHON->mdb2->exec($query);
-//      if (PEAR::isError($affected))
+//      if (pear_isError($affected))
 //      {
 //         trigger_error($affected->getMessage(), E_USER_ERROR);
 //      }

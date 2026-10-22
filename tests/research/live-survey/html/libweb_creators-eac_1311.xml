@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<eac-cpf 
+   xmlns="urn:isbn:1-931666-33-4"
+   xmlns:html="http://www.w3.org/1999/xhtml"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="urn:isbn:1-931666-33-4 http://archon.library.illinois.edu/archives/packages/creators/lib/cpf.xsd   " xml:lang="eng">
+	<control>
+		<recordId>IU-Ar1311</recordId>
+		<maintenanceStatus>revised</maintenanceStatus>
+		<maintenanceAgency>
+			<agencyCode>IU-Ar</agencyCode>
+			<agencyName>University of Illinois Archives</agencyName>
+		</maintenanceAgency>
+		<languageDeclaration>
+			<language languageCode='eng'>English</language>
+			<script scriptCode='Latn'>Latin</script>
+		</languageDeclaration>
+		<maintenanceHistory>
+			<maintenanceEvent>
+				<eventType>revised</eventType>
+				<eventDateTime>Revision date is not currently tracked in the database.</eventDateTime>
+				<agentType>human</agentType>
+				<agent>The name of the person who created or revised this record is not recorded.</agent>
+			</maintenanceEvent>
+		</maintenanceHistory>
+	</control>
+	<cpfDescription>
+		<identity>
+			<entityType>person</entityType>
+			<nameEntry localType='nameAuthorized'>
+				<part>Brundage, Avery</part>
+			</nameEntry>
+		</identity>
+		<description>
+			<existDates>
+				<date localType='lcnaf'>1887-1975</date>
+			</existDates>
+		</description>
+		<relations>
+			<cpfRelation cpfRelationType='associative' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=creators/creator&amp;id=2163'>
+				<relationEntry>University of Illinois at Urbana-Champaign</relationEntry>
+			</cpfRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&amp;id=4719'>
+				<relationEntry localType='papers'>Avery Brundage Collection</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=collections/controlcard&amp;id=4517'>
+				<relationEntry localType='papers'>Avery Brundage Collection Microfilm</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=accessions/accession&amp;id=738'>
+				<relationEntry localType='unprocessedArchivalRecords'>Avery Brundage Additions</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=accessions/accession&amp;id=798'>
+				<relationEntry localType='unprocessedArchivalRecords'>Sam an&#039; Ella Papers-test</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&amp;id=6354'>
+				<relationEntry localType='digitalObject'>Avery Brundage in Front of the Bust of Pierre de Coubertin</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&amp;id=6353'>
+				<relationEntry localType='digitalObject'>Avery Brundage in front the &quot;Nymphenbad&quot; of the Zwinger</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&amp;id=6355'>
+				<relationEntry localType='digitalObject'>Avery Brundage in Weimar, 1969</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&amp;id=6933'>
+				<relationEntry localType='digitalObject'>Avery Brundage Papers and Audiovisuals (Digital Surrogates)</relationEntry>
+			</resourceRelation>
+			<resourceRelation resourceRelationType='creatorOf' xlink:type='simple' xlink:href='http://archon.library.illinois.edu/archives/index.php?p=digitallibrary/digitalcontent&amp;id=6357'>
+				<relationEntry localType='digitalObject'>Press Party for Avery Brundage</relationEntry>
+			</resourceRelation>
+		</relations>
+	</cpfDescription>
+</eac-cpf>
+
+

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# Archon PHP 8.2 test environment driver.
+#
+#   tests/bin/archon-test env        create tests/docker/.env with throwaway credentials
+#   tests/bin/archon-test build      build the PHP 8.2 image and pull SQL Server 2022
+#   tests/bin/archon-test up         start SQL Server and PHP/Apache (http://127.0.0.1:8082/archon/)
+#   tests/bin/archon-test install    copy the source into the container, create the database,
+#                                    run every package's install-mssql.sql and load the fixtures
+#   tests/bin/archon-test sync       copy the current source into the container (keeps the database)
+#   tests/bin/archon-test unit       run the PHPUnit suite (extra arguments go to phpunit)
+#   tests/bin/archon-test crawl      request every public/admin page and report PHP diagnostics
+#   tests/bin/archon-test all        env + build + up + install + unit + crawl
+#   tests/bin/archon-test logs       summarise the PHP diagnostics captured so far
+#   tests/bin/archon-test sql "..."  run a query with sqlcmd against the test database
+#   tests/bin/archon-test down       stop and remove the containers
+#
+# Environment: ARCHON_TEST_MSSQL_COLLATION (default SQL_Latin1_General_CP1_CI_AS),
+#              ARCHON_TEST_DATABASE (default archon_test), ARCHON_TEST_SITE (default archon).
+set -euo pipefail
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+docker_dir="${root}/tests/docker"
+env_file="${docker_dir}/.env"
+database="${ARCHON_TEST_DATABASE:-archon_test}"
+site="${ARCHON_TEST_SITE:-archon}"
+
+compose() {
+    docker compose --env-file "${env_file}" -f "${docker_dir}/docker-compose.yml" "$@"
+}
+
+ensure_env() {
+    if [ ! -f "${env_file}" ]; then
+        local secret
+        secret="Ar$(od -An -N12 -tx1 /dev/urandom | tr -d ' \n')!9"
+        umask 077
+        printf 'ARCHON_TEST_MSSQL_SECRET=%s\n' "${secret}" > "${env_file}"
+        echo "created ${env_file}"
+    fi
+    mkdir -p "${docker_dir}/artifacts/php82"
+    chmod 777 "${docker_dir}/artifacts/php82" 2>/dev/null || true
+}
+
+php_exec() {
+    compose exec -T php82 "$@"
+}
+
+cmd_build() {
+    (cd "${root}/tests" && docker build --network host -f docker/php/Dockerfile -t archon-test/php:8.2 .)
+    docker pull mcr.microsoft.com/mssql/server:2022-latest
+}
+
+cmd_up() {
+    ensure_env
+    compose up -d --wait
+}
+
+cmd_sync() {
+    php_exec sh /src/tests/docker/php/archon-sync "${site}" MSSQL "${database}"
+}
+
+cmd_install() {
+    cmd_sync
+    php_exec php "/src/tests/tools/install-database.php" --site="/var/www/html/${site}" --database="${database}" "$@"
+}
+
+cmd_unit() {
+    php_exec env ARCHON_TEST_SITE_DIR="/var/www/html/${site}" ARCHON_TEST_DATABASE="${database}" \
+        php -d memory_limit=1G /opt/archon-tests/vendor/bin/phpunit -c /src/tests/phpunit.xml.dist "$@"
+}
+
+cmd_crawl() {
+    php_exec php "/src/tests/tools/crawl.php" --base="http://127.0.0.1/${site}/" \
+        --site="/var/www/html/${site}" --report=/var/log/archon/crawl-report.json "$@"
+}
+
+cmd_logs() {
+    php_exec php /src/tests/tools/diagnostics-report.php /var/log/archon/diagnostics.jsonl
+}
+
+cmd_sql() {
+    compose exec -T mssql bash -c '/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -d "$0" -W -s "|" -Q "$1"' "${database}" "$1"
+}
+
+case "${1:-}" in
+    env) ensure_env ;;
+    build) cmd_build ;;
+    up) cmd_up ;;
+    sync) cmd_sync ;;
+    install) shift; cmd_install "$@" ;;
+    unit) shift; cmd_unit "$@" ;;
+    crawl) shift; cmd_crawl "$@" ;;
+    logs) cmd_logs ;;
+    sql) shift; cmd_sql "$*" ;;
+    all)
+        ensure_env
+        cmd_build
+        cmd_up
+        cmd_install
+        cmd_unit
+        cmd_crawl
+        ;;
+    down) compose down -v ;;
+    *)
+        sed -n '2,21p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+        exit 64
+        ;;
+esac

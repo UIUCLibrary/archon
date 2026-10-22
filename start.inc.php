@@ -113,7 +113,7 @@ if($_ARCHON->mdb2)
       $_ARCHON->Script = 'packages/core/install/upgrade.php';
    }
 
-   if($_ARCHON->Disabled || (!CONFIG_CORE_PUBLIC_ENABLED && $arrP[0] != 'admin' && $_REQUEST['p'] != 'install' && $_REQUEST['p'] != 'upgrade'))
+   if($_ARCHON->Disabled || (!(defined('CONFIG_CORE_PUBLIC_ENABLED') ? CONFIG_CORE_PUBLIC_ENABLED : true) && $arrP[0] != 'admin' && $_REQUEST['p'] != 'install' && $_REQUEST['p'] != 'upgrade'))
    {
       if(!$_ARCHON->Security->userHasAdministrativeAccess())
       {

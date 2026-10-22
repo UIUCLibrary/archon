@@ -1,0 +1,134 @@
+
+<ead audience="external" 
+     xmlns="urn:isbn:1-931666-22-9"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.loc.gov/ead/ http://www.loc.gov/ead/ead.xsd">
+   <eadheader langencoding="iso639-2b" audience="external" countryencoding="iso3166-1" dateencoding="iso8601" repositoryencoding="iso15511" scriptencoding="iso15924" relatedencoding="MARC21">
+      <eadid encodinganalog="856$u" mainagencycode="US-IU-Ar" countrycode="US" identifier="ArchonInternalCollectionID:8814">19/1/6</eadid>
+      <filedesc>
+                  <titlestmt>
+               <titleproper encodinganalog="245">Guide to the Subject File</titleproper>
+               <titleproper type="filing">Subject File</titleproper>
+                        <author encodinganalog="245$c">Finding Aid Authors: Faith McConnon.</author>
+                  </titlestmt>
+         <publicationstmt>
+            <p>&#x00A9; Copyright 2023 The American Library Association Archives.  All rights reserved.</p>
+                           <date encodinganalog="260$c" type="publication" normal="2023-04-03">2023-04-03</date>
+
+                           <address>
+                  <addressline>1707 South Orchard Street</addressline>
+                                 <addressline>Urbana, IL, 61802</addressline>
+                                 <addressline>URL: https://www.library.illinois.edu/ala/</addressline>
+                                 <addressline>Email: ala-archives@library.illinois.edu</addressline>
+                                 <addressline>Phone: 217-333-7841</addressline>
+                           </address>
+               
+         </publicationstmt>
+      </filedesc>
+
+      <profiledesc>
+         <creation encodinganalog="500">This finding aid was encoding in EAD by Archon 3.21 from an SQL database source on <date type="encoded" normal="2026-10-22">October 22nd, 2026</date>.</creation>
+                           <langusage encodinganalog="546">The collection description/finding aid is written in <language encodinganalog="041" langcode="eng">English</language></langusage>
+                     </profiledesc>
+
+
+               
+      </eadheader>
+
+      <frontmatter>
+         <titlepage>
+            <titleproper encodinganalog="245">Guide to the Subject File
+                              <date normal="1983/2019" encodinganalog="260$c">1983/2019</date>
+                        </titleproper>
+               <publisher encodinganalog="260$b">The American Library Association Archives</publisher>
+               </titlepage>
+            </frontmatter>
+
+            <archdesc level="collection" type="inventory" audience="external" relatedencoding="MARC21">
+               <did>
+                  <head>Overview of the Collection</head>
+                           <unittitle label="Collection Title" encodinganalog="245">Subject File                              <unitdate label="Dates" encodinganalog="245$f" type="inclusive" normal="1983/2019">1983-84, 1994-2019</unitdate>
+                              <unitdate label="Bulk Dates" encodinganalog="245$g" type="bulk">1994-2019</unitdate>
+                  </unittitle>
+                  <unitid encodinganalog="035" label="Identification" repositorycode="US-IU-Ar" countrycode="US">19/1/6</unitid>
+               <physdesc label="Physical Description"><extent encodinganalog="300" type="Cubic Feet">2.60</extent></physdesc>
+            
+               <langmaterial encodinganalog="546" label="Language of Materials">
+            		<language encodinganalog="041" langcode="eng">English</language>
+               </langmaterial>
+                        <repository encodinganalog="852$b" label="Repository">
+                              <corpname>The American Library Association Archives</corpname>
+                              <address>
+                     <addressline>1707 South Orchard Street</addressline>
+                                       <addressline>Urbana, IL, </addressline>
+                                    <addressline>URL: https://www.library.illinois.edu/ala/</addressline>
+                                    <addressline>Email: ala-archives@library.illinois.edu</addressline>
+                                    <addressline>Phone: 217-333-7841</addressline>
+                              </address>
+            </repository>
+
+
+                                       <note encodinganalog="500" label="Note">
+                  <p>Other Information:</p>
+                                       <p>6 Pages</p>
+                                 <p>Additional information may be found at https://files.archon.library.illinois.edu/alasfa/1901006a.pdf</p>
+                           </note>
+               
+      </did>
+
+
+      <!--COLLECTION LEVEL METADATA: -->
+
+
+            <!-- CONTROLLED ACCESS / SUBJECT TERMS -->
+
+                        <controlaccess>
+                     <head>Access Terms</head>
+
+                     <p>This Collection is indexed under the following controlled access subject terms.</p>
+                                 <controlaccess>
+                              <head>Corporate Name:</head>
+                                       <corpname encodinganalog="610" source="lcnaf" role="subject">American Library Trustees Association (ALTA)</corpname>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Topical Term:</head>
+                                       <subject encodinganalog="650" source="local">Advocacy</subject>
+                                       <subject encodinganalog="650" source="local">Banned Books</subject>
+                                       <subject encodinganalog="650" source="local">Carnegie Corporation of New York</subject>
+                                       <subject encodinganalog="650" source="local">Elementary and Secondary Education Act</subject>
+                                       <subject encodinganalog="650" source="local">Ford Foundation</subject>
+                                       <subject encodinganalog="650" source="local">Grants</subject>
+                                       <subject encodinganalog="650" source="local">Public Library Association (PLA)</subject>
+                                       <subject encodinganalog="650" source="local">School Libraries</subject>
+                                       <subject encodinganalog="650" source="local">Washington Office</subject>
+                                       <subject encodinganalog="650" source="local">White House Conference on Library and Information Services I</subject>
+                                 </controlaccess>
+            </controlaccess>
+            
+
+         <!-- END CONTROLLED ACCESS TERMS -->
+
+            
+            <!-- DIGITAL ARCHIVAL OBJECTS -->
+                              <!-- END DIGITAL ARCHIVAL OBJECTS -->
+                     <!-- ADMINISTRATIVE INFORMATION -->
+               <arrangement encodinganalog="351">
+                  <head>Arrangement of Materials:</head>
+                                 <p>Alphabetical, thereunder chronological</p>
+                        </arrangement>
+            <scopecontent>
+               <head>Scope and Contents</head>
+                                 <p>Subject File (1983-84, 1994-2019) of the Office for Library Advocacy (OLA), including articles, audiovisual media, bookmarks, buttons, contracts and agreements, correspondence, emails, grants, handbooks, invoices, meeting minutes, posters, publications, reports, stickers, and toolkits, concerning OLA advocacy activities such as Advocacy Bootcamp, Advocacy Institutes, Advocacy University, ALA Advocacy Strategic Plans, Banned Books Week, Campaign for America&#039;s Libraries/Librarians, the Council of State Library Agencies in the Northeast (COSLINE), the Elementary and Secondary Education Act, &quot;I Love Libraries,&quot; the Libraries on the Information Superhighway Advocacy Network (LISAN), Library Advocacy Now!,the Library Services and Technology Act, the National Book Festival, National Library Legislative Day, &quot;Our Authors, Our Advocates,&quot; &quot;Quotable Facts About America&#039;s Libraries,&quot; the <emph render="italic">School Library Journal</emph>, the School Library Task Force, the White House Conference on Library and Information Services Taskforce (WHCLIST), and the World Book-ALA Goal Award.</p>
+                        </scopecontent>
+            
+
+
+         <!-- END ADMINISTRATIVE INFORMATION -->
+
+         <!-- END COLLECTION LEVEL METADATA -->
+
+                  <!-- END SUBORDINATE COMPONENTS -->
+   </archdesc>
+</ead>
+

@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="Illinois History and Lincoln Collections Manuscript Collections Database"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Illinois History and Lincoln Collections</title>
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/style.css?version=20261013" />
+      <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.css" />
+      <link rel="icon" type="image/ico" href="themes/ihlc/images/favicon.ico"/>
+      <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/ihlc/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+<script type='text/javascript' src='packages/core/js/jquery.min.js'></script><script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/ihlc/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/ihlc/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/ihlc/js/jquery.scrollTo-min.js"></script>
+<script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/ihlc/images';
+         $(document).ready(function() {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       1000,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '',         // text to come before the expand link
+               expandText:         'READ MORE',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collapse)
+               userCollapseText: 'COLLAPSE TEXT'      // text for collapse link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardlocation .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardlocation .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardlocation .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script>
+			var $j = jQuery.noConflict();
+         $j(document).ready(function(){
+			  $j(".morelessbutton").click(function(){
+					var el = $(this);
+					if (el.text() == el.data("text-swap")) {
+						el.text(el.data("text-original"));
+					} else {
+						el.data("text-original", el.text());
+						el.text(el.data("text-swap"));
+					}
+				$j(".collDetail").toggle();
+			  });
+			});
+	   </script>	
+   </head>
+   <body>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-63524917-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+             <div id='top'>
+		<div id="headerbar">
+			<div id="topnavblock">
+      	  
+	  <a href="https://library.illinois.edu"><img src="themes/ihlc/images/library-wordmark-white.png"></a>
+      </div>
+			<div id="researchblock">
+<a href='#' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) $("#loginlink").html("Log In (Registered Researchers or Staff)"); else $("#loginlink").html("Hide"); $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a> | <a href='mailto:ihlc@library.illinois.edu'>Contact Us</a>               </div>
+		</div>
+		
+		<div id="headercenter">
+			<div id="headertitleblock">
+				<a href='http://www.library.illinois.edu/ihx/index.html'>Illinois History and Lincoln Collections</a> | <a href='./index.php'>Manuscript Collections</a>
+			</div>
+			<div id="searchwrapper">
+            <!--<div id="logo"><a href="index.php" ><img src="themes/ihlc/images/logo.gif" alt="logo" /></a><br/>Archives</div> -->
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <label for='q'></label>
+					 <input type="text" size="35" maxlength="150" name="q" id="q" value="" tabindex="0" placeholder="Search collection summaries"/>
+                     <input type="submit" value="Find" tabindex="0" class='button' title="Search" /> 
+					 
+                     <input type="hidden" name="content" value="1" />
+                                       </div></form></div>
+				  
+				<div id="pdfsearchlink"><a href='?p=core/index'>Return to main search page</a></div>
+         </div>
+		</div>
+		
+		
+         
+</div>
+
+<div id="contact-info-line">
+324 Main Library | 1408 West Gregory Drive | Urbana IL 61801 | 217-333-1777 | <a href="mailto:ihlc@library.illinois.edu">ihlc@library.illinois.edu</a>
+</div>
+<div id="headernav" class='noprint'>
+			                  <div id="browsebyblock">
+            
+					 <span id="browsebyspan">
+                        Browse by:
+                     </span>
+					 
+                     <span class="browseLink">
+                        <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collection Titles</a>
+                     </span>
+
+                     <span class="browseLink">
+                        <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                     </span>
+					 
+                     <span class="browseLink">
+                        <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Persons or Organizations</a>
+                     </span>
+					 
+                     <!--<span class="browseLink">
+                        <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Images</a>
+                     </span> -->
+
+                  </div>
+		</div>
+</div>
+               <div id="breadcrumbblock">
+<a href='https://www.library.illinois.edu/ihx/'>IHLC</a> <img src='themes/ihlc/images/arrowright.gif' alt='right-pointing arrow' /> Manuscript Collections Database      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+	  	        <div id="main">
+	  
+<h1 id='titleheader'>Illinois History and Lincoln Collections</h1>
+
+
+
+<div id='themeindex' class='bground'>
+
+<div >
+
+<div style='display:none;' class='bground textcontainer box1'>
+<h2>Browse Manuscript Collections by title</h2>
+<div class='a-z'><a href='?p=collections/collections&amp;char=%23'>-#-</a><a href='index.php?p=collections/collections&amp;char=A'>-A-</a><a href='index.php?p=collections/collections&amp;char=B'>-B-</a><a href='index.php?p=collections/collections&amp;char=C'>-C-</a><a href='index.php?p=collections/collections&amp;char=D'>-D-</a><a href='index.php?p=collections/collections&amp;char=E'>-E-</a><a href='index.php?p=collections/collections&amp;char=F'>-F-</a><a href='index.php?p=collections/collections&amp;char=G'>-G-</a><a href='index.php?p=collections/collections&amp;char=H'>-H-</a><a href='index.php?p=collections/collections&amp;char=I'>-I-</a><a href='index.php?p=collections/collections&amp;char=J'>-J-</a><a href='index.php?p=collections/collections&amp;char=K'>-K-</a><a href='index.php?p=collections/collections&amp;char=L'>-L-</a><a href='index.php?p=collections/collections&amp;char=M'>-M-</a><a href='index.php?p=collections/collections&amp;char=N'>-N-</a><a href='index.php?p=collections/collections&amp;char=O'>-O-</a><a href='index.php?p=collections/collections&amp;char=P'>-P-</a><a href='index.php?p=collections/collections&amp;char=Q'>-Q-</a><a href='index.php?p=collections/collections&amp;char=R'>-R-</a><a href='index.php?p=collections/collections&amp;char=S'>-S-</a><a href='index.php?p=collections/collections&amp;char=T'>-T-</a><a href='index.php?p=collections/collections&amp;char=U'>-U-</a><a href='index.php?p=collections/collections&amp;char=V'>-V-</a><a href='index.php?p=collections/collections&amp;char=W'>-W-</a>-X-<a href='index.php?p=collections/collections&amp;char=Y'>-Y-</a><a href='index.php?p=collections/collections&amp;char=Z'>-Z-</a><a href='?p=collections/collections&amp;browse'>View All</a></div></div>
+
+
+	<div class="bground textcontainer box1"><label for='mainsearch'><h2>Search Manuscript Collection Descriptions</h2></label>
+		<p>Search our collection descriptions for keywords, such as names, places, formats, or topics here. <br />To search by collection number, please use the <a href="#identifiersearch">identifier search box</a> at the bottom of the page.</p>
+		<div id ="multisearch">
+		 <form method="get" id="multisearchbox" action='index.php' accept-charset="UTF-8" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+		 
+		 <input type="hidden" id="hiddenquery" name="p" value="core/search"/>
+		 
+		 <input type="text" size="40" maxlength="150" name="q" id="mainsearch" class="searchinput" value="" tabindex="0" autofocus/>
+		 
+		 <input type="submit" value="Find" tabindex="0" class='button' title="Search" />
+
+		<br/>
+		
+		<div id="multisearchoptions">
+		<input type="radio" class="radio_option" id="opt1" name="multisearch" onclick="document.getElementById('multisearchbox').action='index.php'; document.getElementById('hiddenquery').name='p'; document.getElementById('hiddenquery').value='core/search';" checked="checked"/> <label for="opt1">Search all collection and creator summaries in this database</label>
+		<br />- or -<br />
+		<input type="radio" name="multisearch" id="opt2" onclick="document.getElementById('multisearchbox').action='https://www.google.com/search'; document.getElementById('hiddenquery').name='hq'; document.getElementById('hiddenquery').value='site:www.library.illinois.edu/ihx/inventories OR site:files.archon.library.illinois.edu/ihlcsfa';"/><label for="opt2">Use Google to search detailed folder and box lists for collections</label>
+		
+		</div>
+		</form></div>
+		</div>
+		
+	</div>
+	<div class="bground textcontainer box2"><h2>About the database</h2>
+	<p>This database contains <span class="keyphrase">descriptions of manuscript materials</span> held by the Illinois History and Lincoln Collections (IHLC) at the University of Illinois Library. The database includes descriptions for a substantial portion of the collections, but is not yet comprehensive.</p>
+	<p><span class="keyphrase">Manuscript collections</span> range from single letters and diaries to organizational records occupying fifty or more document cartons. Please see the <a href="http://www.library.illinois.edu/ihx/collections">Overview of Collections</a> on the IHLC website for more detail on the types of the collections and the various topics they cover.</p>
+	<p>The database provides <span class="keyphrase">searchable summary information</span> about these collections including descriptions of the scope and content of materials (noting the names of key people, organizations, and places, as well as topics and types of documents), as well as dates and acquisition information.</p>
+	<p>In addition, <span class="keyphrase">detailed lists of collection contents</span> (box and folder lists) have been prepared for several hundred collections and are uploaded as PDF files. These inventories are NOT included in the general database search. These must be searched separately using the Google custom search function set up above.</p>
+	<p>Please <strong><a href="mailto:ihlc@library.illinois.edu">contact us</a></strong> if you have any questions or if you would like to inquire about unprocessed collections without descriptions in this database.</p></div>
+
+	<div class="bground textcontainer box3"><h2>Search tips</h2>
+	<h3>Database searching</h3>
+	<ul>
+	<li>Note that the database will only return results that include all of your search terms</li>
+	<li>Use double quotes to search for a phrase (for example, "Religious Society of Friends")</li>
+	<li>A maximum of 100 results will be returned in any given search. To limit your search by excluding a term, put a minus sign before the particular word (for example, diary -microfilm will exclude collections that contain microfilm)</li>
+	</ul>
+	<h3>Searching PDFs with Google</h3>
+	<ul>
+	<li>Remember that not every collection will have a detailed inventory; the database search must be used to locate these collections of manuscript materials</li>
+	<li>After locating an item of interest, download the PDF inventory and use the "find" option (typically ctrl-F) to locate your search terms within the document</li>
+	<li>Note that some PDFs are scanned copies of paper files and while these are also searchable, there may be some errors in the computer-generated text searched for these inventories</li>
+	</ul>
+	<h3>Searching for archival materials in additional units of the University of Illinois Library</h3>
+	<ul>
+	<li>This database contains only items found in the IHLC. To search additional archival repositories at the University of Illinois Library, please use the <a href='?f=searchmultiple'>multiple repository search page</a>. 
+	</ul>
+	</div>
+</div>
+
+
+<div style="clear:both;"></div>
+<div class="bground textcontainer box4"><label for='identifier'><h2>Look Up Collection by Identifier</h2></label>
+	<p>If you know the collection identifier number, you may look up the corresponding collection record in the database here.<p>
+	<form id="identifiersearch" action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+        <div>
+            <input type="hidden" name="f" value="identifiersearch" />
+			<input class="searchinput" type="text" size="15" maxlength="10" name="q" id="identifier" value="" tabindex="0" />
+            <input type="submit" value="Find" tabindex="0" class='button' title="Search" /> 
+        </div>
+	</form>
+</div>
+<!--
+<div style='border:red 1px solid; text-align:center; float:left; font-size:small'>
+<img src="themes/ihlc/images/memstad.gif" alt="Photo of Memorial Stadium, circa 1925"><br/>Memorial Stadium, circa 1925
+</div>
+-->
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+<div id="bottom">
+    <br/>
+    <hr id="footerhr" />
+    <div id="userbox" class="smround">
+
+<div id="userlogincontrols">
+ <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+</div>
+<div id="userlogin" class="mdround" style="display:none">&nbsp;
+    <form action="/ihlc/" accept-charset="UTF-8" method="post">
+    <div class='loginpair'>
+    	<div class='loginlabel'><label for="ArchonLoginField">Username:</label></div>
+      	<div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+    </div>
+    <div class='loginpair'>
+      <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+      <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+    </div>
+      <div id='loginsubmit'>
+	      <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+	  </div>
+
+    </form>
+</div>
+  </div>
+<div id='contactcontainer'><div id='repositorylink'><a href='http://library.illinois.edu/ihx/'>Illinois History and Lincoln Collections</a></div>
+<div id='emaillink'>Contact Us: <a href='mailto:ihlc@library.illinois.edu'>ihlc@library.illinois.edu</a></div>
+<div id='privacy'><p><a href='?p=core/index&f=privacy'>Privacy Policy</a></p></div></div></div>
+<div id="archoninfo">
+   Page Generated in: 0.13 seconds (using 46 queries).<br/>
+
+         Using 4.88MB of memory. (Peak of 4.98MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright (c) <a href="http://www.illinois.edu" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

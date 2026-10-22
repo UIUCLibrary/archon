@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="University of Illinois Archives Holdings Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>University of Illinois Archives</title>
+      <link rel="stylesheet" type="text/css" href="themes/library_web/style.css?v=20260925" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/library_web/js/jgrowl/jquery.jgrowl.css" />
+      <link rel="icon" type="image/ico" href="themes/library_web/images/favicon.ico?v=20260925"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/library_web/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/library_web/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/library_web/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/library_web/js/cluetip/jquery.cluetip.js"></script>
+      
+      <script type="text/javascript" src="themes/library_web/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/library_web/images';   
+         jQuery(document).ready(function($) {          
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,             // make expandable if over this x chars
+               widow:            100,             // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',        // text to come before the expand link
+               expandText:       'more',     			//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,               // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+				$('.expandablesmall').expander({
+               slicePoint:       100,             // make expandable if over this x chars
+               widow:            10,              // do not make expandable unless total length > slicePoint + widow
+               expandPrefix:     '. . . ',       	// text to come before the expand link
+               expandText:       'more',  				//text to use for expand link
+               expandEffect:     'fadeIn',        // or slideDown
+               expandSpeed:      0,              	// in milliseconds
+               collapseTimer:    0,              	// milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: '[collapse]'     // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 400);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      </script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+         $k("#ccardstaff .locationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $t = $(this).children().last();
+               $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#ccardstaff .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffBoxFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               var $h = $(this).children().first();
+               $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+         $k("#stafflocationtable .staffLocationFilter").on("keyup", function() {
+            var value = $k(this).val().toLowerCase();
+            $k("#stafflocationtable .locationTableBody tr").filter(function() {
+               $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+               });
+         });
+      });
+      </script>
+
+      
+   </head>
+   <body>
+            <div id='top'>
+
+         <div id="logosearchwrapper">
+
+		 <div id="sitetitleblock"><a href="https://archives.library.illinois.edu">University of Illinois Archives</a> &ndash;> <a href="index.php">Holdings Database</a></div>
+			<div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <input type="text" size="25" maxlength="150" name="q" id="q" title="input box for search field" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" /> <a class='bold pdfsearchlink' href='?p=core/index&amp;f=pdfsearch'>Search PDF lists</a>
+                                             <input type="hidden" name="content" value="0" />
+                                          </div></form></div>
+
+         </div>
+         
+			
+         <div id="browsebyblock">
+            <div id="browseblockcontent">
+            <span class="browseLink">
+               <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Campus Units/Record Groups</a>
+            </span>
+
+            <span class="browseLink">
+               <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Physical Collections: A-Z</a>
+            </span>
+			 <span class="browseLink">
+               <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Materials: A-Z</a>
+            </span>
+           
+            <span class="browseLink">
+               <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subject Headings</a>
+            </span>
+            <span class="browseLink">
+               <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Record Creators</a>
+            </span>
+           </div>
+         </div>
+      </div>
+
+      <div id="breadcrumbblock">
+         <a href='https://archives.library.illinois.edu'>University Archives</a> <img src='themes/library_web/images/arrowright.gif' alt='right-pointing arrow' /> Holdings      </div>
+      <div id="breadcrumbclearblock">.</div>
+
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>      <div id="main">
+
+
+<div id='themeindex' class='bground'>
+
+<div style="width:75%; margin:1em auto; padding:1em; background-color:#F9F9FA; border:#ddd 1px solid; font-size:small" class="bground">
+<h2 style='margin-top:.1em'>Search Our Archives</h2>
+		<div style='text-align:center'>
+		<div id ="multisearch">
+		 <form method="get" id="multisearchbox" action='index.php' accept-charset="UTF-8" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+		 
+		 <input type="hidden" id="hiddenquery" name="p" value="core/search"/>
+		 
+		 <input type="text" size="40" maxlength="150" name="q" id="q" class="searchinput" style='font-size:1.5em' value="" tabindex="100" autofocus/>
+		 
+		 <input type="submit" value="Search" tabindex="300" class='button' title="Search" />
+		
+		<p><a href='?p=core/index&amp;f=pdfsearch'>Search PDF lists</a></p>
+		
+		</div>
+		</form></div>
+	<p>This database contains descriptions of all materials held by the University of Illinois Archives, incuding non-current University records, faculty and alumni papers, and materials from the Sousa Archives and Center for American Music, the Advertising Council Archives, the American Society of Quality, and other institutions whose archives we hold on contract for their research value.  The American Library Association Archives are described in a <a href="../ala/">separate database.</a><br/><br/>Materials are arranged according to the principle of provenance (files from one creating office or person are not mixed with those from another) and they are also indexed by subject.  The Archives are available for use during the University Archives' normal business hours.  We can be contacted at <a href="mailto:illiarch@illinois.edu">illiarch@illinois.edu</a> or (217) 333-0798.</p>
+	</div>
+</div>
+
+<div style="margin:1em auto; padding:1em; background-color:#F9F9FA; border:#ddd 1px solid; width:90%; margin:1em auto; clear:left; font-size:small" class="bground">
+<h2 style='margin-top:.1em'>Search Tips</h2>
+<ul>
+  <li style='margin-bottom:4px'>The search engine looks for every term you submit, no matter how short.</li>
+  <li style='margin-bottom:4px'>The search engine finds descriptions of our paper-based holdings <span class='bold'>and</span> items in our online archives.</li>
+  <li style='margin-bottom:4px'>To look for phrases, use double quotes, e.g "Festival of Contemporary Arts"</li>
+  <li style='margin-bottom:4px'>Record Series shortcut: e.g. '26/4/1' finds our <a href='?p=collections/controlcard&amp;id=2563'>Alumni File</a>.</li>
+  <li style='margin-bottom:4px'>To search deep into box/folders lists that are not in the database, follow the <a href='?p=core/index&amp;f=pdfsearch'>Deep Search</a> link.</li>
+    <li style='margin-bottom:4px'>Limiting 'Hits':
+    <ul>
+      <li class='back'>Use a minus sign, e.g. 'bass -fish' finds bass guitars but not bass fishing.</li>
+      <li class='back'>Browse by subject, name, or campus unit.</li>
+      <li class='back'>Call or <a href='mailto:illiarch@illinois.edu'>email</a> the archives.  We're here to help!</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+
+</div>
+
+</div>
+<div id="bottom">
+   <br/>
+   <hr id="footerhr" />
+   <div id="userbox" class="smround">
+      
+      <div id="userlogincontrols">
+         <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In (Staff)';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In (Staff)</a>
+      </div>
+      <div id="userlogin" class="mdround" style="display:none">&nbsp;
+         <form action="/archives/?settheme=library_web&amp;setrepositoryid=0" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login/E-mail:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log In" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me</label>
+            </div>
+            <div id='registerlink'>
+               <a href="?p=core/register" tabindex="800">Register an Account</a>
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div id='repositorylink'><a href='http://archives.library.illinois.edu'>University of Illinois Archives</a></div>
+<div id='emaillink'>Contact Us: <a href='http://www.library.uiuc.edu/archives/email-ahx.php?this_page=https://archon.library.illinois.edu%2Farchives%2F%3Fsettheme%3Dlibrary_web%26setrepositoryid%3D0'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 0.046 seconds (using 17 queries).<br/>
+
+         Using 4.9MB of memory. (Peak of 4.97MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   

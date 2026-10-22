@@ -3,3 +3,5 @@ docker/.env
 docker/artifacts/
 docker/work/
 .phpunit.result.cache
+# Gzipped reference pages from the live survey (the root .gitignore ignores *.gz)
+!research/live-survey/html/*.gz

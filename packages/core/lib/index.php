@@ -214,6 +214,11 @@ $_ARCHON = New Archon();
 
 require_once('archon.inc.php');
 
+// config.inc.php assigns $_ARCHON->db->... and $_ARCHON->config->...; PHP 8 no longer
+// creates these objects implicitly when a property is assigned on NULL.
+is_object($_ARCHON->db) or $_ARCHON->db = new stdClass();
+is_object($_ARCHON->config) or $_ARCHON->config = new stdClass();
+
 require_once('security.inc.php');
 require_once('session.inc.php');
 require_once('livesession.inc.php');
@@ -322,5 +327,9 @@ define('RESEARCH_NONE', 0, false);
 define('RESEARCH_COLLECTIONS', nextbitmask('RESEARCH'), false);
 define('RESEARCH_DIGITALLIB', nextbitmask('RESEARCH'), false);
 define('RESEARCH_ALL', RESEARCH_COLLECTIONS + RESEARCH_DIGITALLIB, false);
+
+// PublicInterface::$EscapeXML defaults to this constant, which is not defined anywhere else.
+// PHP 5 treated the undefined constant as a (truthy) string; PHP 7+ throws an Error.
+defined('CONFIG_ESCAPE_XML') or define('CONFIG_ESCAPE_XML', true);
 
 ?>

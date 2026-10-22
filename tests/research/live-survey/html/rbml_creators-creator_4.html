@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="og:site_name" content="Rare Book & Manuscript Library Manuscript Collections Database"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Wells, H.G. (Herbert George) (1866-1946) | Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</title>
+      <link rel="stylesheet" type="text/css" href="themes/rbml/style.css?v=20260812" />
+      <link rel="stylesheet" type="text/css" href="themes/rbml/js/cluetip/jquery.cluetip.css" />
+      <link rel="stylesheet" type="text/css" href="themes/rbml/js/jgrowl/jquery.jgrowl.css" />
+
+      <link rel="icon" type="image/ico" href="themes/rbml/images/favicon.ico"/>
+      <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="themes/rbml/ie.css" />
+        <link rel="stylesheet" type="text/css" href="themes/themes/rbml/js/cluetip/jquery.cluetip.ie.css" />
+      <![endif]-->
+	  
+      <script type='text/javascript' src='packages/core/js/jquery.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-ui.custom.min.js'></script>      <script type='text/javascript' src='packages/core/js/jquery-expander.js'></script>      <script type="text/javascript" src="themes/rbml/js/jquery.hoverIntent.js"></script>
+      <script type="text/javascript" src="themes/rbml/js/cluetip/jquery.cluetip.js"></script>
+      <script type="text/javascript" src="themes/rbml/js/jquery.scrollTo-min.js"></script>
+      <script type='text/javascript' src='packages/core/js/jquery.jgrowl.min.js'></script>      <script type='text/javascript' src='packages/core/js/archon.js'></script><script type='text/javascript' src='packages/digitallibrary/js/archon.js'></script>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         imagePath = 'themes/rbml/images';
+         $(document).ready(function() {
+            $('div.listitem:nth-child(even)').addClass('evenlistitem');
+            $('div.listitem:last-child').addClass('lastlistitem');
+            $('#locationtable tr:nth-child(odd)').addClass('oddtablerow');
+            $('.expandable').expander({
+               slicePoint:       600,              // make expandable if over this x chars
+               widow:            100,              // do not make expandable unless total length > slicePoint + widow
+               expandText:         'READ MORE',  //text to use for expand link
+               expandEffect:     'fadeIn',         // or slideDown
+               expandSpeed:      700,              // in milliseconds
+               collapseTimer:    0,                // milliseconds before auto collapse; default is 0 (don't re-collape)
+               userCollapseText: 'COLLAPSE TEXT'      // text for collaspe link
+            });
+         });
+
+         function js_highlighttoplink(selectedSpan)
+         {
+            $('.currentBrowseLink').toggleClass('browseLink').toggleClass('currentBrowseLink');
+            $(selectedSpan).toggleClass('currentBrowseLink');
+            $(selectedSpan).effect('highlight', {}, 300);
+         }
+
+         $(document).ready(function() {externalLinks();});
+         $(window).unload(function() {});
+         /* ]]> */
+      
+      </script>
+	              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+      var $k =jQuery.noConflict();
+      $k(document).ready(function(){
+      $k("#ccardstaff .locationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $t = $(this).children().last();
+            $k(this).toggle($k($t).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffBoxFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            var $h = $(this).children().first();
+            $k(this).toggle($k($h).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      $k("#ccardstaff .staffLocationFilter").on("keyup", function() {
+         var value = $k(this).val().toLowerCase();
+         $k("#ccardstaff .locationTableBody tr").filter(function() {
+            $k(this).toggle($k(this).text().toLowerCase().indexOf(value) > -1)
+            });
+         });
+      });
+      </script>
+
+         </head>
+   <body>
+            <div id="top">
+		<div id="headerbar">
+			<div id="topnavblock">
+
+	  
+	  <a href="https://library.illinois.edu"><img src="themes/rbml/images/library-wordmark-white.png"></a>
+      </div>
+			<div id="researchblock">
+						<a href='#archoninfo' onclick='$(window).scrollTo("#archoninfo"); if($("#userlogin").is(":visible")) {$("#loginlink").html="Log In";} else {$("#loginlink").html="Hide";} $("#userlogin").slideToggle("normal"); $("#ArchonLoginField").focus(); return false;'>Log In</a>");
+						 | <a href='?p=collections/research&amp;f=email&amp;referer=archon.library.illinois.edu%2Frbml%2Findex.php%3Fp%3Dcreators%2Fcreator%26id%3D4'>Contact Us</a>               </div>
+		</div>
+		
+		<div id="headercenter">
+         <div id="logosearchwrapper">
+            <div id="logo"><a href="https://www.library.illinois.edu/rbx/" ><img src="themes/rbml/images/logo.png" alt="logo" /></a> </div>
+			
+			<div id="headertitleblock">
+				<a href='./index.php'>Manuscript Collections Database</a>
+			</div>
+            <div id="searchblock">
+               <form action="index.php" accept-charset="UTF-8" method="get" onsubmit="if(!this.q.value) { alert('Please enter search terms.'); return false; } else { return true; }">
+                  <div>
+                     <input type="hidden" name="p" value="core/search" />
+                     <input type="text" size="25" title="search" maxlength="150" name="q" id="qfa" value="" tabindex="100" />
+                     <input type="submit" value="Search" tabindex="300" class='button' title="Search" />
+                                             <input type="hidden" name="content" value="1" />
+                                       </div>
+               </form>
+            </div>
+         </div>
+		</div>
+</div>
+
+<div id="contact-info-line">
+346 Main Library | 1408 West Gregory Drive | Urbana IL 61801 | 217-333-3777 | <a href="mailto:askacurator@library.illinois.edu">askacurator@library.illinois.edu</a>
+</div>
+
+         <!--<div id="researchblock">
+                              </div>-->
+
+<div id="headernav" class='noprint'>
+                              <div id="browsebyblock">
+                        <span id="browsebyspan">
+                           Browse:
+                        </span>
+                        <span class="browseLink">
+                           <a href="?p=collections/collections" onclick="js_highlighttoplink(this.parentNode); return true;">Collections</a>
+                        </span>
+                        <!--<span class="browseLink">
+                           <a href="?p=digitallibrary/digitallibrary" onclick="js_highlighttoplink(this.parentNode); return true;">Digital Content</a>
+                        </span>-->
+                        <span class="browseLink">
+                           <a href="?p=subjects/subjects" onclick="js_highlighttoplink(this.parentNode); return true;">Subjects</a>
+                        </span>
+                        <span class="currentBrowseLink">
+                           <a href="?p=creators/creators" onclick="js_highlighttoplink(this.parentNode); return true;">Creators</a>
+                        </span>
+                        <span class="browseLink">
+                           <a href="?p=collections/classifications" onclick="js_highlighttoplink(this.parentNode); return true;">Record Groups</a>
+                        </span>
+                     </div>
+                  </div>
+				  
+      <div id="breadcrumbblock"><span class='bold'>Location: </span><a href='https://library.illinois.edu/rbx/'>RBML</a> <img src='themes/rbml/images/arrowright.gif' alt='right-pointing arrow' /> <a href='index.php'>Collections Database</a> <img src='themes/rbml/images/arrowright.gif' alt='right-pointing arrow' /> Wells, H.G. (Herbert George)</div>
+				  
+      <div id="breadcrumbclearblock">.</div>
+      <script type="text/javascript">
+         /* <![CDATA[ */
+         if ($.browser.msie && parseInt($.browser.version, 10) <= 8){
+            $.getScript('packages/core/js/jquery.corner.js', function(){                                                              
+               $("#searchblock").corner("5px");
+               $("#browsebyblock").corner("tl 10px");
+                         
+               $(function(){
+                  $(".bground").corner("20px");
+                  $(".mdround").corner("10px");
+                  $(".smround").corner("5px");
+                  $("#dlsearchblock").corner("bottom 10px");
+               });
+            });
+         }
+         /* ]]> */
+      </script>
+	  
+      <div id="main"><h1>Wells, H.G. (Herbert George) (1866-1946) | Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</h1>
+<div id='CreatorNote' class='bground'><div class='CreatorEntry'><span class='bold'>Name:</span> Wells, H.G. (Herbert George) (1866-1946)</div><hr><br/><div class='CreatorEntry'><span class='bold'>Historical Note: </span>English novelist and essayist.</div><hr><br/><div class='CreatorEntry'><span class='bold'><a href='#' onclick="toggleDisplay('LinkedCollections'); return false;"><img id='LinkedCollectionsImage' src='themes/rbml/images/plus.gif' alt='expand icon' /> Records or Manuscript Collections Created by Wells, H.G. (Herbert George)</a></span><br/>
+   <div class='CreatorEntryShowList' style='display:none' id='LinkedCollectionsResults'><br/>
+         &nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1373'> Chunder letter to H.G. Wells, 1945</a><a id='cid1373' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1373,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1497'> Larry McMurtry collection on H.G. Wells, 1880-1965</a><a id='cid1497' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1497,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1281'> H.G. Wells collection of George Bernard Shaw clippings, 1950</a><a id='cid1281' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1281,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1221'> Catherine Wells diaries, 1898-1927</a><a id='cid1221' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1221,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1498'> Frederick Joseph Wells collection, 1890s?-1996</a><a id='cid1498' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1498,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1247'> Articles about H.G. Wells, 1912-1975</a><a id='cid1247' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1247,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1308'> H.G. Wells glass slides and box, 1900s</a><a id='cid1308' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1308,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1449'> H.G. Wells letter to Burke, 1923</a><a id='cid1449' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1449,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1256'> H.G. Wells manuscript fragments, 1905-1959</a><a id='cid1256' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1256,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=10'> H.G. Wells papers, 1845-1946</a><a id='cid10' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:10,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1231'> H.G. Wells plates, 1946</a><a id='cid1231' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1231,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1218'> H.G. Wells realia, undated</a><a id='cid1218' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1218,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1219'> Jane Wells memorabilia, undated</a><a id='cid1219' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1219,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1215'> Jane Wells memorabilia box, undated</a><a id='cid1215' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1215,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1273'> West family correspondence, 1923-1924</a><a id='cid1273' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1273,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>&nbsp;&nbsp; <a href='?p=collections/controlcard&amp;id=1248'> Articles about Rebecca West and H.G. Wells, 1974-1975</a><a id='cid1248' class='research_add' onclick='triggerResearchCartEvent(this, {collectionid:1248,collectioncontentid:0}); return false;' href='#'><img class='cart' src='themes/rbml/images/addtocart.gif' title='Add to your cart.' alt='Add to your cart.'/></a><br/>   </div>
+</div>
+   </div>
+<br/>
+</div>
+<div id="bottom">
+   <br/>
+   <hr id="footerhr" />
+   <div id="userbox" class="smround">
+      
+      <div id="userlogincontrols">
+         <a id="loginlink" href="index.php?p=admin/core/login&amp;go=" onclick="if($('#userlogin').is(':visible')) {this.innerHTML = 'Log In';} else {this.innerHTML = 'Hide';} $('#userlogin').slideToggle('normal'); return false;">Log In</a>
+         
+      </div>
+      <div id="userlogin" style="display:none">&nbsp;
+         <form action="/rbml/index.php?p=creators/creator&amp;id=4" accept-charset="UTF-8" method="post">
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonLoginField">Login:</label></div>
+               <div class='logininput'><input id="ArchonLoginField" type="text" name="ArchonLogin" size="20" tabindex="400" /></div>
+            </div>
+            <div class='loginpair'>
+               <div class='loginlabel'><label for="ArchonPasswordField">Password:</label></div>
+               <div class='logininput'><input id="ArchonPasswordField" type="password" name="ArchonPassword" size="20" tabindex="500" /></div>
+            </div>
+            <div id='loginsubmit'>
+               <input type="submit" value="Log in" class="button" tabindex="700" />&nbsp;&nbsp;<label for="RememberMeField"><input id="RememberMeField" type="checkbox" name="RememberMe" value="1" tabindex="600" />Remember me?</label>
+            </div>
+         </form>
+      </div>
+            </div>
+   <div id='contactcontainer'><div id='repositorylink'><a href='http://www.library.illinois.edu/rbx/'>Rare Book &amp; Manuscript Library, University of Illinois at Urbana-Champaign</a></div>
+<div id='emaillink'>Contact Us: <a href='https://forms.illinois.edu/sec/7016277'>Email Form</a></div>
+</div></div>
+<div id="archoninfo">
+   Page Generated in: 0.456 seconds (using 37 queries).<br/>
+
+         Using 6.11MB of memory. (Peak of 6.39MB.)<br/>
+            <br/>
+   Powered by <a href='https://web.archive.org/web/20170612215939/http://archon.org/'>Archon</a> Version 3.21 rev-3<br/>
+      Copyright ©2017 <a href="http://www.uiuc.edu/" rel="external">The University of Illinois at Urbana-Champaign</a>   <br/>
+      
+
+</div>
+</body>
+</html>
+   
+
+
