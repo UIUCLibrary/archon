@@ -154,6 +154,7 @@ abstract class Accessions_Archon
             $wherevars = array();
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = "SELECT tblAccessions_Accessions.* FROM tblAccessions_Accessions $wherequery ORDER BY tblAccessions_Accessions.Title, tblAccessions_Accessions.Identifier";
          $prepQuery->types = $wheretypes;
          $prepQuery->vars = $wherevars;
@@ -180,6 +181,7 @@ abstract class Accessions_Archon
                {
                   if($Type != 'Classification')
                   {
+                     isset($prepQuery) or $prepQuery = new stdClass();
                      $prepQuery->query = "SELECT tblAccessions_Accessions.* FROM tblAccessions_Accessions JOIN {$this->mdb2->quoteIdentifier("tblAccessions_Accession{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblAccessions_Accession{$Type}Index")}.AccessionID = tblAccessions_Accessions.ID WHERE {$this->mdb2->quoteIdentifier("tblAccessions_Accession{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ?$enabledquery ORDER BY tblAccessions_Accessions.Title, tblAccessions_Accessions.Identifier";
                      $prepQuery->types = array_merge(array('integer'), $enabledtypes);
                      $prepQuery->vars = array_merge(array($ID), $enabledvars);
@@ -189,6 +191,7 @@ abstract class Accessions_Archon
                   }
                   else
                   {
+                     isset($prepQuery) or $prepQuery = new stdClass();
                      $prepQuery->query = "SELECT tblAccessions_Accessions.* FROM tblAccessions_Accessions JOIN tblAccessions_AccessionCollectionIndex ON tblAccessions_AccessionCollectionIndex.AccessionID = tblAccessions_Accessions.ID WHERE tblAccessions_AccessionCollectionIndex.ClassificationID = ?$enabledquery ORDER BY tblAccessions_Accessions.Title, tblAccessions_Accessions.Identifier";
                      $prepQuery->types = array_merge(array('integer'), $enabledtypes);
                      $prepQuery->vars = array_merge(array($ID), $enabledvars);

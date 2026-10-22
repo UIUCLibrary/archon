@@ -2069,6 +2069,7 @@ abstract class Collections_Archon
             $vars = array_merge($vars, array($Shelf));
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = $query . " ORDER BY tblCollections_Collections.SortTitle, tblCollections_Collections.CollectionIdentifier, tblCollections_CollectionLocationIndex.Content";
          $prepQuery->types = $types;
          $prepQuery->vars = $vars;
@@ -2152,6 +2153,7 @@ abstract class Collections_Archon
 
          isset($prepQuery) or
             $prepQuery = new stdClass();
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = "SELECT ID, Title, SortTitle, ClassificationID, InclusiveDates, CollectionIdentifier FROM tblCollections_Collections $wherequery ORDER BY SortTitle, CollectionIdentifier";
          //$prepQuery->query = "SELECT * FROM tblCollections_Collections $wherequery ORDER BY CollectionIdentifier, SortTitle";
          $prepQuery->types = $wheretypes;
@@ -2184,6 +2186,7 @@ abstract class Collections_Archon
                foreach($arrObjects as $ID => $junk)
                {
                   $selectfields = "tblCollections_Collections.ID, tblCollections_Collections.Title, tblCollections_Collections.SortTitle, tblCollections_Collections.ClassificationID, tblCollections_Collections.InclusiveDates, tblCollections_Collections.CollectionIdentifier";
+                  isset($prepQuery) or $prepQuery = new stdClass();
                   $prepQuery->query = "SELECT {$selectfields} FROM tblCollections_Collections JOIN {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.CollectionID = tblCollections_Collections.ID WHERE {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ? $repositoryquery $enabledquery ORDER BY tblCollections_Collections.SortTitle, tblCollections_Collections.CollectionIdentifier";
                   $prepQuery->types = array_merge(array('integer'), $repositorytypes, $enabledtypes);
                   $prepQuery->vars = array_merge(array($ID), $repositoryvars, $enabledvars);
@@ -2449,6 +2452,7 @@ abstract class Collections_Archon
             $vars = array_merge($vars, array($Shelf));
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = $query . " ORDER BY tblCollections_Collections.SortTitle, tblCollections_Collections.CollectionIdentifier, tblCollections_CollectionLocationIndex.Content";
          $prepQuery->types = $types;
          $prepQuery->vars = $vars;
@@ -2530,6 +2534,7 @@ abstract class Collections_Archon
             $wherevars = array();
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = "SELECT * FROM tblCollections_Collections $wherequery ORDER BY SortTitle, CollectionIdentifier";
          $prepQuery->types = $wheretypes;
          $prepQuery->vars = $wherevars;
@@ -2565,6 +2570,7 @@ abstract class Collections_Archon
             {
                foreach($arrObjects as $ID => $junk)
                {
+                  isset($prepQuery) or $prepQuery = new stdClass();
                   $prepQuery->query = "SELECT tblCollections_Collections.* FROM tblCollections_Collections JOIN {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.CollectionID = tblCollections_Collections.ID WHERE {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ? $repositoryquery $enabledquery ORDER BY tblCollections_Collections.SortTitle, tblCollections_Collections.CollectionIdentifier";
                   $prepQuery->types = array_merge(array('integer'), $repositorytypes, $enabledtypes);
                   $prepQuery->vars = array_merge(array($ID), $repositoryvars, $enabledvars);
@@ -2847,6 +2853,7 @@ abstract class Collections_Archon
             $vars = array_merge($vars, array($Shelf));
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = $query . " ORDER BY tblCollections_Collections.CollectionIdentifier, tblCollections_Collections.SortTitle, tblCollections_CollectionLocationIndex.Content";
          $prepQuery->types = $types;
          $prepQuery->vars = $vars;
@@ -2928,6 +2935,7 @@ abstract class Collections_Archon
             $wherevars = array();
          }
 
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = "SELECT * FROM tblCollections_Collections $wherequery ORDER BY CollectionIdentifier, SortTitle";
          $prepQuery->types = $wheretypes;
          $prepQuery->vars = $wherevars;
@@ -2958,6 +2966,7 @@ abstract class Collections_Archon
             {
                foreach($arrObjects as $ID => $junk)
                {
+                  isset($prepQuery) or $prepQuery = new stdClass();
                   $prepQuery->query = "SELECT tblCollections_Collections.* FROM tblCollections_Collections JOIN {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.CollectionID = tblCollections_Collections.ID WHERE {$this->mdb2->quoteIdentifier("tblCollections_Collection{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ? $repositoryquery $enabledquery ORDER BY tblCollections_Collections.CollectionIdentifier, tblCollections_Collections.SortTitle";
                   $prepQuery->types = array_merge(array('integer'), $repositorytypes, $enabledtypes);
                   $prepQuery->vars = array_merge(array($ID), $repositoryvars, $enabledvars);
@@ -3422,6 +3431,7 @@ abstract class Collections_Archon
             {
                foreach($arrObjects as $ID => $junk)
                {
+                  isset($prepQuery) or $prepQuery = new stdClass();
                   $prepQuery->query = "SELECT * FROM tblCollections_Books JOIN {$this->mdb2->quoteIdentifier("tblCollections_Book{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblCollections_Book{$Type}Index")}.BookID = tblCollections_Books.ID WHERE {$this->mdb2->quoteIdentifier("tblCollections_Book{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ?  ORDER BY tblCollections_Books.Title";
                   $prepQuery->types = array('integer');
                   $prepQuery->vars = array($ID);
@@ -3787,6 +3797,7 @@ abstract class Collections_Archon
       $DisableStyle = $this->PublicInterface->DisableTheme;
       $this->PublicInterface->DisableTheme = true;
 
+      isset($arrCart) or $arrCart = new stdClass();
       $arrCart->Collections = array();
       if(!empty($arrEntries))
       {
@@ -3794,6 +3805,7 @@ abstract class Collections_Archon
          {
             if(is_array($objOrarrIDs))
             {
+               isset($objEntry) or $objEntry = new stdClass();
                $objEntry->CollectionID = $objOrarrIDs['CollectionID'];
                $objEntry->CollectionContentID = $objOrarrIDs['CollectionContentID'];
             }

@@ -42,6 +42,7 @@ if($Master === false)
 {
    fail('cannot connect to SQL Server: ' . print_r(sqlsrv_errors(), true));
 }
+sqlsrv_configure('WarningsReturnAsErrors', 0);
 $Batch = "IF DB_ID('$Database') IS NOT NULL BEGIN ALTER DATABASE [$Database] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [$Database]; END; CREATE DATABASE [$Database];";
 if(sqlsrv_query($Master, $Batch) === false)
 {
@@ -61,7 +62,9 @@ $CookieJar = tempnam(sys_get_temp_dir(), 'archon-install');
 
 function http($Url, $Post = NULL)
 {
-   global $CookieJar;
+   global $CookieJar, $RequestDiagnosticsOffset;
+
+   $RequestDiagnosticsOffset = diagnosticsOffset();
 
    $Curl = curl_init($Url);
    curl_setopt_array($Curl, array(
@@ -90,12 +93,53 @@ function checkPage($Label, $Response)
    {
       fail("$Label failed (HTTP $Status): " . substr(strip_tags($Body), 0, 2000));
    }
+   // A fatal error after the page has started printing still returns HTTP 200.
+   if($Errors = newFatalErrors($GLOBALS['RequestDiagnosticsOffset']))
+   {
+      fail("$Label failed: " . implode("\n", $Errors));
+   }
    step("$Label: HTTP $Status");
 
    return $Body;
 }
 
-function waitForProgress($Label)
+// The exec steps keep running after the HTTP response, so a fatal error there never reaches the
+// progress state; watch the PHP diagnostics log instead.
+function diagnosticsOffset()
+{
+   $File = getenv('ARCHON_TEST_DIAGNOSTICS') ?: '/var/log/archon/diagnostics.jsonl';
+   clearstatcache();
+
+   return is_file($File) ? filesize($File) : 0;
+}
+
+function newFatalErrors($Offset)
+{
+   $File = getenv('ARCHON_TEST_DIAGNOSTICS') ?: '/var/log/archon/diagnostics.jsonl';
+   clearstatcache();
+   if(!is_readable($File) || filesize($File) <= $Offset)
+   {
+      return array();
+   }
+
+   $Fatal = array('E_ERROR', 'E_PARSE', 'E_CORE_ERROR', 'E_COMPILE_ERROR', 'E_USER_ERROR', 'E_RECOVERABLE_ERROR');
+   $Errors = array();
+   $Handle = fopen($File, 'r');
+   fseek($Handle, $Offset);
+   while(($Line = fgets($Handle)) !== false)
+   {
+      $Entry = json_decode($Line, true);
+      if(is_array($Entry) && in_array($Entry['type'] ?? '', $Fatal, true))
+      {
+         $Errors[] = "{$Entry['type']} {$Entry['file']}:{$Entry['line']} " . strtok($Entry['message'], "\n");
+      }
+   }
+   fclose($Handle);
+
+   return $Errors;
+}
+
+function waitForProgress($Label, $DiagnosticsOffset)
 {
    global $Base;
 
@@ -103,6 +147,10 @@ function waitForProgress($Label)
    $LastMessage = '';
    while(time() < $Deadline)
    {
+      if($Errors = newFatalErrors($DiagnosticsOffset))
+      {
+         fail("$Label: " . implode("\n", $Errors));
+      }
       list($Status, $Body) = http($Base . 'index.php?p=install&f=dbprogress');
       $Progress = json_decode($Body, true);
       if(is_array($Progress))
@@ -137,12 +185,13 @@ function runExecStep($Label, $Step, $Parameters = array())
    global $Base;
 
    $Parameters = array_merge(array('p' => 'install', 'f' => $Step, 'exec' => 'true'), $Parameters);
+   $Offset = diagnosticsOffset();
    list($Status, $Body) = http($Base . 'index.php', $Parameters);
    if($Status >= 500 || trim($Body) != 'submitted')
    {
       fail("$Label did not start (HTTP $Status): " . substr(strip_tags($Body), 0, 2000));
    }
-   waitForProgress($Label);
+   waitForProgress($Label, $Offset);
 }
 
 // 3. Core schema and default data.

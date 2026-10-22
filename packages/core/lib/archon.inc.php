@@ -154,6 +154,8 @@ abstract class Core_Archon
          return false;
       }
 
+      isset($this->PublicInterface->PublicSearchFunctions[$FunctionName]) or
+         $this->PublicInterface->PublicSearchFunctions[$FunctionName] = new stdClass();
       $this->PublicInterface->PublicSearchFunctions[$FunctionName]->FunctionName = $FunctionName;
       $this->PublicInterface->PublicSearchFunctions[$FunctionName]->DisplayOrder = $DisplayOrder;
 
@@ -648,6 +650,10 @@ abstract class Core_Archon
 
    public function getDBStats()
    {
+      $dbStats = new stdClass();
+      $useddiskspace = 0;
+      $freediskspace = 0;
+
       if(substr_count($this->db->ServerType, 'MySQL'))
       {
          $query = "SHOW TABLE STATUS";
@@ -703,6 +709,8 @@ abstract class Core_Archon
                $result->free();
             }
 
+            isset($dbStats->Tables[$tblName]) or
+               $dbStats->Tables[$tblName] = new stdClass();
             $dbStats->Tables[$tblName]->Rows = $usagerow['Rows'];
             $dbStats->Tables[$tblName]->DiskUsed = formatsize(1024 * ($usagerow['DataSpaceUsed'] + $usagerow['IndexSpaceUsed']));
             $useddiskspace += 1024 * ($usagerow['DataSpaceUsed'] + $usagerow['IndexSpaceUsed']);

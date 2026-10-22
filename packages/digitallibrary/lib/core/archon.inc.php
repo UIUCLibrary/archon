@@ -790,6 +790,7 @@ ORDER BY tblDigitalLibrary_DigitalContent.Title";
 
          isset($prepQuery) or
             $prepQuery = new stdClass();
+         isset($prepQuery) or $prepQuery = new stdClass();
          $prepQuery->query = "SELECT DISTINCT tblDigitalLibrary_DigitalContent.ID,tblDigitalLibrary_DigitalContent.Title,tblDigitalLibrary_DigitalContent.ContentURL,tblDigitalLibrary_DigitalContent.Identifier FROM tblDigitalLibrary_DigitalContent $wherequery ORDER BY tblDigitalLibrary_DigitalContent.Title";
          $prepQuery->types = $wheretypes;
          $prepQuery->vars = $wherevars;
@@ -833,6 +834,7 @@ ORDER BY tblDigitalLibrary_DigitalContent.Title";
 
 
                   $whereTmp = "$repositoryquery $mediatypequery $filetypequery $browsablequery $publicaccessquery";
+                  isset($prepQuery) or $prepQuery = new stdClass();
                   $prepQuery->query = "SELECT tblDigitalLibrary_DigitalContent.* FROM tblDigitalLibrary_DigitalContent JOIN {$this->mdb2->quoteIdentifier("tblDigitalLibrary_DigitalContent{$Type}Index")} ON {$this->mdb2->quoteIdentifier("tblDigitalLibrary_DigitalContent{$Type}Index")}.DigitalContentID = tblDigitalLibrary_DigitalContent.ID {$joinquery} WHERE {$this->mdb2->quoteIdentifier("tblDigitalLibrary_DigitalContent{$Type}Index")}.{$this->mdb2->quoteIdentifier("{$Type}ID")} = ? $whereTmp ORDER BY tblDigitalLibrary_DigitalContent.Title";
                   $prepQuery->types = array_merge(array('integer'), $repositorytypes, $publicaccesstypes, $filetypetypes, $mediatypetypes);
                   $prepQuery->vars = array_merge(array($ID), $repositoryvars, $publicaccessvars, $filetypevars, $mediatypevars);

@@ -153,6 +153,9 @@ class ArchonSqlsrvDatabase
 
    private $QueryLog = NULL;
    private $DebugOutput = array();
+   private $ServerAddress = NULL;
+   private $ConnectionOptions = array();
+   private $SessionOptions = array();
 
    /**
     * Connects using the Archon database configuration object ($_ARCHON->db).
@@ -191,29 +194,57 @@ class ArchonSqlsrvDatabase
          $Options = array_merge($Options, $Configuration->SqlsrvOptions);
       }
 
-      $Connection = @sqlsrv_connect(self::normalizeServerAddress($Configuration->ServerAddress), $Options);
-      if($Connection === false)
-      {
-         return self::createError('Unable to connect to the Microsoft SQL Server database', MDB2_ERROR_CONNECT_FAILED);
-      }
-
-      $Database = new self($Connection, $QueryLog);
-      $Database->database_name = (string)$Configuration->DatabaseName;
-
       $SessionOptions = self::LEGACY_SESSION_OPTIONS;
       if(isset($Configuration->SqlsrvSessionOptions) && is_array($Configuration->SqlsrvSessionOptions))
       {
          $SessionOptions = $Configuration->SqlsrvSessionOptions;
       }
 
-      $Result = $Database->applySessionOptions($SessionOptions);
+      $Database = new self(NULL, $QueryLog);
+      $Database->database_name = (string)$Configuration->DatabaseName;
+      $Database->ServerAddress = self::normalizeServerAddress($Configuration->ServerAddress);
+      $Database->ConnectionOptions = $Options;
+      $Database->SessionOptions = $SessionOptions;
+
+      $Result = $Database->ensureConnected();
       if(self::isError($Result))
       {
-         sqlsrv_close($Connection);
          return $Result;
       }
 
       return $Database;
+   }
+
+   /**
+    * (Re)connects if there is no open connection. Like MDB2, the connection is opened again on
+    * demand after disconnect() (footer.inc.php disconnects, but session writes and some admin
+    * pages still query the database afterwards).
+    *
+    * @return mixed MDB2_OK or an ArchonSqlsrvError
+    */
+   private function ensureConnected()
+   {
+      if($this->connection)
+      {
+         return MDB2_OK;
+      }
+
+      $Connection = @sqlsrv_connect($this->ServerAddress, $this->ConnectionOptions);
+      if($Connection === false)
+      {
+         return self::createError('Unable to connect to the Microsoft SQL Server database', MDB2_ERROR_CONNECT_FAILED);
+      }
+      $this->connection = $Connection;
+
+      $Result = $this->applySessionOptions($this->SessionOptions);
+      if(self::isError($Result))
+      {
+         sqlsrv_close($Connection);
+         $this->connection = NULL;
+         return $Result;
+      }
+
+      return MDB2_OK;
    }
 
    /**
@@ -825,6 +856,12 @@ class ArchonSqlsrvDatabase
          return MDB2_OK;
       }
 
+      $Connected = $this->ensureConnected();
+      if(self::isError($Connected))
+      {
+         return $Connected;
+      }
+
       $this->debug('BEGIN TRANSACTION', 'beginTransaction', array('is_manip' => true, 'when' => 'pre'));
       if(!sqlsrv_begin_transaction($this->connection))
       {
@@ -916,9 +953,10 @@ class ArchonSqlsrvDatabase
     */
    private function doQuery($Query, $IsManip)
    {
-      if(!$this->connection)
+      $Connected = $this->ensureConnected();
+      if(self::isError($Connected))
       {
-         return new ArchonSqlsrvError('not connected', MDB2_ERROR_CONNECT_FAILED);
+         return $Connected;
       }
 
       $this->last_query = $Query;

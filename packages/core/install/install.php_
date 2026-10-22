@@ -43,9 +43,11 @@ else
    // that are normally defined by $_ARCHON->initialize(); PHP 7+ throws an Error for undefined constants.
    if($currentstep >= 7)
    {
+      $Packages = $_ARCHON->Packages;
       $_ARCHON->Packages = $_ARCHON->getAllPackages();
       $_ARCHON->initModules();
       $_ARCHON->initConfiguration();
+      $_ARCHON->Packages = $Packages;
    }
 }
 
@@ -770,6 +772,7 @@ function core_install_install8()
 
             $disablecheckbox[$dir] = '';
 
+            isset($_ARCHON->Packages[$dir]) or $_ARCHON->Packages[$dir] = new stdClass();
             $_ARCHON->Packages[$dir]->APRCode = $dir;
             $_ARCHON->Packages[$dir]->DBVersion = $Version;
          }
@@ -825,7 +828,7 @@ function core_install_install8()
    {
       foreach($_ARCHON->Packages as $dir => $objPackage)
       {
-         echo("    dependencyCounts['$dir'] = " . count($objPackage->DependsUpon) . ";\n");
+         echo("    dependencyCounts['$dir'] = " . (isset($objPackage->DependsUpon) ? count($objPackage->DependsUpon) : 0) . ";\n");
          if($objPackage->DependsUpon['core'] && version_compare($_ARCHON->Packages['core']->DBVersion, $objPackage->DependsUpon['core']->Version) != -1)
          {
             echo("dependencyCounts['$dir']--;\n\n");
@@ -968,6 +971,7 @@ function core_install_install9()
                {
                   include("packages/$dir/index.php");
 
+                  isset($_ARCHON->Packages[$dir]) or $_ARCHON->Packages[$dir] = new stdClass();
                   $_ARCHON->Packages[$dir]->APRCode = $dir;
                   $_ARCHON->Packages[$dir]->DBVersion = $Version;
                }

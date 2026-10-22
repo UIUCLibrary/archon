@@ -100,6 +100,9 @@ abstract class Core_PublicInterface
     {
         global $_ARCHON;
 
+        // Themes and templates assign $_ARCHON->PublicInterface->Header->OnLoad etc.; PHP 8 no longer creates the object implicitly.
+        isset($this->Header) or $this->Header = new stdClass();
+
         if(preg_match('/[\\/\\\\]/u', $Theme) || !file_exists('themes/' . $Theme))
         {
             $Theme = CONFIG_CORE_DEFAULT_THEME;
