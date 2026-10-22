@@ -309,7 +309,7 @@ Class PHP_MARC_File {
 			if ( preg_match("/^\d+$/u", $tagno) && ($tagno < 10) ) {
 				$marc->append_fields(new PHP_MARC_Field($tagno, $tagdata));
 			} else {
-				$subfields = split(SUBFIELD_INDICATOR, $tagdata);
+				$subfields = explode(SUBFIELD_INDICATOR, $tagdata);
 				$indicators = array_shift($subfields);
 	
 				if ( strlen($indicators) > 2 || strlen( $indicators ) == 0 ) {

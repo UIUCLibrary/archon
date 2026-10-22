@@ -116,7 +116,7 @@ if(!$_ARCHON->Error)
       {
          foreach($arrWords as $word)
          {
-            if($word && $word{0} != "-")
+            if($word && $word[0] != "-")
             {
                $output = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $output);
                $count++;
@@ -153,7 +153,7 @@ if(!$_ARCHON->Error)
          {
             foreach($arrWords as $word)
             {
-               if($word && $word{0} != "-")
+               if($word && $word[0] != "-")
                {
                   $highlighted_output = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $highlighted_output);
                   $count++;
@@ -228,7 +228,7 @@ if(!$_ARCHON->Error)
             {
                foreach($arrWords as $word)
                {
-                  if($word && $word{0} != "-")
+                  if($word && $word[0] != "-")
                   {
                      $content = preg_replace("/(\A|\>)([^\<]*[^\w^=^\<^\+^\/]|)(" . preg_quote($word, '/') . ")(|[^\w^=^\>\+][^\>]*)(\<|\z)/ui", "$1$2<span class='highlight$count bold'>$3</span>$4$5", $content);
                      $count++;

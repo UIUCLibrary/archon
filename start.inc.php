@@ -8,18 +8,9 @@
 
 
 
-if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-	set_magic_quotes_runtime(false);
-}
-
 if(!$_REQUEST)
 {
    $_REQUEST = array();
-}
-
-if(get_magic_quotes_gpc())
-{
-   $_REQUEST = map_recursive('stripslashes', $_REQUEST);
 }
 
 $arrP = explode('/', $_REQUEST['p']);

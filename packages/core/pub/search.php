@@ -78,7 +78,7 @@ foreach($arrPackages as $ID => $objPackage)
     }
 }
 
-uasort($_ARCHON->PublicInterface->PublicSearchFunctions, create_function('$a,$b', 'return strnatcasecmp($a->DisplayOrder, $b->DisplayOrder);'));
+uasort($_ARCHON->PublicInterface->PublicSearchFunctions, function($a, $b) { return strnatcasecmp($a->DisplayOrder, $b->DisplayOrder); });
 foreach($_ARCHON->PublicInterface->PublicSearchFunctions as $FunctionName => $obj)
 {
     call_user_func($FunctionName);

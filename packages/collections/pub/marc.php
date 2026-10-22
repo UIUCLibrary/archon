@@ -20,7 +20,7 @@ $_ARCHON->PublicInterface->EscapeXML = false;
 /*
 if(isset($_REQUEST['raw']))
 {
-    $objCollection = map_recursive(create_function('$string', 'return encoding_convert_encoding($string, "iso-8859-1");'), $objCollection);
+    $objCollection = map_recursive(function($string) { return encoding_convert_encoding($string, "iso-8859-1"); }, $objCollection);
 }
 */
 

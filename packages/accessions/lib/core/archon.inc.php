@@ -106,7 +106,7 @@ abstract class Accessions_Archon
             foreach($arrWords as $word)
             {
                $i++;
-               if($word{0} == "-")
+               if($word[0] == "-")
                {
                   $word = encoding_substr($word, 1, encoding_strlen($word) - 1);
                   $textquery .= "(tblAccessions_Accessions.Title NOT LIKE ? AND tblAccessions_Accessions.AccessionDate NOT LIKE ? AND tblAccessions_Accessions.ScopeContent NOT LIKE ? AND tblAccessions_Accessions.PhysicalDescription NOT LIKE ? AND tblAccessions_Accessions.Identifier NOT LIKE ? AND tblAccessions_Accessions.Donor NOT LIKE ? AND tblAccessions_Accessions.Comments NOT LIKE ?)";

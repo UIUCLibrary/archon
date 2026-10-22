@@ -5,6 +5,7 @@
  *
  * @author Paul Sorensen
  */
+#[\AllowDynamicProperties]
 abstract class AObject
 {
 
