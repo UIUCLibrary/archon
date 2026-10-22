@@ -20,22 +20,20 @@ server (either MySQL or Microsoft SQLServer). Specifically, you need the
 following in place before running the install packet. If you do not understand
 any of these requirements, check with your web host or systems administrator.
 
-1. A MySQL server. The PHP 8 database connection uses the MySQLi driver through
-PEAR/MDB2. Microsoft SQL Server support has not been verified on PHP 8; the
-existing connection code still relies on legacy MSSQL settings, so SQL Server
-should not be considered supported on PHP 8 until that driver is modernized
-and tested.
+1. A MySQL server or Microsoft SQL Server. On PHP 8, MySQL uses the MySQLi driver
+through PEAR/MDB2; SQL Server uses Microsoft's PHP `sqlsrv` extension through
+Archon's MDB2-compatible adapter.
 
 2. A blank database on the database server. When creating the database, create
 a user with full (owner) privileges. You do not need to specify any table
 names, data definitions, or the like. They will be created or updated
 automatically when you run the install packet.
 
-3. A web server with PHP 8.2.35 or later, the PHP MySQLi extension, and PEAR/MDB2
-with its MySQLi driver available on PHP's include path. This repository does
-not include or test the MDB2 dependency, so verify that the installed MDB2
-release works with the PHP version in use. The gd extension is required for
-the Digital Library Manager, and the zip extension enables ZIP imports.
+3. A web server with PHP 8.2.35 or later. For MySQL, enable the PHP MySQLi
+extension and install PEAR/MDB2 with its MySQLi driver on PHP's include path.
+For SQL Server, install Microsoft's PHP `sqlsrv` extension and the matching
+Microsoft ODBC Driver for SQL Server. The gd extension is required for the
+Digital Library Manager, and the zip extension enables ZIP imports.
 
 *Note:* We do not recommend installing Archon on a Windows (IIS) server.
 Although it is possible to install it in a Windows environment or another
@@ -46,8 +44,9 @@ position to offer support or installation assistance.
 
 ## Server Configuration Recommendations
 
-Archon's PHP 8 compatibility target is PHP 8.2.35 or later with MySQLi. SQL
-Server compatibility on PHP 8 has not been established. If Archon does not install properly
+Archon's PHP 8 compatibility target is PHP 8.2.35 or later with MySQLi or the
+Microsoft `sqlsrv` driver. SQL Server support requires integration testing
+against the target server and driver versions. If Archon does not install properly
 or if you are having trouble using any of the features, we recommend the
 following minimum configuration settings for the php.ini file:
 

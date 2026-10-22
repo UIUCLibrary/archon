@@ -44,59 +44,58 @@ elseif(!$_ARCHON->db->Login)
    trigger_error("Fatal Error: The database server login is not configured in config.inc.php.", E_USER_ERROR);
 }
 
-// Connect to the database
 if($_ARCHON->db->ServerType == 'MSSQL')
 {
-   // these are necessary to prevent freetds from truncating large fields
-   if($_ARCHON->db->VersionTDS){
-      putenv("TDSVER={$_ARCHON->db->VersionTDS}");
-   } else {
-      putenv("TDSVER=70");
+   require_once('packages/core/lib/sqlsrv_mdb2_adapter.inc.php');
+   $_ARCHON->QueryLog = New QueryLog();
+   $mdb2 = ArchonSqlsrvDatabase::connect($_ARCHON->db, $_ARCHON->QueryLog);
+}
+else
+{
+   ob_start();
+   $success = include_once('MDB2.php');
+   ob_end_clean();
+
+   if($success == false)
+   {
+      die("MDB2 is either not correctly installed or not in your include paths. <br /><br /> <a href='http://archon.org/mdb2.html'>Click here</a> for more information on how to make sure MDB2 is installed and correctly configured.");
    }
 
-   ini_set("mssql.textsize", 2147483647);
-   ini_set("mssql.textlimit", 2147483647);
-}
-
-$phpservertype = in_array($_ARCHON->db->ServerType, array('MySQL', 'MySQLi'), true)
-   ? 'mysqli'
-   : strtolower($_ARCHON->db->ServerType);
-$dbdsn = $phpservertype."://".$_ARCHON->db->Login.":".$_ARCHON->db->Password."@".$_ARCHON->db->ServerAddress."/".$_ARCHON->db->DatabaseName;
-
-// MDB2 with MySQLi seems to require this encoding to handle UTF8 characters in Archon's tables.
-if($_ARCHON->db->ServerType == 'MySQL' || $_ARCHON->db->ServerType == 'MySQLi')
-{
+   $phpservertype = in_array($_ARCHON->db->ServerType, array('MySQL', 'MySQLi'), true) ? 'mysqli' : strtolower($_ARCHON->db->ServerType);
+   $dbdsn = $phpservertype."://".$_ARCHON->db->Login.":".$_ARCHON->db->Password."@".$_ARCHON->db->ServerAddress."/".$_ARCHON->db->DatabaseName;
    $dbdsn .= "?CharSet=utf8";
+
+   $_ARCHON->QueryLog = New QueryLog();
+   $dboptions = array('debug' => 1, 'debug_handler' => array($_ARCHON->QueryLog, 'logQuery'), 'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_FIX_CASE);
+   $mdb2 = MDB2::connect($dbdsn, $dboptions);
+
+   if(pear_isError($mdb2))
+   {
+      echo("Error connecting to database!<br />\n");
+      trigger_error($mdb2->getMessage(), E_USER_ERROR);
+   }
+
+   $mdb2->setFetchMode(MDB2_FETCHMODE_ASSOC);
+
+   $query = "SET NAMES 'utf8'";
+   $affected = $mdb2->exec($query);
+   if(pear_isError($affected))
+   {
+      trigger_error($affected->getMessage(), E_USER_ERROR);
+   }
+   $mdb2->exec("SET max_allowed_packet=1073741824");
 }
 
-$_ARCHON->QueryLog = New QueryLog();
-
-$dboptions = array('debug' => 1, 'debug_handler' => array($_ARCHON->QueryLog, 'logQuery'), 'portability' => MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_FIX_CASE);
-
-$mdb2 = MDB2::connect($dbdsn, $dboptions);
-
-if (pear_isError($mdb2))
+if(pear_isError($mdb2))
 {
    echo("Error connecting to database!<br />\n");
    trigger_error($mdb2->getMessage(), E_USER_ERROR);
 }
 
 $_ARCHON->mdb2 =& $mdb2;
-$_ARCHON->mdb2->setFetchMode(MDB2_FETCHMODE_ASSOC);
-
-if($_ARCHON->db->ServerType == 'MySQL' || $_ARCHON->db->ServerType == 'MySQLi')
+if($_ARCHON->db->ServerType == 'MSSQL')
 {
-   // this makes sure the encoding for the queries is expected
-   $query = "SET NAMES 'utf8'";
-   $affected = $_ARCHON->mdb2->exec($query);
-   if (pear_isError($affected))
-   {
-      trigger_error($affected->getMessage(), E_USER_ERROR);
-   }
-
-   // This might fail.
-   $query = "SET max_allowed_packet=1073741824";
-   $affected = $_ARCHON->mdb2->exec($query);
+   $_ARCHON->mdb2->setFetchMode(MDB2_FETCHMODE_ASSOC);
 }
 
 if($_ARCHON->mdb2)

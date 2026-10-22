@@ -317,23 +317,23 @@ class ArchonInstaller
    {
       global $_ARCHON;
 
-      ob_start();
-      if(!readfile('MDB2.php', true))
+      if($_ARCHON->db->ServerType == 'MSSQL')
       {
-         ob_end_clean();
+         if(!function_exists('sqlsrv_connect'))
+         {
+            die("The Microsoft PHP sqlsrv extension is required for Microsoft SQL Server.");
+         }
+         return true;
+      }
+
+      if(!stream_resolve_include_path('MDB2.php'))
+      {
          die("MDB2 is either not correctly installed or not in your include paths. <br /><br /> <a href='http://archon.org/mdb2.html'>Click here</a> for more information on how to make sure MDB2 is installed and correctly configured.");
       }
-      if($_ARCHON->db->ServerType == 'MSSQL' && !readfile('MDB2/Driver/mssql.php',true))
+      if(($_ARCHON->db->ServerType == 'MySQL' || $_ARCHON->db->ServerType == 'MySQLi') && !stream_resolve_include_path('MDB2/Driver/mysqli.php'))
       {
-         ob_end_clean();
-         die("MDB2 MSSQL Driver is not correctly installed.  <br /><br /> <a href='http://archon.org/mdb2.html'>Click here</a> for more information on how to make sure MDB2 is installed and correctly configured.");
-      }
-      elseif(($_ARCHON->db->ServerType == 'MySQL' || $_ARCHON->db->ServerType == 'MySQLi') && !(readfile('MDB2/Driver/mysql.php',true) || readfile('MDB2/Driver/mysqli.php', true)))
-      {
-         ob_end_clean();
          die("MDB2 MySQL Driver is not correctly installed.  <br /><br /> <a href='http://archon.org/mdb2.html'>Click here</a> for more information on how to make sure MDB2 is installed and correctly configured.");
       }
-      ob_end_clean();
       return true;
    }
 

@@ -62,14 +62,6 @@ chdir('packages/core/lib/');
 require_once('index.php');
 chdir($cwd);
 
-ob_start();
-$success = include_once('MDB2.php');
-ob_get_clean();
-
-if($success == false)
-{
-   die("MDB2 is either not correctly installed or not in your include paths. <br /><br /> <a href='http://archon.org/mdb2.html'>Click here</a> for more information on how to make sure MDB2 is installed and correctly configured.");
-}
 require_once('config.inc.php');
 require_once('start.inc.php');
 ?>
