@@ -149,7 +149,7 @@ function avsapassessments_ui_main()
       if(!$objAssessment->SubAssessment)
       {
          if(!$objAssessment->dbLoadSubAssessment())
-            break;
+            return;
       }
       $origSubAssessmentType = $objAssessment->SubAssessmentType;
 

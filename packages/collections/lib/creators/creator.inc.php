@@ -39,9 +39,9 @@ abstract class Collections_Creator
 
 
       // Delete any references to the creator in the book index table.
-      static $indexPrep = NULL;
-      $indexPrep = $indexPrep ? $indexPrep : $_ARCHON->mdb2->prepare('DELETE FROM tblCollections_BookCreatorIndex WHERE CreatorID = ?', 'integer', MDB2_PREPARE_MANIP);
-      $affected = $indexPrep->execute($ID);
+      static $bookIndexPrep = NULL;
+      $bookIndexPrep = $bookIndexPrep ? $bookIndexPrep : $_ARCHON->mdb2->prepare('DELETE FROM tblCollections_BookCreatorIndex WHERE CreatorID = ?', 'integer', MDB2_PREPARE_MANIP);
+      $affected = $bookIndexPrep->execute($ID);
       if(pear_isError($affected))
       {
          trigger_error($affected->getMessage(), E_USER_ERROR);

@@ -20,7 +20,6 @@ if(!$_ARCHON->Error)
 	 print_r($Characters);
 	 if(count($Characters)>13){
 		print_r($Characters);
-		break;
 	 }
 	 //$Characters[] = "#";
 	 $count = 0;

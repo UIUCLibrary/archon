@@ -199,7 +199,7 @@ Class PHP_MARC_File {
 	 * @param string Name of the file
 	 * @return string Returns warning if issued during read
 	 */
-	function php_marc_file($in) {
+	function __construct($in) {
 		if(file_exists($in)) {
 			$input = file($in);
 			$recs = explode(END_OF_RECORD, join("", $input));
@@ -369,7 +369,7 @@ Class PHP_MARC_USMARC Extends PHP_MARC_File {
 	 * Read raw MARC string for decoding
 	 * @param string Raw MARC
 	*/
-	function php_marc_usmarc($string) {
+	function __construct($string) {
 		$this->raw[] = $string;
 		$this->pointer = 0;
 	}
@@ -445,7 +445,7 @@ Class PHP_MARC {
 	 *
 	 * Set all variables to defaults to create new PHP_MARC object
 	 */
-	function php_marc() {
+	function __construct() {
 		$this->fields = array();
 		$this->ldr = str_repeat(' ', 24);
 	}
@@ -817,7 +817,7 @@ Class PHP_MARC_Field {
 	 * @param array Array ( tagno, ind1, ind2, subfield_data )
 	 * @return string Returns warnings if any issued during parse
 	 */
-	function php_marc_field() {
+	function __construct() {
 		$args = func_get_args();
 		
 		$tagno = array_shift($args);
@@ -1145,7 +1145,7 @@ Class PHP_MARC_Subfield {
 	 * @param string Subfield number
 	 * @param string|array Either a single value for this subfield tag, or an array of values
 	 */
-	function php_marc_subfield() {
+	function __construct() {
 		$args = func_get_args();
 		
 		$this->tag = array_shift($args);
@@ -1257,7 +1257,8 @@ Class PHP_MARC_YAZ extends PHP_MARC {
 	 * @param int YAZ connection ID
 	 * @param int Request position
 	 */
-	function php_marc_yaz() {
+	function __construct() {
+		parent::__construct();
 		$args = func_get_args();
 		
 		if(!empty($args)) {
@@ -1321,7 +1322,7 @@ Class PHP_MARC_Index {
 	 * @param int PHP/YAZ connection ID
 	 * @param int Position in reqest
 	 */
-	function php_marc_index() {
+	function __construct() {
 		$args = func_get_args();
 		
 		if(!empty($args)) {
