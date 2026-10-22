@@ -239,8 +239,8 @@ function MakeNormal($item,$key){
 	if (isset($item->Locations)){
 		$positonstart = 1 ;
         foreach ($item->Locations as &$loc){  
-            $loc[ExtentUnitID] = strval($loc[ExtentUnitID]);
-            $loc[DisplayPosition]=strval($positonstart++);
+            $loc['ExtentUnitID'] = strval($loc['ExtentUnitID']);
+            $loc['DisplayPosition']=strval($positonstart++);
          }
         } 
 	

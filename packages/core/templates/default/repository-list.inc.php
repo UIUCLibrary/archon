@@ -41,11 +41,11 @@ function objectToArray( $object ) {
 }
 
 function Normalize (&$item, $key){
-  	$item[ID] = strval($item[ID]);
-	unset($item[Administrator]);
-	unset($item[Country]);
-	unset($item[TemplateSet]);
-	unset($item[ResearchFunctionality]);
+  	$item['ID'] = strval($item['ID']);
+	unset($item['Administrator']);
+	unset($item['Country']);
+	unset($item['TemplateSet']);
+	unset($item['ResearchFunctionality']);
 	
 }
 

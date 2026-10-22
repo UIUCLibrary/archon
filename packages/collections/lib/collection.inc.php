@@ -608,7 +608,7 @@ abstract class Collections_Collection
       {
          if(!$ForEAD)
          {
-            $objViewContentPhrase = $_ARCHON->getPhrase('tostring_viewcontent', PACKAGE_DIGITALLIBRARY, 0, PUBLIC_PHRASE);
+            $objViewContentPhrase = $_ARCHON->getPhrase('tostring_viewcontent', PACKAGE_DIGITALLIBRARY, 0, PHRASETYPE_PUBLIC);
             $strViewContent = $objViewContentPhrase ? $objViewContentPhrase->getPhraseValue(ENCODE_HTML) : 'View associated digital content.';
 
 

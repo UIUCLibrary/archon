@@ -60,8 +60,8 @@ function Normalize($item,$key){
 	
 	if (isset($item->CreatorRelationships)){
         foreach ($item->CreatorRelationships as &$rel){  
-            $rel[RelatedCreatorID] = strval($rel[RelatedCreatorID]);
-            $rel[CreatorRelationshipTypeID] = strval($rel[CreatorRelationshipTypeID]);
+            $rel['RelatedCreatorID'] = strval($rel['RelatedCreatorID']);
+            $rel['CreatorRelationshipTypeID'] = strval($rel['CreatorRelationshipTypeID']);
          }
         }
     

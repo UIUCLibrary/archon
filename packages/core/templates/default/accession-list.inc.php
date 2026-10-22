@@ -258,8 +258,8 @@ function Removefield($item,$key){
 	if (isset($item->LocationEntries)){
 		$positionstart = 1;
         foreach ($item->LocationEntries as &$loc){
-            $loc[ExtentUnitID] = strval($loc[ExtentUnitID]);
-            $loc[DisplayPosition]=strval($positionstart++);
+            $loc['ExtentUnitID'] = strval($loc['ExtentUnitID']);
+            $loc['DisplayPosition']=strval($positionstart++);
          }
         } 
 	

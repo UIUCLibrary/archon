@@ -55,7 +55,7 @@ function creators_search()
     $objMatchesPhrase = Phrase::getPhrase('search_matches', PACKAGE_CREATORS, 0, PHRASETYPE_PUBLIC);
     $strMatches = $objMatchesPhrase ? $objMatchesPhrase->getPhraseValue(ENCODE_HTML) : 'Matches';
 
-    if($_ARCHON->QueryString && !$in_CreatorID && (!$in_SearchFlags || ($in_SearchFlags & SEARCH_CREATOR)))
+    if($_ARCHON->QueryString && !$in_CreatorID && (!$in_SearchFlags || ($in_SearchFlags & SEARCH_CREATORS)))
     {
         $arrCreators = $_ARCHON->searchCreators($_ARCHON->QueryString);
 

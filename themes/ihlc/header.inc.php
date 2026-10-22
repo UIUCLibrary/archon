@@ -46,7 +46,7 @@ if(defined('PACKAGE_COLLECTIONS'))
 
    if($_ARCHON->QueryString && $_ARCHON->Script == 'packages/core/pub/search.php')
    {
-      $_ARCHON->PublicInterface->addNavigation("Search Results For \"" . $_ARCHON->getString(QueryString) . "\"", "?p=core/search&amp;q=" . $_ARCHON->QueryStringURL, true);
+      $_ARCHON->PublicInterface->addNavigation("Search Results For \"" . $_ARCHON->getString('QueryString') . "\"", "?p=core/search&amp;q=" . $_ARCHON->QueryStringURL, true);
    }
 }
 else
@@ -67,7 +67,7 @@ if(defined('PACKAGE_COLLECTIONS'))
 {
 	if($_ARCHON->QueryString && $_ARCHON->Script == 'packages/core/pub/search.php')
    {
-      if(is_numeric($_ARCHON->getString(QueryString)))
+      if(is_numeric($_ARCHON->getString('QueryString')))
 	  {
 		// add note "did you mean?"
 		echo("<div id='ihlc-message'>Did you mean to search by collection identifier? Click here to <a href='?f=identifiersearch&q=");
@@ -75,7 +75,7 @@ if(defined('PACKAGE_COLLECTIONS'))
 		echo("'>lookup by collection identifier</a>.</div>");
 	  }
 	  
-	  if(strpos($_ARCHON->getString(QueryString),"civil war")>-1)
+	  if(strpos($_ARCHON->getString('QueryString'),"civil war")>-1)
 	  {
 		echo("<div id='ihlc-message-gray'><strong>Related resources:</strong> <a href='https://www.library.illinois.edu/ihx/wp-content/uploads/sites/41/2017/05/ihlc-regiments-guide.pdf' target='_blank'>IHLC Civil War Manuscript Collections PDF Guide</a>, arranged by regiment.</div>");
 	  }

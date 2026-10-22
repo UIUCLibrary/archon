@@ -142,7 +142,7 @@ $item->ID = strval($item->ID);
 function NormalizeArray (&$item, $key)
 
 {
-$item[ID] = strval($item[ID]);
+$item['ID'] = strval($item['ID']);
 }
 
 function getcontainertypes()

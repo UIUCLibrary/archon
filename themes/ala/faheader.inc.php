@@ -36,7 +36,7 @@ if(defined('PACKAGE_COLLECTIONS'))
 
    if($_ARCHON->QueryString && $_ARCHON->Script == 'packages/core/pub/search.php')
    {
-      $_ARCHON->PublicInterface->addNavigation("Search Results For \"" . $_ARCHON->getString(QueryString) . "\"", "?p=core/search&amp;q=" . $_ARCHON->QueryStringURL, true);
+      $_ARCHON->PublicInterface->addNavigation("Search Results For \"" . $_ARCHON->getString('QueryString') . "\"", "?p=core/search&amp;q=" . $_ARCHON->QueryStringURL, true);
    }
 }
 else

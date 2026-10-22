@@ -397,7 +397,7 @@ if(!$_ARCHON->PublicInterface->DisableTheme)
 
    if($in_RootContentID)
    {
-      $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . All . "</a>]<br/>\n";
+      $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . 'All' . "</a>]<br/>\n";
    }
    else
    {

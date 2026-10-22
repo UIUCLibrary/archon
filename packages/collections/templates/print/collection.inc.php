@@ -427,7 +427,7 @@ header('Content-type: text/html; charset=UTF-8');
 
                if($in_RootContentID)
                {
-                  $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . All . "</a>]<br/>\n";
+                  $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . 'All' . "</a>]<br/>\n";
                }
                else
                {

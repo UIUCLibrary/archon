@@ -477,7 +477,7 @@ if(!empty($objCollection->AccessRestrictions) || !empty($objCollection->UseRestr
 
       if($in_RootContentID)
       {
-         $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . All . "</a>]<br/>\n";
+         $strFindingAidLinks .= ",<br/>\n" . "[<a href='?p=collections/findingaid&amp;id=$objCollection->ID&amp;q=$_ARCHON->QueryStringURL'>" . 'All' . "</a>]<br/>\n";
       }
       else
       {

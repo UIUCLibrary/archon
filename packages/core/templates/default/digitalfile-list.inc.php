@@ -65,12 +65,12 @@ function getDigitalContentFile()
 function Normalize (&$item, $key)
 
 {
-$item[ID] = strval($item[ID]);
-$item[AccessLevel] = strval($item[AccessLevel]);
-$item[DigitalContentID] = strval($item[DigitalContentID]);
-$item[FileTypeID] = strval($item[FileTypeID]);
-$item[Bytes] = strval($item[Bytes]);
-$item[DisplayOrder] = strval($item[DisplayOrder]);
+$item['ID'] = strval($item['ID']);
+$item['AccessLevel'] = strval($item['AccessLevel']);
+$item['DigitalContentID'] = strval($item['DigitalContentID']);
+$item['FileTypeID'] = strval($item['FileTypeID']);
+$item['Bytes'] = strval($item['Bytes']);
+$item['DisplayOrder'] = strval($item['DisplayOrder']);
 }
 
 function objectToArray( $object ) {

@@ -59,6 +59,9 @@ define('SEARCH_DISABLED_COLLECTIONS', nextbitmask('SEARCH'), false);
 define('SEARCH_ENABLED_COLLECTIONCONTENT', nextbitmask('SEARCH'), false);
 define('SEARCH_DISABLED_COLLECTIONCONTENT', nextbitmask('SEARCH'), false);
 define('SEARCH_USERFIELDS', nextbitmask('SEARCH'), false);
+// SEARCH_BOOKS was never defined; before PHP 8 it evaluated to 0 in bitwise
+// tests. PHP 8 makes undefined constants fatal, so keep the legacy value.
+define('SEARCH_BOOKS', 0, false);
 
 define('SEARCH_COLLECTIONS', SEARCH_ENABLED_COLLECTIONS | SEARCH_DISABLED_COLLECTIONS, false);
 define('SEARCH_COLLECTIONCONTENT', SEARCH_ENABLED_COLLECTIONCONTENT | SEARCH_DISABLED_COLLECTIONCONTENT, false);
