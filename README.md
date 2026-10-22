@@ -20,22 +20,22 @@ server (either MySQL or Microsoft SQLServer). Specifically, you need the
 following in place before running the install packet. If you do not understand
 any of these requirements, check with your web host or systems administrator.
 
-1. A standard installation of MySQL (recommended) or Microsoft SQL Server (not
-recommended). We have tested the application with MySQL 5.0 and SQL Server 7
-and 2000, but it should work with later releases of these platforms as well.
+1. A MySQL server. The PHP 8 database connection uses the MySQLi driver through
+PEAR/MDB2. Microsoft SQL Server support has not been verified on PHP 8; the
+existing connection code still relies on legacy MSSQL settings, so SQL Server
+should not be considered supported on PHP 8 until that driver is modernized
+and tested.
 
 2. A blank database on the database server. When creating the database, create
 a user with full (owner) privileges. You do not need to specify any table
 names, data definitions, or the like. They will be created or updated
 automatically when you run the install packet.
 
-3. A web server of any type with PHP 5.1 or higher installed. PHP 5.5 or 5.6 is
-strongly recommended. Depending on which database server you plan to use, the
-mysql or mssql library must be enabled. In addition, the PEAR/MDB2 libraries
-must be installed. (see instructions and information ). The gd library must be
-enabled if you plan to use the Digital Library Manager, and the zip library may
-be installed to allow zip files to be used by the import utilities, but neither
-of these are absolutely required.
+3. A web server with PHP 8.2.35 or later, the PHP MySQLi extension, and PEAR/MDB2
+with its MySQLi driver available on PHP's include path. This repository does
+not include or test the MDB2 dependency, so verify that the installed MDB2
+release works with the PHP version in use. The gd extension is required for
+the Digital Library Manager, and the zip extension enables ZIP imports.
 
 *Note:* We do not recommend installing Archon on a Windows (IIS) server.
 Although it is possible to install it in a Windows environment or another
@@ -46,8 +46,8 @@ position to offer support or installation assistance.
 
 ## Server Configuration Recommendations
 
-Archon should work on most preexisting installations of PHP 5.1 or higher, with
-one of the database servers listed above. If Archon does not install properly
+Archon's PHP 8 compatibility target is PHP 8.2.35 or later with MySQLi. SQL
+Server compatibility on PHP 8 has not been established. If Archon does not install properly
 or if you are having trouble using any of the features, we recommend the
 following minimum configuration settings for the php.ini file:
 

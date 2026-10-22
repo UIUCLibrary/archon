@@ -131,11 +131,11 @@ class Archon extends ArchonObject
    {
       if(is_subclass_of($Object, 'ArchonObject'))
       {
-         return key_exists($VarName, $this->Mixins[get_class($Object)]->Variables);
+         return array_key_exists($VarName, $this->Mixins[get_class($Object)]->Variables);
       }
       else
       {
-         return key_exists($VarName, get_class_vars(get_class($Object)));
+         return array_key_exists($VarName, get_class_vars(get_class($Object)));
       }
    }
 

@@ -652,7 +652,7 @@ abstract class Core_AdministrativeInterface
 
          if($_ARCHON->methodExists($_ARCHON, $SearchMethod))
          {
-            if(!key_exists('q', $arrSearchParameters))
+            if(!array_key_exists('q', $arrSearchParameters))
             {
                $arrSearchParameters = array_merge(array('q' => ''), $arrSearchParameters);
             }

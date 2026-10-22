@@ -58,11 +58,13 @@ if($_ARCHON->db->ServerType == 'MSSQL')
    ini_set("mssql.textlimit", 2147483647);
 }
 
-$phpservertype = strtolower($_ARCHON->db->ServerType);
+$phpservertype = in_array($_ARCHON->db->ServerType, array('MySQL', 'MySQLi'), true)
+   ? 'mysqli'
+   : strtolower($_ARCHON->db->ServerType);
 $dbdsn = $phpservertype."://".$_ARCHON->db->Login.":".$_ARCHON->db->Password."@".$_ARCHON->db->ServerAddress."/".$_ARCHON->db->DatabaseName;
 
 // MDB2 with MySQLi seems to require this encoding to handle UTF8 characters in Archon's tables.
-if($_ARCHON->db->ServerType == 'MySQL')
+if($_ARCHON->db->ServerType == 'MySQL' || $_ARCHON->db->ServerType == 'MySQLi')
 {
    $dbdsn .= "?CharSet=utf8";
 }
