@@ -1,103 +1,39 @@
-# Archon PHP-upgrade test environment. Normally driven by tests/bin/archon-test.
+# Archon PHP 8.2 test environment. Normally driven by tests/bin/archon-test.
 #
-#   php82  - PHP 8.2 (target runtime)          http://127.0.0.1:8082/<site>/
-#   php74  - PHP 7.4 (fallback runtime)        http://127.0.0.1:8074/<site>/
-#   php56  - PHP 5.6 + original code (baseline for differential tests)  http://127.0.0.1:8056/<site>/
-#   mysql  - MySQL 8.0
+#   php82  - PHP 8.2 + Apache (target runtime)   http://127.0.0.1:8082/<site>/
 #   mssql  - SQL Server 2022 (Developer edition)
 #
 # Credentials are throwaway values generated into tests/docker/.env by tests/bin/archon-test.
+# Images are built with `tests/bin/archon-test build` (docker build --network host), not by compose.
 name: archon-test
 
-x-php-common: &php-common
-  environment:
-    ARCHON_TEST_MYSQL_HOST: mysql
-    ARCHON_TEST_MYSQL_USER: root
-    ARCHON_TEST_MYSQL_SECRET: ${ARCHON_TEST_MYSQL_SECRET:?run tests/bin/archon-test env first}
-    ARCHON_TEST_MSSQL_HOST: mssql
-    ARCHON_TEST_MSSQL_USER: sa
-    ARCHON_TEST_MSSQL_SECRET: ${ARCHON_TEST_MSSQL_SECRET:?run tests/bin/archon-test env first}
-  depends_on:
-    mysql:
-      condition: service_healthy
-    mssql:
-      condition: service_healthy
-
 services:
-  mysql:
-    image: mysql:8.0
-    command:
-      # PHP 5.6 (baseline) cannot use caching_sha2_password or utf8mb4 server defaults.
-      - --default-authentication-plugin=mysql_native_password
-      - --character-set-server=utf8mb3
-      - --collation-server=utf8mb3_unicode_ci
-      - --max-allowed-packet=256M
-    environment:
-      MYSQL_ROOT_PASSWORD: ${ARCHON_TEST_MYSQL_SECRET:?run tests/bin/archon-test env first}
-    tmpfs:
-      - /var/lib/mysql
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
-      interval: 5s
-      timeout: 5s
-      retries: 60
-
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_PID: Developer
       MSSQL_SA_PASSWORD: ${ARCHON_TEST_MSSQL_SECRET:?run tests/bin/archon-test env first}
+      MSSQL_COLLATION: ${ARCHON_TEST_MSSQL_COLLATION:-SQL_Latin1_General_CP1_CI_AS}
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' -b -o /dev/null"]
       interval: 5s
       timeout: 10s
       retries: 60
+    ports:
+      - "127.0.0.1:14330:1433"
 
   php82:
-    <<: *php-common
-    build:
-      context: ..
-      dockerfile: docker/php/Dockerfile
-      args:
-        PHP_VERSION: "8.2"
-        SQLSRV_VERSION: "5.12.0"
-        SQLSRV_SHA256: c2a67f20a49555243a1b6c45d4a735e58dcbed0bafefbf7de8e196f317544fbc
     image: archon-test/php:8.2
+    environment:
+      ARCHON_TEST_MSSQL_HOST: mssql
+      ARCHON_TEST_MSSQL_USER: sa
+      ARCHON_TEST_MSSQL_SECRET: ${ARCHON_TEST_MSSQL_SECRET:?run tests/bin/archon-test env first}
+    depends_on:
+      mssql:
+        condition: service_healthy
     volumes:
       - ../..:/src:ro
       - ./artifacts/php82:/var/log/archon
     ports:
       - "127.0.0.1:8082:80"
-
-  php74:
-    <<: *php-common
-    build:
-      context: ..
-      dockerfile: docker/php/Dockerfile
-      args:
-        PHP_VERSION: "7.4"
-        SQLSRV_VERSION: "5.10.1"
-        SQLSRV_SHA256: 1e66ce803bd36dbee6c45852ac831e83c0d18dd4d4c5095188f3fa08d4f19724
-    image: archon-test/php:7.4
-    volumes:
-      - ../..:/src:ro
-      - ./artifacts/php74:/var/log/archon
-    ports:
-      - "127.0.0.1:8074:80"
-
-  php56:
-    <<: *php-common
-    build:
-      context: ..
-      dockerfile: docker/php/Dockerfile
-      args:
-        PHP_VERSION: "5.6"
-        INSTALL_SQLSRV: "0"
-    image: archon-test/php:5.6
-    volumes:
-      # Pristine pre-upgrade source tree, exported by `tests/bin/archon-test baseline`.
-      - ./work/baseline-src:/src:ro
-      - ./artifacts/php56:/var/log/archon
-    ports:
-      - "127.0.0.1:8056:80"
