@@ -22,7 +22,7 @@ $UserID = $objUser->ID;
 $objUser->IsAdminUser = 1;
 
 // Have to use a database query to avoid security checks.
-$objUser->PasswordHashy = crypt($objUser->Password, crypt($objUser->Password));
+$objUser->PasswordHashy = archon_password_hash($objUser->Password);
 
 if($ID)
 {

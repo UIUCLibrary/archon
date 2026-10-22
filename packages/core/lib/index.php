@@ -36,9 +36,10 @@ class Archon extends ArchonObject
       }
 
       // To support older packages but keep includes coming in correct order.
-      if(!$this->Includes[$ClassName]->Constructed)
+      if(empty($this->getIncludeInfo($ClassName)->Constructed))
       {
          $ID = count($this->Includes[$ClassName]->FilesAndMixinClassNames);
+         $this->Includes[$ClassName]->FilesAndMixinClassNames[$ID] = new stdClass();
          $this->Includes[$ClassName]->FilesAndMixinClassNames[$ID]->MixinClassName = $MixinClassName;
 
          //echo("Delaying mixing of $MixinClassName<br>\n");
@@ -56,12 +57,14 @@ class Archon extends ArchonObject
 
       $arrMethods = get_class_methods($MixinClassName);
 
+      $objMixinInfo = $this->getMixinInfo($ClassName);
+
       if(!empty($arrMethods))
       {
          foreach($arrMethods as $Method)
          {
-            isset($this->Mixins[$ClassName]->Methods[$Method]) or
-               $this->Mixins[$ClassName]->Methods[$Method] = new stdClass();
+            isset($objMixinInfo->Methods[$Method]) or
+               $objMixinInfo->Methods[$Method] = new stdClass();
             if(empty($this->Mixins[$ClassName]->Methods[$Method]->Classes))
             {
                $this->Mixins[$ClassName]->Methods[$Method]->Classes = array($MixinClassName);
@@ -103,6 +106,42 @@ class Archon extends ArchonObject
       return true;
    }
 
+   /**
+    * Returns the include registry entry for $ClassName, creating it if needed.
+    *
+    * @param string $ClassName
+    * @return stdClass
+    */
+   public function getIncludeInfo($ClassName)
+   {
+      isset($this->Includes) or
+         $this->Includes = array();
+      isset($this->Includes[$ClassName]) or
+         $this->Includes[$ClassName] = new stdClass();
+      isset($this->Includes[$ClassName]->FilesAndMixinClassNames) or
+         $this->Includes[$ClassName]->FilesAndMixinClassNames = array();
+
+      return $this->Includes[$ClassName];
+   }
+
+   /**
+    * Returns the mixin registry entry for $ClassName, creating it if needed.
+    *
+    * @param string $ClassName
+    * @return stdClass
+    */
+   public function getMixinInfo($ClassName)
+   {
+      isset($this->Mixins[$ClassName]) or
+         $this->Mixins[$ClassName] = new stdClass();
+      isset($this->Mixins[$ClassName]->Methods) or
+         $this->Mixins[$ClassName]->Methods = array();
+      isset($this->Mixins[$ClassName]->Variables) or
+         $this->Mixins[$ClassName]->Variables = array();
+
+      return $this->Mixins[$ClassName];
+   }
+
    public function getClassVars($ClassName)
    {
       if(isset($this->Mixins[$ClassName]))
@@ -131,7 +170,7 @@ class Archon extends ArchonObject
    {
       if(is_subclass_of($Object, 'ArchonObject'))
       {
-         return array_key_exists($VarName, $this->Mixins[get_class($Object)]->Variables);
+         return isset($this->Mixins[get_class($Object)]->Variables) && array_key_exists($VarName, $this->Mixins[get_class($Object)]->Variables);
       }
       else
       {
@@ -159,7 +198,7 @@ class Archon extends ArchonObject
          return;
       }
 
-      $ID = count($this->Includes[$ClassName]->FilesAndMixinClassNames);
+      $ID = count($this->getIncludeInfo($ClassName)->FilesAndMixinClassNames);
       isset($this->Includes[$ClassName]->FilesAndMixinClassNames[$ID]) or
          $this->Includes[$ClassName]->FilesAndMixinClassNames[$ID] = new stdClass();
       $this->Includes[$ClassName]->FilesAndMixinClassNames[$ID]->FileName = $FileName;

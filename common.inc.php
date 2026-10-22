@@ -78,6 +78,50 @@ if(!function_exists('json_encode') || !function_exists('json_decode'))
 }
 
 /**
+ * Hashes a password for storage in a PasswordHash column or the SA Password directive
+ *
+ * Archon has always stored MD5-crypt hashes ("$1$" + 8 character salt + "$" + hash,
+ * 34 characters), which is what crypt() produced when it was called without a salt
+ * before PHP 8.0.  PHP 8 requires an explicit salt, so the salt is generated here.
+ * Existing hashes keep working with archon_password_verify().
+ *
+ * @param string $Password
+ * @return string
+ */
+function archon_password_hash($Password)
+{
+   $SaltCharacters = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+   $RandomBytes = random_bytes(8);
+
+   $Salt = '';
+   for($i = 0; $i < 8; $i++)
+   {
+      $Salt .= $SaltCharacters[ord($RandomBytes[$i]) & 63];
+   }
+
+   return crypt((string) $Password, '$1$' . $Salt . '$');
+}
+
+/**
+ * Verifies a password against a hash created by crypt() / archon_password_hash()
+ *
+ * @param string $Password
+ * @param string $Hash
+ * @return boolean
+ */
+function archon_password_verify($Password, $Hash)
+{
+   if(!is_string($Hash) || $Hash === '')
+   {
+      return false;
+   }
+
+   $Computed = crypt((string) $Password, $Hash);
+
+   return is_string($Computed) && strlen($Computed) == strlen($Hash) && hash_equals($Hash, $Computed);
+}
+
+/**
  * Recursively changes the case of all array keys
  *
  * @param array $arr

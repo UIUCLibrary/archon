@@ -1,0 +1,14 @@
+{
+    "name": "uiuclibrary/archon-tests",
+    "description": "Test tooling for Archon (not deployed with the application).",
+    "license": "NCSA",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6.38"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        },
+        "sort-packages": true
+    }
+}

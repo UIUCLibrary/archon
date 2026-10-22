@@ -166,11 +166,7 @@ abstract class Core_Configuration
                 return false;
             }
 
-            echo($this->Value."<br/>");
-
-            $this->Value = crypt($this->Value, crypt($this->Value));
-
-                        echo($this->Value);
+            $this->Value = archon_password_hash($this->Value);
 
         }
 

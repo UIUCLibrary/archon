@@ -564,7 +564,7 @@ function core_install_install7()
 
    if($_REQUEST['sapassword'])
    {
-      $pwhash = crypt($_REQUEST['sapassword'], crypt($_REQUEST['sapassword']));
+      $pwhash = archon_password_hash($_REQUEST['sapassword']);
       $query = "UPDATE tblCore_Configuration SET Value = '$pwhash' WHERE Directive = 'SA Password'";
       $_ARCHON->mdb2->exec($query);
    }

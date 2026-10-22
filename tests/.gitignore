@@ -1,0 +1,5 @@
+vendor/
+docker/.env
+docker/artifacts/
+docker/work/
+.phpunit.result.cache

@@ -1,55 +1,100 @@
 <?php
+require_once(__DIR__ . '/archonmixinmethods.inc.php');
+
 #[\AllowDynamicProperties]
 abstract class ArchonObject
 {
+   /**
+    * Calls the implementation of the current mixin method that was overridden
+    * by the mixin class that is currently executing.
+    *
+    * @return mixed
+    */
    public function callOverridden()
    {
       global $_ARCHON;
 
-      $methodInfo = end($_ARCHON->Callstack);
-      $method = $methodInfo->Method;
       $args = func_get_args();
-      $MixinClass = prev($methodInfo->Classes);
+      $methodInfo = empty($_ARCHON->Callstack) ? NULL : end($_ARCHON->Callstack);
 
-      $arrStrArgs = array();
-
-      for($i = 0; $i < count($args); $i++)
+      if(!$methodInfo || $methodInfo->Position <= 0)
       {
-         $arrStrArgs[] = "\$args[{$i}]";
+         trigger_error('callOverridden(): ' . get_class($this) . '::' . ($methodInfo ? $methodInfo->Method : '') . '() does not override another mixin method', E_USER_WARNING);
+         return NULL;
       }
 
+      $methodInfo->Position--;
+
+      try
+      {
+         $result = $this->callMixinChain($methodInfo, $args);
+      }
+      finally
+      {
+         $methodInfo->Position++;
+      }
+
+      return $result;
+   }
+
+   /**
+    * Runs one specific mixin class's implementation of $method on this object.
+    *
+    * @param string $MixinClass
+    * @param string $method
+    * @param array $args
+    * @return mixed
+    */
+   public function callMixinMethod($MixinClass, $method, $args = array())
+   {
+      return ArchonMixinMethods::invoke($this, $MixinClass, $method, is_array($args) ? $args : array($args));
+   }
+
+   /**
+    * Runs the mixin class at $methodInfo->Position, honouring MIX_BEFORE,
+    * MIX_AFTER and result callbacks.
+    *
+    * @param stdClass $methodInfo
+    * @param array $args
+    * @return mixed
+    */
+   private function callMixinChain($methodInfo, $args)
+   {
+      global $_ARCHON;
+
+      $method = $methodInfo->Method;
+      $MixinClass = $methodInfo->Classes[$methodInfo->Position];
+      $objParameters = isset($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]) ? $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass] : NULL;
+      $MixOrder = ($objParameters && isset($objParameters->MixOrder)) ? $objParameters->MixOrder : NULL;
+      $Callback = ($objParameters && isset($objParameters->Callback)) ? $objParameters->Callback : NULL;
+
       // Simulate mixing after.
-      if($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->MixOrder == MIX_AFTER)
+      if($MixOrder == MIX_AFTER)
       {
          $prevresult = call_user_func_array(array($this, 'callOverridden'), $args);
       }
 
-      eval("\$result = {$MixinClass}::{$method}(" . implode(',', $arrStrArgs) . ");");
+      $result = ArchonMixinMethods::invoke($this, $MixinClass, $method, $args);
 
       // Simulate mixing before.
-      if($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->MixOrder == MIX_BEFORE)
+      if($MixOrder == MIX_BEFORE)
       {
          $nextresult = call_user_func_array(array($this, 'callOverridden'), $args);
       }
 
       // Use callback if mixing before and after.
-      if(isset($prevresult) && $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback)
+      if(isset($prevresult) && $Callback)
       {
-         $Callback = $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback;
-
-         $result = $Callback($prevresult, $result);
+         $result = call_user_func($Callback, $prevresult, $result);
       }
-      elseif(isset($nextresult) && $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback)
+      elseif(isset($nextresult) && $Callback)
       {
-         $Callback = $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback;
-
-         $result = $Callback($result, $nextresult);
+         $result = call_user_func($Callback, $result, $nextresult);
       }
-
-      next($methodInfo->Classes);
 
       return $result;
    }
+
     Public function bbcode_to_html($bbtext){
         $bbtags = array(
 
@@ -154,7 +199,10 @@ abstract class ArchonObject
 
       //echo("Constructing " . get_class($this) . "<br>\n");
 
-      if(!$_ARCHON->Includes[get_class($this)]->Constructed)
+      isset($_ARCHON->Includes[get_class($this)]) or
+         $_ARCHON->Includes[get_class($this)] = new stdClass();
+
+      if(empty($_ARCHON->Includes[get_class($this)]->Constructed))
       {
          $_ARCHON->Includes[get_class($this)]->Constructed = true;
 
@@ -162,7 +210,7 @@ abstract class ArchonObject
          {
             foreach($_ARCHON->Includes[get_class($this)]->FilesAndMixinClassNames as $FileOrMixinClassName)
             {
-               if($FileOrMixinClassName->FileName)
+               if(!empty($FileOrMixinClassName->FileName))
                {
 
                   $cwd = getcwd();
@@ -229,50 +277,23 @@ abstract class ArchonObject
 
       if(!empty($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Classes))
       {
-         isset($stackmember) or
-            $stackmember = new stdClass();
+         $stackmember = new stdClass();
          $stackmember->Method = $method;
-         $stackmember->Classes = $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Classes;
+         $stackmember->Classes = array_values($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Classes);
+         $stackmember->Position = count($stackmember->Classes) - 1;
+
+         isset($_ARCHON->Callstack) or
+            $_ARCHON->Callstack = array();
          $_ARCHON->Callstack[] = $stackmember;
-         $MixinClass = end(end($_ARCHON->Callstack)->Classes);
 
-         $arrStrArgs = array();
-
-         for($i = 0; $i < count($args); $i++)
+         try
          {
-            $arrStrArgs[] = "\$args[{$i}]";
+            $result = $this->callMixinChain($stackmember, $args);
          }
-
-         // Simulate mixing after.
-         if($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->MixOrder == MIX_AFTER)
+         finally
          {
-            $prevresult = call_user_func_array(array($this, 'callOverridden'), $args);
+            array_pop($_ARCHON->Callstack);
          }
-
-         eval("\$result = {$MixinClass}::{$method}(" . implode(',', $arrStrArgs) . ");");
-         //$result = call_user_func_array(array(($MixinClass) $this, $method), $args);
-
-         // Simulate mixing before.
-         if($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->MixOrder == MIX_BEFORE)
-         {
-            $nextresult = call_user_func_array(array($this, 'callOverridden'), $args);
-         }
-
-         // Use callback if mixing before and after.
-         if(isset($prevresult) && $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback)
-         {
-            $Callback = $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback;
-
-            $result = $Callback($prevresult, $result);
-         }
-         elseif(isset($nextresult) && $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback)
-         {
-            $Callback = $_ARCHON->Mixins[get_class($this)]->Methods[$method]->Parameters[$MixinClass]->Callback;
-
-            $result = $Callback($result, $nextresult);
-         }
-
-         array_pop($_ARCHON->Callstack);
 
          return $result;
       }
@@ -281,7 +302,7 @@ abstract class ArchonObject
          $backtrace = debug_backtrace();
          $message =
             'Warning: Call to undefined function ' . get_class($this) . '::' . $method .
-            ' in ' . $backtrace[1]['file'] . ' on line ' . $backtrace[1]['line'];
+            (isset($backtrace[1]['file']) ? ' in ' . $backtrace[1]['file'] . ' on line ' . $backtrace[1]['line'] : '');
          error_log($message);
          return NULL;
       }

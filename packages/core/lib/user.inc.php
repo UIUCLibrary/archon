@@ -670,7 +670,7 @@ abstract class Core_User
          return false;
       }
 
-      $pwhash = crypt($Password, crypt($Password));
+      $pwhash = archon_password_hash($Password);
 
       static $prep = NULL;
       if(!isset($prep))
@@ -898,7 +898,7 @@ abstract class Core_User
 
       if($this->ID == 0)
       {
-         $this->PasswordHash = crypt($this->Password, crypt($this->Password));
+         $this->PasswordHash = archon_password_hash($this->Password);
          $this->RegisterTime = time();
 
          $newaccount = true; // needed to determine if account was just added after success
@@ -1201,7 +1201,7 @@ abstract class Core_User
          }
       }
 
-      return ($this->PasswordHash && ($this->PasswordHash == crypt($Password, $this->PasswordHash)));
+      return ($this->PasswordHash && archon_password_verify($Password, $this->PasswordHash));
    }
 
 

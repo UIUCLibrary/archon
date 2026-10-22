@@ -80,7 +80,7 @@ else
          ?>
             <select id="RepositoryIDField" name="RepositoryID">
                <option value="0">(Select One)</option>
-               <?
+               <?php
 
       foreach($arrRepositories as $objRepository)
       {
