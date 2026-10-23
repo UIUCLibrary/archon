@@ -6,6 +6,8 @@ This directory holds a single-command test environment for the PHP 8.2 port of A
 * **mssql**: a SQL Server 2022 (Developer) container with one database per site (`archon_<site>`).
 * **Apache httpd**: runs on the Rocky host, not in a container. `httpd/archon-testenv.conf` forwards `/<site>/` to PHP-FPM.
 
+For Docker, or behind the Traefik reverse proxy with Apache inside the container, use the Compose files at the repository root instead (see [README.docker.md](../../README.docker.md)).
+
 On first start, each site restores `backups/<site>.bak` if that file exists. Otherwise the site is installed through Archon's own web installer and filled with synthetic sample data (`tests/sample-data`), shaped after the live UIUC instances (`tests/research/live-survey/summary.md`).
 
 ## Setup on Rocky Linux 8 or 9
@@ -61,6 +63,7 @@ All commands run in `tests/testenv`. With Docker, replace `podman-compose` with 
 | Readiness and record counts | `podman-compose exec php archon-testenv status` |
 | Staff login and password (`testadmin`; `teststaff`, `testreader` and `testresearcher` share the password) | `podman-compose exec php archon-testenv credentials` |
 | Request every page and report PHP diagnostics | `podman-compose exec php archon-testenv crawl ihlc` |
+| Create, edit and delete records in every admin module (test copies only; report in `/var/log/archon/crud-SITE.json`) | `podman-compose exec php archon-testenv crud archives` (add `--only=collections` to limit, `--keep` to leave the records) |
 | Summary of PHP warnings and deprecations | `podman-compose exec php archon-testenv diagnostics` |
 | Rebuild one site (backup or sample data again) | `podman-compose exec php archon-testenv reset ihlc` |
 | After `git pull` | `podman-compose up -d --build` |

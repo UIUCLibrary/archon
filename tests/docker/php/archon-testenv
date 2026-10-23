@@ -8,6 +8,9 @@
  *   archon-testenv reset SITE...|all   rebuild databases (restore the .bak again, or fresh sample data)
  *   archon-testenv crawl SITE [args]   request every public and admin page, report PHP diagnostics
  *                                      (through PHP's built-in server, or --base=URL for the host Apache)
+ *   archon-testenv crud SITE [args]    create, read, update and delete records through the staff and public
+ *                                      interfaces and check the database (tests/tools/crud.php; e.g.
+ *                                      --only=collections, --keep). Records it creates are deleted again.
  *   archon-testenv diagnostics         summarise the PHP warnings/errors recorded while testing
  *   archon-testenv sql SITE "query"    run a query against a site database (as sa)
  *
@@ -973,6 +976,26 @@ function cmdCrawl($Site, $Args)
    return $Status;
 }
 
+function cmdCrud($Site, $Args)
+{
+   global $Config;
+   $Report = "/var/log/archon/crud-$Site.json";
+   $Command = 'php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/crud.php')
+      . ' --database=' . escapeshellarg(databaseFor($Site))
+      . ' --report=' . escapeshellarg($Report);
+   if(!preg_grep('/^--base=/', $Args))
+   {
+      $Command .= ' --base=' . escapeshellarg(startLocalServer() . "/$Site/");
+   }
+   foreach($Args as $Arg)
+   {
+      $Command .= ' ' . escapeshellarg($Arg);
+   }
+   $Status = runTool("crud $Site", $Command, toolEnv() + array('ARCHON_TEST_DATABASE' => databaseFor($Site)));
+   out("report: $Report (copy it out with: " . compose() . " exec php cat $Report > " . basename($Report) . ')');
+   return $Status;
+}
+
 function requireSites($Args)
 {
    global $Config;
@@ -1018,6 +1041,9 @@ try
       case 'crawl':
          $Sites = requireSites(array_slice($Args, 0, 1));
          exit(cmdCrawl($Sites[0], array_slice($Args, 1)));
+      case 'crud':
+         $Sites = requireSites(array_slice($Args, 0, 1));
+         exit(cmdCrud($Sites[0], array_slice($Args, 1)));
       case 'diagnostics':
          passthru('php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/diagnostics-report.php') . ' /var/log/archon/diagnostics.jsonl', $Status);
          exit($Status);

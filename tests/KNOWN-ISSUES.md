@@ -29,11 +29,12 @@ Legend for the "Origin" column:
 | 1.8 | EAD export has no `<?xml ...?>` declaration. | `packages/collections/templates/ead/` | Live survey §G. | Optional. |
 | 1.9 | MARC export: field 005 uses the 12-hour `date('h')`; BBCode left raw in 520; 856 links hard-coded `http://`. | `packages/collections/pub/marc.php`, `marcbook.php`, `db/export-marc.inc.php` | Live survey §G. | `date('H')`; strip BBCode; use the request scheme. |
 | 1.10 | BBCode shown raw in some list teasers (ihlc, rbml) and MARC. | `bbcode_to_html` callers | Live survey §F. | See PR #5 (§3). |
-| 1.11 | Session cookie `archon` has no `HttpOnly` and no `SameSite`. PHP 5.4's `session_set_cookie_params()` forced HttpOnly off. | `packages/core/lib/livesession.inc.php` `_setCookieParams()` | Live response headers. | **Fixed for PHP 8.2 without code changes:** PHP 8 keeps the ini values when the argument is omitted, so `session.cookie_httponly`/`session.cookie_samesite` in `php.ini` now apply (set in the deployment image). |
+| 1.11 | Session cookie `archon` has no `HttpOnly` and no `SameSite`. PHP 5.4's `session_set_cookie_params()` forced HttpOnly off. | `packages/core/lib/livesession.inc.php` `_setCookieParams()` | Live response headers. | **Fixed for PHP 8.2 without code changes:** PHP 8 keeps the ini values when the argument is omitted, so `session.cookie_httponly`/`session.cookie_samesite` in `php.ini` now apply (set in the deployment image; verified behind Traefik: `archon=…; secure; HttpOnly; SameSite=Lax`). |
 | 1.12 | Debug footer "Page Generated in … (using N queries)" on every public page. | theme footers | Live survey §H. | Cosmetic / minor information leak; remove from the footers if wanted. |
 | 1.13 | IE stylesheet path is doubled (`themes/themes/<theme>/…cluetip.ie.css`). | theme headers | Live survey §H. | Harmless (old IE only). |
 | 1.14 | Mojibake (`Ã©`, `â€™`) and literal `?` in some records. | data | Live survey §F. | Probably stored bytes; confirm with the probe (§4, U2). |
 | 1.15 | Hard-coded `http://` in links (MARC 856, EAC, account-activation e-mail). | see 1.9, `creators/templates/eac/`, `core/lib/user.inc.php` | Code. | Cosmetic; browsers follow the redirect to https. |
+| 1.16 | Creating a book fails on a **fresh** 3.21 install: `Invalid column name 'Identifier'`. | `collections/install/install-mssql.sql` creates `tblCollections_Books` without `Identifier`; only the 3.21 upgrade script (`collections/install/3.21/structure-mssql.sql`) adds it, but `book.inc.php` and `admin/books.php` use it. | CRUD harness in the test environment (`collections/books` create). Production was upgraded, so it probably has the column; a restored `.bak` will show it. | Check production with `archon-testenv sql archives "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='tblCollections_Books'"` after restoring a `.bak`. For fresh installs add the column to `install-mssql.sql`/`install-mysql.sql`. |
 
 ## 2. Caused by PHP 8.2 / the new driver — still open or not fully verified
 
@@ -47,7 +48,7 @@ constructors, undefined constants such as `PACKAGE_RESEARCH`, calls on null obje
 | 2.1 | **Warnings and deprecations.** PHP 5.4 notices are now warnings: `Undefined array key`, `Undefined variable`, `Attempt to read property on null`, and 8.2's dynamic-property deprecation for classes other than `AObject`/`ArchonObject`. | PHP 8.2 | Not fatal and not shown to visitors (`display_errors = Off`), but they fill the PHP log. A few hide real logic bugs that PHP 5.4 also hid. | `archon-testenv diagnostics` lists them grouped by file and line; fix the most frequent ones. Counts are in §5. |
 | 2.2 | **Text encoding through `sqlsrv`.** The new driver reads `varchar` columns through the SQL Server code page and converts them to UTF-8. If production (FreeTDS) stored raw UTF-8 bytes in `varchar` columns, every non-ASCII character will show as mojibake on PHP 8.2. | PHP 8.2 / Unknown | Potentially every page with accented text. **Biggest open risk.** | Run the read-only probe (`tests/production-probe/`) and restore a real `.bak` into the test environment and compare pages. |
 | 2.3 | **Existing password hashes.** Archon uses `crypt()` MD5 (`$1$`) hashes. PHP 8.2 still supports them; the probe's `php.crypt.md5crypt_known_answer` check confirms it. | Unknown | Staff could not log in if hashes from production fail to verify. | Log in with a real account after restoring a `.bak`. |
-| 2.4 | Direct requests to include files (e.g. `/config.inc.php`) return 500 instead of a blank page. | PHP 8.2 | None (no output, nothing leaked). | Optionally deny `*.inc.php` in the web server. |
+| 2.4 | Direct requests to include files (e.g. `/config.inc.php`) return 500 instead of a blank page. | PHP 8.2 | None (no output, nothing leaked). | The container deployment (`docker-compose*.yml`) denies `*.inc.php` (403). The host-Apache test environment still returns 500. Production can add the same `FilesMatch` rule. Production also serves the `_dev/` developer scripts; the containers do not copy them. |
 | 2.5 | Vendored library in PR #3: `league/html-to-markdown` **2.2.2** (2015, `HTML_To_Markdown` class) in `themes/ala_redo` and `themes/ihlc`. | Unknown (probably fine) | Read through: plain `DOMDocument` code with no removed PHP functions, so it should run on 8.2. Not executed yet because PR #3 is not on this branch. | Crawl the AtoM/DLS export pages after rebasing PR #3. Upgrading to ^5 later is optional; its class is renamed to `HtmlConverter`. |
 
 ## 3. Work that is not on this branch yet
@@ -81,10 +82,12 @@ the server.
 
 ## 5. Measured on PHP 8.2 (test environment, generated sample data)
 
-- CRUD harness: create/read/update/delete for every admin module listed in `tests/tools/crud-scenarios.php`
-  (lookups, creators, subjects, classifications, books, locations, AVSAP, collections, collection content,
-  digital library with file upload, accessions, users, user groups, researchers, research appointments,
-  configuration, public registration, research cart) passes.
+- CRUD harness (`archon-testenv crud archives`, generated `small` sample data, fresh install): 30 of 42 scenarios pass. Report: `/var/log/archon/crud-archives.json`. The failures are listed below. None is confirmed as a PHP 8.2 error; most are the harness expecting fixture data that the generated sample data does not contain:
+  - `collections/books`: fatal `Invalid column name 'Identifier'`, pre-existing upstream schema gap (1.16).
+  - `accessions`: "Processing Priority ID 1 not found" and `locations` delete blocked by location entries: the sample data has no priority 1 and its accessions use the shared location. Harness/data assumption.
+  - `avsap`: "Format Base/Composition is required"; `core/configuration`: "37 is not a valid Non-Negative Number"; `usergroups` DefaultPermissions 0 vs 1; `collections` `OtherURL`/`RelatedMaterialsURL` gain an `http://` prefix; creators related-description value: the app's validation or normalisation differs from what the harness posts or expects. Harness expectation; to be confirmed against production behaviour.
+  - `digitallibrary` file store "Invalid DigitalContentID", `core/sessions` "Session ID not defined", `core/mypreferences` "Unknown command: store", public registration returning HTTP 200 instead of a redirect: **not yet triaged** (could be harness or PHP 8.2). Re-run with `--only=REGEX --verbose` to investigate.
+  - Diagnostics during the run: 1 fatal (the books one above), 2 warnings, 1451 former notices (PHP 8 warnings that PHP 5.4 reported as notices).
 - The crawl visits every public route and template set; all pages render except the pre-existing failures
   in §1 (1.2 reproduces as `Invalid column name 'RepositoryID'`).
 - Warning/deprecation counts: run `archon-testenv diagnostics` (see `tests/testenv/README.md`).
@@ -94,6 +97,6 @@ the server.
 | Feature | How to switch off | Effect |
 | --- | --- | --- |
 | Public EAD list (1.1) | Configuration Manager → Collections → "Enable Public EAD List" = No | The page says "Public EAD List not enabled." instead of 500. |
-| Research appointments / e-mail forms (U9) | Disable research appointments in Configuration Manager, or configure a relay (`ARCHON_SMTP_HOST` in the container deployment) | No e-mails are attempted. |
+| Research appointments / e-mail forms (U9) | Disable research appointments in Configuration Manager, or add a mail relay to the image (not built yet: the containers have no MTA, so `mail()` fails) | No e-mails are attempted. |
 | Admin IP restriction behind a proxy | Keep `RestrictAdminByIpRange` off until the proxy passes the client IP (the container deployment does) | Otherwise everyone looks like the proxy's address. |
 | Edits during migration | PR #6 read-only mode | Public site stays up while the database is copied. |
