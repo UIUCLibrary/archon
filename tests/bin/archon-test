@@ -9,6 +9,9 @@
 #   tests/bin/archon-test sync       copy the current source into the container (keeps the database)
 #   tests/bin/archon-test unit       run the PHPUnit suite (extra arguments go to phpunit)
 #   tests/bin/archon-test crawl      request every public/admin page and report PHP diagnostics
+#   tests/bin/archon-test crud       run the admin/public CRUD harness (tests/tools/crud.php)
+#   tests/bin/archon-test probe      run the read-only production probe against the test site
+#                                    (writes tests/docker/artifacts/php82/probe-test.json)
 #   tests/bin/archon-test all        env + build + up + install + unit + crawl
 #   tests/bin/archon-test logs       summarise the PHP diagnostics captured so far
 #   tests/bin/archon-test sql "..."  run a query with sqlcmd against the test database
@@ -73,6 +76,17 @@ cmd_crawl() {
         --site="/var/www/html/${site}" --report=/var/log/archon/crawl-report.json "$@"
 }
 
+cmd_crud() {
+    php_exec php "/src/tests/tools/crud.php" --base="http://127.0.0.1/${site}/" \
+        --site="/var/www/html/${site}" --report=/var/log/archon/crud-report.json "$@"
+}
+
+cmd_probe() {
+    php_exec sh -c 'php /src/tests/production-probe/archon-probe.php --archon-dir="$0" "$@" > /var/log/archon/probe-test.json' \
+        "/var/www/html/${site}" "$@"
+    echo "wrote ${docker_dir}/artifacts/php82/probe-test.json"
+}
+
 cmd_logs() {
     php_exec php /src/tests/tools/diagnostics-report.php /var/log/archon/diagnostics.jsonl
 }
@@ -89,6 +103,8 @@ case "${1:-}" in
     install) shift; cmd_install "$@" ;;
     unit) shift; cmd_unit "$@" ;;
     crawl) shift; cmd_crawl "$@" ;;
+    crud) shift; cmd_crud "$@" ;;
+    probe) shift; cmd_probe "$@" ;;
     logs) cmd_logs ;;
     sql) shift; cmd_sql "$*" ;;
     all)
@@ -101,7 +117,7 @@ case "${1:-}" in
         ;;
     down) compose down -v ;;
     *)
-        sed -n '2,21p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+        sed -n '2,24p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
         exit 64
         ;;
 esac
