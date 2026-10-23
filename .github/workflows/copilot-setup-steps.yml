@@ -9,11 +9,15 @@ on:
       - .github/workflows/copilot-setup-steps.yml
       - tests/docker/**
       - tests/bin/archon-test
+      - tests/testenv/**
+      - tests/sample-data/**
   pull_request:
     paths:
       - .github/workflows/copilot-setup-steps.yml
       - tests/docker/**
       - tests/bin/archon-test
+      - tests/testenv/**
+      - tests/sample-data/**
 
 jobs:
   # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
