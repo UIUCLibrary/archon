@@ -482,7 +482,7 @@ function startLocalServer()
    register_shutdown_function(function() use (&$Process, $Pid) {
       if(is_resource($Process))
       {
-         posix_kill(-$Pid, SIGTERM);
+         posix_kill(-$Pid, 15); // SIGTERM; the constant comes from pcntl, which the image does not load
          proc_close($Process);
          $Process = NULL;
       }
