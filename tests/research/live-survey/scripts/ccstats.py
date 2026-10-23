@@ -6,7 +6,7 @@ for fn in sorted(glob.glob('raw/*/controlcard_*.html')):
     if '_print' in fn: continue
     inst=fn.split('/')[1]; ncards[inst]+=1
     s=open(fn,encoding='utf-8',errors='replace').read()
-    s2=re.sub(r'(?is)<script.*?</script>','',s)
+    s2=re.sub(r'(?is)<script\b.*?</script\b[^>]*>','',s)
     s2=re.sub(r'(?is)<table.*?</table>',' ',s2)
     ms=list(pat.finditer(s2))
     seen=set()

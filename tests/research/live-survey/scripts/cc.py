@@ -2,7 +2,7 @@ import sys,re,html
 # parse controlcard: label -> value
 for fn in sys.argv[1:]:
     s=open(fn,encoding='utf-8',errors='replace').read()
-    s2=re.sub(r'(?is)<script.*?</script>','',s)
+    s2=re.sub(r'(?is)<script\b.*?</script\b[^>]*>','',s)
     # cut location/request table noise
     s2=re.sub(r'(?is)<table[^>]*location.*?</table>','[LOCATIONTABLE]',s2)
     pat=re.compile(r"<(?:span|p|dt|div|b|strong)[^>]*class=['\"](?:ccardlabel|ccardsublabel|label)['\"][^>]*>(.*?)</(?:span|p|dt|div|b|strong)>",re.S|re.I)

@@ -7,7 +7,7 @@ qmark=collections.OrderedDict(); moj=collections.OrderedDict(); bb=collections.O
 seen=set()
 for fn in files:
     s=open(fn,encoding='utf-8',errors='replace').read()
-    body=re.sub(r'(?is)<script.*?</script>|<style.*?</style>|<head>.*?</head>','',s)
+    body=re.sub(r'(?is)<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>|<head>.*?</head>','',s)
     for m in re.finditer(r'&amp;(amp|quot|lt|gt|#\d+|[a-z]+);',body):
         k=body[max(0,m.start()-40):m.end()+20].replace('\n',' ')
         dbl.setdefault(m.group(0),k)
