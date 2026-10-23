@@ -302,7 +302,7 @@ I sampled 21 control cards (5 ihlc, 4 libweb, 3 sousa2, 5 rbml, 4 ala). Fields a
 ## Unknowns that only the DB/infra can answer
 
 - **Configuration:** CONFIG_CORE_DEFAULT_TEMPLATE_SET and default theme per install, pagination limit (40 inferred), EscapeXML and other Configuration Manager values, enabled packages per install.
-- **Database:** MySQL/MariaDB version and table/column charset and collation (utf8 vs latin1). Whether the mojibake and "?" are stored bytes or created at render or import time. Whether rbml shares a DB with any other install (ihlc, ala and archives are shown to be separate).
+- **Database:** SQL Server version, compatibility level and column types/collation (`varchar` vs `nvarchar`, and whether `varchar` columns hold raw UTF-8 bytes written through FreeTDS). Whether the mojibake and "?" are stored bytes or created at render or import time. Whether rbml shares a DB with any other install (ihlc, ala and archives are shown to be separate).
 - **Per-record template sets:** whether any live Repository.TemplateSet or Collection.TemplateSet values are set (the repo code honours both).
 - **Hidden records:** disabled or unpublished collections, staff-only fields (ccardstaff), restricted content counts, accessions not linked publicly, research carts and appointments, users, sessions, Aeon/armarium integration.
 - **Real totals:** collection content rows (archives content IDs reach about 229k), user fields, location entries, digital files (DB blob vs filesystem, total size, MIME types, whether any audio/video is hosted), file-type table.
