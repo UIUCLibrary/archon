@@ -255,8 +255,12 @@ function quoteString($Value)
 
 function waitForSqlServer()
 {
-   $Deadline = time() + (int)(getenv('ARCHON_SQL_WAIT') ?: 900);
+   global $Config;
+   $Start = time();
+   $Deadline = $Start + (int)(getenv('ARCHON_SQL_WAIT') ?: 900);
+   $NextReport = $Start + 30;
    $Last = '';
+   out("waiting for SQL Server at {$Config['mssql_host']}");
    while(time() < $Deadline)
    {
       $Connection = @sqlConnect('master', true);
@@ -267,6 +271,11 @@ function waitForSqlServer()
          return $Connection;
       }
       $Last = sqlErrors();
+      if(time() >= $NextReport)
+      {
+         out('still waiting for SQL Server (' . (time() - $Start) . " s): $Last");
+         $NextReport = time() + 30;
+      }
       sleep(3);
    }
    throw new RuntimeException('SQL Server did not become available: ' . $Last);

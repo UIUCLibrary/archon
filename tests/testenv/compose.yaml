@@ -25,6 +25,7 @@ services:
       - -c
       - |
         secret=/run/archon-secrets/mssql-sa
+        [ -s "$$secret" ] || echo "mssql: waiting for the php container to create $$secret"
         for i in $$(seq 1 900); do [ -s "$$secret" ] && break; sleep 1; done
         if [ ! -s "$$secret" ]; then echo "mssql: the php container did not create $$secret" >&2; exit 1; fi
         export MSSQL_SA_PASSWORD="$$(cat "$$secret")"
@@ -40,10 +41,14 @@ services:
       timeout: 10s
       retries: 30
       start_period: 120s
-    restart: unless-stopped
+    # "always" rather than "unless-stopped": Podman's podman-restart.service only starts "always" containers at boot.
+    restart: always
 
   php:
     image: ${ARCHON_IMAGE:-localhost/archon-testenv/php:8.2-fpm}
+    # Built locally, never pulled: "up" builds the image when it is missing ("up -d --build" rebuilds it). Without
+    # this, podman-compose follows a failed build with an attempt to pull the image from a registry named "localhost".
+    pull_policy: never
     build:
       context: ../..
       dockerfile: tests/docker/php/Dockerfile
@@ -75,7 +80,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60m
-    restart: unless-stopped
+    restart: always
 
 volumes:
   mssql-data:
