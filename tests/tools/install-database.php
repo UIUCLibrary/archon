@@ -1,7 +1,7 @@
 <?php
 /**
  * Installs Archon into the Docker test environment by driving the real web installer
- * (packages/core/install/install.php_) over HTTP, then loads the synthetic fixtures.
+ * (packages/core/install/install.php_) over HTTP, then loads synthetic sample data (tests/sample-data).
  *
  *   php tests/tools/install-database.php --site=/var/www/html/archon --database=archon_test
  *        [--base=http://127.0.0.1/archon/] [--no-fixtures] [--app-login=LOGIN]
@@ -269,13 +269,15 @@ unlink("$SiteDir/packages/core/install/install.php");
 @unlink($CookieJar);
 step('installer finished');
 
-// 9. Fixtures.
+// 9. Sample data (a small "archives" profile data set; see tests/sample-data/README.md).
 if(!isset($Options['no-fixtures']))
 {
-   passthru('php ' . escapeshellarg(__DIR__ . '/load-fixtures.php') . ' --site=' . escapeshellarg($SiteDir), $ExitCode);
+   putenv('ARCHON_TEST_ADMIN_SECRET=' . $AdminSecret);
+   passthru('php -d memory_limit=1G ' . escapeshellarg(dirname(__DIR__) . '/sample-data/generate.php') . ' --database=' . escapeshellarg($Database)
+      . ' --profile=archives --size=small', $ExitCode);
    if($ExitCode)
    {
-      fail('fixture loading failed');
+      fail('sample data generation failed');
    }
 }
 

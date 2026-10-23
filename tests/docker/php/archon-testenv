@@ -7,12 +7,17 @@
  *   archon-testenv credentials         the test administrator login and password
  *   archon-testenv reset SITE...|all   rebuild databases (restore the .bak again, or fresh sample data)
  *   archon-testenv crawl SITE [args]   request every public and admin page, report PHP diagnostics
+ *                                      (through PHP's built-in server, or --base=URL for the host Apache)
  *   archon-testenv diagnostics         summarise the PHP warnings/errors recorded while testing
  *   archon-testenv sql SITE "query"    run a query against a site database (as sa)
  *
  * Used by the entrypoint (archon-entrypoint):
  *   archon-testenv prepare             secrets, per-site code and config.inc.php
  *   archon-testenv init                create, restore or keep each site database
+ *
+ * The Archon web installer and the crawler need HTTP, but the container only runs PHP-FPM (the host's
+ * Apache httpd is the web server), so they use PHP's built-in web server on 127.0.0.1:8099 inside the
+ * container while they run.
  *
  * Settings (environment): ARCHON_SITES, ARCHON_SAMPLE_SIZE, ARCHON_ADMIN_LOGIN, ARCHON_ADMIN_PASSWORD,
  * MSSQL_SA_PASSWORD, ARCHON_PUBLIC_URL. See tests/testenv/README.md.
@@ -21,6 +26,7 @@
 const MARKER_NAME = 'ArchonTestEnv';
 const SAMPLE_DATA_VERSION = 1;
 const WEB_LOGIN = 'archon_web';
+const LOCAL_SERVER = '127.0.0.1:8099';
 
 $Config = array(
    'sites' => preg_split('/[\s,]+/', trim(getenv('ARCHON_SITES') ?: 'archives ihlc rbml ala'), -1, PREG_SPLIT_NO_EMPTY),
@@ -34,7 +40,7 @@ $Config = array(
    'source_dir' => rtrim(getenv('ARCHON_SOURCE_DIR') ?: '/opt/archon/src', '/'),
    'docroot' => '/var/www/html',
    'state_dir' => '/run/archon',
-   'public_url' => rtrim(getenv('ARCHON_PUBLIC_URL') ?: 'http://localhost:8080', '/'),
+   'public_url' => rtrim(getenv('ARCHON_PUBLIC_URL') ?: 'http://localhost', '/'),
 );
 
 // Default theme and template set per production install (tests/research/live-survey/summary.md, section A).
@@ -56,6 +62,12 @@ function out($Message)
 function warn($Message)
 {
    fwrite(STDERR, '[testenv] WARNING: ' . $Message . "\n");
+}
+
+/** "podman compose" or "docker compose", for the commands shown to the user (Podman creates /run/.containerenv). */
+function compose()
+{
+   return file_exists('/run/.containerenv') ? 'podman compose' : 'docker compose';
 }
 
 function profileFor($Site)
@@ -113,7 +125,7 @@ function readSecret($Name)
    $File = secretPath($Name);
    if(!is_readable($File))
    {
-      fwrite(STDERR, "[testenv] secret $File is missing; is this the web container of tests/testenv?\n");
+      fwrite(STDERR, "[testenv] secret $File is missing; is this the php container of tests/testenv?\n");
       exit(1);
    }
    return trim(file_get_contents($File));
@@ -145,7 +157,7 @@ function ensureSecrets()
    }
    elseif($Sa && $Sa !== readSecret('mssql-sa'))
    {
-      warn('MSSQL_SA_PASSWORD differs from the password SQL Server was created with; using the stored one. Run "docker compose down -v" to start over.');
+      warn('MSSQL_SA_PASSWORD differs from the password SQL Server was created with; using the stored one. Run "' . compose() . ' down -v" to start over.');
    }
 
    if(!file_exists(secretPath('archon-web')))
@@ -164,7 +176,7 @@ function ensureSecrets()
    elseif(!file_exists(secretPath('archon-admin')))
    {
       writeSecret('archon-admin', generateSecret(3), 0600);
-      out('generated the test administrator password (docker compose exec web archon-testenv credentials)');
+      out('generated the test administrator password (' . compose() . ' exec php archon-testenv credentials)');
    }
 }
 
@@ -434,6 +446,57 @@ function ensureSite($Master, $Site, $Force)
    return describeMarker($Current);
 }
 
+/**
+ * Starts PHP's built-in web server on LOCAL_SERVER (document root /var/www/html) for the installer and
+ * the crawler, once per run; it is stopped when archon-testenv exits.
+ */
+function startLocalServer()
+{
+   global $Config;
+   static $Process = NULL;
+   if($Process)
+   {
+      return 'http://' . LOCAL_SERVER;
+   }
+
+   $Log = '/var/log/archon/builtin-server.log';
+   $Environment = getenv();
+   $Environment['PHP_CLI_SERVER_WORKERS'] = '4';
+   // setsid: the server and its workers form one process group, which is stopped as a whole.
+   $Process = proc_open(array('setsid', 'php', '-S', LOCAL_SERVER, '-t', $Config['docroot']),
+      array(0 => array('file', '/dev/null', 'r'), 1 => array('file', $Log, 'a'), 2 => array('file', $Log, 'a')), $Pipes, $Config['docroot'], $Environment);
+   if(!is_resource($Process))
+   {
+      throw new RuntimeException('cannot start PHP\'s built-in web server');
+   }
+   $Pid = proc_get_status($Process)['pid'];
+   register_shutdown_function(function() use (&$Process, $Pid) {
+      if(is_resource($Process))
+      {
+         posix_kill(-$Pid, SIGTERM);
+         proc_close($Process);
+         $Process = NULL;
+      }
+   });
+
+   list($Host, $Port) = explode(':', LOCAL_SERVER);
+   for($i = 0; $i < 100; $i++)
+   {
+      $Socket = @fsockopen($Host, (int)$Port, $Errno, $Error, 1);
+      if($Socket)
+      {
+         fclose($Socket);
+         return 'http://' . LOCAL_SERVER;
+      }
+      if(!proc_get_status($Process)['running'])
+      {
+         break;
+      }
+      usleep(100000);
+   }
+   throw new RuntimeException("PHP's built-in web server did not start on " . LOCAL_SERVER . " (see $Log)");
+}
+
 function runTool($Label, $Command, $Env)
 {
    $Prefix = '';
@@ -469,10 +532,11 @@ function installSampleData($Site, $Database)
    $Profile = profileFor($Site);
 
    out("$Site: running the Archon web installer");
+   $Base = startLocalServer();
    $Status = runTool($Site, 'php ' . escapeshellarg("$Source/tests/tools/install-database.php")
       . ' --site=' . escapeshellarg($Config['docroot'] . '/' . $Site)
       . ' --database=' . escapeshellarg($Database)
-      . ' --base=' . escapeshellarg("http://127.0.0.1/$Site/")
+      . ' --base=' . escapeshellarg("$Base/$Site/")
       . ' --app-login=' . escapeshellarg(WEB_LOGIN)
       . ' --no-fixtures', toolEnv());
    if($Status)
@@ -650,6 +714,9 @@ function ensureAdministrator($Site, $Database)
       sqlRun($Connection, 'UPDATE tblCore_Users SET PasswordHash = ?, IsAdminUser = 1, Pending = 0, Locked = 0, RepositoryLimit = 0 WHERE ID = ?', array($Hash, $UserID));
    }
 
+   // The sample data's staff and researcher accounts share the administrator's password.
+   sqlRun($Connection, "UPDATE tblCore_Users SET PasswordHash = ? WHERE Login IN ('teststaff', 'testreader', 'testresearcher')", array($Hash));
+
    $GroupID = sqlValue($Connection, 'SELECT TOP 1 ID FROM tblCore_Usergroups ORDER BY DefaultPermissions DESC, ID');
    if($GroupID !== NULL && !sqlValue($Connection, 'SELECT COUNT(*) FROM tblCore_UserUsergroupIndex WHERE UserID = ? AND UsergroupID = ?', array($UserID, $GroupID)))
    {
@@ -700,7 +767,7 @@ function writeIndexPage($Statuses)
    global $Config, $Profiles;
    $Html = "<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Archon test environment</title>"
       . '<style>body{font-family:sans-serif;margin:2em;max-width:70em}td,th{padding:.4em .8em;text-align:left;vertical-align:top;border-bottom:1px solid #ddd}code{background:#f4f4f4;padding:0 .3em}</style>'
-      . "</head><body>\n<h1>Archon test environment</h1>\n<p>PHP " . htmlspecialchars(PHP_VERSION) . ' on Apache, SQL Server 2022.</p>';
+      . "</head><body>\n<h1>Archon test environment</h1>\n<p>PHP " . htmlspecialchars(PHP_VERSION) . ' (PHP-FPM behind the host\'s Apache httpd), SQL Server 2022.</p>';
    $Html .= "<table><tr><th>Site</th><th>Public interface</th><th>Staff interface</th><th>Data</th></tr>\n";
    foreach($Config['sites'] as $Site)
    {
@@ -714,7 +781,7 @@ function writeIndexPage($Statuses)
       $Html .= '<tr><td><b>' . htmlspecialchars($Site) . '</b><br><small>' . htmlspecialchars($Profile['title']) . '</small></td><td>' . $Links
          . '</td><td><a href="/' . $Site . '/?p=admin">/' . $Site . '/?p=admin</a></td><td>' . htmlspecialchars($Status) . "</td></tr>\n";
    }
-   $Html .= "</table>\n<p>Staff login: <code>" . htmlspecialchars($Config['admin_login']) . '</code>. The password is shown by <code>docker compose exec web archon-testenv credentials</code>.</p>'
+   $Html .= "</table>\n<p>Staff login: <code>" . htmlspecialchars($Config['admin_login']) . '</code>. The password is shown by <code>' . compose() . ' exec php archon-testenv credentials</code>.</p>'
       . "\n<p>Theme and repository choices are stored in the session: use a separate browser profile (or private window) per theme.</p>\n</body></html>\n";
    file_put_contents($Config['docroot'] . '/index.html', $Html);
 }
@@ -733,7 +800,8 @@ function banner($Statuses, $Failures)
       $Lines[] = sprintf('   %-9s %s', '', isset($Failures[$Site]) ? 'FAILED: ' . $Failures[$Site] : $Statuses[$Site]);
    }
    $Lines[] = ' Staff interface: <site>/?p=admin   login: ' . $Config['admin_login'];
-   $Lines[] = ' Password: docker compose exec web archon-testenv credentials';
+   $Lines[] = ' Password: ' . compose() . ' exec php archon-testenv credentials';
+   $Lines[] = ' Index of sites: ' . $Config['public_url'] . '/archon-testenv/   (host Apache: tests/testenv/httpd/archon-testenv.conf)';
    $Lines[] = str_repeat('=', 78);
    echo implode("\n", $Lines) . "\n";
 }
@@ -842,15 +910,18 @@ function cmdCrawl($Site, $Args)
    global $Config;
    $Report = "/var/log/archon/crawl-$Site.json";
    $Command = 'php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/crawl.php')
-      . ' --base=' . escapeshellarg("http://127.0.0.1/$Site/")
       . ' --site=' . escapeshellarg($Config['docroot'] . '/' . $Site)
       . ' --report=' . escapeshellarg($Report);
+   if(!preg_grep('/^--base=/', $Args))
+   {
+      $Command .= ' --base=' . escapeshellarg(startLocalServer() . "/$Site/");
+   }
    foreach($Args as $Arg)
    {
       $Command .= ' ' . escapeshellarg($Arg);
    }
    $Status = runTool("crawl $Site", $Command, toolEnv() + array('ARCHON_TEST_DATABASE' => databaseFor($Site)));
-   out("report: $Report (copy it out with: docker compose cp web:$Report .)");
+   out("report: $Report (copy it out with: " . compose() . " exec php cat $Report > " . basename($Report) . ')');
    return $Status;
 }
 

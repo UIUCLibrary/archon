@@ -1,16 +1,25 @@
 #!/bin/bash
-# Entrypoint of the Archon test environment web container (tests/testenv/compose.yaml).
+# Entrypoint of the Archon test environment PHP container (tests/testenv/compose.yaml).
 #
-# 1. archon-testenv prepare: secrets, one Archon site per database under /var/www/html/<site>
-# 2. Apache starts in the background (the web installer is driven over HTTP)
-# 3. archon-testenv init: restores backups/<site>.bak or installs sample data, as needed
-# 4. Apache is restarted in the foreground as the container's main process
+# "serve" (the default command):
+#   1. archon-testenv prepare: secrets, one Archon site per database under /var/www/html/<site>
+#   2. archon-testenv init: restores backups/<site>.bak or installs sample data, as needed
+#      (the Archon web installer runs through PHP's built-in web server inside the container)
+#   3. PHP-FPM (fpm image variant) or Apache (apache variant) becomes the main process
 #
-# Any other command (e.g. "docker compose run web bash") runs without initialisation.
+# Any other command (e.g. "podman compose run --rm php bash") runs without initialisation.
 set -uo pipefail
 
-if [ "$#" -eq 0 ] || [ "$1" != "apache2-foreground" ]; then
+if [ "$#" -gt 0 ] && [ "$1" != "serve" ]; then
     exec docker-php-entrypoint "$@"
+fi
+
+if command -v php-fpm >/dev/null 2>&1; then
+    server=(php-fpm)
+    stop_signals=(TERM INT QUIT)
+else
+    server=(apache2-foreground)
+    stop_signals=(TERM INT WINCH)
 fi
 
 mkdir -p /run/archon
@@ -21,21 +30,13 @@ if ! archon-testenv prepare; then
     exit 1
 fi
 
-stop_requested=0
-trap 'stop_requested=1' TERM INT WINCH
-
-apache2ctl start
-archon-testenv init
+# "podman compose stop" / "docker compose stop" during a long first initialisation stops the container promptly; an interrupted
+# site has no completion marker, so it is rebuilt on the next start.
+trap 'echo "[testenv] stopping during initialisation" >&2; exit 143' "${stop_signals[@]}"
+archon-testenv init &
+wait "$!"
 init_status=$?
-apache2ctl stop
-for _ in $(seq 1 30); do
-    [ -f /var/run/apache2/apache2.pid ] || break
-    sleep 1
-done
-
-if [ "${stop_requested}" = 1 ]; then
-    exit 143
-fi
+trap - "${stop_signals[@]}"
 
 echo "${init_status}" > /run/archon/ready
-exec docker-php-entrypoint "$@"
+exec docker-php-entrypoint "${server[@]}"

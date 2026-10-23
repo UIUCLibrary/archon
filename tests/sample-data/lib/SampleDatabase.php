@@ -131,11 +131,14 @@ class SampleDatabase
       }
       $Columns = $this->columns($Table);
       $Names = array();
-      foreach(array_keys(reset($Rows)) as $Name)
+      foreach($Rows as $Row)
       {
-         if(isset($Columns[$Name]))
+         foreach(array_keys($Row) as $Name)
          {
-            $Names[] = $Name;
+            if(isset($Columns[$Name]) && !in_array($Name, $Names, true))
+            {
+               $Names[] = $Name;
+            }
          }
       }
       $HasIdentity = in_array('ID', $Names, true) && $Columns['ID']['identity'];

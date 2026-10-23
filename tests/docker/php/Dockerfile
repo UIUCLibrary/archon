@@ -1,16 +1,19 @@
-# Archon test runtime: PHP 8.2 + Apache + Microsoft sqlsrv driver (SQL Server).
+# Archon test runtime: PHP 8.2 + Microsoft sqlsrv driver (SQL Server), as an Apache module or PHP-FPM.
 #
 # Build context: the repository root (see /.dockerignore). Third-party sources are pinned and verified
 # with SHA-256 checksums. PHP 8.2.35+ includes the fix for the php2shell vulnerability; the base image
 # tag tracks the latest 8.2 patch.
 #
-# The image serves two purposes:
-#   - tests/testenv/compose.yaml: the one-command test environment. The entrypoint (archon-entrypoint)
-#     creates one Archon site per database from the source baked into /opt/archon/src.
-#   - tests/docker/docker-compose.yml: the developer/agent harness (tests/bin/archon-test), which mounts
-#     the working tree at /src and bypasses the entrypoint.
+# PHP_VARIANT selects the server API:
+#   apache (default) - tests/docker/docker-compose.yml, the developer/agent harness (tests/bin/archon-test).
+#                      It mounts the working tree at /src and bypasses the entrypoint.
+#   fpm              - tests/testenv/compose.yaml, the one-command test environment. PHP-FPM listens on
+#                      port 9000 behind the host's Apache httpd (tests/testenv/httpd/archon-testenv.conf).
+#                      The entrypoint (archon-entrypoint) creates one Archon site per database from the
+#                      source baked into /opt/archon/src.
 ARG PHP_VERSION=8.2
-FROM php:${PHP_VERSION}-apache
+ARG PHP_VARIANT=apache
+FROM docker.io/library/php:${PHP_VERSION}-${PHP_VARIANT}
 
 ARG SQLSRV_VERSION=5.12.0
 ARG SQLSRV_SHA256=c2a67f20a49555243a1b6c45d4a735e58dcbed0bafefbf7de8e196f317544fbc
@@ -52,7 +55,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 # PHPUnit for the test suite.
-COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+COPY --from=docker.io/library/composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY tests/composer.json tests/composer.lock /opt/archon-tests/
 RUN set -eux; \
     cd /opt/archon-tests; \
@@ -64,15 +67,19 @@ RUN set -eux; \
     rm -rf /root/.composer/cache /root/.cache/composer
 
 COPY tests/docker/php/php.ini /usr/local/etc/php/conf.d/zz-archon-test.ini
+COPY tests/docker/php/fpm-pool.conf /usr/local/etc/php-fpm.d/zz-archon.conf
 COPY tests/docker/php/archon-sync tests/docker/php/archon-entrypoint tests/docker/php/archon-testenv /usr/local/bin/
 COPY tests/docker/php/error-capture.php /usr/local/lib/archon-test/error-capture.php
+COPY tests/docker/php/archon-static.php /usr/local/lib/archon/static.php
 RUN set -eux; \
     chmod +x /usr/local/bin/archon-sync /usr/local/bin/archon-entrypoint /usr/local/bin/archon-testenv; \
     mkdir -p /var/log/archon; \
     chown www-data:www-data /var/log/archon; \
-    a2enmod rewrite >/dev/null; \
-    echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf; \
-    a2enconf servername >/dev/null
+    if [ -d /etc/apache2 ]; then \
+        a2enmod rewrite >/dev/null; \
+        echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf; \
+        a2enconf servername >/dev/null; \
+    fi
 
 # The Archon source used by the test environment (the developer harness mounts /src instead).
 COPY . /opt/archon/src
@@ -80,4 +87,5 @@ ENV ARCHON_SOURCE_DIR=/opt/archon/src
 
 WORKDIR /var/www/html
 ENTRYPOINT ["archon-entrypoint"]
-CMD ["apache2-foreground"]
+# "serve": initialise the sites, then run Apache (apache variant) or PHP-FPM (fpm variant).
+CMD ["serve"]
