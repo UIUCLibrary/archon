@@ -1,6 +1,8 @@
 # Archon-specific #
 ###################
 config.inc.php
+# Settings for docker-compose*.yml (may hold passwords)
+/.env
 
 # Compiled source #
 ###################

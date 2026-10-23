@@ -64,10 +64,28 @@ function warn($Message)
    fwrite(STDERR, '[testenv] WARNING: ' . $Message . "\n");
 }
 
-/** "podman compose" or "docker compose", for the commands shown to the user (Podman creates /run/.containerenv). */
+/** The compose command shown to the user: ARCHON_COMPOSE_COMMAND, else "podman compose" or "docker compose" (Podman creates /run/.containerenv). */
 function compose()
 {
+   $Command = trim((string)getenv('ARCHON_COMPOSE_COMMAND'));
+   if($Command !== '')
+   {
+      return $Command;
+   }
    return file_exists('/run/.containerenv') ? 'podman compose' : 'docker compose';
+}
+
+/** True in the apache image variant (Apache httpd in the container, docker-compose*.yml at the repository root). */
+function apacheVariant()
+{
+   return is_dir('/etc/apache2');
+}
+
+/** Address of the index of sites. */
+function indexUrl()
+{
+   global $Config;
+   return $Config['public_url'] . (apacheVariant() ? '/' : '/archon-testenv/');
 }
 
 function profileFor($Site)
@@ -796,7 +814,8 @@ function writeIndexPage($Statuses)
    global $Config, $Profiles;
    $Html = "<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Archon test environment</title>"
       . '<style>body{font-family:sans-serif;margin:2em;max-width:70em}td,th{padding:.4em .8em;text-align:left;vertical-align:top;border-bottom:1px solid #ddd}code{background:#f4f4f4;padding:0 .3em}</style>'
-      . "</head><body>\n<h1>Archon test environment</h1>\n<p>PHP " . htmlspecialchars(PHP_VERSION) . ' (PHP-FPM behind the host\'s Apache httpd), SQL Server 2022.</p>';
+      . "</head><body>\n<h1>Archon test environment</h1>\n<p>PHP " . htmlspecialchars(PHP_VERSION)
+      . (apacheVariant() ? ' (Apache httpd in the container)' : ' (PHP-FPM behind the host\'s Apache httpd)') . ', SQL Server 2022.</p>';
    $Html .= "<table><tr><th>Site</th><th>Public interface</th><th>Staff interface</th><th>Data</th></tr>\n";
    foreach($Config['sites'] as $Site)
    {
@@ -830,7 +849,7 @@ function banner($Statuses, $Failures)
    }
    $Lines[] = ' Staff interface: <site>/?p=admin   login: ' . $Config['admin_login'];
    $Lines[] = ' Password: ' . compose() . ' exec php archon-testenv credentials';
-   $Lines[] = ' Index of sites: ' . $Config['public_url'] . '/archon-testenv/   (host Apache: tests/testenv/httpd/archon-testenv.conf)';
+   $Lines[] = ' Index of sites: ' . indexUrl() . (apacheVariant() ? '' : '   (host Apache: tests/testenv/httpd/archon-testenv.conf)');
    $Lines[] = str_repeat('=', 78);
    echo implode("\n", $Lines) . "\n";
 }

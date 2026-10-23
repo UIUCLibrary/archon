@@ -71,14 +71,19 @@ COPY tests/docker/php/fpm-pool.conf /usr/local/etc/php-fpm.d/zz-archon.conf
 COPY tests/docker/php/archon-sync tests/docker/php/archon-entrypoint tests/docker/php/archon-testenv /usr/local/bin/
 COPY tests/docker/php/error-capture.php /usr/local/lib/archon-test/error-capture.php
 COPY tests/docker/php/archon-static.php /usr/local/lib/archon/static.php
+COPY tests/docker/php/apache-archon.conf /usr/local/lib/archon/apache-archon.conf
 RUN set -eux; \
     chmod +x /usr/local/bin/archon-sync /usr/local/bin/archon-entrypoint /usr/local/bin/archon-testenv; \
     mkdir -p /var/log/archon; \
     chown www-data:www-data /var/log/archon; \
     if [ -d /etc/apache2 ]; then \
-        a2enmod rewrite >/dev/null; \
+        a2enmod rewrite remoteip >/dev/null; \
         echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf; \
         a2enconf servername >/dev/null; \
+        mv /usr/local/lib/archon/apache-archon.conf /etc/apache2/conf-available/archon.conf; \
+        a2enconf archon >/dev/null; \
+    else \
+        rm /usr/local/lib/archon/apache-archon.conf; \
     fi
 
 # The Archon source used by the test environment (the developer harness mounts /src instead).

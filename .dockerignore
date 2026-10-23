@@ -4,6 +4,10 @@
 .idea
 **/.DS_Store
 config.inc.php
+.env
+/docker-compose*.yml
+/docker.env.example
+/README.docker.md
 tests/research
 tests/vendor
 tests/docker/.env
