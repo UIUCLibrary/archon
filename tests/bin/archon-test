@@ -48,7 +48,7 @@ php_exec() {
 }
 
 cmd_build() {
-    (cd "${root}/tests" && docker build --network host -f docker/php/Dockerfile -t archon-test/php:8.2 .)
+    docker build --network host -f "${root}/tests/docker/php/Dockerfile" -t archon-test/php:8.2 "${root}"
     docker pull mcr.microsoft.com/mssql/server:2022-latest
 }
 

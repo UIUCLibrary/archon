@@ -1,0 +1,937 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Initialises and manages the Archon test environment (tests/testenv/compose.yaml).
+ *
+ *   archon-testenv status              each site's URL, database and data source
+ *   archon-testenv credentials         the test administrator login and password
+ *   archon-testenv reset SITE...|all   rebuild databases (restore the .bak again, or fresh sample data)
+ *   archon-testenv crawl SITE [args]   request every public and admin page, report PHP diagnostics
+ *   archon-testenv diagnostics         summarise the PHP warnings/errors recorded while testing
+ *   archon-testenv sql SITE "query"    run a query against a site database (as sa)
+ *
+ * Used by the entrypoint (archon-entrypoint):
+ *   archon-testenv prepare             secrets, per-site code and config.inc.php
+ *   archon-testenv init                create, restore or keep each site database
+ *
+ * Settings (environment): ARCHON_SITES, ARCHON_SAMPLE_SIZE, ARCHON_ADMIN_LOGIN, ARCHON_ADMIN_PASSWORD,
+ * MSSQL_SA_PASSWORD, ARCHON_PUBLIC_URL. See tests/testenv/README.md.
+ */
+
+const MARKER_NAME = 'ArchonTestEnv';
+const SAMPLE_DATA_VERSION = 1;
+const WEB_LOGIN = 'archon_web';
+
+$Config = array(
+   'sites' => preg_split('/[\s,]+/', trim(getenv('ARCHON_SITES') ?: 'archives ihlc rbml ala'), -1, PREG_SPLIT_NO_EMPTY),
+   'size' => getenv('ARCHON_SAMPLE_SIZE') ?: 'standard',
+   'admin_login' => getenv('ARCHON_ADMIN_LOGIN') ?: 'testadmin',
+   'db_prefix' => 'archon_',
+   'mssql_host' => getenv('MSSQL_HOST') ?: 'mssql',
+   'secrets_dir' => getenv('ARCHON_SECRETS_DIR') ?: '/run/archon-secrets',
+   'backups_dir' => '/archon/backups',
+   'staging_dir' => '/archon/staging',
+   'source_dir' => rtrim(getenv('ARCHON_SOURCE_DIR') ?: '/opt/archon/src', '/'),
+   'docroot' => '/var/www/html',
+   'state_dir' => '/run/archon',
+   'public_url' => rtrim(getenv('ARCHON_PUBLIC_URL') ?: 'http://localhost:8080', '/'),
+);
+
+// Default theme and template set per production install (tests/research/live-survey/summary.md, section A).
+$Profiles = array(
+   'archives' => array('title' => 'University Archives (library_web, plus the sousa2 theme for repository 2)', 'theme' => 'library_web', 'templateset' => 'illinois',
+      'extra_links' => array('sousa2 theme (repository 2)' => '?settheme=sousa2&setrepositoryid=2', 'all repositories' => '?settheme=library_web&setrepositoryid=0')),
+   'ihlc' => array('title' => 'Illinois History and Lincoln Collections', 'theme' => 'ihlc', 'templateset' => 'ihlc', 'extra_links' => array()),
+   'rbml' => array('title' => 'Rare Book & Manuscript Library', 'theme' => 'rbml', 'templateset' => 'rbml', 'extra_links' => array()),
+   'ala' => array('title' => 'American Library Association Archives', 'theme' => 'ala_redo', 'templateset' => 'ala', 'extra_links' => array()),
+);
+
+function out($Message)
+{
+   echo '[testenv] ' . $Message . "\n";
+   @ob_flush();
+   flush();
+}
+
+function warn($Message)
+{
+   fwrite(STDERR, '[testenv] WARNING: ' . $Message . "\n");
+}
+
+function profileFor($Site)
+{
+   global $Profiles;
+   return isset($Profiles[$Site]) ? $Site : 'archives';
+}
+
+function databaseFor($Site)
+{
+   global $Config;
+   return $Config['db_prefix'] . $Site;
+}
+
+function checkSites()
+{
+   global $Config;
+   foreach($Config['sites'] as $Site)
+   {
+      if(!preg_match('/^[a-z][a-z0-9_]{0,39}$/', $Site))
+      {
+         fwrite(STDERR, "[testenv] invalid site name '$Site' in ARCHON_SITES (use lower-case letters, digits and _)\n");
+         exit(64);
+      }
+   }
+}
+
+/* ---------------------------------------------------------------- secrets */
+
+function generateSecret($Groups = 4)
+{
+   // Unambiguous characters; the fixed prefix satisfies SQL Server's password complexity rules.
+   $Alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+   $Parts = array();
+   for($g = 0; $g < $Groups; $g++)
+   {
+      $Part = '';
+      for($i = 0; $i < 5; $i++)
+      {
+         $Part .= $Alphabet[random_int(0, strlen($Alphabet) - 1)];
+      }
+      $Parts[] = $Part;
+   }
+   return 'Tq7-' . implode('-', $Parts);
+}
+
+function secretPath($Name)
+{
+   global $Config;
+   return $Config['secrets_dir'] . '/' . $Name;
+}
+
+function readSecret($Name)
+{
+   $File = secretPath($Name);
+   if(!is_readable($File))
+   {
+      fwrite(STDERR, "[testenv] secret $File is missing; is this the web container of tests/testenv?\n");
+      exit(1);
+   }
+   return trim(file_get_contents($File));
+}
+
+function writeSecret($Name, $Value, $Mode)
+{
+   $File = secretPath($Name);
+   $Temp = $File . '.tmp';
+   file_put_contents($Temp, $Value . "\n");
+   chmod($Temp, $Mode);
+   rename($Temp, $File);
+}
+
+function ensureSecrets()
+{
+   global $Config;
+   if(!is_dir($Config['secrets_dir']))
+   {
+      mkdir($Config['secrets_dir'], 0755, true);
+   }
+
+   // SQL Server only reads its SA password when the data volume is created, so the stored value wins.
+   $Sa = getenv('MSSQL_SA_PASSWORD');
+   if(!file_exists(secretPath('mssql-sa')))
+   {
+      writeSecret('mssql-sa', $Sa !== false && $Sa !== '' ? $Sa : generateSecret(), 0644);
+      out('created the SQL Server SA password (' . ($Sa ? 'from MSSQL_SA_PASSWORD' : 'generated') . ')');
+   }
+   elseif($Sa && $Sa !== readSecret('mssql-sa'))
+   {
+      warn('MSSQL_SA_PASSWORD differs from the password SQL Server was created with; using the stored one. Run "docker compose down -v" to start over.');
+   }
+
+   if(!file_exists(secretPath('archon-web')))
+   {
+      writeSecret('archon-web', generateSecret(), 0600);
+   }
+
+   $Admin = getenv('ARCHON_ADMIN_PASSWORD');
+   if($Admin !== false && $Admin !== '')
+   {
+      if(!file_exists(secretPath('archon-admin')) || readSecret('archon-admin') !== $Admin)
+      {
+         writeSecret('archon-admin', $Admin, 0600);
+      }
+   }
+   elseif(!file_exists(secretPath('archon-admin')))
+   {
+      writeSecret('archon-admin', generateSecret(3), 0600);
+      out('generated the test administrator password (docker compose exec web archon-testenv credentials)');
+   }
+}
+
+/* ---------------------------------------------------------------- SQL Server */
+
+function sqlConnect($Database = 'master', $Quiet = false)
+{
+   global $Config;
+   $Connection = sqlsrv_connect($Config['mssql_host'], array(
+      'UID' => 'sa', 'PWD' => readSecret('mssql-sa'), 'Database' => $Database,
+      'TrustServerCertificate' => true, 'CharacterSet' => 'UTF-8', 'LoginTimeout' => 10,
+   ));
+   if($Connection === false && !$Quiet)
+   {
+      throw new RuntimeException("cannot connect to SQL Server ($Database): " . sqlErrors());
+   }
+   return $Connection;
+}
+
+function sqlErrors()
+{
+   $Messages = array();
+   foreach((array)sqlsrv_errors(SQLSRV_ERR_ERRORS) as $Error)
+   {
+      $Messages[] = $Error['message'];
+   }
+   return implode(' | ', $Messages);
+}
+
+/**
+ * Runs a statement (or batch) to completion and returns the rows of every result set.
+ */
+function sqlRun($Connection, $Sql, $Params = array())
+{
+   $Statement = sqlsrv_query($Connection, $Sql, $Params, array('QueryTimeout' => 0));
+   if($Statement === false)
+   {
+      throw new RuntimeException(sqlErrors() . "\n  in: " . substr(preg_replace('/\s+/', ' ', $Sql), 0, 300));
+   }
+   $Rows = array();
+   do
+   {
+      if(sqlsrv_num_fields($Statement) > 0)
+      {
+         while(($Row = sqlsrv_fetch_array($Statement, SQLSRV_FETCH_ASSOC)) !== NULL && $Row !== false)
+         {
+            $Rows[] = $Row;
+         }
+      }
+      $Next = sqlsrv_next_result($Statement);
+   }
+   while($Next === true);
+   if($Next === false)
+   {
+      throw new RuntimeException(sqlErrors() . "\n  in: " . substr(preg_replace('/\s+/', ' ', $Sql), 0, 300));
+   }
+   sqlsrv_free_stmt($Statement);
+   return $Rows;
+}
+
+function sqlValue($Connection, $Sql, $Params = array())
+{
+   $Rows = sqlRun($Connection, $Sql, $Params);
+   return $Rows ? reset($Rows[0]) : NULL;
+}
+
+function quoteName($Name)
+{
+   return '[' . str_replace(']', ']]', $Name) . ']';
+}
+
+function quoteString($Value)
+{
+   return "N'" . str_replace("'", "''", $Value) . "'";
+}
+
+function waitForSqlServer()
+{
+   $Deadline = time() + (int)(getenv('ARCHON_SQL_WAIT') ?: 900);
+   $Last = '';
+   while(time() < $Deadline)
+   {
+      $Connection = @sqlConnect('master', true);
+      if($Connection)
+      {
+         $Version = sqlValue($Connection, "SELECT CAST(SERVERPROPERTY('ProductVersion') AS nvarchar(50)) + ' ' + CAST(SERVERPROPERTY('Edition') AS nvarchar(100))");
+         out("SQL Server is up ($Version)");
+         return $Connection;
+      }
+      $Last = sqlErrors();
+      sleep(3);
+   }
+   throw new RuntimeException('SQL Server did not become available: ' . $Last);
+}
+
+function sqlConfigure()
+{
+   sqlsrv_configure('WarningsReturnAsErrors', 0);
+   sqlsrv_configure('LogSeverity', SQLSRV_LOG_SEVERITY_ERROR);
+}
+
+function ensureWebLogin($Master)
+{
+   $Secret = quoteString(readSecret('archon-web'));
+   $Login = quoteName(WEB_LOGIN);
+   sqlRun($Master, "IF SUSER_ID(N'" . WEB_LOGIN . "') IS NULL CREATE LOGIN $Login WITH PASSWORD = $Secret, CHECK_POLICY = OFF, DEFAULT_DATABASE = [master]; ELSE ALTER LOGIN $Login WITH PASSWORD = $Secret;");
+}
+
+function databaseState($Master, $Database)
+{
+   return sqlValue($Master, 'SELECT state_desc FROM sys.databases WHERE name = ?', array($Database));
+}
+
+function readMarker($Master, $Database)
+{
+   if(databaseState($Master, $Database) !== 'ONLINE')
+   {
+      return NULL;
+   }
+   $Value = sqlValue($Master, 'SELECT CAST(value AS nvarchar(4000)) FROM ' . quoteName($Database) . ".sys.extended_properties WHERE class = 0 AND name = N'" . MARKER_NAME . "'");
+   return $Value === NULL ? NULL : (string)$Value;
+}
+
+function writeMarker($Database, $Value)
+{
+   $Connection = sqlConnect($Database);
+   sqlRun($Connection, "IF EXISTS (SELECT 1 FROM sys.extended_properties WHERE class = 0 AND name = N'" . MARKER_NAME . "') EXEC sys.sp_dropextendedproperty @name = N'" . MARKER_NAME . "';");
+   sqlRun($Connection, "EXEC sys.sp_addextendedproperty @name = N'" . MARKER_NAME . "', @value = ?;", array($Value));
+   sqlsrv_close($Connection);
+}
+
+function dropDatabase($Master, $Database)
+{
+   $State = databaseState($Master, $Database);
+   if($State === NULL)
+   {
+      return;
+   }
+   $Quoted = quoteName($Database);
+   if($State === 'ONLINE')
+   {
+      sqlRun($Master, "ALTER DATABASE $Quoted SET SINGLE_USER WITH ROLLBACK IMMEDIATE;");
+   }
+   sqlRun($Master, "DROP DATABASE $Quoted;");
+   out("dropped database $Database");
+}
+
+/* ---------------------------------------------------------------- sites */
+
+function syncSite($Site)
+{
+   global $Config;
+   $Env = 'ARCHON_TEST_MSSQL_HOST=' . escapeshellarg($Config['mssql_host'])
+      . ' ARCHON_TEST_MSSQL_USER=' . escapeshellarg(WEB_LOGIN)
+      . ' ARCHON_TEST_MSSQL_SECRET=' . escapeshellarg(readSecret('archon-web'));
+   $Command = "env $Env archon-sync " . escapeshellarg($Site) . ' MSSQL ' . escapeshellarg(databaseFor($Site)) . ' ' . escapeshellarg($Config['source_dir']);
+   passthru($Command . ' > /dev/null', $Status);
+   if($Status)
+   {
+      throw new RuntimeException("archon-sync failed for $Site");
+   }
+}
+
+function backupFor($Site)
+{
+   global $Config;
+   $File = $Config['backups_dir'] . '/' . $Site . '.bak';
+   return is_file($File) ? $File : NULL;
+}
+
+function backupSignature($File)
+{
+   clearstatcache(true, $File);
+   return 'bak:' . basename($File) . ':' . filesize($File) . ':' . filemtime($File);
+}
+
+function sampleSignature()
+{
+   global $Config;
+   return 'sample:' . $Config['size'] . ':v' . SAMPLE_DATA_VERSION;
+}
+
+function humanSize($Bytes)
+{
+   $Units = array('B', 'KB', 'MB', 'GB', 'TB');
+   $i = 0;
+   while($Bytes >= 1024 && $i < count($Units) - 1)
+   {
+      $Bytes /= 1024;
+      $i++;
+   }
+   return round($Bytes, 1) . ' ' . $Units[$i];
+}
+
+function describeMarker($Marker)
+{
+   if($Marker === NULL)
+   {
+      return 'not initialised';
+   }
+   $Parts = explode(':', $Marker);
+   if($Parts[0] == 'bak' && count($Parts) >= 4)
+   {
+      return 'restored from backups/' . $Parts[1] . ' (' . humanSize((float)$Parts[2]) . ', modified ' . date('Y-m-d H:i', (int)$Parts[3]) . ')';
+   }
+   if($Parts[0] == 'sample' && count($Parts) >= 3)
+   {
+      return 'synthetic sample data (' . $Parts[1] . ', generator ' . $Parts[2] . ')';
+   }
+   return $Marker;
+}
+
+/**
+ * Brings a site database to the desired state. Returns a description of its data source.
+ */
+function ensureSite($Master, $Site, $Force)
+{
+   global $Config;
+   $Database = databaseFor($Site);
+   $Backup = backupFor($Site);
+   $Desired = $Backup ? backupSignature($Backup) : sampleSignature();
+   $Current = readMarker($Master, $Database);
+
+   $Rebuild = $Force;
+   if($Force)
+   {
+      out("$Site: rebuilding $Database on request");
+   }
+   elseif($Current === NULL)
+   {
+      $Rebuild = true;
+      out("$Site: $Database " . (databaseState($Master, $Database) === NULL ? 'does not exist yet' : 'was not fully initialised') . '; building it');
+   }
+   elseif($Backup && $Current !== $Desired)
+   {
+      $Rebuild = true;
+      out("$Site: backups/" . basename($Backup) . " is new or changed; restoring it");
+   }
+   elseif(!$Backup && strpos($Current, 'bak:') === 0)
+   {
+      out("$Site: keeping the database restored earlier (" . describeMarker($Current) . '); the backup file is gone. Run "archon-testenv reset ' . $Site . '" to switch to sample data.');
+   }
+   elseif(!$Backup && $Current !== $Desired)
+   {
+      out("$Site: keeping existing sample data (" . describeMarker($Current) . '); run "archon-testenv reset ' . $Site . '" to regenerate it as ' . describeMarker($Desired) . '.');
+   }
+
+   if($Rebuild)
+   {
+      dropDatabase($Master, $Database);
+      $Started = microtime(true);
+      if($Backup)
+      {
+         restoreBackup($Master, $Site, $Database, $Backup);
+      }
+      else
+      {
+         installSampleData($Site, $Database);
+      }
+      writeMarker($Database, $Desired);
+      $Current = $Desired;
+      out(sprintf('%s: %s ready in %.0f s', $Site, $Database, microtime(true) - $Started));
+   }
+
+   ensureDatabaseAccess($Database);
+   ensureAdministrator($Site, $Database);
+   return describeMarker($Current);
+}
+
+function runTool($Label, $Command, $Env)
+{
+   $Prefix = '';
+   foreach($Env as $Name => $Value)
+   {
+      $Prefix .= $Name . '=' . escapeshellarg($Value) . ' ';
+   }
+   $Process = proc_open('env ' . $Prefix . $Command . ' 2>&1', array(1 => array('pipe', 'w')), $Pipes);
+   while(($Line = fgets($Pipes[1])) !== false)
+   {
+      echo "[testenv] $Label: " . rtrim($Line) . "\n";
+   }
+   fclose($Pipes[1]);
+   return proc_close($Process);
+}
+
+function toolEnv()
+{
+   global $Config;
+   return array(
+      'ARCHON_TEST_MSSQL_HOST' => $Config['mssql_host'],
+      'ARCHON_TEST_MSSQL_USER' => 'sa',
+      'ARCHON_TEST_MSSQL_SECRET' => readSecret('mssql-sa'),
+      'ARCHON_TEST_ADMIN_LOGIN' => $Config['admin_login'],
+      'ARCHON_TEST_ADMIN_SECRET' => readSecret('archon-admin'),
+   );
+}
+
+function installSampleData($Site, $Database)
+{
+   global $Config, $Profiles;
+   $Source = $Config['source_dir'];
+   $Profile = profileFor($Site);
+
+   out("$Site: running the Archon web installer");
+   $Status = runTool($Site, 'php ' . escapeshellarg("$Source/tests/tools/install-database.php")
+      . ' --site=' . escapeshellarg($Config['docroot'] . '/' . $Site)
+      . ' --database=' . escapeshellarg($Database)
+      . ' --base=' . escapeshellarg("http://127.0.0.1/$Site/")
+      . ' --app-login=' . escapeshellarg(WEB_LOGIN)
+      . ' --no-fixtures', toolEnv());
+   if($Status)
+   {
+      throw new RuntimeException("the Archon installer failed for $Site (exit $Status)");
+   }
+
+   out("$Site: generating sample data (profile $Profile, size {$Config['size']})");
+   $Status = runTool($Site, 'php -d memory_limit=1G ' . escapeshellarg("$Source/tests/sample-data/generate.php")
+      . ' --database=' . escapeshellarg($Database)
+      . ' --profile=' . escapeshellarg($Profile)
+      . ' --size=' . escapeshellarg($Config['size']), toolEnv());
+   if($Status)
+   {
+      throw new RuntimeException("sample data generation failed for $Site (exit $Status)");
+   }
+
+   $Connection = sqlConnect($Database);
+   $Settings = array(
+      'Default Theme' => $Profiles[$Profile]['theme'],
+      'Default Template Set' => $Profiles[$Profile]['templateset'],
+      // archon.org no longer answers update checks.
+      'Check For Updates' => '0',
+   );
+   foreach($Settings as $Directive => $Value)
+   {
+      sqlRun($Connection, 'UPDATE tblCore_Configuration SET Value = ? WHERE PackageID = 1 AND Directive = ?', array($Value, $Directive));
+   }
+   sqlsrv_close($Connection);
+}
+
+function restoreBackup($Master, $Site, $Database, $Backup)
+{
+   global $Config;
+   $Size = filesize($Backup);
+   out("$Site: restoring backups/" . basename($Backup) . ' (' . humanSize($Size) . ')');
+
+   // SQL Server (uid 10001) reads the file through the shared bind mount when it is world-readable;
+   // otherwise a readable copy is staged in a volume first.
+   $Path = $Backup;
+   $Staged = NULL;
+   if(!(fileperms($Backup) & 0004))
+   {
+      $Free = @disk_free_space($Config['staging_dir']);
+      if($Free !== false && $Free < $Size * 1.1)
+      {
+         throw new RuntimeException('backups/' . basename($Backup) . ' is not world-readable and there is not enough space to stage a copy; run: chmod 644 tests/testenv/backups/' . basename($Backup));
+      }
+      out("$Site: the backup is not world-readable; staging a readable copy");
+      $Staged = $Config['staging_dir'] . '/' . basename($Backup);
+      if(!copy($Backup, $Staged))
+      {
+         throw new RuntimeException("cannot copy the backup to $Staged");
+      }
+      chmod($Staged, 0644);
+      $Path = $Staged;
+   }
+
+   try
+   {
+      $Disk = 'FROM DISK = ' . quoteString($Path);
+      $Headers = sqlRun($Master, "RESTORE HEADERONLY $Disk");
+      $Position = NULL;
+      $Chosen = NULL;
+      foreach($Headers as $Header)
+      {
+         if((int)$Header['BackupType'] === 1)
+         {
+            $Position = (int)$Header['Position'];
+            $Chosen = $Header;
+         }
+      }
+      if($Position === NULL)
+      {
+         throw new RuntimeException('the file contains no full database backup (differential and log backups are not supported)');
+      }
+      $Finish = $Chosen['BackupFinishDate'] instanceof DateTimeInterface ? $Chosen['BackupFinishDate']->format('Y-m-d H:i') : '?';
+      out(sprintf('%s: backup set %d of %d: database %s, taken %s, SQL Server %s.%s', $Site, $Position, count($Headers),
+         $Chosen['DatabaseName'], $Finish, $Chosen['SoftwareVersionMajor'], $Chosen['SoftwareVersionMinor']));
+
+      $Files = sqlRun($Master, "RESTORE FILELISTONLY $Disk WITH FILE = $Position");
+      $Moves = array();
+      $DataFiles = 0;
+      foreach($Files as $File)
+      {
+         $Logical = $File['LogicalName'];
+         $Safe = preg_replace('/[^A-Za-z0-9_]+/', '_', $Logical);
+         switch($File['Type'])
+         {
+            case 'L':
+               $Target = "/var/opt/mssql/data/{$Database}_{$Safe}.ldf";
+               break;
+            case 'D':
+               $Target = "/var/opt/mssql/data/{$Database}_{$Safe}" . ($DataFiles++ ? '.ndf' : '.mdf');
+               break;
+            default:
+               $Target = "/var/opt/mssql/data/{$Database}_{$Safe}";
+         }
+         $Moves[] = 'MOVE ' . quoteString($Logical) . ' TO ' . quoteString($Target);
+      }
+
+      sqlRun($Master, 'RESTORE DATABASE ' . quoteName($Database) . " $Disk WITH FILE = $Position, " . implode(', ', $Moves) . ', REPLACE, RECOVERY, STATS = 25');
+   }
+   finally
+   {
+      if($Staged)
+      {
+         @unlink($Staged);
+      }
+   }
+
+   $Quoted = quoteName($Database);
+   sqlRun($Master, "ALTER AUTHORIZATION ON DATABASE::$Quoted TO [sa];");
+   sqlRun($Master, "ALTER DATABASE $Quoted SET MULTI_USER;");
+
+   $Connection = sqlConnect($Database);
+   $Info = sqlRun($Connection, "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS nvarchar(128)) AS Collation, (SELECT compatibility_level FROM sys.databases WHERE name = DB_NAME()) AS Compatibility, OBJECT_ID('tblCore_Packages') AS Packages");
+   $Info = $Info[0];
+   if(!$Info['Packages'])
+   {
+      warn("$Site: the restored database has no tblCore_Packages table; is this an Archon database?");
+   }
+   else
+   {
+      $Packages = array();
+      foreach(sqlRun($Connection, 'SELECT APRCode, DBVersion, Enabled FROM tblCore_Packages ORDER BY ID') as $Row)
+      {
+         $Packages[] = $Row['APRCode'] . ' ' . $Row['DBVersion'] . ($Row['Enabled'] ? '' : ' (disabled)');
+      }
+      out("$Site: packages: " . implode(', ', $Packages));
+   }
+   out("$Site: collation {$Info['Collation']}, compatibility level {$Info['Compatibility']}");
+   sqlsrv_close($Connection);
+}
+
+function ensureDatabaseAccess($Database)
+{
+   $Connection = sqlConnect($Database);
+   $Login = quoteName(WEB_LOGIN);
+   sqlRun($Connection, "IF DATABASE_PRINCIPAL_ID(N'" . WEB_LOGIN . "') IS NULL CREATE USER $Login FOR LOGIN $Login; ELSE ALTER USER $Login WITH LOGIN = $Login;");
+   sqlRun($Connection, "EXEC sp_addrolemember N'db_owner', N'" . WEB_LOGIN . "';");
+   sqlsrv_close($Connection);
+}
+
+function ensureAdministrator($Site, $Database)
+{
+   global $Config;
+   $Connection = sqlConnect($Database);
+   if(!sqlValue($Connection, "SELECT OBJECT_ID('tblCore_Users')"))
+   {
+      warn("$Site: no tblCore_Users table; the test administrator was not created");
+      return;
+   }
+   $Login = $Config['admin_login'];
+   $Salt = '';
+   $Characters = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+   for($i = 0; $i < 8; $i++)
+   {
+      $Salt .= $Characters[random_int(0, 63)];
+   }
+   // MD5-crypt, the format Archon stores (archon_password_hash() in common.inc.php).
+   $Hash = crypt(readSecret('archon-admin'), '$1$' . $Salt . '$');
+
+   $UserID = sqlValue($Connection, 'SELECT ID FROM tblCore_Users WHERE Login = ?', array($Login));
+   if($UserID === NULL)
+   {
+      $Rows = sqlRun($Connection, "INSERT INTO tblCore_Users (Login, Email, PasswordHash, FirstName, LastName, DisplayName, IsAdminUser, RegisterTime, Pending, LanguageID, CountryID, RepositoryLimit, Locked)
+         OUTPUT INSERTED.ID VALUES (?, ?, ?, 'Test', 'Administrator', 'Test Administrator', 1, ?, 0, 2081, 226, 0, 0)",
+         array($Login, $Login . '@example.org', $Hash, time()));
+      $UserID = $Rows[0]['ID'];
+      out("$Site: created the test administrator '$Login'");
+   }
+   else
+   {
+      sqlRun($Connection, 'UPDATE tblCore_Users SET PasswordHash = ?, IsAdminUser = 1, Pending = 0, Locked = 0, RepositoryLimit = 0 WHERE ID = ?', array($Hash, $UserID));
+   }
+
+   $GroupID = sqlValue($Connection, 'SELECT TOP 1 ID FROM tblCore_Usergroups ORDER BY DefaultPermissions DESC, ID');
+   if($GroupID !== NULL && !sqlValue($Connection, 'SELECT COUNT(*) FROM tblCore_UserUsergroupIndex WHERE UserID = ? AND UsergroupID = ?', array($UserID, $GroupID)))
+   {
+      sqlRun($Connection, 'INSERT INTO tblCore_UserUsergroupIndex (UserID, UsergroupID) VALUES (?, ?)', array($UserID, $GroupID));
+   }
+   sqlsrv_close($Connection);
+}
+
+/* ---------------------------------------------------------------- status pages */
+
+function siteCounts($Database)
+{
+   $Connection = @sqlConnect($Database, true);
+   if(!$Connection)
+   {
+      return NULL;
+   }
+   $Counts = array();
+   $Tables = array('collections' => 'tblCollections_Collections', 'content' => 'tblCollections_Content', 'creators' => 'tblCreators_Creators',
+      'subjects' => 'tblSubjects_Subjects', 'digital content' => 'tblDigitalLibrary_DigitalContent', 'accessions' => 'tblAccessions_Accessions');
+   foreach($Tables as $Label => $Table)
+   {
+      try
+      {
+         $Counts[$Label] = (int)sqlValue($Connection, "SELECT COUNT(*) FROM $Table");
+      }
+      catch(RuntimeException $e)
+      {
+      }
+   }
+   $Settings = array();
+   try
+   {
+      foreach(sqlRun($Connection, "SELECT Directive, CAST(Value AS nvarchar(200)) AS Value FROM tblCore_Configuration WHERE PackageID = 1 AND Directive IN ('Default Theme', 'Default Template Set')") as $Row)
+      {
+         $Settings[$Row['Directive']] = $Row['Value'];
+      }
+   }
+   catch(RuntimeException $e)
+   {
+   }
+   sqlsrv_close($Connection);
+   return array('counts' => $Counts, 'settings' => $Settings);
+}
+
+function writeIndexPage($Statuses)
+{
+   global $Config, $Profiles;
+   $Html = "<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Archon test environment</title>"
+      . '<style>body{font-family:sans-serif;margin:2em;max-width:70em}td,th{padding:.4em .8em;text-align:left;vertical-align:top;border-bottom:1px solid #ddd}code{background:#f4f4f4;padding:0 .3em}</style>'
+      . "</head><body>\n<h1>Archon test environment</h1>\n<p>PHP " . htmlspecialchars(PHP_VERSION) . ' on Apache, SQL Server 2022.</p>';
+   $Html .= "<table><tr><th>Site</th><th>Public interface</th><th>Staff interface</th><th>Data</th></tr>\n";
+   foreach($Config['sites'] as $Site)
+   {
+      $Profile = $Profiles[profileFor($Site)];
+      $Links = '<a href="/' . $Site . '/">' . htmlspecialchars($Profile['theme']) . ' theme</a>';
+      foreach($Profile['extra_links'] as $Label => $Query)
+      {
+         $Links .= '<br><a href="/' . $Site . '/' . htmlspecialchars($Query) . '">' . htmlspecialchars($Label) . '</a>';
+      }
+      $Status = isset($Statuses[$Site]) ? $Statuses[$Site] : 'initialising…';
+      $Html .= '<tr><td><b>' . htmlspecialchars($Site) . '</b><br><small>' . htmlspecialchars($Profile['title']) . '</small></td><td>' . $Links
+         . '</td><td><a href="/' . $Site . '/?p=admin">/' . $Site . '/?p=admin</a></td><td>' . htmlspecialchars($Status) . "</td></tr>\n";
+   }
+   $Html .= "</table>\n<p>Staff login: <code>" . htmlspecialchars($Config['admin_login']) . '</code>. The password is shown by <code>docker compose exec web archon-testenv credentials</code>.</p>'
+      . "\n<p>Theme and repository choices are stored in the session: use a separate browser profile (or private window) per theme.</p>\n</body></html>\n";
+   file_put_contents($Config['docroot'] . '/index.html', $Html);
+}
+
+function banner($Statuses, $Failures)
+{
+   global $Config, $Profiles;
+   $Lines = array(str_repeat('=', 78), ' Archon test environment (PHP ' . PHP_VERSION . ')' . ($Failures ? ' -- ' . count($Failures) . ' site(s) FAILED' : ' is ready'));
+   foreach($Config['sites'] as $Site)
+   {
+      $Lines[] = sprintf('   %-9s %s/%s/', $Site, $Config['public_url'], $Site);
+      foreach($Profiles[profileFor($Site)]['extra_links'] as $Label => $Query)
+      {
+         $Lines[] = sprintf('   %-9s %s/%s/%s', '', $Config['public_url'], $Site, $Query);
+      }
+      $Lines[] = sprintf('   %-9s %s', '', isset($Failures[$Site]) ? 'FAILED: ' . $Failures[$Site] : $Statuses[$Site]);
+   }
+   $Lines[] = ' Staff interface: <site>/?p=admin   login: ' . $Config['admin_login'];
+   $Lines[] = ' Password: docker compose exec web archon-testenv credentials';
+   $Lines[] = str_repeat('=', 78);
+   echo implode("\n", $Lines) . "\n";
+}
+
+/* ---------------------------------------------------------------- commands */
+
+function cmdPrepare()
+{
+   global $Config;
+   ensureSecrets();
+   if(!is_dir($Config['state_dir']))
+   {
+      mkdir($Config['state_dir'], 0755, true);
+   }
+   @chown('/var/log/archon', 'www-data');
+   foreach($Config['sites'] as $Site)
+   {
+      syncSite($Site);
+   }
+   writeIndexPage(array());
+   out('sites: ' . implode(', ', $Config['sites']) . ' (source ' . $Config['source_dir'] . ')');
+}
+
+function cmdInit($Sites, $Force)
+{
+   sqlConfigure();
+   $Master = waitForSqlServer();
+   ensureWebLogin($Master);
+
+   $Statuses = array();
+   $Failures = array();
+   foreach($Sites as $Site)
+   {
+      try
+      {
+         $Statuses[$Site] = ensureSite($Master, $Site, $Force);
+      }
+      catch(Throwable $e)
+      {
+         $Failures[$Site] = $e->getMessage();
+         $Statuses[$Site] = 'FAILED: ' . $e->getMessage();
+         warn("$Site: " . $e->getMessage());
+      }
+   }
+
+   global $Config;
+   foreach($Config['sites'] as $Site)
+   {
+      if(!isset($Statuses[$Site]))
+      {
+         $Statuses[$Site] = describeMarker(readMarker($Master, databaseFor($Site)));
+      }
+   }
+   writeIndexPage($Statuses);
+   banner($Statuses, $Failures);
+   return $Failures ? 1 : 0;
+}
+
+function cmdStatus()
+{
+   global $Config, $Profiles;
+   sqlConfigure();
+   $Master = sqlConnect();
+   foreach($Config['sites'] as $Site)
+   {
+      $Database = databaseFor($Site);
+      $Marker = readMarker($Master, $Database);
+      echo "$Site\n";
+      echo "  URL:       {$Config['public_url']}/$Site/   (staff: {$Config['public_url']}/$Site/?p=admin)\n";
+      echo "  database:  $Database, " . describeMarker($Marker) . "\n";
+      $Backup = backupFor($Site);
+      if($Backup && ($Marker === NULL || $Marker !== backupSignature($Backup)))
+      {
+         echo "  pending:   backups/" . basename($Backup) . " will be restored on the next start (or: archon-testenv reset $Site)\n";
+      }
+      $Info = $Marker !== NULL ? siteCounts($Database) : NULL;
+      if($Info)
+      {
+         $Counts = array();
+         foreach($Info['counts'] as $Label => $Count)
+         {
+            $Counts[] = "$Count $Label";
+         }
+         echo '  records:   ' . implode(', ', $Counts) . "\n";
+         if($Info['settings'])
+         {
+            echo '  defaults:  theme ' . ($Info['settings']['Default Theme'] ?? '?') . ', template set ' . ($Info['settings']['Default Template Set'] ?? '?') . "\n";
+         }
+      }
+   }
+   return 0;
+}
+
+function cmdCredentials()
+{
+   global $Config;
+   echo "Staff interface:  {$Config['public_url']}/<site>/?p=admin\n";
+   echo "Login:            {$Config['admin_login']}\n";
+   echo 'Password:         ' . readSecret('archon-admin') . "\n";
+   echo "The account is created (or its password reset) in every site database on each start.\n";
+   return 0;
+}
+
+function cmdCrawl($Site, $Args)
+{
+   global $Config;
+   $Report = "/var/log/archon/crawl-$Site.json";
+   $Command = 'php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/crawl.php')
+      . ' --base=' . escapeshellarg("http://127.0.0.1/$Site/")
+      . ' --site=' . escapeshellarg($Config['docroot'] . '/' . $Site)
+      . ' --report=' . escapeshellarg($Report);
+   foreach($Args as $Arg)
+   {
+      $Command .= ' ' . escapeshellarg($Arg);
+   }
+   $Status = runTool("crawl $Site", $Command, toolEnv() + array('ARCHON_TEST_DATABASE' => databaseFor($Site)));
+   out("report: $Report (copy it out with: docker compose cp web:$Report .)");
+   return $Status;
+}
+
+function requireSites($Args)
+{
+   global $Config;
+   if(!$Args)
+   {
+      fwrite(STDERR, "name one or more sites (" . implode(', ', $Config['sites']) . ") or 'all'\n");
+      exit(64);
+   }
+   if($Args == array('all'))
+   {
+      return $Config['sites'];
+   }
+   foreach($Args as $Site)
+   {
+      if(!in_array($Site, $Config['sites'], true))
+      {
+         fwrite(STDERR, "unknown site '$Site' (ARCHON_SITES: " . implode(', ', $Config['sites']) . ")\n");
+         exit(64);
+      }
+   }
+   return $Args;
+}
+
+checkSites();
+$Command = isset($argv[1]) ? $argv[1] : 'help';
+$Args = array_slice($argv, 2);
+
+try
+{
+   switch($Command)
+   {
+      case 'prepare':
+         cmdPrepare();
+         exit(0);
+      case 'init':
+         exit(cmdInit($Config['sites'], false));
+      case 'reset':
+         exit(cmdInit(requireSites($Args), true));
+      case 'status':
+         exit(cmdStatus());
+      case 'credentials':
+         exit(cmdCredentials());
+      case 'crawl':
+         $Sites = requireSites(array_slice($Args, 0, 1));
+         exit(cmdCrawl($Sites[0], array_slice($Args, 1)));
+      case 'diagnostics':
+         passthru('php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/diagnostics-report.php') . ' /var/log/archon/diagnostics.jsonl', $Status);
+         exit($Status);
+      case 'sql':
+         $Sites = requireSites(array_slice($Args, 0, 1));
+         if(!isset($Args[1]))
+         {
+            fwrite(STDERR, "usage: archon-testenv sql SITE \"query\"\n");
+            exit(64);
+         }
+         sqlConfigure();
+         $Rows = sqlRun(sqlConnect(databaseFor($Sites[0])), $Args[1]);
+         foreach($Rows as $Row)
+         {
+            foreach($Row as $Key => $Value)
+            {
+               if($Value instanceof DateTimeInterface)
+               {
+                  $Row[$Key] = $Value->format('c');
+               }
+            }
+            echo json_encode($Row, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE) . "\n";
+         }
+         exit(0);
+      default:
+         $Help = file_get_contents(__FILE__);
+         preg_match('#/\*\*(.*?)\*/#s', $Help, $Match);
+         echo preg_replace('/^\s*\* ?/m', '', $Match[1]) . "\n";
+         exit($Command == 'help' || $Command == '--help' ? 0 : 64);
+   }
+}
+catch(Throwable $e)
+{
+   fwrite(STDERR, '[testenv] ERROR: ' . $e->getMessage() . "\n");
+   exit(1);
+}

@@ -1,0 +1,41 @@
+#!/bin/bash
+# Entrypoint of the Archon test environment web container (tests/testenv/compose.yaml).
+#
+# 1. archon-testenv prepare: secrets, one Archon site per database under /var/www/html/<site>
+# 2. Apache starts in the background (the web installer is driven over HTTP)
+# 3. archon-testenv init: restores backups/<site>.bak or installs sample data, as needed
+# 4. Apache is restarted in the foreground as the container's main process
+#
+# Any other command (e.g. "docker compose run web bash") runs without initialisation.
+set -uo pipefail
+
+if [ "$#" -eq 0 ] || [ "$1" != "apache2-foreground" ]; then
+    exec docker-php-entrypoint "$@"
+fi
+
+mkdir -p /run/archon
+rm -f /run/archon/ready
+
+if ! archon-testenv prepare; then
+    echo "[testenv] preparation failed; see the messages above" >&2
+    exit 1
+fi
+
+stop_requested=0
+trap 'stop_requested=1' TERM INT WINCH
+
+apache2ctl start
+archon-testenv init
+init_status=$?
+apache2ctl stop
+for _ in $(seq 1 30); do
+    [ -f /var/run/apache2/apache2.pid ] || break
+    sleep 1
+done
+
+if [ "${stop_requested}" = 1 ]; then
+    exit 143
+fi
+
+echo "${init_status}" > /run/archon/ready
+exec docker-php-entrypoint "$@"

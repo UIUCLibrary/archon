@@ -4,12 +4,17 @@
  * (packages/core/install/install.php_) over HTTP, then loads the synthetic fixtures.
  *
  *   php tests/tools/install-database.php --site=/var/www/html/archon --database=archon_test
- *        [--base=http://127.0.0.1/archon/] [--no-fixtures]
+ *        [--base=http://127.0.0.1/archon/] [--no-fixtures] [--app-login=LOGIN]
  *
- * Runs inside the php82 container (see tests/bin/archon-test install).
+ * --app-login: the SQL Server login named in the site's config.inc.php, when it is not the
+ * ARCHON_TEST_MSSQL_USER login used here; it becomes db_owner of the new database.
+ * The administrator account is ARCHON_TEST_ADMIN_LOGIN (default admin).
+ *
+ * Runs inside the php82 container (see tests/bin/archon-test install) and in the
+ * tests/testenv web container (archon-testenv).
  */
 
-$Options = getopt('', array('site:', 'database:', 'base::', 'no-fixtures'));
+$Options = getopt('', array('site:', 'database:', 'base::', 'no-fixtures', 'app-login:'));
 $SiteDir = rtrim(isset($Options['site']) ? $Options['site'] : '/var/www/html/archon', '/');
 $Database = isset($Options['database']) ? $Options['database'] : 'archon_test';
 $Base = isset($Options['base']) ? $Options['base'] : 'http://127.0.0.1/' . basename($SiteDir) . '/';
@@ -24,6 +29,13 @@ $Host = getenv('ARCHON_TEST_MSSQL_HOST') ?: 'mssql';
 $Login = getenv('ARCHON_TEST_MSSQL_USER') ?: 'sa';
 $Secret = getenv('ARCHON_TEST_MSSQL_SECRET');
 $AdminSecret = getenv('ARCHON_TEST_ADMIN_SECRET') ?: $Secret;
+$AdminLogin = getenv('ARCHON_TEST_ADMIN_LOGIN') ?: 'admin';
+$AppLogin = isset($Options['app-login']) ? $Options['app-login'] : NULL;
+if($AppLogin !== NULL && !preg_match('/^[A-Za-z0-9_]+$/', $AppLogin))
+{
+   fwrite(STDERR, "Invalid login name\n");
+   exit(1);
+}
 
 function step($Message)
 {
@@ -50,6 +62,15 @@ if(sqlsrv_query($Master, $Batch) === false)
 }
 $Row = sqlsrv_fetch_array(sqlsrv_query($Master, "SELECT CONVERT(varchar(128), DATABASEPROPERTYEX('$Database', 'Collation')) AS c, @@VERSION AS v"), SQLSRV_FETCH_ASSOC);
 step("created database $Database (collation {$Row['c']})");
+if($AppLogin !== NULL)
+{
+   $Grant = "USE [$Database]; CREATE USER [$AppLogin] FOR LOGIN [$AppLogin]; EXEC sp_addrolemember N'db_owner', N'$AppLogin';";
+   if(sqlsrv_query($Master, $Grant) === false)
+   {
+      fail("cannot grant $AppLogin access: " . print_r(sqlsrv_errors(), true));
+   }
+   step("$AppLogin is db_owner of $Database");
+}
 sqlsrv_close($Master);
 
 // 2. Enable the web installer.
@@ -201,13 +222,13 @@ runExecStep('core database', 'install5');
 // 4. Administrator account and the SA password.
 checkPage('install7 (administrator)', http($Base . 'index.php', array(
    'p' => 'install', 'f' => 'install7',
-   'Login' => 'admin', 'Password' => $AdminSecret, 'ConfirmPassword' => $AdminSecret,
+   'Login' => $AdminLogin, 'Password' => $AdminSecret, 'ConfirmPassword' => $AdminSecret,
    'DisplayName' => 'Test Administrator', 'Email' => 'admin@example.org', 'UsergroupID' => 1,
    'SAPassword' => $AdminSecret, 'ConfirmSAPassword' => $AdminSecret,
 )));
 
 $Connection = sqlsrv_connect($Host, array('UID' => $Login, 'PWD' => $Secret, 'Database' => $Database, 'TrustServerCertificate' => true, 'CharacterSet' => 'UTF-8'));
-$Result = sqlsrv_query($Connection, "SELECT ID FROM tblCore_Users WHERE Login = 'admin'");
+$Result = sqlsrv_query($Connection, "SELECT ID FROM tblCore_Users WHERE Login = ?", array($AdminLogin));
 $Row = $Result ? sqlsrv_fetch_array($Result, SQLSRV_FETCH_ASSOC) : NULL;
 if(!$Row)
 {

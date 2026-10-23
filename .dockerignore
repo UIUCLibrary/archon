@@ -1,0 +1,14 @@
+# Build context for tests/docker/php/Dockerfile (the repository root).
+.git
+.github
+.idea
+**/.DS_Store
+config.inc.php
+tests/research
+tests/vendor
+tests/docker/.env
+tests/docker/artifacts
+tests/docker/work
+tests/testenv/.env
+tests/testenv/backups
+**/*.bak

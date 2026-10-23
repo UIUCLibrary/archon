@@ -1,0 +1,4 @@
+# SQL Server backups are never committed.
+*
+!.gitignore
+!README.md

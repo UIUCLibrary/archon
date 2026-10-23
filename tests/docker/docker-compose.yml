@@ -25,6 +25,10 @@ services:
 
   php82:
     image: archon-test/php:8.2
+    # The image's entrypoint initialises the one-command test environment (tests/testenv); the
+    # harness mounts the working tree at /src and is driven by tests/bin/archon-test instead.
+    entrypoint: ["docker-php-entrypoint"]
+    command: ["apache2-foreground"]
     environment:
       ARCHON_TEST_MSSQL_HOST: mssql
       ARCHON_TEST_MSSQL_USER: sa

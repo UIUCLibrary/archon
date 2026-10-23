@@ -1,7 +1,14 @@
 # Archon test runtime: PHP 8.2 + Apache + Microsoft sqlsrv driver (SQL Server).
 #
-# Build context: the tests/ directory. Third-party sources are pinned and verified with SHA-256 checksums.
-# PHP 8.2.35+ includes the fix for the php2shell vulnerability; the base image tag tracks the latest 8.2 patch.
+# Build context: the repository root (see /.dockerignore). Third-party sources are pinned and verified
+# with SHA-256 checksums. PHP 8.2.35+ includes the fix for the php2shell vulnerability; the base image
+# tag tracks the latest 8.2 patch.
+#
+# The image serves two purposes:
+#   - tests/testenv/compose.yaml: the one-command test environment. The entrypoint (archon-entrypoint)
+#     creates one Archon site per database from the source baked into /opt/archon/src.
+#   - tests/docker/docker-compose.yml: the developer/agent harness (tests/bin/archon-test), which mounts
+#     the working tree at /src and bypasses the entrypoint.
 ARG PHP_VERSION=8.2
 FROM php:${PHP_VERSION}-apache
 
@@ -46,7 +53,7 @@ RUN set -eux; \
 
 # PHPUnit for the test suite.
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-COPY composer.json composer.lock /opt/archon-tests/
+COPY tests/composer.json tests/composer.lock /opt/archon-tests/
 RUN set -eux; \
     cd /opt/archon-tests; \
     export COMPOSER_ALLOW_SUPERUSER=1; \
@@ -56,13 +63,21 @@ RUN set -eux; \
     composer clear-cache; \
     rm -rf /root/.composer/cache /root/.cache/composer
 
-COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-archon-test.ini
-COPY docker/php/archon-sync /usr/local/bin/archon-sync
-COPY docker/php/error-capture.php /usr/local/lib/archon-test/error-capture.php
+COPY tests/docker/php/php.ini /usr/local/etc/php/conf.d/zz-archon-test.ini
+COPY tests/docker/php/archon-sync tests/docker/php/archon-entrypoint tests/docker/php/archon-testenv /usr/local/bin/
+COPY tests/docker/php/error-capture.php /usr/local/lib/archon-test/error-capture.php
 RUN set -eux; \
-    chmod +x /usr/local/bin/archon-sync; \
+    chmod +x /usr/local/bin/archon-sync /usr/local/bin/archon-entrypoint /usr/local/bin/archon-testenv; \
     mkdir -p /var/log/archon; \
     chown www-data:www-data /var/log/archon; \
-    a2enmod rewrite >/dev/null
+    a2enmod rewrite >/dev/null; \
+    echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf; \
+    a2enconf servername >/dev/null
+
+# The Archon source used by the test environment (the developer harness mounts /src instead).
+COPY . /opt/archon/src
+ENV ARCHON_SOURCE_DIR=/opt/archon/src
 
 WORKDIR /var/www/html
+ENTRYPOINT ["archon-entrypoint"]
+CMD ["apache2-foreground"]
