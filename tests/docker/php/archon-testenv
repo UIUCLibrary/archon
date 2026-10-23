@@ -271,6 +271,11 @@ function waitForSqlServer()
          return $Connection;
       }
       $Last = sqlErrors();
+      $Problem = sqlHostProblem($Config['mssql_host']);
+      if($Problem !== '')
+      {
+         $Last = "$Problem; last error: $Last";
+      }
       if(time() >= $NextReport)
       {
          out('still waiting for SQL Server (' . (time() - $Start) . " s): $Last");
@@ -279,6 +284,21 @@ function waitForSqlServer()
       sleep(3);
    }
    throw new RuntimeException('SQL Server did not become available: ' . $Last);
+}
+
+/**
+ * Returns a message when the SQL Server host name does not resolve inside the container (container DNS
+ * is missing or broken), or '' when it resolves or is an IP address. sqlsrv accepts "tcp:host,port" and
+ * "host\instance".
+ */
+function sqlHostProblem($Host)
+{
+   $Name = preg_split('/[,\\\\]/', preg_replace('/^tcp:/i', '', trim($Host)))[0];
+   if($Name === '' || filter_var(trim($Name, '[]'), FILTER_VALIDATE_IP) !== false || gethostbynamel($Name) !== false)
+   {
+      return '';
+   }
+   return "cannot resolve '$Name' inside the php container (container DNS; see Troubleshooting in tests/testenv/README.md)";
 }
 
 function sqlConfigure()
