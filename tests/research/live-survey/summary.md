@@ -36,6 +36,7 @@ Instance keys: **ihlc** = /ihlc/ · **libweb** = /archives/?settheme=library_web
   - libweb, ala, rbml, sousa2: collections/classifications. libweb and ala also have core/index&f=pdfsearch (not followed) and core/register.
   - archives install (libweb and sousa2 pages): collections/eadlist ("List links to EAD files"). Requested directly on ihlc, libweb, rbml and ala, it returns **HTTP 500 with an empty body** on all 4. Also, on libweb, accessions/accession&id=.
   - rbml, ala, sousa2: collections/research&f=cart|email (research cart, not followed). rbml and ala lists have per-item cart icons.
+  - Pre-existing production failure (checked 2026-10-23): `archives/index.php?p=accessions/accessions&settheme=sousa2&setrepositoryid=2` returns **HTTP 500 with an empty body**. `countAccessions()` (packages/accessions/lib/core/archon.inc.php) filters on `RepositoryID`, but tblAccessions_Accessions has no such column. This is not a PHP 8 regression; the PHP 8 crawl reports it as `Invalid column name 'RepositoryID'`.
   - **No "gallery" route exists.** The gallery is `digitallibrary/thumbnails`: 10 thumbnails per page, titles truncated to 27 characters plus "...".
 - **Counts** (40 per page, found by bisecting `&browse&page=N`; "exact" means the last page was found):
 

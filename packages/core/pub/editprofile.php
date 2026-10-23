@@ -11,6 +11,7 @@ isset($_ARCHON) or die();
 if(!$_ARCHON->Security->isAuthenticated())
 {
     header('Location: index.php?p=');
+    exit;
 }
 
 editprofile_initialize();
