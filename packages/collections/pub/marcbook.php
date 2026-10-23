@@ -42,6 +42,13 @@ $objMARCRecord = New PHP_MARC();
 
 $objMARCRecord->leader('00000npcaa        a 4500');
 
+// PHP 8 no longer creates objects implicitly when assigning properties on
+// undefined array elements, so create the MARC field containers up front.
+foreach(array('005', '008', '245', '250', '362', '500', '545', '856') as $tag)
+{
+   isset($fields[$tag]) or $fields[$tag] = new stdClass();
+}
+
 $fields['005']->Value = date('Y').date('m').date('d').date('h').date('i').date('s').".0";
 
 $field8 = "010101i";
@@ -77,6 +84,7 @@ if($objBook->Creators)
 
             $count[$fieldnumber]++;
             $fieldnumber .= ".".$count[$fieldnumber];
+            isset($fields[$fieldnumber]) or $fields[$fieldnumber] = new stdClass();
 
             if($objCreator->CreatorType == 'Personal Name')
             {
@@ -133,6 +141,7 @@ if($objBook->Creators)
 
             $count[$fieldnumber]++;
             $fieldnumber .= ".".$count[$fieldnumber];
+            isset($fields[$fieldnumber]) or $fields[$fieldnumber] = new stdClass();
 
             $fields[$fieldnumber]->Indicator1 = 2;
 
@@ -222,6 +231,7 @@ if($objBook->Subjects)
 
         $count[$fieldnumber]++;
         $fieldnumber .= ".".$count[$fieldnumber];
+        isset($fields[$fieldnumber]) or $fields[$fieldnumber] = new stdClass();
 
         $fields[$fieldnumber]->SubFields['a'] = $topsubject->Subject;
 

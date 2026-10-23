@@ -346,6 +346,7 @@ abstract class Collections_Archon
          {
             if($objClassification->ParentID)
             {
+               isset($arrClassifications[$objClassification->ParentID]) or $arrClassifications[$objClassification->ParentID] = new stdClass();
                $arrClassifications[$objClassification->ParentID]->Classifications[$objClassification->ID] = $objClassification;
                $objClassification->Parent = $arrClassifications[$objClassification->ParentID];
             }
@@ -1374,6 +1375,7 @@ abstract class Collections_Archon
 
       while($row = $result->fetchRow())
       {
+         isset($arrObjects[$row['ExtentUnitID']]) or $arrObjects[$row['ExtentUnitID']] = new stdClass();
          $arrObjects[$row['ExtentUnitID']]->Extent += $row['Extent'];
       }
       $result->free();
@@ -3000,6 +3002,7 @@ abstract class Collections_Archon
                unset($row['Content']);
             }
 
+            isset($arrClassifications[$row['ClassificationID']]) or $arrClassifications[$row['ClassificationID']] = new stdClass();
             if(!isset($arrClassifications[$row['ClassificationID']]->Collections[$row['ID']]))
             {
                $arrClassifications[$row['ClassificationID']]->Collections[$row['ID']] = New Collection($row);
@@ -3017,6 +3020,7 @@ abstract class Collections_Archon
             $ID = $arrClassifications[$row['ClassificationID']]->ID;
             while($ID)
             {
+               isset($arrClassifications[$ID]) or $arrClassifications[$ID] = new stdClass();
                $arrClassifications[$ID]->_ContainsCollections = true;
                $ID = $arrClassifications[$ID]->ParentID;
             }
@@ -3085,6 +3089,7 @@ abstract class Collections_Archon
          $collectionprep = $this->mdb2->prepare('SELECT * FROM tblCollections_Collections WHERE ID = ?', 'integer', MDB2_PREPARE_RESULT);
          while($row = $result->fetchRow())
          {
+            isset($arrClassifications[$row['ClassificationID']]) or $arrClassifications[$row['ClassificationID']] = new stdClass();
             if(!isset($arrClassifications[$row['ClassificationID']]->Collections[$row['CollectionID']]))
             {
                // See if we can skip grabbing information about the collections.
@@ -3109,6 +3114,7 @@ abstract class Collections_Archon
                   $ID = $arrClassifications[$row['ClassificationID']]->ID;
                   while($ID)
                   {
+                     isset($arrClassifications[$ID]) or $arrClassifications[$ID] = new stdClass();
                      $arrClassifications[$ID]->_ContainsCollections = true;
                      $ID = $arrClassifications[$ID]->ParentID;
                   }
@@ -3794,6 +3800,7 @@ abstract class Collections_Archon
     */
    public function createCartFromArray($arrEntries)
    {
+      isset($this->PublicInterface) or $this->PublicInterface = new stdClass();
       $DisableStyle = $this->PublicInterface->DisableTheme;
       $this->PublicInterface->DisableTheme = true;
 
@@ -3880,6 +3887,7 @@ abstract class Collections_Archon
          {
             if($obj instanceof ResearchAppointmentMaterials)
             {
+               isset($arrCart->Collections[$obj->CollectionID]) or $arrCart->Collections[$obj->CollectionID] = new stdClass();
                $arrCart->Collections[$obj->CollectionID]->Content[$obj->CollectionContentID] = $obj;
 
                $arrCart->RetrievalTime = isset($arrCart->RetrievalTime) ? (((!$arrCart->RetrievalTime && !$obj->RetrievalTime) || ($arrCart->RetrievalTime && $obj->RetrievalTime)) ? min($arrCart->RetrievalTime, $obj->RetrievalTime) : -1 ) : $obj->RetrievalTime;
@@ -3894,10 +3902,12 @@ abstract class Collections_Archon
             }
             elseif($obj instanceof Collection)
             {
+               isset($arrCart->Collections[$obj->ID]) or $arrCart->Collections[$obj->ID] = new stdClass();
                $arrCart->Collections[$obj->ID]->Content['0'] = $obj;
             }
             else
             {
+               isset($arrCart->Collections[$obj->CollectionID]) or $arrCart->Collections[$obj->CollectionID] = new stdClass();
                $arrCart->Collections[$obj->CollectionID]->Content[$obj->ID] = $obj;
             }
          }

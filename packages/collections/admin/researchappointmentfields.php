@@ -10,6 +10,23 @@
 
 isset($_ARCHON) or die();
 
+// The installer never registers this module or creates tblCollections_ResearchAppointmentFields.
+// PHP 8 no longer treats the undefined MODULE_ constant as a string, so stop here with a message.
+if(!defined('MODULE_RESEARCHAPPOINTMENTFIELDS'))
+{
+    $strNotInstalled = 'Research appointment fields are not installed in this Archon database.';
+    if($_REQUEST['f'] && $_REQUEST['f'] != 'search')
+    {
+        $_ARCHON->declareError($strNotInstalled);
+        $_ARCHON->AdministrativeInterface->sendResponse($strNotInstalled, array(), true);
+    }
+    else
+    {
+        echo('<p>' . $strNotInstalled . '</p>');
+    }
+    return;
+}
+
 // Determine what to do based upon researchappointmentfield input
 if(!$_REQUEST['f'])
 {

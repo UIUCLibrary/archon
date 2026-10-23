@@ -105,6 +105,7 @@ if($_REQUEST['f'] == 'export-' . $UtilityCode)
             $packagesstarted = 1;
          }
 
+         isset($arrPackages[$objPhrase->PackageID]) or $arrPackages[$objPhrase->PackageID] = new stdClass();
          $strAPRCode = encode($arrPackages[$objPhrase->PackageID]->APRCode, ENCODE_HTML);
          $strVersion = encode($arrPackages[$objPhrase->PackageID]->DBVersion, ENCODE_HTML);
          echo("\t<package aprcode='$strAPRCode' version='$strVersion'>\n");

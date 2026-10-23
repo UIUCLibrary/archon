@@ -1413,7 +1413,7 @@ abstract class Core_Archon
      */
     public function getJavascriptTags($Filename, $GETData = array())
     {
-        $Filename = preg_replace('/[^\\w\\d-_.]/u', '', encoding_strtolower($Filename));
+        $Filename = preg_replace('/[^\\w\\d\\-_.]/u', '', encoding_strtolower($Filename));
 
         $tags = '';
 

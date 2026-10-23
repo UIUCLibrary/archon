@@ -1639,7 +1639,9 @@ abstract class Core_Archon
 
       while($row = $result->fetchRow())
       {
+         isset($arrUserProfileFields[$row['UserProfileFieldID']]) or $arrUserProfileFields[$row['UserProfileFieldID']] = new stdClass();
          $arrUserProfileFields[$row['UserProfileFieldID']]->Countries[$row['CountryID']] = $arrCountries[$row['CountryID']];
+         isset($arrUserProfileFields[$row['UserProfileFieldID']]->Countries[$row['CountryID']]) or $arrUserProfileFields[$row['UserProfileFieldID']]->Countries[$row['CountryID']] = new stdClass();
          $arrUserProfileFields[$row['UserProfileFieldID']]->Countries[$row['CountryID']]->Required = $row['Required'];
 
 
@@ -1695,7 +1697,7 @@ abstract class Core_Archon
     */
    public function getJavascriptTags($Filename, $GETData = array())
    {
-      $Filename = preg_replace('/[^\\w\\d-_.]/u', '', encoding_strtolower($Filename));
+      $Filename = preg_replace('/[^\\w\\d\\-_.]/u', '', encoding_strtolower($Filename));
 
       $tags = '';
 
@@ -3468,6 +3470,7 @@ abstract class Core_Archon
          return false;
       }
 
+      isset($this->PublicInterface) or $this->PublicInterface = new stdClass();
       $DisableStyle = $this->PublicInterface->DisableTheme;
       $this->PublicInterface->DisableTheme = true;
 

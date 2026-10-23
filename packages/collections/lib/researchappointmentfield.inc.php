@@ -10,7 +10,7 @@ abstract class Collections_ResearchAppointmentField
     {
         global $_ARCHON;
 
-        if(!$_ARCHON->deleteObject($this, MODULE_RESEARCHAPPOINTMENTFIELDS, 'tblCollections_ResearchAppointmentFields'))
+        if(!$_ARCHON->deleteObject($this, (defined('MODULE_RESEARCHAPPOINTMENTFIELDS') ? constant('MODULE_RESEARCHAPPOINTMENTFIELDS') : 'MODULE_RESEARCHAPPOINTMENTFIELDS'), 'tblCollections_ResearchAppointmentFields'))
         {
             return false;
         }
@@ -65,7 +65,7 @@ abstract class Collections_ResearchAppointmentField
         $problemfields = array('Name', 'InputType');
         $requiredfields = array('Name', 'InputType');
         
-        if(!$_ARCHON->storeObject($this, MODULE_RESEARCHAPPOINTMENTFIELDS, 'tblCollections_ResearchAppointmentFields', $checkquery, $checktypes, $checkvars, $checkqueryerror, $problemfields, $requiredfields))
+        if(!$_ARCHON->storeObject($this, (defined('MODULE_RESEARCHAPPOINTMENTFIELDS') ? constant('MODULE_RESEARCHAPPOINTMENTFIELDS') : 'MODULE_RESEARCHAPPOINTMENTFIELDS'), 'tblCollections_ResearchAppointmentFields', $checkquery, $checktypes, $checkvars, $checkqueryerror, $problemfields, $requiredfields))
         {
             return false;
         }

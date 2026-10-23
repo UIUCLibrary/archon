@@ -3,11 +3,11 @@ abstract class Core_Usergroup
 {
     public function _construct($row)
     {
-        $this->DefaultPermissions = intval($this->DefaultPermissionsRead * READ)
-            | intval($this->DefaultPermissionsAdd * ADD)
-            | intval($this->DefaultPermissionsUpdate * UPDATE)
-            | intval($this->DefaultPermissionsDelete * DELETE)
-            | intval($this->DefaultPermissionsFullControl * FULL_CONTROL);
+        $this->DefaultPermissions = (intval($this->DefaultPermissionsRead) * READ)
+            | (intval($this->DefaultPermissionsAdd) * ADD)
+            | (intval($this->DefaultPermissionsUpdate) * UPDATE)
+            | (intval($this->DefaultPermissionsDelete) * DELETE)
+            | (intval($this->DefaultPermissionsFullControl) * FULL_CONTROL);
     }
 
     
@@ -272,11 +272,11 @@ abstract class Core_Usergroup
     {
     	global $_ARCHON;
 
-        $this->DefaultPermissions = intval($this->DefaultPermissionsRead * READ)
-            | intval($this->DefaultPermissionsAdd * ADD)
-            | intval($this->DefaultPermissionsUpdate * UPDATE)
-            | intval($this->DefaultPermissionsDelete * DELETE)
-            | intval($this->DefaultPermissionsFullControl * FULL_CONTROL);
+        $this->DefaultPermissions = (intval($this->DefaultPermissionsRead) * READ)
+            | (intval($this->DefaultPermissionsAdd) * ADD)
+            | (intval($this->DefaultPermissionsUpdate) * UPDATE)
+            | (intval($this->DefaultPermissionsDelete) * DELETE)
+            | (intval($this->DefaultPermissionsFullControl) * FULL_CONTROL);
 
         $checkquery = "SELECT ID FROM tblCore_Usergroups WHERE Usergroup = ? AND ID != ?";
         $checktypes = array('text', 'integer');
