@@ -19,9 +19,12 @@ source_dir="${4:-/src}"
 dest="/var/www/html/${site}"
 
 mkdir -p "${dest}"
-# install.php and runtime caches are intentionally preserved across syncs.
+# install.php and runtime caches are intentionally preserved across syncs. _dev/ (developer scripts such as
+# resetguest.php, which creates an administrator) is hidden rather than excluded, so --delete also removes it
+# from sites synced before it was left out.
 rsync -a --delete \
     --exclude '.git' \
+    --filter 'H /_dev/' \
     --exclude '/tests/' \
     --exclude '/config.inc.php' \
     --exclude '/packages/core/install/install.php' \

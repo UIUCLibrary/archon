@@ -82,6 +82,7 @@ RUN set -eux; \
         a2enconf servername >/dev/null; \
         mv /usr/local/lib/archon/apache-archon.conf /etc/apache2/conf-available/archon.conf; \
         a2enconf archon >/dev/null; \
+        a2dissite 000-default >/dev/null; \
     else \
         rm /usr/local/lib/archon/apache-archon.conf; \
     fi
