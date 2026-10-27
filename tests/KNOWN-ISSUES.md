@@ -1,6 +1,6 @@
 # Known issues, risks and open questions (PHP 8.2 port)
 
-Status as of 2026-10-23. Branch: `copilot/copilotupdate-php-compatibility`.
+Status as of 2026-10-27. Branch: `copilot/copilotupdate-php-compatibility`.
 
 Each row says **whether it is broken today on production (PHP 5.4)** or **was caused by the move to
 PHP 8.2 / containers**. Evidence comes from the live-site survey (`tests/research/live-survey/summary.md`),
@@ -46,7 +46,7 @@ constructors, undefined constants such as `PACKAGE_RESEARCH`, calls on null obje
 | # | Problem | Origin | Impact | Suggested action |
 | --- | --- | --- | --- | --- |
 | 2.1 | **Warnings and deprecations.** PHP 5.4 notices are now warnings: `Undefined array key`, `Undefined variable`, `Attempt to read property on null`, and 8.2's dynamic-property deprecation for classes other than `AObject`/`ArchonObject`. | PHP 8.2 | Not fatal and not shown to visitors (`display_errors = Off`), but they fill the PHP log. A few hide real logic bugs that PHP 5.4 also hid. | `archon-testenv diagnostics` lists them grouped by file and line; fix the most frequent ones. Counts are in §5. |
-| 2.2 | **Text encoding through `sqlsrv`.** The new driver reads `varchar` columns through the SQL Server code page and converts them to UTF-8. If production (FreeTDS) stored raw UTF-8 bytes in `varchar` columns, every non-ASCII character will show as mojibake on PHP 8.2. | PHP 8.2 / Unknown | Potentially every page with accented text. **Biggest open risk.** | Run the read-only probe (`tests/production-probe/`) and restore a real `.bak` into the test environment and compare pages. |
+| 2.2 | **Text encoding through `sqlsrv`.** The new driver reads `varchar` columns through the SQL Server code page and converts them to UTF-8. If production (FreeTDS) stored raw UTF-8 bytes in `varchar` columns, every non-ASCII character will show as mojibake on PHP 8.2. | PHP 8.2 / Unknown | Potentially every page with accented text. **Biggest open risk.** For the migration API the outcome depends on production's FreeTDS `client charset`; see 7.4. | Run the read-only probe (`tests/production-probe/`), and run the migration API comparison (`tests/migration-api/`) on a real `.bak`. |
 | 2.3 | **Existing password hashes.** Archon uses `crypt()` MD5 (`$1$`) hashes. PHP 8.2 still supports them; the probe's `php.crypt.md5crypt_known_answer` check confirms it. | Unknown | Staff could not log in if hashes from production fail to verify. | Log in with a real account after restoring a `.bak`. |
 | 2.4 | Direct requests to include files (e.g. `/config.inc.php`) return 500 instead of a blank page. | PHP 8.2 | None (no output, nothing leaked). | The container deployment (`docker-compose*.yml`) denies `*.inc.php` (403). The host-Apache test environment still returns 500. Production can add the same `FilesMatch` rule. Production also serves the `_dev/` developer scripts; the containers do not copy them. |
 | 2.5 | Vendored library in PR #3: `league/html-to-markdown` **2.2.2** (2015, `HTML_To_Markdown` class) in `themes/ala_redo` and `themes/ihlc`. | Unknown (probably fine) | Read through: plain `DOMDocument` code with no removed PHP functions, so it should run on 8.2. Not executed yet because PR #3 is not on this branch. | Crawl the AtoM/DLS export pages after rebasing PR #3. Upgrading to ^5 later is optional; its class is renamed to `HtmlConverter`. |
@@ -100,3 +100,39 @@ the server.
 | Research appointments / e-mail forms (U9) | Disable research appointments in Configuration Manager, or add a mail relay to the image (not built yet: the containers have no MTA, so `mail()` fails) | No e-mails are attempted. |
 | Admin IP restriction behind a proxy | Keep `RestrictAdminByIpRange` off until the proxy passes the client IP (the container deployment does) | Otherwise everyone looks like the proxy's address. |
 | Edits during migration | PR #6 read-only mode | Public site stays up while the database is copied. |
+
+## 7. Migration API (archon-migration)
+
+**Method.** `tests/migration-api/harvest.php` repeats every request that archon-migration's `ArchonClient` makes. It was run against two stacks reading the same SQL Server 2022 database:
+
+* the unmodified `master` code on CentOS 7 with PHP 5.4.16, `php-mssql`, FreeTDS 1.4 and PEAR MDB2;
+* this branch on PHP 8.2 with `sqlsrv`.
+
+The database held the generated sample data plus rows with chosen bytes: Windows-1252 text, raw UTF-8 bytes, and decimals below 1. The old stack was run in six configurations: three FreeTDS `client charset` settings, each with `DatabaseEncodingUTF8 = true` and with the setting left out. `compare.php` compared each harvest with PHP 8.2's.
+
+**Results.** In every configuration, paging, record counts, HTTP status codes (apart from 7.1), dates and the structure of every record were identical. These were the differences:
+
+| # | Difference | Origin | Effect on the migration | Suggested action |
+| --- | --- | --- | --- | --- |
+| 7.1 | **`core/enums&enum_type=countries` returns HTTP 500.** `enum-list.inc.php` calls `array_walk($arrEnumbatch, 'RemoveCountries')`, but `RemoveCountries()` does not exist. PHP 5.4 gave a warning (hidden by `error_reporting(0)`) and left the list unchanged. PHP 8 throws a `TypeError`. | PHP 8.2 | `getEnumList()` gets null and the countries list is dropped. `ASpaceEnumUtil.getASpaceCountryCode()` then falls back to `"US"` for every repository and user country. | Delete that line: the output is then identical to PHP 5.4. |
+| 7.2 | **Decimals below 1 lose the leading zero:** `.50` instead of `0.50`, and `.00` instead of `0.00`. `sqlsrv` formats `decimal` that way. Affected: Collections `Extent`, collection location `Extent`, Accessions `ReceivedExtent`/`UnprocessedExtent`, accession location `Extent`. Public pages show it too. | PHP 8.2 (driver) | `ASpaceMapper` copies the string as-is into the ArchivesSpace extent `number` and the location extent note. Amounts of 1 or more are unchanged. | Set the `sqlsrv` statement option `FormatDecimals`, or add the zero in the adapter's `fetchRow()`. |
+| 7.3 | **Digital files differ.** MDB2's portability `RTRIM` on the old stack strips trailing spaces, tabs, CR, LF, NUL and vertical tab from the file bytes. The new adapter returns the stored bytes. In the sample data, 12 of 41 files differ: PDFs that end in `%%EOF\n`. | Pre-existing (old stack loses bytes) | On PHP 8.2 the migrated files are the stored files. The old stack truncates any file that ends in those bytes. Both stacks add a trailing `1` (`echo print` in `digitalfileblob.inc.php`). | Nothing on 8.2. For the extra `1`: change `echo print` to `echo`, or have the migration drop the last byte. |
+| 7.4 | **Text, numbers and nulls depend on production's configuration.** See the table below. | PHP 8.2 / Unknown | From no change to a change in every non-ASCII field, every number and every empty field. | Find production's configuration (below), then run `tests/migration-api/` against a real `.bak`. |
+| 7.5 | `DatabaseEncodingUTF8 = false` does not work on 8.2. `sqlsrv` fails with "Negative field length calculated in buffered result set" (HTTP 500) on any batch with non-ASCII text, and the text that does come back is mis-encoded. Leaving the setting out of `config.inc.php` has the same effect as `false`. | PHP 8.2 (driver) | Lists stop early. | Keep `DatabaseEncodingUTF8 = true`, as the test environment and deployment do. If production leaves it out, 8.2 cannot reproduce production's output exactly (see below). |
+| 7.6 | The API only works with the session cookie. Without it, `LiveSession::verifySession()` runs `new User2x(...)`, a class that exists only in the upgrade code, and returns HTTP 500. `ArchonClient` keeps cookies, so the migration works. | Pre-existing | None, as long as the cookie reaches PHP. Archon sets the cookie path from `SCRIPT_NAME`, so behind a proxy the path PHP sees must be a prefix of the public path. | Keep the same path inside and outside the proxy, as the container deployment does. |
+
+**7.4 in detail.** PHP 8.2 runs with `DatabaseEncodingUTF8 = true` (7.5). It returns text stored as single Windows-1252 bytes correctly (`é`, `“`, `€`). Text stored as raw UTF-8 bytes comes back double-encoded (`Café` becomes `CafÃ©`). Numbers are JSON numbers and NULL columns are JSON `null`. Production today returns:
+
+| FreeTDS `client charset` | `DatabaseEncodingUTF8` | Text stored as single bytes | Text stored as raw UTF-8 bytes | Numbers and NULL columns |
+| --- | --- | --- | --- | --- |
+| `UTF-8` | `true` | Same as 8.2 | Same as 8.2 (double-encoded) | Same as 8.2 |
+| `CP1252` | `true` | Whole field `null` | Correct | Same as 8.2 |
+| not set (ISO-8859-1) | `true` | Whole field `null` | Correct, unless a character's UTF-8 bytes include 0x80–0x9F (`“`, `–`, `€`, `ł`); then the whole field is `null` | Same as 8.2 |
+| not set (ISO-8859-1) | left out (Archon's default) | Correct, except `?` for `“ ” ‘ ’ – — € …` | Double-encoded | Strings (`"17"`); NULL becomes `""` |
+| `CP1252` | left out | Correct, except `“ ” ‘ ’ – — € …` become invisible control characters | Double-encoded | Strings; NULL becomes `""` |
+| `UTF-8` | left out | Double-encoded | Double-encoded twice | Strings; NULL becomes `""` |
+
+* **`null` text.** In the rows marked "whole field `null`", the current migration already receives `null` for those fields. archon-migration's `getString()` turns `null` into the text `"null"`.
+* **Strings and `""`.** If production leaves the setting out, every value it sends is a string and NULL columns arrive as `""`. On 8.2, `getString()` on those fields returns `"null"` instead of `""`. The migration skips empty notes, but it does not skip `"null"`. In the sample data the NULL fields were subject `Parent`, creator `CreatorRelationships` and relationship `Description` (the migration checks these for `"null"`), classification `Description`, and digital-file `Title`.
+* **Most likely production configuration.** Production pages show `ḷ`, `ġ`, U+200B and curly quotes correctly (live survey §F). With Archon's `varchar` columns, that is only possible with raw UTF-8 bytes, a FreeTDS setting that passes bytes through unchanged, and `DatabaseEncodingUTF8 = true`: the `CP1252` + `true` row. In that case, 8.2 double-encodes every character above ASCII that was stored as UTF-8. A read mode that keeps the raw bytes would fix this.
+* **How to tell.** In any production API response, `"ID":"17"` means the setting is left out or `false`, and `"ID":17` means `true`. On the server, check `client charset` in `/etc/freetds.conf`, `mssql.charset` in `php.ini` and `DatabaseEncodingUTF8` in each `config.inc.php`. To see the stored bytes of a sample record, run `SELECT CONVERT(varbinary(200), Title) FROM tblCollections_Collections WHERE ID = …`: `C3A9` is a UTF-8 `é` and `E9` is a single-byte `é`. The differential test on a real `.bak` settles all of this at once.
