@@ -67,6 +67,12 @@ Repeat for `ihlc`, `rbml` and `ala`. To skip parts of the harvest, `--no-blobs` 
 
 Every file that `core/digitalfileblob` returns ends with an extra `1`, on both PHP versions. The template runs `echo print …`, which echoes the return value of `print` after the file.
 
-If production leaves `DatabaseEncodingUTF8` out of `config.inc.php`, expect `type` differences on every number and `null-in-B` on every NULL column. Production then sends all values as strings and NULL as `""`.
+Production uses FreeTDS `client charset = UTF-8` with `DatabaseEncodingUTF8 = true`. With those settings the old stack returned the same text, numbers and NULLs as PHP 8.2. On a restored `.bak`, the expected differences are:
+
+* `testadmin` in `users`;
+* records edited between the backup and the production harvest;
+* `file` differences for files that end in spaces, tabs, line breaks or NUL bytes. The old stack strips those bytes (7.3); PHP 8.2 returns the stored file.
+
+Treat anything else as a finding, especially `status`, `null-in-*`, `double-encoded`, `question-marks` and `type`. The countries `status` 500 (7.1) and `decimal-zero` (7.2) are fixed on this branch. They only appear if the test environment runs an image built before the fix; `podman-compose up -d --build` updates it.
 
 The differences found so far, and what they mean for the migration, are in `tests/KNOWN-ISSUES.md` §7.

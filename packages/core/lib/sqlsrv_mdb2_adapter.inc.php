@@ -189,6 +189,13 @@ class ArchonSqlsrvDatabase
          'APP' => 'Archon',
       );
 
+      // sqlsrv returns decimal(...) values below 1 without the leading zero ('.50'); the mssql
+      // driver returned '0.50'. FormatDecimals (sqlsrv 5.6+) restores the mssql format.
+      if(version_compare((string)phpversion('sqlsrv'), '5.6.0', '>='))
+      {
+         $Options['FormatDecimals'] = true;
+      }
+
       if(isset($Configuration->SqlsrvOptions) && is_array($Configuration->SqlsrvOptions))
       {
          $Options = array_merge($Options, $Configuration->SqlsrvOptions);

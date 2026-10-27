@@ -64,7 +64,9 @@ All commands run in `tests/testenv`. With Docker, replace `podman-compose` with 
 | Staff login and password (`testadmin`; `teststaff`, `testreader` and `testresearcher` share the password) | `podman-compose exec php archon-testenv credentials` |
 | Request every page and report PHP diagnostics | `podman-compose exec php archon-testenv crawl ihlc` |
 | Create, edit and delete records in every admin module (test copies only; report in `/var/log/archon/crud-SITE.json`) | `podman-compose exec php archon-testenv crud archives` (add `--only=collections` to limit, `--keep` to leave the records) |
-| Summary of PHP warnings and deprecations | `podman-compose exec php archon-testenv diagnostics` |
+| Summary of PHP warnings and deprecations | `podman-compose exec php archon-testenv diagnostics` (`--json` for JSON, `--clear` to start a new record) |
+| Schema, configuration and encoding report for one site database (read-only) | `podman-compose exec php archon-testenv probe archives` |
+| Pack all reports into one file to send back | `podman-compose exec php archon-testenv bundle` |
 | Rebuild one site (backup or sample data again) | `podman-compose exec php archon-testenv reset ihlc` |
 | After `git pull` | `podman-compose up -d --build` |
 | Start over (deletes all databases) | `podman-compose down -v` |
@@ -78,6 +80,50 @@ Put full SQL Server backups in `backups/` as `archives.bak`, `ihlc.bak`, `rbml.b
 * SQL Server 2022 restores backups taken on SQL Server 2008 or later.
 * The files are copied to a staging volume before the restore, so they do not need to be world-readable.
 * They are never committed: `backups/.gitignore` ignores everything except itself and this README.
+
+## Testing a production backup
+
+Once the `.bak` files are restored (`archon-testenv status` shows where each site's data came from), run these steps in order. Steps 1 to 3 only read data. Step 4 writes to the test copy, so it comes last. `archon-testenv reset SITE` restores the backup again. A full run of all four sites takes one to two hours, most of it the crawl.
+
+0. **Update and start clean.** The image contains the code, so rebuild it after every `git pull`. Then empty the diagnostics record, so that the reports cover only the backup:
+
+   ```sh
+   sudo podman-compose up -d --build
+   sudo podman-compose exec php archon-testenv diagnostics --clear
+   ```
+
+1. **Crawl** every public page type and staff screen in the themes each site uses. This finds pages that fail (HTTP 500, fatal errors) or warn on real data:
+
+   ```sh
+   sudo podman-compose exec php archon-testenv crawl archives --profiles=default,library_web,sousa2,admin
+   sudo podman-compose exec php archon-testenv crawl ihlc --profiles=default,ihlc,admin
+   sudo podman-compose exec php archon-testenv crawl rbml --profiles=default,rbml,admin
+   sudo podman-compose exec php archon-testenv crawl ala --profiles=default,ala,admin
+   ```
+
+2. **Probe** each database (read-only). It reports schema differences from the stock install scripts, the Configuration Manager values, and, for every text column, how many values hold raw UTF-8 bytes, characters outside Windows-1252 or mojibake (`tests/KNOWN-ISSUES.md`, U2):
+
+   ```sh
+   for site in archives ihlc rbml ala; do sudo podman-compose exec php archon-testenv probe $site; done
+   ```
+
+3. **Migration API comparison** against production (`tests/migration-api/README.md`). It needs a production harvest taken when the backup was taken. Keep the console output of `compare.php` and its `--json` report.
+
+4. **CRUD harness.** It creates, edits and deletes records through the staff interface. `archives` covers the staff code; the other sites add only their data:
+
+   ```sh
+   sudo podman-compose exec php archon-testenv crud archives
+   ```
+
+5. **Collect the reports:**
+
+   ```sh
+   sudo podman-compose exec php archon-testenv bundle      # prints the bundle name and a podman cp command
+   sudo podman cp <container>:/var/log/archon/archon-reports-<date>.tar.gz .
+   sudo podman-compose logs php > php-init.log             # restore messages
+   ```
+
+   Send back the bundle, `php-init.log`, the `compare.php` output and JSON report for each site, and the URL and a description of anything that looked wrong in a browser. The bundle holds the crawl, CRUD and probe reports, the grouped PHP diagnostics, `status`, and the end of the PHP error log. These contain URLs, record IDs, error messages and summary counts, but no user accounts or passwords. The probe also lists the small lookup tables (repositories, locations, classifications and similar). Record content appears only where an error message quotes it.
 
 ## Notes and limits
 

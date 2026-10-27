@@ -11,7 +11,11 @@
  *   archon-testenv crud SITE [args]    create, read, update and delete records through the staff and public
  *                                      interfaces and check the database (tests/tools/crud.php; e.g.
  *                                      --only=collections, --keep). Records it creates are deleted again.
- *   archon-testenv diagnostics         summarise the PHP warnings/errors recorded while testing
+ *   archon-testenv diagnostics [args]  summarise the PHP warnings/errors recorded while testing
+ *                                      (--json, --type=E_WARNING; --clear empties the record)
+ *   archon-testenv probe SITE [args]   run the read-only production probe against a site database: schema,
+ *                                      configuration, encoding counters per column (tests/production-probe)
+ *   archon-testenv bundle              pack every report in /var/log/archon into one .tar.gz to send back
  *   archon-testenv sql SITE "query"    run a query against a site database (as sa)
  *
  * Used by the entrypoint (archon-entrypoint):
@@ -996,6 +1000,87 @@ function cmdCrud($Site, $Args)
    return $Status;
 }
 
+function cmdProbe($Site, $Args)
+{
+   global $Config;
+   $Report = "/var/log/archon/probe-$Site.json";
+   $Log = "/var/log/archon/probe-$Site.log";
+   $Command = 'php ' . escapeshellarg($Config['source_dir'] . '/tests/production-probe/archon-probe.php')
+      . ' --archon-dir=' . escapeshellarg($Config['docroot'] . '/' . $Site);
+   if(!preg_grep('/^--sections=/', $Args))
+   {
+      // The PHP, FreeTDS, file and Apache sections describe this container, not production.
+      $Command .= ' --sections=archon,database,profile';
+   }
+   foreach($Args as $Arg)
+   {
+      $Command .= ' ' . escapeshellarg($Arg);
+   }
+   out("probe $Site: running (large databases take several minutes; progress in $Log)");
+   passthru($Command . ' > ' . escapeshellarg($Report) . ' 2> ' . escapeshellarg($Log), $Status);
+   out("probe $Site: " . ($Status ? "failed with status $Status (see $Log)" : 'done') . "; report: $Report");
+   return $Status;
+}
+
+function cmdDiagnostics($Args)
+{
+   global $Config;
+   $File = '/var/log/archon/diagnostics.jsonl';
+   if(in_array('--clear', $Args, true))
+   {
+      if(file_exists($File))
+      {
+         file_put_contents($File, '', LOCK_EX);
+      }
+      out("cleared $File");
+      return 0;
+   }
+   $Command = 'php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/diagnostics-report.php') . ' ' . escapeshellarg($File);
+   foreach($Args as $Arg)
+   {
+      $Command .= ' ' . escapeshellarg($Arg);
+   }
+   passthru($Command, $Status);
+   return $Status;
+}
+
+function cmdBundle()
+{
+   global $Config;
+   $Dir = '/var/log/archon';
+   $Summary = "$Dir/diagnostics-summary";
+   $Report = $Config['source_dir'] . '/tests/tools/diagnostics-report.php';
+   exec('php ' . escapeshellarg($Report) . " $Dir/diagnostics.jsonl > $Summary.txt 2>&1");
+   exec('php ' . escapeshellarg($Report) . " $Dir/diagnostics.jsonl --json > $Summary.json 2>&1");
+   ob_start();
+   cmdStatus();
+   file_put_contents("$Dir/status.txt", ob_get_clean());
+   if(file_exists("$Dir/php_errors.log"))
+   {
+      exec("tail -n 5000 $Dir/php_errors.log > $Dir/php_errors-tail.log");
+   }
+
+   $Files = array();
+   foreach(array('status.txt', 'diagnostics-summary.txt', 'diagnostics-summary.json', 'php_errors-tail.log', 'crawl-*.json', 'crud-*.json', 'probe-*.json', 'probe-*.log') as $Pattern)
+   {
+      foreach(glob("$Dir/$Pattern") as $File)
+      {
+         $Files[] = basename($File);
+      }
+   }
+   $Bundle = "$Dir/archon-reports-" . date('Ymd-His') . '.tar.gz';
+   exec('tar -czf ' . escapeshellarg($Bundle) . ' -C ' . escapeshellarg($Dir) . ' ' . implode(' ', array_map('escapeshellarg', $Files)), $Output, $Status);
+   if($Status)
+   {
+      fwrite(STDERR, "tar failed with status $Status\n");
+      return $Status;
+   }
+   out('bundle: ' . $Bundle . ' (' . implode(', ', $Files) . ')');
+   $Engine = file_exists('/run/.containerenv') ? 'podman' : 'docker';
+   out("copy it out with: $Engine cp " . gethostname() . ":$Bundle .  (with sudo if the containers run as root)");
+   return 0;
+}
+
 function requireSites($Args)
 {
    global $Config;
@@ -1045,8 +1130,12 @@ try
          $Sites = requireSites(array_slice($Args, 0, 1));
          exit(cmdCrud($Sites[0], array_slice($Args, 1)));
       case 'diagnostics':
-         passthru('php ' . escapeshellarg($Config['source_dir'] . '/tests/tools/diagnostics-report.php') . ' /var/log/archon/diagnostics.jsonl', $Status);
-         exit($Status);
+         exit(cmdDiagnostics($Args));
+      case 'probe':
+         $Sites = requireSites(array_slice($Args, 0, 1));
+         exit(cmdProbe($Sites[0], array_slice($Args, 1)));
+      case 'bundle':
+         exit(cmdBundle());
       case 'sql':
          $Sites = requireSites(array_slice($Args, 0, 1));
          if(!isset($Args[1]))
