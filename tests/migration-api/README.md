@@ -27,7 +27,7 @@ The comparison is only meaningful when both sides hold the same data. Take the `
 
    Wait until `status` shows the site as ready. `credentials` prints the `testadmin` password; the test environment adds that administrator to every restored database.
 
-3. **Harvest the test environment.** Use the URL that serves the site in a browser:
+3. **Harvest the test environment.** Apache must pass the `Authorization` header to PHP-FPM. `httpd/archon-testenv.conf` does this with `CGIPassAuth On`. If your copy in `/etc/httpd/conf.d/` is older, copy it again and run `sudo systemctl reload httpd`. Then harvest through the URL that serves the site in a browser:
 
    ```sh
    ARCHON_PASSWORD='<testadmin password>' php tests/migration-api/harvest.php https://<rocky-host>/archives/index.php testadmin /tmp/harvest/archives-php82
