@@ -27,7 +27,7 @@
  * container while they run.
  *
  * Settings (environment): ARCHON_SITES, ARCHON_SAMPLE_SIZE, ARCHON_ADMIN_LOGIN, ARCHON_ADMIN_PASSWORD,
- * MSSQL_SA_PASSWORD, ARCHON_PUBLIC_URL. See tests/testenv/README.md.
+ * MSSQL_SA_PASSWORD, ARCHON_PUBLIC_URL, ARCHON_SHOW_ERRORS. See tests/testenv/README.md.
  */
 
 const MARKER_NAME = 'ArchonTestEnv';
@@ -59,16 +59,51 @@ $Profiles = array(
    'ala' => array('title' => 'American Library Association Archives', 'theme' => 'ala_redo', 'templateset' => 'ala', 'extra_links' => array()),
 );
 
+const LOG_DIR = '/var/log/archon';
+
 function out($Message)
 {
    echo '[testenv] ' . $Message . "\n";
    @ob_flush();
    flush();
+   logLine($Message);
 }
 
 function warn($Message)
 {
    fwrite(STDERR, '[testenv] WARNING: ' . $Message . "\n");
+   logLine('WARNING: ' . $Message);
+}
+
+/** Keeps a timestamped copy of everything init, reset and the other commands report (included in "bundle"). */
+function logLine($Message)
+{
+   @file_put_contents(LOG_DIR . '/testenv.log', date('Y-m-d H:i:s ') . $Message . "\n", FILE_APPEND | LOCK_EX);
+}
+
+/**
+ * PHP-FPM's workers run as www-data and append to these files, but archon-testenv, the installer and the
+ * crawler run as root: a file root creates first would be read-only for PHP-FPM, and every error of a
+ * request through the host's Apache would be lost. Runs when the container starts and after every command.
+ */
+function ensureLogFiles()
+{
+   if(!is_dir(LOG_DIR))
+   {
+      return;
+   }
+   @chown(LOG_DIR, 'www-data');
+   foreach(array('diagnostics.jsonl', 'php_errors.log') as $Name)
+   {
+      $File = LOG_DIR . '/' . $Name;
+      if(!file_exists($File))
+      {
+         @touch($File);
+      }
+      @chown($File, 'www-data');
+      @chgrp($File, 'www-data');
+      @chmod($File, 0666);
+   }
 }
 
 /** The compose command shown to the user: ARCHON_COMPOSE_COMMAND, else "podman compose" or "docker compose" (Podman creates /run/.containerenv). */
@@ -497,7 +532,16 @@ function ensureSite($Master, $Site, $Force)
 
    ensureDatabaseAccess($Database);
    ensureAdministrator($Site, $Database);
-   return describeMarker($Current);
+   $Description = describeMarker($Current);
+   if(strpos($Current, 'bak:') === 0)
+   {
+      $Problem = reportDatabaseChecks($Site, $Database);
+      if($Problem !== NULL)
+      {
+         $Description .= '; PROBLEM: ' . $Problem;
+      }
+   }
+   return $Description;
 }
 
 /**
@@ -779,6 +823,154 @@ function ensureAdministrator($Site, $Database)
    sqlsrv_close($Connection);
 }
 
+/* ---------------------------------------------------------------- database checks */
+
+/** Version and dependencies of every package in the code (packages/<APRCode>/index.php). */
+function codePackages()
+{
+   global $Config;
+   $Packages = array();
+   foreach(glob($Config['source_dir'] . '/packages/*/index.php') as $File)
+   {
+      $Source = file_get_contents($File);
+      if(preg_match('/\$Version\s*=\s*[\'"]([^\'"]+)[\'"]/', $Source, $Match))
+      {
+         preg_match_all('/addPackageDependency\(\s*\$APRCode\s*,\s*[\'"]([A-Za-z0-9_]+)[\'"]/', $Source, $Depends);
+         $Packages[basename(dirname($File))] = array('version' => $Match[1], 'depends' => $Depends[1]);
+      }
+   }
+   return $Packages;
+}
+
+/**
+ * Checks a site database the way Archon's start-up does (Archon::checkDB() and initPackages() in
+ * packages/core/lib/archon.inc.php) and returns what will go wrong, as array(level, text) pairs:
+ * 'error' = every page of the site fails, 'warning' = some features fail, 'note' = for information.
+ */
+function databaseChecks($Connection)
+{
+   $Notes = array();
+   $Schemas = array();
+   foreach(sqlRun($Connection, "SELECT s.name AS SchemaName, COUNT(*) AS Tables, SUM(CASE WHEN t.name = 'tblCore_Configuration' THEN 1 ELSE 0 END) AS Core
+      FROM sys.tables t JOIN sys.schemas s ON s.schema_id = t.schema_id WHERE t.name LIKE 'tbl%' GROUP BY s.name") as $Row)
+   {
+      $Schemas[$Row['SchemaName']] = $Row;
+   }
+   if(!$Schemas)
+   {
+      return array(array('error', 'no Archon tables (tbl*) in this database'));
+   }
+   if(empty($Schemas['dbo']['Core']))
+   {
+      $Schema = 'dbo';
+      foreach($Schemas as $Name => $Row)
+      {
+         $Schema = $Row['Core'] ? $Name : $Schema;
+      }
+      $Default = sqlValue($Connection, 'SELECT default_schema_name FROM sys.database_principals WHERE name = ?', array(WEB_LOGIN));
+      if($Default !== $Schema)
+      {
+         $Notes[] = array('error', "the Archon tables are in schema [$Schema], not [dbo]: Archon (database user " . WEB_LOGIN . ", default schema [$Default]) cannot find them, so every page fails with HTTP 500"
+            . " (\"Invalid object name 'tblCore_Packages'\"). Production reaches them through its database user's default schema; to do the same here run:"
+            . ' archon-testenv sql <site> "ALTER USER ' . WEB_LOGIN . " WITH DEFAULT_SCHEMA = [$Schema]\"");
+      }
+      else
+      {
+         $Notes[] = array('note', "the Archon tables are in schema [$Schema]; Archon reaches them through the default schema of " . WEB_LOGIN . ' (archon-testenv sql/crud/probe connect as sa and look in [dbo])');
+      }
+      return $Notes;
+   }
+
+   $Code = codePackages();
+   $Installed = array();
+   foreach(sqlRun($Connection, 'SELECT APRCode, DBVersion, Enabled FROM tblCore_Packages ORDER BY ID') as $Row)
+   {
+      $Installed[$Row['APRCode']] = $Row;
+   }
+   // Archon loads enabled packages only; a disabled package counts as "not installed" for its dependants.
+   $Enabled = array_filter($Installed, function($Row) { return (bool)$Row['Enabled']; });
+   foreach($Enabled as $APRCode => $Row)
+   {
+      if(!isset($Code[$APRCode]))
+      {
+         $Notes[] = array('note', "package $APRCode {$Row['DBVersion']} is enabled in the database but this code has no packages/$APRCode (Archon skips it)");
+         continue;
+      }
+      $Version = $Code[$APRCode]['version'];
+      $Compare = version_compare($Version, $Row['DBVersion']);
+      if($Compare > 0 && $APRCode == 'core')
+      {
+         // Archon checks core first and stops there.
+         $Notes[] = array('error', "package core: the database is version {$Row['DBVersion']}, the code $Version; every page redirects to the upgrader (index.php?p=upgrade)");
+         return $Notes;
+      }
+      elseif($Compare > 0)
+      {
+         $Notes[] = array('warning', "package $APRCode: the database is version {$Row['DBVersion']}, the code $Version; Archon disables the package until it is upgraded (packages that depend on it then fail)");
+      }
+      elseif($Compare < 0)
+      {
+         $Notes[] = array('error', "package $APRCode: the database is version {$Row['DBVersion']}, newer than the code ($Version); every page fails with HTTP 500 (\"Could not load Archon: The database version for Package $APRCode ... is newer than the Package codebase\")");
+      }
+      else
+      {
+         foreach($Code[$APRCode]['depends'] as $Dependency)
+         {
+            if(!isset($Enabled[$Dependency]))
+            {
+               $Notes[] = array('error', "package $APRCode depends on $Dependency, which is " . (isset($Installed[$Dependency]) ? 'disabled' : 'not installed')
+                  . " in this database; every page fails with HTTP 500 (\"Could not load Archon: Package $APRCode depends upon package $Dependency which is not installed.\")");
+            }
+            elseif(version_compare($Enabled[$Dependency]['DBVersion'], $Version) < 0)
+            {
+               $Notes[] = array('error', "package $APRCode needs $Dependency $Version or newer, the database has {$Enabled[$Dependency]['DBVersion']}; every page fails with HTTP 500");
+            }
+         }
+      }
+   }
+   $Missing = array_diff(array_keys($Code), array_keys($Enabled));
+   if($Missing)
+   {
+      $Notes[] = array('note', 'packages not enabled in this database: ' . implode(', ', $Missing) . ' (their pages and admin modules are absent, as in production)');
+   }
+
+   if(sqlValue($Connection, "SELECT COL_LENGTH('tblCore_Configuration', 'Encrypted')"))
+   {
+      $Encrypted = array();
+      foreach(sqlRun($Connection, 'SELECT Directive FROM tblCore_Configuration WHERE Encrypted = 1 AND DATALENGTH(Value) > 0') as $Row)
+      {
+         $Encrypted[] = $Row['Directive'];
+      }
+      if($Encrypted)
+      {
+         $Notes[] = array('warning', 'encrypted settings (' . implode(', ', $Encrypted) . ') need production\'s cryptor.inc.php, which is not in the repository and uses mcrypt (removed in PHP 7.2); here they read as empty');
+      }
+   }
+   return $Notes;
+}
+
+/** Prints the database checks for a site; returns the first problem that breaks every page, or NULL. */
+function reportDatabaseChecks($Site, $Database)
+{
+   $Connection = sqlConnect($Database);
+   $Notes = databaseChecks($Connection);
+   sqlsrv_close($Connection);
+   $Fatal = NULL;
+   foreach($Notes as $Note)
+   {
+      if($Note[0] == 'note')
+      {
+         out("$Site: $Note[1]");
+      }
+      else
+      {
+         warn("$Site: $Note[1]");
+         $Fatal = $Fatal ?: ($Note[0] == 'error' ? $Note[1] : NULL);
+      }
+   }
+   return $Fatal;
+}
+
 /* ---------------------------------------------------------------- status pages */
 
 function siteCounts($Database)
@@ -871,13 +1063,24 @@ function cmdPrepare()
    {
       mkdir($Config['state_dir'], 0755, true);
    }
-   @chown('/var/log/archon', 'www-data');
+   ensureLogFiles();
+   // Read by error-capture.php (auto_prepend_file): show the fatal error that ended a request on the page.
+   $Flag = $Config['state_dir'] . '/show-errors';
+   if(filter_var(getenv('ARCHON_SHOW_ERRORS'), FILTER_VALIDATE_BOOLEAN))
+   {
+      touch($Flag);
+   }
+   elseif(file_exists($Flag))
+   {
+      unlink($Flag);
+   }
    foreach($Config['sites'] as $Site)
    {
       syncSite($Site);
    }
    writeIndexPage(array());
-   out('sites: ' . implode(', ', $Config['sites']) . ' (source ' . $Config['source_dir'] . ')');
+   out('sites: ' . implode(', ', $Config['sites']) . ' (source ' . $Config['source_dir'] . ')'
+      . (file_exists($Flag) ? '; fatal PHP errors are shown on the page (ARCHON_SHOW_ERRORS=1)' : ''));
 }
 
 function cmdInit($Sites, $Force)
@@ -944,6 +1147,24 @@ function cmdStatus()
          if($Info['settings'])
          {
             echo '  defaults:  theme ' . ($Info['settings']['Default Theme'] ?? '?') . ', template set ' . ($Info['settings']['Default Template Set'] ?? '?') . "\n";
+         }
+         try
+         {
+            $Connection = sqlConnect($Database);
+            $Notes = databaseChecks($Connection);
+            sqlsrv_close($Connection);
+            if(!array_filter($Notes, function($Note) { return $Note[0] != 'note'; }))
+            {
+               echo "  checks:    OK (tables in dbo; package versions and dependencies match the code)\n";
+            }
+            foreach($Notes as $Note)
+            {
+               echo '  ' . str_pad($Note[0] . ':', 10) . ' ' . $Note[1] . "\n";
+            }
+         }
+         catch(RuntimeException $e)
+         {
+            echo '  checks:    could not run: ' . $e->getMessage() . "\n";
          }
       }
    }
@@ -1061,7 +1282,7 @@ function cmdBundle()
    }
 
    $Files = array();
-   foreach(array('status.txt', 'diagnostics-summary.txt', 'diagnostics-summary.json', 'php_errors-tail.log', 'crawl-*.json', 'crud-*.json', 'probe-*.json', 'probe-*.log') as $Pattern)
+   foreach(array('status.txt', 'testenv.log', 'diagnostics-summary.txt', 'diagnostics-summary.json', 'php_errors-tail.log', 'crawl-*.json', 'crud-*.json', 'probe-*.json', 'probe-*.log') as $Pattern)
    {
       foreach(glob("$Dir/$Pattern") as $File)
       {
@@ -1105,6 +1326,7 @@ function requireSites($Args)
 }
 
 checkSites();
+register_shutdown_function('ensureLogFiles');
 $Command = isset($argv[1]) ? $argv[1] : 'help';
 $Args = array_slice($argv, 2);
 

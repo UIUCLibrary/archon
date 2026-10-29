@@ -68,6 +68,9 @@ services:
       # address (X-Forwarded-For) and scheme (X-Forwarded-Proto), so Archon sees https and the real client IP.
       ARCHON_TRUSTED_PROXIES: ${ARCHON_TRUSTED_PROXIES:-10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 fc00::/7}
       ARCHON_COMPOSE_COMMAND: docker compose -f docker-compose-traefik.yml
+      # 1: a page that ends with a fatal PHP error shows the error and file paths. Off by default here because
+      # the site is reachable from campus; turn it on while testing.
+      ARCHON_SHOW_ERRORS: ${ARCHON_SHOW_ERRORS:-0}
     volumes:
       - secrets:/run/archon-secrets
       - backup-staging:/archon/staging

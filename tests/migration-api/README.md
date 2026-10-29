@@ -73,6 +73,6 @@ Production uses FreeTDS `client charset = UTF-8` with `DatabaseEncodingUTF8 = tr
 * records edited between the backup and the production harvest;
 * `file` differences for files that end in spaces, tabs, line breaks or NUL bytes. The old stack strips those bytes (7.3); PHP 8.2 returns the stored file.
 
-Treat anything else as a finding, especially `status`, `null-in-*`, `double-encoded`, `question-marks` and `type`. The countries `status` 500 (7.1) and `decimal-zero` (7.2) are fixed on this branch. They only appear if the test environment runs an image built before the fix; `podman-compose up -d --build` updates it.
+Treat anything else as a finding, especially `status`, `null-in-*`, `double-encoded`, `question-marks` and `type`. The countries `status` 500 (7.1) and `decimal-zero` (7.2) are fixed on this branch. They only appear if the test environment runs an image built before the fix; `podman-compose up -d --build --force-recreate` updates it (podman-compose 1.0.x keeps running containers on the old image without `--force-recreate`).
 
 The differences found so far, and what they mean for the migration, are in `tests/KNOWN-ISSUES.md` §7.

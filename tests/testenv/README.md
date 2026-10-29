@@ -64,18 +64,25 @@ All commands run in `tests/testenv`. With Docker, replace `podman-compose` with 
 | Staff login and password (`testadmin`; `teststaff`, `testreader` and `testresearcher` share the password) | `podman-compose exec php archon-testenv credentials` |
 | Request every page and report PHP diagnostics | `podman-compose exec php archon-testenv crawl ihlc` |
 | Create, edit and delete records in every admin module (test copies only; report in `/var/log/archon/crud-SITE.json`) | `podman-compose exec php archon-testenv crud archives` (add `--only=collections` to limit, `--keep` to leave the records) |
-| Summary of PHP warnings and deprecations | `podman-compose exec php archon-testenv diagnostics` (`--json` for JSON, `--clear` to start a new record) |
+| Summary of PHP errors, warnings and deprecations (fatal errors first) | `podman-compose exec php archon-testenv diagnostics` (`--json` for JSON, `--clear` to start a new record) |
 | Schema, configuration and encoding report for one site database (read-only) | `podman-compose exec php archon-testenv probe archives` |
 | Pack all reports into one file to send back | `podman-compose exec php archon-testenv bundle` |
 | Rebuild one site (backup or sample data again) | `podman-compose exec php archon-testenv reset ihlc` |
-| After `git pull` | `podman-compose up -d --build` |
+| After `git pull` | `podman-compose up -d --build --force-recreate` (podman-compose 1.0.x keeps running containers on the old image without `--force-recreate`; volumes and databases are kept) |
 | Start over (deletes all databases) | `podman-compose down -v` |
 
 Settings are read from an optional `.env` file; see `env.example`. Use `ARCHON_SAMPLE_SIZE=small` for a fast start, or `large` for volumes close to the live sites. If `.env` changes the site list or the FastCGI port, `httpd/archon-testenv.conf` has to change with it.
 
+A page that ends with a fatal PHP error shows the error in a red box at the end of the page (`ARCHON_SHOW_ERRORS=1`, the default here; production shows an empty HTTP 500 page). Every error is also recorded for `archon-testenv diagnostics`, and the output of initialisation and `reset` is kept in `/var/log/archon/testenv.log`.
+
 ## Restoring production backups
 
-Put full SQL Server backups in `backups/` as `archives.bak`, `ihlc.bak`, `rbml.bak` and `ala.bak`, then run `podman-compose up -d`. A site that is already initialised from sample data picks up a new backup after `archon-testenv reset <site>`.
+Put full SQL Server backups in `backups/` as `archives.bak`, `ihlc.bak`, `rbml.bak` and `ala.bak`. A new or changed backup replaces the site's database (sample data or an earlier restore):
+
+* on a running environment: `podman-compose exec php archon-testenv reset ala` (only that site is rebuilt; the others keep running);
+* or when the php container next starts, e.g. `podman-compose up -d --force-recreate`.
+
+`archon-testenv status` shows where each site's data came from ("restored from backups/ala.bak") and whether a backup is still pending. After the restore, `reset` and `status` check the database the way Archon's start-up does and name anything that stops the site from loading: tables outside the `dbo` schema, package versions newer or older than the code, packages that depend on a disabled package, and settings encrypted with production's `cryptor.inc.php`. Removing the `.bak` keeps the restored database; `archon-testenv reset ala` then goes back to sample data.
 
 * SQL Server 2022 restores backups taken on SQL Server 2008 or later.
 * The files are copied to a staging volume before the restore, so they do not need to be world-readable.
@@ -88,7 +95,7 @@ Once the `.bak` files are restored (`archon-testenv status` shows where each sit
 0. **Update and start clean.** The image contains the code, so rebuild it after every `git pull`. Then empty the diagnostics record, so that the reports cover only the backup:
 
    ```sh
-   sudo podman-compose up -d --build
+   sudo podman-compose up -d --build --force-recreate
    sudo podman-compose exec php archon-testenv diagnostics --clear
    ```
 
@@ -143,4 +150,6 @@ Once the `.bak` files are restored (`archon-testenv status` shows where each sit
 | `podman ps` or `podman-compose ps` lists no containers, although `up -d` succeeded | Containers started with `sudo` belong to root, and plain `podman` (rootless) only lists your own containers and images. Use `sudo podman ps`, and use the same mode for every command. |
 | `still waiting for SQL Server ... cannot resolve 'mssql' inside the php container` | Container DNS is missing. `sudo podman info --format '{{.Host.NetworkBackend}}'` prints the network backend. For `netavark`, install `aardvark-dns`; for `cni` (Rocky 8 default), install `podman-plugins`. Then recreate the network: `sudo podman-compose down`, `sudo podman network rm archon-testenv_default`, `sudo podman-compose up -d`. After `firewall-cmd --reload`, run `sudo podman network reload --all`, because the reload removes Podman's firewall rules. |
 | `still waiting for SQL Server` in `podman-compose logs php` (other errors) | SQL Server is not up. Check `podman-compose logs mssql`; SQL Server needs about 2 GB of free RAM. |
+| HTTP 500 on every page of one site after restoring its backup (other sites work) | Archon stops while loading. Open the page: the red box names the error. Otherwise run `podman-compose exec php archon-testenv status` (its `error:` lines name start-up problems in the database) and `podman-compose exec php archon-testenv diagnostics \| head -40`. Archon's own start-up errors ("Could not load Archon: ...") never reach `php_errors.log` because Archon turns off reporting of E_USER_ERROR. Images built before 2026-10-29 also lost the errors of requests through Apache (PHP-FPM could not write to log files created by root); rebuild and recreate (`up -d --build --force-recreate`). |
+| `up -d --build` finished, but the site still runs the old code (no red error box, new commands missing) | podman-compose 1.0.x rebuilds the image but keeps a running container unless `compose.yaml` changed. Run `podman-compose up -d --force-recreate`; volumes and databases are kept. |
 | `503 Service Unavailable` from Apache | PHP-FPM starts only after initialisation has finished, so a 503 is normal until the "is ready" banner appears in `podman-compose logs php`. After that, PHP-FPM is not reachable on 127.0.0.1:9000: check `podman-compose ps`, then the SELinux note in step 4 of the setup. |

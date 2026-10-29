@@ -14,7 +14,9 @@ if(defined('E_DEPRECATED'))
 {
    // This is the recommended verbosity for production. If you are an Archon
    // developer, or you are debugging an Archon problem, set this to E_ALL.
-   error_reporting(E_ERROR | E_PARSE);
+   // Every fatal type, so that Archon's own fatal errors (trigger_error(..., E_USER_ERROR),
+   // e.g. "Could not load Archon: ...") reach the error log instead of ending in an empty HTTP 500.
+   error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
 }
 else
 {

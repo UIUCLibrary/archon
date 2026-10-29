@@ -63,6 +63,8 @@ services:
       ARCHON_ADMIN_PASSWORD: ${ARCHON_ADMIN_PASSWORD:-}
       MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-}
       ARCHON_PUBLIC_URL: ${ARCHON_PUBLIC_URL:-http://localhost}
+      # 1: a page that ends with a fatal PHP error shows the error (production shows an empty HTTP 500).
+      ARCHON_SHOW_ERRORS: ${ARCHON_SHOW_ERRORS:-1}
     volumes:
       - secrets:/run/archon-secrets
       - backup-staging:/archon/staging
