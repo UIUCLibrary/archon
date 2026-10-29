@@ -103,6 +103,7 @@ The containers restart with Docker (`restart: unless-stopped`). On restart, the 
 Put full SQL Server backups in `tests/testenv/backups/` (or the directory in `ARCHON_BACKUPS_DIR`) as `archives.bak`, `ihlc.bak`, `rbml.bak` and `ala.bak`, then start the containers. A site that was already initialised from sample data picks up a new backup after `archon-testenv reset <site>`.
 
 * SQL Server 2022 restores backups taken on SQL Server 2008 or later.
+* A backup whose Archon tables are not in `dbo` (the ala backup) works: after each restore and on every start, Archon's database user gets the schema that holds the tables as its default schema, as production's user has (`tests/KNOWN-ISSUES.md`, 2.6).
 * Backups contain real staff and researcher accounts. Keep the campus-only middleware, and keep the backups directory readable only by the administrators of the Docker host.
 * `.bak` files are never committed: `tests/testenv/backups/.gitignore` ignores them. `.env` is ignored by git, and neither is copied into the image.
 

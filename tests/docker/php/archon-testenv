@@ -848,7 +848,7 @@ function ensureDatabaseAccess($Site, $Database)
       sqlRun($Connection, "ALTER USER $Login WITH DEFAULT_SCHEMA = " . quoteName($Schema) . ';');
       if($Schema != 'dbo')
       {
-         out("$Site: Archon's tables are in schema [$Schema], not [dbo]; Archon's database user here (" . WEB_LOGIN . ") now has [$Schema] as its default schema, as production's must");
+         out("$Site: set the default schema of " . WEB_LOGIN . " (Archon's database user here) to [$Schema], which holds Archon's tables");
       }
    }
    sqlsrv_close($Connection);
@@ -1205,7 +1205,7 @@ function cmdStatus()
          {
             $Counts[] = "$Count $Label";
          }
-         echo '  records:   ' . implode(', ', $Counts) . "\n";
+         echo '  records:   ' . ($Counts ? implode(', ', $Counts) : 'none found (Archon\'s tables are not visible to its database user; see below)') . "\n";
          if($Info['settings'])
          {
             echo '  defaults:  theme ' . ($Info['settings']['Default Theme'] ?? '?') . ', template set ' . ($Info['settings']['Default Template Set'] ?? '?') . "\n";

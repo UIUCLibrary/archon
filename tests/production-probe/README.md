@@ -69,7 +69,9 @@ possibly its own database.
    -- run by a DBA, once per Archon database
    CREATE LOGIN archon_probe WITH PASSWORD = '<strong password>';
    USE [<ArchonDatabase>];
-   CREATE USER archon_probe FOR LOGIN archon_probe;
+   -- DEFAULT_SCHEMA: the schema that holds Archon's tables (dbo, or another schema as in the ala database):
+   -- SELECT SCHEMA_NAME(schema_id) FROM sys.tables WHERE name = 'tblCore_Packages';
+   CREATE USER archon_probe FOR LOGIN archon_probe WITH DEFAULT_SCHEMA = [dbo];
    EXEC sp_addrolemember 'db_datareader', 'archon_probe';
    GRANT VIEW DEFINITION TO archon_probe;
    ```
