@@ -815,7 +815,9 @@ class ArchonSqlsrvDatabase
 
    public function tableInfo($Table, $Mode = NULL)
    {
-      $Query = "SELECT c.COLUMN_NAME, c.DATA_TYPE, c.CHARACTER_MAXIMUM_LENGTH, c.NUMERIC_PRECISION, c.IS_NULLABLE, c.COLUMN_DEFAULT, COLUMNPROPERTY(OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME), c.COLUMN_NAME, 'IsIdentity') AS IsIdentity, c.COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS c WHERE c.TABLE_NAME = " . $this->quote($Table, 'text') . " ORDER BY c.ORDINAL_POSITION";
+      // Only the table the name resolves to (the user's default schema, then dbo), as the old driver's SELECT TOP 0 * did.
+      $Name = $this->quote($Table, 'text');
+      $Query = "SELECT c.COLUMN_NAME, c.DATA_TYPE, c.CHARACTER_MAXIMUM_LENGTH, c.NUMERIC_PRECISION, c.IS_NULLABLE, c.COLUMN_DEFAULT, COLUMNPROPERTY(OBJECT_ID(QUOTENAME(c.TABLE_SCHEMA) + '.' + QUOTENAME(c.TABLE_NAME)), c.COLUMN_NAME, 'IsIdentity') AS IsIdentity, c.COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS c WHERE c.TABLE_NAME = $Name AND c.TABLE_SCHEMA = OBJECT_SCHEMA_NAME(OBJECT_ID(QUOTENAME($Name))) ORDER BY c.ORDINAL_POSITION";
       $Result = $this->query($Query);
       if(self::isError($Result))
       {

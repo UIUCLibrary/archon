@@ -1434,6 +1434,7 @@ function probe_section_database()
     $r['connection_dmv'] = $conn['rows'];
 
     probe_try_query($db, $r, 'principal', "SELECT CASE WHEN USER_NAME() = 'dbo' THEN 'dbo' ELSE 'other' END AS user_kind,
+        CAST(SCHEMA_NAME() AS varchar(128)) AS default_schema,
         CAST(IS_MEMBER('db_owner') AS int) AS db_owner, CAST(IS_MEMBER('db_datareader') AS int) AS db_datareader,
         CAST(IS_MEMBER('db_datawriter') AS int) AS db_datawriter, CAST(IS_MEMBER('db_ddladmin') AS int) AS db_ddladmin,
         CAST(IS_SRVROLEMEMBER('sysadmin') AS int) AS sysadmin");

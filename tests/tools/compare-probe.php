@@ -38,6 +38,43 @@ function cp_get($a, $path, $default = null)
     return $a;
 }
 
+function cp_table_name($key)
+{
+    $pos = strrpos($key, '.');
+    return $pos === false ? $key : substr($key, $pos + 1);
+}
+
+/**
+ * Columns by table. The probe keys tables outside dbo as "schema.table"; Archon finds them
+ * through its database user's default schema, so they are compared by table name unless
+ * two schemas hold a table of the same name.
+ */
+function cp_columns($d)
+{
+    $columns = (array)cp_get($d, 'database.columns', array());
+    $names = array_count_values(array_map('cp_table_name', array_map('strval', array_keys($columns))));
+    $out = array();
+    foreach($columns as $key => $cols)
+    {
+        $name = cp_table_name((string)$key);
+        $out[$names[$name] > 1 ? $key : $name] = $cols;
+    }
+    return $out;
+}
+
+function cp_table_schemas($d)
+{
+    $schemas = array();
+    foreach((array)cp_get($d, 'database.tables', array()) as $row)
+    {
+        if(is_array($row) && isset($row['s']))
+        {
+            $schemas[$row['s']] = (isset($schemas[$row['s']]) ? $schemas[$row['s']] : 0) + 1;
+        }
+    }
+    return $schemas;
+}
+
 function cp_summary($d)
 {
     $out = array();
@@ -83,13 +120,14 @@ function cp_summary($d)
         $out[] = 'Application session (DBCC USEROPTIONS): ' . json_encode(cp_get($db, 'session_as_application_sees_it.useroptions'));
         $out[] = 'Connection: ' . json_encode(cp_get($db, 'connection_dmv'));
         $out[] = 'Principal: ' . json_encode(cp_get($db, 'principal'));
+        $out[] = 'Tables by schema: ' . json_encode(cp_table_schemas($d)) . ' (Archon finds tables outside dbo only through its database user\'s default schema)';
         $out[] = 'Non-table objects: ' . count((array)cp_get($db, 'other_objects', array())) . ', foreign keys: ' . count((array)cp_get($db, 'foreign_keys', array()));
         $app = cp_get($db, 'application', array());
         foreach(array('users', 'password_hash_formats', 'sessions', 'content_depth', 'content_orphans', 'digital_files', 'accessions_has_repositoryid', 'collections_per_repository') as $k)
         {
             $out[] = sprintf('  %-28s %s', $k, json_encode(isset($app[$k]) ? $app[$k] : null));
         }
-        $out[] = 'ResearchAppointmentFields table present: ' . json_encode(isset($db['columns']['tblCollections_ResearchAppointmentFields']));
+        $out[] = 'ResearchAppointmentFields table present: ' . json_encode(isset(cp_columns($d)['tblCollections_ResearchAppointmentFields']));
         $usage = (array)cp_get($app, 'modification_log_usage', array());
         $out[] = 'Most used admin functions (ModificationLog, all time / last 365 days):';
         foreach(array_slice($usage, 0, 40) as $u)
@@ -146,8 +184,8 @@ function cp_summary($d)
 
 function cp_schema($a, $b)
 {
-    $ca = cp_get($a, 'database.columns', array());
-    $cb = cp_get($b, 'database.columns', array());
+    $ca = cp_columns($a);
+    $cb = cp_columns($b);
     $out = array();
     foreach(array_diff(array_keys($ca), array_keys($cb)) as $t)
     {

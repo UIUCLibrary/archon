@@ -16,7 +16,7 @@
  *   archon-testenv probe SITE [args]   run the read-only production probe against a site database: schema,
  *                                      configuration, encoding counters per column (tests/production-probe)
  *   archon-testenv bundle              pack every report in /var/log/archon into one .tar.gz to send back
- *   archon-testenv sql SITE "query"    run a query against a site database (as sa)
+ *   archon-testenv sql SITE "query"    run a query against a site database (as Archon's database user)
  *
  * Used by the entrypoint (archon-entrypoint):
  *   archon-testenv prepare             secrets, per-site code and config.inc.php
@@ -252,6 +252,20 @@ function sqlConnect($Database = 'master', $Quiet = false)
    if($Connection === false && !$Quiet)
    {
       throw new RuntimeException("cannot connect to SQL Server ($Database): " . sqlErrors());
+   }
+   return $Connection;
+}
+
+/**
+ * Connects to a site database as Archon does: as WEB_LOGIN (impersonated by sa), so that table names
+ * resolve through its default schema, which is not dbo for every production database.
+ */
+function siteConnect($Database, $Quiet = false)
+{
+   $Connection = sqlConnect($Database, $Quiet);
+   if($Connection && sqlValue($Connection, 'SELECT DATABASE_PRINCIPAL_ID(?)', array(WEB_LOGIN)) !== NULL)
+   {
+      sqlRun($Connection, 'EXECUTE AS USER = ' . quoteString(WEB_LOGIN) . ';');
    }
    return $Connection;
 }
@@ -530,7 +544,11 @@ function ensureSite($Master, $Site, $Force)
       out(sprintf('%s: %s ready in %.0f s', $Site, $Database, microtime(true) - $Started));
    }
 
-   ensureDatabaseAccess($Database);
+   ensureDatabaseAccess($Site, $Database);
+   if($Rebuild && $Backup)
+   {
+      out("$Site: packages: " . describePackages($Database));
+   }
    ensureAdministrator($Site, $Database);
    $Description = describeMarker($Current);
    if(strpos($Current, 'bak:') === 0)
@@ -611,16 +629,27 @@ function runTool($Label, $Command, $Env)
    return proc_close($Process);
 }
 
-function toolEnv()
+/**
+ * Environment for tests/tools. With a site, the tool connects to its database as Archon's database user,
+ * so that table names resolve as they do for Archon; without one (installer, generator) as sa.
+ */
+function toolEnv($Site = NULL)
 {
    global $Config;
-   return array(
+   $Env = array(
       'ARCHON_TEST_MSSQL_HOST' => $Config['mssql_host'],
       'ARCHON_TEST_MSSQL_USER' => 'sa',
       'ARCHON_TEST_MSSQL_SECRET' => readSecret('mssql-sa'),
       'ARCHON_TEST_ADMIN_LOGIN' => $Config['admin_login'],
       'ARCHON_TEST_ADMIN_SECRET' => readSecret('archon-admin'),
    );
+   if($Site !== NULL)
+   {
+      $Env['ARCHON_TEST_MSSQL_USER'] = WEB_LOGIN;
+      $Env['ARCHON_TEST_MSSQL_SECRET'] = readSecret('archon-web');
+      $Env['ARCHON_TEST_DATABASE'] = databaseFor($Site);
+   }
+   return $Env;
 }
 
 function installSampleData($Site, $Database)
@@ -652,7 +681,7 @@ function installSampleData($Site, $Database)
       throw new RuntimeException("sample data generation failed for $Site (exit $Status)");
    }
 
-   $Connection = sqlConnect($Database);
+   $Connection = siteConnect($Database);
    $Settings = array(
       'Default Theme' => $Profiles[$Profile]['theme'],
       'Default Template Set' => $Profiles[$Profile]['templateset'],
@@ -751,38 +780,84 @@ function restoreBackup($Master, $Site, $Database, $Backup)
    sqlRun($Master, "ALTER DATABASE $Quoted SET MULTI_USER;");
 
    $Connection = sqlConnect($Database);
-   $Info = sqlRun($Connection, "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS nvarchar(128)) AS Collation, (SELECT compatibility_level FROM sys.databases WHERE name = DB_NAME()) AS Compatibility, OBJECT_ID('tblCore_Packages') AS Packages");
-   $Info = $Info[0];
-   if(!$Info['Packages'])
+   $Info = sqlRun($Connection, "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS nvarchar(128)) AS Collation, (SELECT compatibility_level FROM sys.databases WHERE name = DB_NAME()) AS Compatibility");
+   out("$Site: collation {$Info[0]['Collation']}, compatibility level {$Info[0]['Compatibility']}");
+   sqlsrv_close($Connection);
+}
+
+/**
+ * The schema that holds Archon's tables, or NULL. A database user other than dbo who runs Archon's
+ * installer creates them in its own default schema, and Archon finds them through that default schema.
+ */
+function archonSchema($Connection)
+{
+   $Schemas = array();
+   foreach(sqlRun($Connection, "SELECT SCHEMA_NAME(schema_id) AS SchemaName FROM sys.tables WHERE name = 'tblCore_Packages' ORDER BY CASE WHEN schema_id = 1 THEN 1 ELSE 0 END, SCHEMA_NAME(schema_id)") as $Row)
    {
-      warn("$Site: the restored database has no tblCore_Packages table; is this an Archon database?");
+      $Schemas[] = $Row['SchemaName'];
    }
-   else
+   if(count($Schemas) > 1)
    {
-      $Packages = array();
+      // Prefer the default schema of the database's own users (production's login), then dbo.
+      $Defaults = array();
+      foreach(sqlRun($Connection, "SELECT DISTINCT default_schema_name AS SchemaName FROM sys.database_principals WHERE default_schema_name IS NOT NULL AND name NOT IN (N'dbo', N'guest', ?)", array(WEB_LOGIN)) as $Row)
+      {
+         $Defaults[] = $Row['SchemaName'];
+      }
+      $Preferred = array_values(array_intersect($Schemas, $Defaults));
+      $Chosen = $Preferred ? $Preferred[0] : (in_array('dbo', $Schemas, true) ? 'dbo' : $Schemas[0]);
+      warn('Archon\'s tables exist in several schemas ([' . implode('], [', $Schemas) . "]); using [$Chosen]");
+      return $Chosen;
+   }
+   return $Schemas ? $Schemas[0] : NULL;
+}
+
+/** One line listing the packages in a site database. */
+function describePackages($Database)
+{
+   $Connection = siteConnect($Database);
+   $Packages = array();
+   try
+   {
       foreach(sqlRun($Connection, 'SELECT APRCode, DBVersion, Enabled FROM tblCore_Packages ORDER BY ID') as $Row)
       {
          $Packages[] = $Row['APRCode'] . ' ' . $Row['DBVersion'] . ($Row['Enabled'] ? '' : ' (disabled)');
       }
-      out("$Site: packages: " . implode(', ', $Packages));
    }
-   out("$Site: collation {$Info['Collation']}, compatibility level {$Info['Compatibility']}");
+   catch(RuntimeException $e)
+   {
+      $Packages = array('none (no tblCore_Packages table; is this an Archon database?)');
+   }
    sqlsrv_close($Connection);
+   return implode(', ', $Packages);
 }
 
-function ensureDatabaseAccess($Database)
+/**
+ * Gives WEB_LOGIN (Archon's login in config.inc.php) db_owner access to a site database, with the
+ * schema of Archon's tables as its default schema, as production's database user has.
+ */
+function ensureDatabaseAccess($Site, $Database)
 {
    $Connection = sqlConnect($Database);
    $Login = quoteName(WEB_LOGIN);
    sqlRun($Connection, "IF DATABASE_PRINCIPAL_ID(N'" . WEB_LOGIN . "') IS NULL CREATE USER $Login FOR LOGIN $Login; ELSE ALTER USER $Login WITH LOGIN = $Login;");
    sqlRun($Connection, "EXEC sp_addrolemember N'db_owner', N'" . WEB_LOGIN . "';");
+   $Schema = archonSchema($Connection) ?: 'dbo';
+   if(sqlValue($Connection, 'SELECT default_schema_name FROM sys.database_principals WHERE name = ?', array(WEB_LOGIN)) !== $Schema)
+   {
+      sqlRun($Connection, "ALTER USER $Login WITH DEFAULT_SCHEMA = " . quoteName($Schema) . ';');
+      if($Schema != 'dbo')
+      {
+         out("$Site: Archon's tables are in schema [$Schema], not [dbo]; Archon's database user here (" . WEB_LOGIN . ") now has [$Schema] as its default schema, as production's must");
+      }
+   }
    sqlsrv_close($Connection);
 }
 
 function ensureAdministrator($Site, $Database)
 {
    global $Config;
-   $Connection = sqlConnect($Database);
+   $Connection = siteConnect($Database);
    if(!sqlValue($Connection, "SELECT OBJECT_ID('tblCore_Users')"))
    {
       warn("$Site: no tblCore_Users table; the test administrator was not created");
@@ -850,35 +925,22 @@ function codePackages()
 function databaseChecks($Connection)
 {
    $Notes = array();
-   $Schemas = array();
-   foreach(sqlRun($Connection, "SELECT s.name AS SchemaName, COUNT(*) AS Tables, SUM(CASE WHEN t.name = 'tblCore_Configuration' THEN 1 ELSE 0 END) AS Core
-      FROM sys.tables t JOIN sys.schemas s ON s.schema_id = t.schema_id WHERE t.name LIKE 'tbl%' GROUP BY s.name") as $Row)
+   $Schema = archonSchema($Connection);
+   if($Schema === NULL)
    {
-      $Schemas[$Row['SchemaName']] = $Row;
+      return array(array('error', 'no Archon tables in this database (no tblCore_Packages in any schema); every page fails with HTTP 500'));
    }
-   if(!$Schemas)
+   $Default = sqlValue($Connection, 'SELECT default_schema_name FROM sys.database_principals WHERE name = ?', array(WEB_LOGIN));
+   if($Default !== $Schema)
    {
-      return array(array('error', 'no Archon tables (tbl*) in this database'));
-   }
-   if(empty($Schemas['dbo']['Core']))
-   {
-      $Schema = 'dbo';
-      foreach($Schemas as $Name => $Row)
-      {
-         $Schema = $Row['Core'] ? $Name : $Schema;
-      }
-      $Default = sqlValue($Connection, 'SELECT default_schema_name FROM sys.database_principals WHERE name = ?', array(WEB_LOGIN));
-      if($Default !== $Schema)
-      {
-         $Notes[] = array('error', "the Archon tables are in schema [$Schema], not [dbo]: Archon (database user " . WEB_LOGIN . ", default schema [$Default]) cannot find them, so every page fails with HTTP 500"
-            . " (\"Invalid object name 'tblCore_Packages'\"). Production reaches them through its database user's default schema; to do the same here run:"
-            . ' archon-testenv sql <site> "ALTER USER ' . WEB_LOGIN . " WITH DEFAULT_SCHEMA = [$Schema]\"");
-      }
-      else
-      {
-         $Notes[] = array('note', "the Archon tables are in schema [$Schema]; Archon reaches them through the default schema of " . WEB_LOGIN . ' (archon-testenv sql/crud/probe connect as sa and look in [dbo])');
-      }
+      $Notes[] = array('error', "the Archon tables are in schema [$Schema], but Archon's database user " . WEB_LOGIN . " looks in [$Default], so every page fails with HTTP 500"
+         . " (\"Invalid object name 'tblCore_Packages'\"); restart the php container, or run: archon-testenv sql <site> \"ALTER USER " . WEB_LOGIN . " WITH DEFAULT_SCHEMA = [$Schema]\"");
       return $Notes;
+   }
+   if($Schema != 'dbo')
+   {
+      $Notes[] = array('note', "the Archon tables are in schema [$Schema], not [dbo]; Archon finds them because its database user (" . WEB_LOGIN . ") has [$Schema] as its default schema."
+         . ' A new server for this database needs the same: ALTER USER <Archon\'s user> WITH DEFAULT_SCHEMA = [' . $Schema . ']');
    }
 
    $Code = codePackages();
@@ -952,7 +1014,7 @@ function databaseChecks($Connection)
 /** Prints the database checks for a site; returns the first problem that breaks every page, or NULL. */
 function reportDatabaseChecks($Site, $Database)
 {
-   $Connection = sqlConnect($Database);
+   $Connection = siteConnect($Database);
    $Notes = databaseChecks($Connection);
    sqlsrv_close($Connection);
    $Fatal = NULL;
@@ -975,7 +1037,7 @@ function reportDatabaseChecks($Site, $Database)
 
 function siteCounts($Database)
 {
-   $Connection = @sqlConnect($Database, true);
+   $Connection = @siteConnect($Database, true);
    if(!$Connection)
    {
       return NULL;
@@ -1150,12 +1212,12 @@ function cmdStatus()
          }
          try
          {
-            $Connection = sqlConnect($Database);
+            $Connection = siteConnect($Database);
             $Notes = databaseChecks($Connection);
             sqlsrv_close($Connection);
             if(!array_filter($Notes, function($Note) { return $Note[0] != 'note'; }))
             {
-               echo "  checks:    OK (tables in dbo; package versions and dependencies match the code)\n";
+               echo "  checks:    OK (package versions and dependencies match the code)\n";
             }
             foreach($Notes as $Note)
             {
@@ -1196,7 +1258,7 @@ function cmdCrawl($Site, $Args)
    {
       $Command .= ' ' . escapeshellarg($Arg);
    }
-   $Status = runTool("crawl $Site", $Command, toolEnv() + array('ARCHON_TEST_DATABASE' => databaseFor($Site)));
+   $Status = runTool("crawl $Site", $Command, toolEnv($Site));
    out("report: $Report (copy it out with: " . compose() . " exec php cat $Report > " . basename($Report) . ')');
    return $Status;
 }
@@ -1216,7 +1278,7 @@ function cmdCrud($Site, $Args)
    {
       $Command .= ' ' . escapeshellarg($Arg);
    }
-   $Status = runTool("crud $Site", $Command, toolEnv() + array('ARCHON_TEST_DATABASE' => databaseFor($Site)));
+   $Status = runTool("crud $Site", $Command, toolEnv($Site));
    out("report: $Report (copy it out with: " . compose() . " exec php cat $Report > " . basename($Report) . ')');
    return $Status;
 }
@@ -1366,7 +1428,7 @@ try
             exit(64);
          }
          sqlConfigure();
-         $Rows = sqlRun(sqlConnect(databaseFor($Sites[0])), $Args[1]);
+         $Rows = sqlRun(siteConnect(databaseFor($Sites[0])), $Args[1]);
          foreach($Rows as $Row)
          {
             foreach($Row as $Key => $Value)

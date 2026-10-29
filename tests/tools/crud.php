@@ -731,7 +731,8 @@ final class Db
 
    public static function tableExists($Table)
    {
-      return (bool)self::value("SELECT COUNT(*) FROM sys.tables WHERE name = ?", array($Table));
+      // OBJECT_ID resolves the name as Archon does (default schema, then dbo).
+      return (bool)self::value("SELECT CASE WHEN OBJECT_ID(?, 'U') IS NULL THEN 0 ELSE 1 END", array($Table));
    }
 
    public static function maxModificationLogId()
