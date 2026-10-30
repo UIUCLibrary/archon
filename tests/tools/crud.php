@@ -1289,6 +1289,18 @@ foreach(Db::rows('SELECT APRCode, Enabled FROM tblCore_Packages') as $Row)
    $EnabledPackages[strtolower($Row['APRCode'])] = (bool)$Row['Enabled'];
 }
 
+// Site data that makes scenarios fail for reasons unrelated to the PHP version.
+$SiteWarnings = array();
+if(Db::value("SELECT COUNT(*) FROM tblCore_Patterns WHERE Name IN ('Non-Negative Number', 'Email Address', 'US Phone Number', 'URL') AND (CAST(Pattern AS varchar(max)) LIKE '%\\\\%' OR CAST(Pattern AS varchar(max)) LIKE '%#ie')"))
+{
+   $SiteWarnings[] = 'tblCore_Patterns still has the doubled backslashes of the stock install-mssql.sql (KNOWN-ISSUES 1.22): number, phone and e-mail checks reject valid values, '
+      . 'so registration and configuration scenarios fail. Fix: packages/core/install/fix-patterns-mssql.sql';
+}
+foreach($SiteWarnings as $Warning)
+{
+   echo "warning: $Warning\n";
+}
+
 foreach(crudScenarios() as $Name => $Scenario)
 {
    if(!selected($Name))
@@ -1336,6 +1348,10 @@ foreach(Report::$Scenarios as $Scenario)
    $Passed += $Scenario['status'] == 'pass' ? 1 : 0;
    $Skipped += $Scenario['status'] == 'skip' ? 1 : 0;
 }
+foreach($SiteWarnings as $Warning)
+{
+   echo "\nwarning: $Warning";
+}
 printf("\n%d/%d scenarios passed%s, %d failed checks; diagnostics: %d fatal, %d warnings, %d former notices, %d distinct in total\n",
    $Passed, count(Report::$Scenarios) - $Skipped, $Skipped ? " ($Skipped skipped: package not enabled)" : '', Report::$Failures, Report::$Fatals, Report::$Warnings, Report::$LegacyNotices, count(Report::$Diagnostics));
 
@@ -1346,7 +1362,7 @@ if($ReportFile)
    file_put_contents($ReportFile, json_encode(array(
       'base' => $Base, 'run' => Crud::$RunId, 'php' => PHP_VERSION, 'finished' => date('c'),
       'summary' => array('scenarios' => count(Report::$Scenarios) - $Skipped, 'passed' => $Passed, 'skipped' => $Skipped, 'failed_checks' => Report::$Failures, 'fatals' => Report::$Fatals, 'warnings' => Report::$Warnings, 'former_notices' => Report::$LegacyNotices),
-      'scenarios' => Report::$Scenarios, 'diagnostics' => $Diagnostics,
+      'site_warnings' => $SiteWarnings, 'scenarios' => Report::$Scenarios, 'diagnostics' => $Diagnostics,
    ), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE));
    echo "report written to $ReportFile\n";
 }

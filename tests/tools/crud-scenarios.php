@@ -477,7 +477,8 @@ function publicUserScenario()
 function publicRegistrationScenario()
 {
    $Browser = new Client($GLOBALS['Base']);
-   $Response = $Browser->request(array('p' => 'core/register'));
+   // The first page only asks for the country; the registration form follows with countryid (226: United States).
+   $Response = $Browser->request(array('p' => 'core/register', 'countryid' => '226'));
    $Controls = parseForm($Response['body'], "//form[.//input[@name='f' or @name='F']]");
    if(!Report::step('registration form', $Response['status'] == 200 && $Controls !== NULL && !$Response['fatal'], "HTTP {$Response['status']}"))
    {
@@ -486,8 +487,26 @@ function publicRegistrationScenario()
    $Pairs = successfulPairs($Controls);
    $Email = 'reg' . substr(md5(Crud::$RunId), 0, 8) . '@example.org';
    $Secret = 'Reg-' . substr(md5(Crud::$RunId . 'r'), 0, 10) . '!';
-   foreach(array('f' => 'store', 'Email' => $Email, 'FirstName' => 'Régine', 'LastName' => 'Tëst ' . Crud::$RunId, 'Password' => $Secret, 'ConfirmPassword' => $Secret, 'CountryID' => '225') as $Name => $Value)
+   foreach(array('f' => 'store', 'Email' => $Email, 'FirstName' => 'Régine', 'LastName' => 'Tëst ' . Crud::$RunId, 'Password' => $Secret, 'ConfirmPassword' => $Secret, 'CountryID' => '226') as $Name => $Value)
    {
+      setPair($Pairs, $Name, $Value);
+   }
+   // Profile fields required for everyone or for this country (stock: address, state, ZIP code, US phone number).
+   $Samples = array('address' => '1408 W Gregory Dr', 'city' => 'Urbana', 'zipcode' => '61801', 'phone' => '217-333-0000');
+   foreach(Db::rows('SELECT f.ID, f.UserProfileField FROM tblCore_UserProfileFields f WHERE f.Required = 1 OR f.ID IN (SELECT UserProfileFieldID FROM tblCore_UserProfileFieldCountryIndex WHERE CountryID = 226 AND Required = 1)') as $Field)
+   {
+      $Name = "UserProfileFields[{$Field['ID']}][Value]";
+      $Control = findControl($Controls, $Name);
+      if(!$Control)
+      {
+         continue;
+      }
+      $Value = isset($Samples[strtolower($Field['UserProfileField'])]) ? $Samples[strtolower($Field['UserProfileField'])] : 'CRUD ' . Crud::$RunId;
+      if($Control['type'] == 'select')
+      {
+         $Choices = array_values(array_diff(array_column($Control['options'], 'value'), array('', '0')));
+         $Value = $Choices ? $Choices[0] : '0';
+      }
       setPair($Pairs, $Name, $Value);
    }
    $Response = $Browser->request(array(), $Pairs);
@@ -499,6 +518,12 @@ function publicRegistrationScenario()
    }
    Crud::$Cleanup[] = array('admin/core/publicusers', $User['ID'], 'tblCore_Users');
    Fixtures::$IDs['registered'] = $User['ID'];
+   if($User['Pending'])
+   {
+      // "Verify Public Accounts" is on: the activation link goes out only by e-mail, which the test environment cannot send.
+      Report::note('the new account waits for the e-mailed activation link; activated in the database to continue');
+      Db::exec('UPDATE tblCore_Users SET Pending = 0, PendingHash = NULL WHERE ID = ?', array($User['ID']));
+   }
 
    // Edit the profile as the logged-in user (the registration logs the user in when verification is off).
    $Login = $Browser->request(array('p' => 'core/index'), array('archonlogin' => $Email, 'archonpassword' => $Secret));

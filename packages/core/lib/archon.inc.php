@@ -2475,6 +2475,10 @@ abstract class Core_Archon
 
          @define($constname, $objConfiguration->Value, false);
       }
+
+      // Installed with 3.x rather than upgraded from 2.x, the configuration has no 'Verify Public Accounts' directive. PHP 5 read
+      // the undefined constant as its own name, a true value (verify new public accounts by e-mail); PHP 8 throws an Error.
+      defined('CONFIG_CORE_VERIFY_PUBLIC_ACCOUNTS') or define('CONFIG_CORE_VERIFY_PUBLIC_ACCOUNTS', true);
    }
 
    /**

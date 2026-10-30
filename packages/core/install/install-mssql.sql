@@ -387,11 +387,11 @@ SET IDENTITY_INSERT tblCore_Usergroups OFF;
 -- Insert some default patterns
 SET IDENTITY_INSERT tblCore_Patterns ON;
 INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (1, '1', 'Text', '/^.*?$/');
-INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (2, '1', 'Non-Negative Number', '/^[0-9]*\\.?[0-9]+$/');
+INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (2, '1', 'Non-Negative Number', '/^[0-9]*\.?[0-9]+$/');
 INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (3, '1', 'Boolean', '/^[01]$/');
-INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (4, '1', 'Email Address', '/^[\\w\\-\\+\\&amp;\\*]+(?:\\.[\\w\\-\\_\\+\\&amp;\\*]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,7}$/');
-INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (5, '1', 'US Phone Number', '/^\\D?\\d{3}\\D?\\D?\\d{3}\\D?\\d{4}$/');
-INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (6, '1', 'URL', '#^(((http|https|ftp)://)?(\\S*?\\.\\S*?))(\\s|\\;|\\)|\\]|\\[|\\{|\\}|,|\\"|''|:|\\&lt;|$|\\.\\s)$#ie');
+INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (4, '1', 'Email Address', '/^[\w\-\+\&amp;\*]+(?:\.[\w\-\_\+\&amp;\*]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/');
+INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (5, '1', 'US Phone Number', '/^\D?\d{3}\D?\D?\d{3}\D?\d{4}$/');
+INSERT INTO tblCore_Patterns (ID, PackageID, Name, Pattern) VALUES (6, '1', 'URL', '#^(((http|https|ftp)://)?(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|''|:|\&lt;|$|\.\s)$#i');
 SET IDENTITY_INSERT tblCore_Patterns OFF;
 
 -- Insert default unit tests

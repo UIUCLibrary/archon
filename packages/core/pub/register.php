@@ -388,6 +388,7 @@ function register_exec()
         if($_REQUEST['password'] != $_REQUEST['confirmpassword'])
         {
             $_ARCHON->declareError("Could not store User: Passwords do not match.");
+            $_REQUEST['f'] = '';
         }
         elseif(!$_ARCHON->Error && $objUser->dbStore())
         {
