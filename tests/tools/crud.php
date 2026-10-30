@@ -1282,6 +1282,13 @@ if(isset($Options['discover']))
 
 require __DIR__ . '/crud-scenarios.php';
 
+// A scenario named after a package ("avsap/...") is skipped in a site that has not enabled the package (ala: avsap).
+$EnabledPackages = array();
+foreach(Db::rows('SELECT APRCode, Enabled FROM tblCore_Packages') as $Row)
+{
+   $EnabledPackages[strtolower($Row['APRCode'])] = (bool)$Row['Enabled'];
+}
+
 foreach(crudScenarios() as $Name => $Scenario)
 {
    if(!selected($Name))
@@ -1289,6 +1296,14 @@ foreach(crudScenarios() as $Name => $Scenario)
       continue;
    }
    Report::begin($Name);
+   $Package = strtolower(strtok($Name, '/'));
+   if(strpos($Name, '/') !== false && is_dir(dirname(__DIR__, 2) . "/packages/$Package") && empty($EnabledPackages[$Package]))
+   {
+      Report::$Current['status'] = 'skip';
+      Report::note("the $Package package is not enabled in this site");
+      Report::end();
+      continue;
+   }
    try
    {
       $Scenario();
@@ -1315,13 +1330,14 @@ if(!$Keep && Crud::$Cleanup)
    Report::end();
 }
 
-$Passed = 0;
+$Passed = $Skipped = 0;
 foreach(Report::$Scenarios as $Scenario)
 {
    $Passed += $Scenario['status'] == 'pass' ? 1 : 0;
+   $Skipped += $Scenario['status'] == 'skip' ? 1 : 0;
 }
-printf("\n%d/%d scenarios passed, %d failed checks; diagnostics: %d fatal, %d warnings, %d former notices, %d distinct in total\n",
-   $Passed, count(Report::$Scenarios), Report::$Failures, Report::$Fatals, Report::$Warnings, Report::$LegacyNotices, count(Report::$Diagnostics));
+printf("\n%d/%d scenarios passed%s, %d failed checks; diagnostics: %d fatal, %d warnings, %d former notices, %d distinct in total\n",
+   $Passed, count(Report::$Scenarios) - $Skipped, $Skipped ? " ($Skipped skipped: package not enabled)" : '', Report::$Failures, Report::$Fatals, Report::$Warnings, Report::$LegacyNotices, count(Report::$Diagnostics));
 
 if($ReportFile)
 {
@@ -1329,7 +1345,7 @@ if($ReportFile)
    usort($Diagnostics, function($A, $B) { return strcmp($A['type'] . $A['where'], $B['type'] . $B['where']); });
    file_put_contents($ReportFile, json_encode(array(
       'base' => $Base, 'run' => Crud::$RunId, 'php' => PHP_VERSION, 'finished' => date('c'),
-      'summary' => array('scenarios' => count(Report::$Scenarios), 'passed' => $Passed, 'failed_checks' => Report::$Failures, 'fatals' => Report::$Fatals, 'warnings' => Report::$Warnings, 'former_notices' => Report::$LegacyNotices),
+      'summary' => array('scenarios' => count(Report::$Scenarios) - $Skipped, 'passed' => $Passed, 'skipped' => $Skipped, 'failed_checks' => Report::$Failures, 'fatals' => Report::$Fatals, 'warnings' => Report::$Warnings, 'former_notices' => Report::$LegacyNotices),
       'scenarios' => Report::$Scenarios, 'diagnostics' => $Diagnostics,
    ), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE));
    echo "report written to $ReportFile\n";

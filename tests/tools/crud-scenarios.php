@@ -136,12 +136,15 @@ function crudScenarios()
    // --- AV assessments ----------------------------------------------------------------
    $Scenarios['avsap/avsapinstitutions'] = lookupScenario('avsap', 'avsapinstitutions', 'tblAVSAP_AVSAPInstitutions');
    $Scenarios['avsap/avsapstoragefacilities'] = function() {
+      // The location fixture is limited to repository 1, and the edit form lists only the facility's repository's locations.
       Fixtures::$IDs['storagefacility'] = Crud::cycle(array('p' => 'admin/avsap/avsapstoragefacilities', 'table' => 'tblAVSAP_AVSAPStorageFacilities', 'delete' => false,
-         'fill' => array('LocationID' => Fixtures::get('location'))));
+         'fill' => array('RepositoryID' => '1', 'LocationID' => Fixtures::get('location'))));
    };
    $Scenarios['avsap/avsapassessments'] = function() {
+      // The edit form lists the storage facilities of the assessment's repository (the fixture's is 1). Film (type 1) format 1
+      // has no base choice: the page script selects -1 ("default"), the only option the edit form offers.
       Crud::cycle(array('p' => 'admin/avsap/avsapassessments', 'table' => 'tblAVSAP_AVSAPAssessments',
-         'fill' => array('StorageFacilityID' => Fixtures::get('storagefacility'), 'SubAssessmentType' => '1', 'Format' => '1', 'BaseComposition' => '1', 'CollectionID' => Fixtures::get('collection'))));
+         'fill' => array('RepositoryID' => '1', 'StorageFacilityID' => Fixtures::get('storagefacility'), 'SubAssessmentType' => '1', 'Format' => '1', 'BaseComposition' => '-1', 'CollectionID' => Fixtures::get('collection'))));
       list($Response) = array(Crud::$Admin->request(array('p' => 'admin/avsap/avsapassessmentreport')));
       Report::step('assessment report page', $Response['status'] == 200 && !$Response['fatal'], (string)$Response['fatal']);
    };
