@@ -31,7 +31,15 @@ services:
         for i in $$(seq 1 900); do [ -s "$$secret" ] && break; sleep 1; done
         if [ ! -s "$$secret" ]; then echo "mssql: the php container did not create $$secret" >&2; exit 1; fi
         export MSSQL_SA_PASSWORD="$$(cat "$$secret")"
-        exec /opt/mssql/bin/launch_sqlservr.sh /opt/mssql/bin/sqlservr
+        # Microsoft's launch_sqlservr.sh runs sqlservr in the background and, as PID 1, ignores SIGTERM: without
+        # this, "stop" (and "up --force-recreate") kills SQL Server when the grace period ends, and every database
+        # then needs crash recovery on the next start. Forward the stop signal so that SQL Server shuts down cleanly.
+        /opt/mssql/bin/launch_sqlservr.sh /opt/mssql/bin/sqlservr &
+        launcher=$$!
+        trap 'echo "mssql: stopping SQL Server"; pkill -TERM -P "$$launcher" -x sqlservr' TERM INT
+        while :; do wait "$$launcher"; status=$$?; kill -0 "$$launcher" 2>/dev/null || exit "$$status"; done
+    # A clean shutdown usually takes seconds; allow more before the container is killed.
+    stop_grace_period: 2m
     volumes:
       - mssql-data:/var/opt/mssql
       - secrets:/run/archon-secrets:ro

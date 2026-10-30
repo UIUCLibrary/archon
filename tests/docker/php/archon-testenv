@@ -3,7 +3,7 @@
 /**
  * Initialises and manages the Archon test environment (tests/testenv/compose.yaml).
  *
- *   archon-testenv status              each site's URL, database and data source
+ *   archon-testenv status              whether start-up has finished; each site's URL, database and data source
  *   archon-testenv credentials         the test administrator login and password
  *   archon-testenv reset SITE...|all   rebuild databases (restore the .bak again, or fresh sample data)
  *   archon-testenv crawl SITE [args]   request every public and admin page, report PHP diagnostics
@@ -393,6 +393,39 @@ function databaseState($Master, $Database)
    return sqlValue($Master, 'SELECT state_desc FROM sys.databases WHERE name = ?', array($Database));
 }
 
+/**
+ * Waits while SQL Server is still recovering $Database, and returns its state (NULL: it does not exist). SQL Server
+ * accepts connections before it has recovered every database, which after an unclean stop (the mssql container
+ * killed) can take minutes for a large one; until then the database cannot be read, and must not be mistaken for
+ * one whose initialisation was interrupted (which is rebuilt).
+ */
+function waitWhileRecovering($Master, $Database)
+{
+   $Start = time();
+   $Deadline = $Start + (int)(getenv('ARCHON_SQL_WAIT') ?: 900);
+   $NextReport = $Start;
+   $Waited = false;
+   while(($State = databaseState($Master, $Database)) === 'RECOVERING')
+   {
+      $Waited = true;
+      if(time() >= $Deadline)
+      {
+         throw new RuntimeException("SQL Server is still recovering $Database after " . (time() - $Start) . ' s; it was left as it is (see: ' . compose() . ' logs mssql)');
+      }
+      if(time() >= $NextReport)
+      {
+         out("$Database: waiting for SQL Server to finish recovering it after its restart" . ($NextReport > $Start ? ' (' . (time() - $Start) . ' s)' : ''));
+         $NextReport = time() + 30;
+      }
+      sleep(2);
+   }
+   if($Waited)
+   {
+      out("$Database: recovered (" . ($State ?? 'gone') . ') after ' . (time() - $Start) . ' s');
+   }
+   return $State;
+}
+
 function readMarker($Master, $Database)
 {
    if(databaseState($Master, $Database) !== 'ONLINE')
@@ -501,6 +534,7 @@ function ensureSite($Master, $Site, $Force)
    $Database = databaseFor($Site);
    $Backup = backupFor($Site);
    $Desired = $Backup ? backupSignature($Backup) : sampleSignature();
+   $State = waitWhileRecovering($Master, $Database);
    $Current = readMarker($Master, $Database);
 
    $Rebuild = $Force;
@@ -511,7 +545,7 @@ function ensureSite($Master, $Site, $Force)
    elseif($Current === NULL)
    {
       $Rebuild = true;
-      out("$Site: $Database " . (databaseState($Master, $Database) === NULL ? 'does not exist yet' : 'was not fully initialised') . '; building it');
+      out("$Site: $Database " . ($State === NULL ? 'does not exist yet' : ($State === 'ONLINE' ? 'was not fully initialised' : "is not usable (state $State)")) . '; building it');
    }
    elseif($Backup && $Current !== $Desired)
    {
@@ -934,7 +968,8 @@ function databaseChecks($Connection)
    if($Default !== $Schema)
    {
       $Notes[] = array('error', "the Archon tables are in schema [$Schema], but Archon's database user " . WEB_LOGIN . " looks in [$Default], so every page fails with HTTP 500"
-         . " (\"Invalid object name 'tblCore_Packages'\"); restart the php container, or run: archon-testenv sql <site> \"ALTER USER " . WEB_LOGIN . " WITH DEFAULT_SCHEMA = [$Schema]\"");
+         . " (\"Invalid object name 'tblCore_Packages'\"). Start-up sets it when it reaches this site; if start-up has finished, restart the php"
+         . " container, or run: archon-testenv sql <site> \"ALTER USER " . WEB_LOGIN . " WITH DEFAULT_SCHEMA = [$Schema]\"");
       return $Notes;
    }
    if($Schema != 'dbo')
@@ -1180,17 +1215,51 @@ function cmdInit($Sites, $Force)
    return $Failures ? 1 : 0;
 }
 
+/**
+ * The state of the container's start-up (archon-entrypoint: prepare, then init), as a line for "status", or NULL
+ * in a container that does not run it ("compose run").
+ */
+function startupNotice()
+{
+   global $Config;
+   $Ready = $Config['state_dir'] . '/ready';
+   if(!is_dir($Config['state_dir']))
+   {
+      return NULL;
+   }
+   if(!is_file($Ready))
+   {
+      return 'STILL RUNNING; problems shown below for sites it has not reached yet may be fixed when it does. Follow it with'
+         . "\n           \"" . compose() . ' logs -f php" until "Archon test environment (PHP ...) is ready".';
+   }
+   $Finished = 'finished ' . date('Y-m-d H:i', filemtime($Ready));
+   return trim((string)file_get_contents($Ready)) === '0' ? $Finished
+      : "$Finished with problems: see the end of \"" . compose() . ' logs php"';
+}
+
 function cmdStatus()
 {
    global $Config, $Profiles;
    sqlConfigure();
    $Master = sqlConnect();
+   $Notice = startupNotice();
+   if($Notice !== NULL)
+   {
+      echo "start-up:  $Notice\n";
+   }
    foreach($Config['sites'] as $Site)
    {
       $Database = databaseFor($Site);
+      $State = databaseState($Master, $Database);
       $Marker = readMarker($Master, $Database);
       echo "$Site\n";
       echo "  URL:       {$Config['public_url']}/$Site/   (staff: {$Config['public_url']}/$Site/?p=admin)\n";
+      if($State !== NULL && $State !== 'ONLINE')
+      {
+         echo "  database:  $Database, state $State: " . ($State === 'RECOVERING' ? 'SQL Server is still recovering it after its restart; it cannot be used until then'
+            : ($State === 'RESTORING' ? 'a restore is running (or was interrupted: it is restored again on the next start)' : 'not usable; it is rebuilt on the next start (or: archon-testenv reset ' . $Site . ')')) . "\n";
+         continue;
+      }
       echo "  database:  $Database, " . describeMarker($Marker) . "\n";
       $Backup = backupFor($Site);
       if($Backup && ($Marker === NULL || $Marker !== backupSignature($Backup)))
