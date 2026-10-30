@@ -133,6 +133,12 @@ Once the `.bak` files are restored (`archon-testenv status` shows where each sit
 
    Send back the bundle, `php-init.log`, the `compare.php` output and JSON report for each site, and the URL and a description of anything that looked wrong in a browser. The bundle holds the crawl, CRUD and probe reports, the grouped PHP diagnostics, `status`, and the end of the PHP error log. These contain URLs, record IDs, error messages and summary counts, but no user accounts or passwords. The probe also lists the small lookup tables (repositories, locations, classifications and similar). Record content appears only where an error message quotes it.
 
+   To send them to a Copilot session (its chat accepts only images): attach the files to a comment on an issue or pull request in this repository, post it, and paste the file links into the chat. GitHub accepts `.gz`, `.tgz`, `.zip`, `.log`, `.txt` and `.json` files up to 25 MB each. Do not mention `@copilot` in that comment, which would start a separate Copilot session. This repository is public, so anyone with a link can download the files. To keep the bundle private, encrypt it first and send the passphrase separately:
+
+   ```sh
+   openssl enc -aes-256-cbc -pbkdf2 -salt -in archon-reports-<date>.tar.gz | gzip > archon-reports-<date>.enc.gz   # asks for a passphrase
+   ```
+
 ## Notes and limits
 
 * **After a reboot:** Podman has no daemon, so the containers come back only through `podman-restart.service` (see step 2 of the setup). Otherwise run `podman-compose up -d` again.
