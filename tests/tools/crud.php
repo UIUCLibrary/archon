@@ -720,7 +720,7 @@ final class Db
       if(!isset($Cache[$Table]))
       {
          $Cache[$Table] = array();
-         foreach(self::rows("SELECT c.name, t.name AS type, c.max_length FROM sys.columns c JOIN sys.types t ON t.user_type_id = c.user_type_id WHERE c.object_id = OBJECT_ID(?)", array($Table)) as $Row)
+         foreach(self::rows("SELECT c.name, t.name AS type, c.max_length, COLLATIONPROPERTY(c.collation_name, 'CodePage') AS code_page FROM sys.columns c JOIN sys.types t ON t.user_type_id = c.user_type_id WHERE c.object_id = OBJECT_ID(?)", array($Table)) as $Row)
          {
             $Cache[$Table][strtolower($Row['name'])] = $Row;
          }
@@ -765,9 +765,12 @@ final class Crud
       return sprintf('%s-%s-%d', $Label, self::$RunId, self::$Counter);
    }
 
-   public static function truncate($Value, $Max)
+   /** Cuts $Value to $Max characters (0: no limit), then, without splitting a character, to $Bytes UTF-8 bytes. */
+   public static function truncate($Value, $Max, $Bytes = 0)
    {
-      return ($Max && mb_strlen($Value) > $Max) ? mb_substr($Value, 0, $Max) : $Value;
+      $Value = ($Max && mb_strlen($Value) > $Max) ? mb_substr($Value, 0, $Max) : $Value;
+
+      return ($Bytes && strlen($Value) > $Bytes) ? mb_strcut($Value, 0, $Bytes, 'UTF-8') : $Value;
    }
 
    /** Character-column metadata of a table: lower-cased name => max characters (0 = unlimited). */
@@ -784,6 +787,24 @@ final class Crud
          elseif(in_array($Type, array('nvarchar', 'nchar', 'ntext'), true))
          {
             $Result[$Name] = $Column['max_length'] < 0 ? 0 : (int)($Column['max_length'] / 2);
+         }
+      }
+
+      return $Result;
+   }
+
+   /**
+    * Lower-cased name => max bytes of the table's char and varchar columns in a UTF-8 collation (SQL Server 2019+, as
+    * in the ala database): their length counts bytes, so text with non-ASCII characters holds fewer characters.
+    */
+   public static function textColumnBytes($Table)
+   {
+      $Result = array();
+      foreach(Db::columns($Table) as $Name => $Column)
+      {
+         if(in_array(strtolower($Column['type']), array('varchar', 'char'), true) && (int)$Column['code_page'] === 65001 && $Column['max_length'] > 0)
+         {
+            $Result[$Name] = (int)$Column['max_length'];
          }
       }
 
@@ -937,6 +958,30 @@ final class Crud
    }
 
    /** Checks that the re-rendered edit form shows the stored values. */
+   /** $Value, without trailing zeros if it is a decimal fraction: a decimal(9,2) column (ala's extents) shows 2.5 as "2.50". */
+   private static function decimal($Value)
+   {
+      return preg_match('/^-?\d+\.\d+$/', $Value) ? rtrim(rtrim($Value, '0'), '.') : $Value;
+   }
+
+   /**
+    * The control of the first saved entry of a "multiple" form section (location entries, creator relationships): a
+    * new entry is submitted as X[0][Field], and once saved the form shows it as X[<its ID>][Field], with X[0] the empty
+    * row for another one.
+    */
+   private static function savedEntryControl(array $Controls, $Array, $Field)
+   {
+      foreach($Controls as $Control)
+      {
+         if(preg_match('/^' . preg_quote($Array, '/') . '\[[1-9]\d*\]' . preg_quote($Field, '/') . '$/i', $Control['name']))
+         {
+            return $Control;
+         }
+      }
+
+      return NULL;
+   }
+
    public static function verifyForm($Step, $Controls, array $Expected)
    {
       if($Controls === NULL)
@@ -946,12 +991,12 @@ final class Crud
       $Mismatches = array();
       foreach($Expected as $Name => $Value)
       {
-         $Control = findControl($Controls, $Name);
+         $Control = preg_match('/^(\w+)\[0\](\[\w+\])$/', $Name, $Match) ? self::savedEntryControl($Controls, $Match[1], $Match[2]) : findControl($Controls, $Name);
          if($Control === NULL || !in_array($Control['type'], array('text', 'textarea', 'hidden'), true))
          {
             continue;
          }
-         if($Control['value'] !== (string)$Value)
+         if(self::decimal($Control['value']) !== self::decimal((string)$Value))
          {
             $Mismatches[] = sprintf('%s: form shows %s, expected %s', $Name, json_encode($Control['value'], JSON_UNESCAPED_UNICODE), json_encode($Value, JSON_UNESCAPED_UNICODE));
          }
@@ -1088,10 +1133,11 @@ final class Crud
                {
                   $Max = $Max ? min($Max, $TextColumns[strtolower($Field)]) : $TextColumns[strtolower($Field)];
                }
-               $Changes[$Field] = self::truncate(CP1252_TEXT . ' ' . $Marker, $Max ?: 200);
-               if($Max && $Max < mb_strlen(CP1252_TEXT) + 5)
+               $Bytes = self::textColumnBytes($Table)[strtolower($Field)] ?? 0;
+               $Changes[$Field] = rtrim(self::truncate(CP1252_TEXT . ' ' . $Marker, $Max ?: 200, $Bytes));
+               if(($Max && $Max < mb_strlen(CP1252_TEXT) + 5) || ($Bytes && $Bytes < strlen(CP1252_TEXT) + 5))
                {
-                  $Changes[$Field] = self::truncate('Ü€ ' . substr(md5($Marker), 0, 20), $Max);
+                  $Changes[$Field] = self::truncate('Ü€' . substr(md5($Marker), 0, 20), $Max, $Bytes);
                }
             }
          }

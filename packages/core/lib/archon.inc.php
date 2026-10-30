@@ -3503,10 +3503,17 @@ abstract class Core_Archon
       }
       if($DetailsFunction)
       {
+         // The function and its parameters come from the request, and the e-mail is copied to the visitor: only the
+         // details functions of Archon's own request forms may run, never any other method of $_ARCHON.
+         if(!in_array($DetailsFunction, array('createEmailDetailsForCart', 'createEmailDetailsForHighResolutionRequest'), true))
+         {
+            $this->declareError("Could not send email: invalid details function.");
+            return false;
+         }
          $Summary .= "\n\n";
          if($DetailsParams)
          {
-            $Summary .= call_user_func_array(array($this, $DetailsFunction), $DetailsParams);
+            $Summary .= call_user_func_array(array($this, $DetailsFunction), array_values((array)$DetailsParams));
          }
          else
          {

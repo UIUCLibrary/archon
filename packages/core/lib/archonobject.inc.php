@@ -273,7 +273,11 @@ abstract class ArchonObject
    {
       global $_ARCHON;
 
-      $args = is_array($args) ? $args : array($args);
+      // PHP 8 passes the string keys of an array given to call_user_func_array() as named arguments, which reach
+      // __call() as string keys; PHP 5 ignored the keys. Archon builds such arrays keyed by request or field name
+      // (admin searches, hierarchical selects, insertSelect() data sources): keep only the values, in order, as
+      // PHP 5 did, or the mixin method receives none of them.
+      $args = is_array($args) ? array_values($args) : array($args);
 
       if(!empty($_ARCHON->Mixins[get_class($this)]->Methods[$method]->Classes))
       {

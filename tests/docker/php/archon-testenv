@@ -64,7 +64,10 @@ const LOG_DIR = '/var/log/archon';
 function out($Message)
 {
    echo '[testenv] ' . $Message . "\n";
-   @ob_flush();
+   if(ob_get_level() > 0)
+   {
+      ob_flush();
+   }
    flush();
    logLine($Message);
 }
@@ -388,16 +391,34 @@ function ensureWebLogin($Master)
    sqlRun($Master, "IF SUSER_ID(N'" . WEB_LOGIN . "') IS NULL CREATE LOGIN $Login WITH PASSWORD = $Secret, CHECK_POLICY = OFF, DEFAULT_DATABASE = [master]; ELSE ALTER LOGIN $Login WITH PASSWORD = $Secret;");
 }
 
+/**
+ * Returns the state_desc of $Database (NULL: it does not exist), or 'STARTING' while SQL Server has not started it
+ * yet: during its own start-up sys.databases already says ONLINE, but opening the database fails with error 904
+ * ("cannot be autostarted during server shutdown or startup") or 922 ("is being recovered").
+ */
 function databaseState($Master, $Database)
 {
-   return sqlValue($Master, 'SELECT state_desc FROM sys.databases WHERE name = ?', array($Database));
+   $State = sqlValue($Master, 'SELECT state_desc FROM sys.databases WHERE name = ?', array($Database));
+   if($State === 'ONLINE')
+   {
+      $Statement = sqlsrv_query($Master, 'SELECT TOP (1) 1 FROM ' . quoteName($Database) . '.sys.objects');
+      if($Statement !== false)
+      {
+         sqlsrv_free_stmt($Statement);
+      }
+      elseif(array_intersect(array_column(sqlsrv_errors() ?: array(), 'code'), array(904, 922)))
+      {
+         return 'STARTING';
+      }
+   }
+   return $State;
 }
 
 /**
- * Waits while SQL Server is still recovering $Database, and returns its state (NULL: it does not exist). SQL Server
- * accepts connections before it has recovered every database, which after an unclean stop (the mssql container
- * killed) can take minutes for a large one; until then the database cannot be read, and must not be mistaken for
- * one whose initialisation was interrupted (which is rebuilt).
+ * Waits while SQL Server is still starting or recovering $Database, and returns its state (NULL: it does not exist).
+ * SQL Server accepts connections before it has started and recovered every database, which after an unclean stop
+ * (the mssql container killed) can take minutes for a large one; until then the database cannot be read, and must not
+ * be mistaken for one whose initialisation was interrupted (which is rebuilt).
  */
 function waitWhileRecovering($Master, $Database)
 {
@@ -405,23 +426,23 @@ function waitWhileRecovering($Master, $Database)
    $Deadline = $Start + (int)(getenv('ARCHON_SQL_WAIT') ?: 900);
    $NextReport = $Start;
    $Waited = false;
-   while(($State = databaseState($Master, $Database)) === 'RECOVERING')
+   while(in_array($State = databaseState($Master, $Database), array('RECOVERING', 'STARTING'), true))
    {
       $Waited = true;
       if(time() >= $Deadline)
       {
-         throw new RuntimeException("SQL Server is still recovering $Database after " . (time() - $Start) . ' s; it was left as it is (see: ' . compose() . ' logs mssql)');
+         throw new RuntimeException("SQL Server is still starting or recovering $Database after " . (time() - $Start) . ' s; it was left as it is (see: ' . compose() . ' logs mssql)');
       }
       if(time() >= $NextReport)
       {
-         out("$Database: waiting for SQL Server to finish recovering it after its restart" . ($NextReport > $Start ? ' (' . (time() - $Start) . ' s)' : ''));
+         out("$Database: waiting for SQL Server to finish starting and recovering it after its restart" . ($NextReport > $Start ? ' (' . (time() - $Start) . ' s)' : ''));
          $NextReport = time() + 30;
       }
       sleep(2);
    }
    if($Waited)
    {
-      out("$Database: recovered (" . ($State ?? 'gone') . ') after ' . (time() - $Start) . ' s');
+      out("$Database: ready (" . ($State ?? 'gone') . ') after ' . (time() - $Start) . ' s');
    }
    return $State;
 }
@@ -632,7 +653,11 @@ function startLocalServer()
    list($Host, $Port) = explode(':', LOCAL_SERVER);
    for($i = 0; $i < 100; $i++)
    {
-      $Socket = @fsockopen($Host, (int)$Port, $Errno, $Error, 1);
+      // "Connection refused" is expected until the server is up; a handler keeps it out of the diagnostics log,
+      // which also records warnings silenced with @.
+      set_error_handler(function() { return true; });
+      $Socket = fsockopen($Host, (int)$Port, $Errno, $Error, 1);
+      restore_error_handler();
       if($Socket)
       {
          fclose($Socket);
@@ -1256,7 +1281,7 @@ function cmdStatus()
       echo "  URL:       {$Config['public_url']}/$Site/   (staff: {$Config['public_url']}/$Site/?p=admin)\n";
       if($State !== NULL && $State !== 'ONLINE')
       {
-         echo "  database:  $Database, state $State: " . ($State === 'RECOVERING' ? 'SQL Server is still recovering it after its restart; it cannot be used until then'
+         echo "  database:  $Database, state $State: " . (in_array($State, array('RECOVERING', 'STARTING'), true) ? 'SQL Server is still starting or recovering it after its restart; it cannot be used until then'
             : ($State === 'RESTORING' ? 'a restore is running (or was interrupted: it is restored again on the next start)' : 'not usable; it is rebuilt on the next start (or: archon-testenv reset ' . $Site . ')')) . "\n";
          continue;
       }

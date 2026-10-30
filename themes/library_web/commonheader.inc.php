@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Common elements of the regular header and the finding aid header.
